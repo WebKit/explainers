@@ -2,8 +2,8 @@
 
 ## Authors:
 
-- [Eric Carlson][]
-- [Theresa O'Connor][]
+- Eric Carlson (@eric-carlson)
+- Theresa O'Connor (@hober)
 
 ## Participate
 
@@ -196,9 +196,9 @@ something they're comfortable doing in this case.
 ## Stakeholder Feedback / Opposition
 
 * Apple / Safari / WebKit: prototyped as an experimental feature named "Generic Text Track Cue API". The prototype is available in Safari Technology Preview.
-* Firefox / Gecko: Jen-Yves and Nils liked the idea, but we still need to run it by someone who works on captioning in Gecko.
-* Google / Chrome / Blink: Mixed signals. Chris Cunningham and Joey Parrish have both expressed interest / support, and Mounir has expressed opposition.
-* Developers of several JS video libraries (e.g. Gary Katsevman of `video.js`, Joey Parrish (Shaka Player), Pierre-Anthony Lemieux of `imscJS`, and someone from the Netflix frontend team whose name escapes me) have expressed support of the general approach, as feedback on our presentations at FOMS and TPAC in 2019.
+* Firefox / Gecko: Jean-Yves Avenard (@jyavenard) and Nils liked the idea, but we still need to run it by someone who works on captioning in Gecko.
+* Google / Chrome / Blink: Mixed signals. Chris Cunningham (@chcunningham) and Joey Parrish (@joeyparrish) have both expressed interest / support, and Mounir Lamouri (@mounirlamouri) has expressed opposition.
+* Developers of several JS video libraries (e.g. Gary Katsevman (@gkatsev) of @videojs, Joey Parrish (google/shaka-player), Pierre-Anthony Lemieux of sandflow/imscJS, and someone from the Netflix frontend team whose name escapes me) have expressed support of the general approach, as feedback on our presentations at FOMS and TPAC in 2019.
 
 ## Acknowledgements
 
@@ -210,11 +210,9 @@ somewhat (though not very) different direction after feedback at TPAC
 
 [CSS Pseudo-Elements]: https://drafts.csswg.org/css-pseudo-4/
 [DocumentFragment]: https://dom.spec.whatwg.org/#documentfragment
-[Eric Carlson]: https://github.com/eric-carlson
 [Extensible Web Manifesto]: https://github.com/extensibleweb/manifesto
 [HTML]: https://html.spec.whatwg.org/multipage/
 [TextTrackCue]: https://html.spec.whatwg.org/multipage/media.html#texttrackcue
-[Theresa O'Connor]: https://github.com/hober
 [VTTCue]: https://w3c.github.io/webvtt/#vttcue
 [WebVTT CSS extensions]: https://w3c.github.io/webvtt/#css-extensions
 [WebVTT cue text DOM construction rules]: https://w3c.github.io/webvtt/#dom-construction-rules
