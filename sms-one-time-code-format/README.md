@@ -71,7 +71,7 @@ In this example, `"747723 is your FooBar authentication code."` is the
 human-readable **explanatory text**, `"@foobar.com"` identifies the
 **origin** (`https://foobar.com`) for which the code is to be used, and
 `"#747723"` identifies the **one-time code** (`747723`). `"@"` and `"#"`
-are **sigils** used to idenfity the text that follows them. Any origin
+are **sigils** used to identify the text that follows them. Any origin
 which is [schemelessly same site][] as `https://foobar.com/` is an
 origin on which this code may be used.
 
