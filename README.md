@@ -10,8 +10,8 @@ appropriate standards bodies (such as [WICG](https://github.com/WICG)).
 
 ### Authentication
 
-* [Delivering origin-bound one-time codes over SMS](sms-one-time-code-format/README.md)
+* [Delivering origin-bound one-time codes over SMS](sms-one-time-code-format/)
 
 ### Media
 
-* [TextTrackCue enhancements for programmatic subtitle and caption presentation](texttracks/README.md)
+* [TextTrackCue enhancements for programmatic subtitle and caption presentation](texttracks/)
