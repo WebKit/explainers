@@ -94,11 +94,10 @@ code message formats in the wild lack reliable origin information.
 ## Acknowledgements
 
 Many thanks to
-
 Eryn Wells,
-Ricky Mondello,
-Paul Knight,
 Jay Mulani,
+Paul Knight,
+Ricky Mondello,
 Sam Goto, and
 Steven Soneff
 for their valuable insights.
