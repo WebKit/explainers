@@ -2,8 +2,8 @@
 
 ## Authors:
 
-- Eric Carlson (@eric-carlson)
-- Theresa O'Connor (@hober)
+- [Eric Carlson](https://github.com/eric-carlson)
+- [Theresa O'Connor](https://github.com/hober)
 
 ## Participate
 
@@ -196,9 +196,9 @@ something they're comfortable doing in this case.
 ## Stakeholder Feedback / Opposition
 
 * Apple / Safari / WebKit: prototyped as an experimental feature named "Generic Text Track Cue API". The prototype is available in Safari Technology Preview.
-* Firefox / Gecko: Jean-Yves Avenard (@jyavenard) and Nils liked the idea, but we still need to run it by someone who works on captioning in Gecko.
-* Google / Chrome / Blink: Mixed signals. Chris Cunningham (@chcunningham) and Joey Parrish (@joeyparrish) have both expressed interest / support, and Mounir Lamouri (@mounirlamouri) has expressed opposition.
-* Developers of several JS video libraries (e.g. Gary Katsevman (@gkatsev) of @videojs, Joey Parrish (google/shaka-player), Pierre-Anthony Lemieux of sandflow/imscJS, and someone from the Netflix frontend team whose name escapes me) have expressed support of the general approach, as feedback on our presentations at FOMS and TPAC in 2019.
+* Firefox / Gecko: [Jean-Yves Avenard](https://github.com/jyavenard) and Nils liked the idea, but we still need to run it by someone who works on captioning in Gecko.
+* Google / Chrome / Blink: Mixed signals. [Chris Cunningham](https://github.com/chcunningham) and [Joey Parrish](https://github.com/joeyparrish) have both expressed interest / support, and [Mounir Lamouri](https://github.com/mounirlamouri) has expressed opposition.
+* Developers of several JS video libraries (e.g. [Gary Katsevman](https://github.com/gkatsev) of [Video.js](https://github.com/videojs), [Joey Parrish](https://github.com/joeyparrish) of [Shaka Player](https://github.com/google/shaka-player), [Pierre-Anthony Lemieux](https://github.com/palemieux) of [imscJS](https://github.com/sandflow/imscJS), and someone from the Netflix frontend team whose name escapes me) have expressed support of the general approach, as feedback on our presentations at FOMS and TPAC in 2019.
 
 ## Acknowledgements
 
