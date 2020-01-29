@@ -97,6 +97,8 @@ Many thanks to
 
 Eryn Wells,
 Ricky Mondello,
+Paul Knight,
+Jay Mulani,
 Sam Goto, and
 Steven Soneff
 for their valuable insights.
