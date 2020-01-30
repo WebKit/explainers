@@ -65,26 +65,23 @@ costly.
 
 ### Goals
 
-Users can be frustrated when subtitles and captions don't respect their
-display preferences or their platform's conventions, and when they don't
-appear in picture-in-picture.
+* Allow video publishers to continue storing captions in legacy or
+  custom formats.
+* Make sure users can control the presence and style of captions with
+  system accessibility settings.
 
-Users find having to set their subtitle and captioning preferences in
-multiple places (system-wide and per-site) to be cumbersome and
-redundant.
+Exposing the values of user preferences to web content is unacceptable
+for fingerprinting reasons; given this constraint and the above goals,
+we therefore arrive at a third goal:
 
-Our goal is to make it so that subtitles and captions can appear *where*
-users want them to (e.g. in PiP), and can appear *as* users want them to
-(i.e. respecting their preferences and their platform's conventions).
+* Allow captions to be served in custom formats, but still be rendered
+  by the browser engine.
 
 ### Non-goals
 
-1. It's not a goal to add native processing of out-of-band text track
-   formats other than WebVTT to the web platform.
-2. Exposing the values of user preferences to web content is
-   unacceptable for fingerprinting reasons; therefore, it's a non-goal
-   to expose such values to sites.
-
+* It's not a goal to add native processing of out-of-band text track
+  formats other than WebVTT to the web platform.
+   
 ## Overview of proposed web platform changes
 
 We propose *refactoring the web platform's text track APIs* to *decouple
@@ -199,10 +196,10 @@ something they're comfortable doing in this case.
 * Firefox / Gecko: [Jean-Yves Avenard](https://github.com/jyavenard) and Nils liked the idea. It needs review by someone who works on captioning in Gecko.
 * Google / Chrome / Blink: Mixed signals. [Chris Cunningham](https://github.com/chcunningham) and [Joey Parrish](https://github.com/joeyparrish) have both expressed interest / support, and [Mounir Lamouri](https://github.com/mounirlamouri) has expressed opposition.
 * Developers of several JS video libraries and websites have expressed support of the general approach, at FOMS and TPAC in 2019.
-  * [Gary Katsevman](https://github.com/gkatsev) of [Video.js](https://github.com/videojs)
-  * [Joey Parrish](https://github.com/joeyparrish) of [Shaka Player](https://github.com/google/shaka-player)
-  * [Pierre-Anthony Lemieux](https://github.com/palemieux) of [imscJS](https://github.com/sandflow/imscJS)
-  * A member of the Netflix frontend team.
+    * [Gary Katsevman](https://github.com/gkatsev) of [Video.js](https://github.com/videojs)
+    * [Joey Parrish](https://github.com/joeyparrish) of [Shaka Player](https://github.com/google/shaka-player)
+    * [Pierre-Anthony Lemieux](https://github.com/palemieux) of [imscJS](https://github.com/sandflow/imscJS)
+    * A member of the Netflix frontend team.
   
 ## Acknowledgements
 
