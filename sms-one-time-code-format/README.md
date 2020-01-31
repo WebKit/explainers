@@ -77,6 +77,13 @@ origin on which this code may be used.
 
 [schemelessly same site]: https://html.spec.whatwg.org/multipage/origin.html#schemelessly-same-site
 
+### Extensibility
+
+If in the future we identify additional information to include in the
+payload, new syntax may be introduced after the one-time code in the
+last line. (N.B. future spec editor: the parser must ignore unrecognized
+trailing content on that line, to enable this.)
+
 ## Alternative approaches
 
 ### No special syntax (status quo)
