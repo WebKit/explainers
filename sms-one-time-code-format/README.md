@@ -15,10 +15,13 @@
 
 
 - [Introduction](#introduction)
-- [Deficiencies of the status quo](#deficiencies-of-the-status-quo)
-- [Goal](#goal)
-- [Non-goal](#non-goal)
+  - [Deficiencies of the status quo](#deficiencies-of-the-status-quo)
+  - [Goals](#goals)
+  - [Non-goals](#non-goals)
 - [Proposal](#proposal)
+  - [](#)
+  - [Benefits](#benefits)
+  - [Applicability](#applicability)
 - [Alternative approaches](#alternative-approaches)
   - [No special syntax (status quo)](#no-special-syntax-status-quo)
 - [Stakeholder Feedback](#stakeholder-feedback)
@@ -28,32 +31,41 @@
 
 ## Introduction
 
-Many websites make use of **one-time codes** for authentication. SMS is
-a popular mechanism for delivering such codes to users.
+Many websites make use of **one-time codes** for authentication.
 
-## Deficiencies of the status quo
+SMS is a popular mechanism for delivering such codes to users, but using
+SMS to deliver one-time codes can be risky.
+
+This proposal attempts to reduce some of the risks associated with SMS
+delivery of one-time codes. It does not attempt to reduce or solve all
+of them. For instance, it doesn't solve the SMS delivery hijacking risk,
+but it does attempt to reduce the phishing risk.
+
+### Deficiencies of the status quo
 
 Suppose a user receives the message "747723 is your FooBar
 authentication code." It's possible, even likely, that *747723* is a
 one-time code for use on *https://foobar.com*. But because there is no
 standard text format for SMS delivery of one-time codes, systems which
-want to make programmatic use of such codes must rely on heuristics,
-both to locate the code in the message and to associate the code with
-the relevant website (origin). Heuristics are prone to failure and may
-even be hazardous.
+want to make programmatic use of such codes must **rely on heuristics**,
+both **to locate the code** in the message and **to associate the code
+with a website**. Heuristics are prone to failure and may even be
+hazardous.
 
-## Goal
+### Goals
 
-End users shouldn't have to manually copy-and-paste one-time codes from
-SMSes to their browser.
+The goals of this proposal are:
 
-Sites should be able to trust that the one-time codes they send over SMS
-will only be entered on the originating site.
+1. To eliminate the need to rely on heuristics for extraction of
+   one-time codes from SMS. (Ideally, end users shouldn't have to
+   manually copy-and-paste one-time codes from SMSes to their browser.)
+2. To reliably associate one-time codes intended for use on a specific
+   website with that site. (One-time codes sent by a website should
+   ideally only be entered on the actual site which sent it.)
 
-## Non-goal
+### Non-goals
 
-We must not expose the contents of SMS messages themselves to websites
-in order for this feature to work.
+We must not expose the contents of SMS messages to websites.
 
 ## Proposal
 
@@ -77,6 +89,16 @@ origin on which this code may be used.
 
 [schemelessly same site]: https://html.spec.whatwg.org/multipage/origin.html#schemelessly-same-site
 
+Adoption of this format would improve the reliability of systems which
+today heuristically extract one-time codes from SMS, with clear end-user
+benefit. It improves reliability of both extracting the code and also
+associating that code with an origin.
+
+Adoption of this proposal could improve the number of services on which
+a browser can offer SMS one-time code autofill, and could reduce the
+odds users would enter one-time codes delivered over SMS on sites other
+than the originating one.
+
 ## Alternative approaches
 
 ### No special syntax (status quo)
@@ -94,6 +116,7 @@ code message formats in the wild lack reliable origin information.
 ## Acknowledgements
 
 Many thanks to
+Aaron Parecki,
 Eryn Wells,
 Jay Mulani,
 Paul Knight,
