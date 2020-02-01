@@ -101,6 +101,7 @@ code message formats in the wild lack reliable origin information.
 ## Acknowledgements
 
 Many thanks to
+Eric Shepherd,
 Eryn Wells,
 Jay Mulani,
 Paul Knight,
