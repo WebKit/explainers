@@ -19,6 +19,7 @@
   - [Goals](#goals)
   - [Non-goals](#non-goals)
 - [Proposal](#proposal)
+  - [Extensibility](#extensibility)
 - [Alternative approaches](#alternative-approaches)
   - [No special syntax (status quo)](#no-special-syntax-status-quo)
 - [Stakeholder Feedback](#stakeholder-feedback)
