@@ -19,9 +19,6 @@
   - [Goals](#goals)
   - [Non-goals](#non-goals)
 - [Proposal](#proposal)
-  - [](#)
-  - [Benefits](#benefits)
-  - [Applicability](#applicability)
 - [Alternative approaches](#alternative-approaches)
   - [No special syntax (status quo)](#no-special-syntax-status-quo)
 - [Stakeholder Feedback](#stakeholder-feedback)
@@ -95,9 +92,10 @@ benefit. It improves reliability of both extracting the code and also
 associating that code with an origin.
 
 Adoption of this proposal could improve the number of services on which
-a browser can offer SMS one-time code autofill, and could reduce the
-odds users would enter one-time codes delivered over SMS on sites other
-than the originating one.
+a browser can offer assistance with providing SMS one-time codes to
+websites (e.g. an AutoFill feature), and could reduce the odds users
+would enter one-time codes delivered over SMS on sites other than the
+originating one.
 
 ## Alternative approaches
 
