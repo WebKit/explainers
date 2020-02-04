@@ -19,6 +19,7 @@
   - [Goals](#goals)
   - [Non-goals](#non-goals)
 - [Proposal](#proposal)
+  - [Extensibility](#extensibility)
 - [Alternative approaches](#alternative-approaches)
   - [No special syntax (status quo)](#no-special-syntax-status-quo)
 - [Stakeholder Feedback](#stakeholder-feedback)
@@ -97,6 +98,13 @@ websites (e.g. an AutoFill feature), and could reduce the odds users
 would enter one-time codes delivered over SMS on sites other than the
 originating one.
 
+### Extensibility
+
+If in the future we identify additional information to include in the
+payload, new syntax may be introduced after the one-time code in the
+last line. (N.B. future spec editor: the parser must ignore unrecognized
+trailing content on that line, to enable this.)
+
 ## Alternative approaches
 
 ### No special syntax (status quo)
@@ -115,6 +123,7 @@ code message formats in the wild lack reliable origin information.
 
 Many thanks to
 Aaron Parecki,
+Eric Shepherd,
 Eryn Wells,
 Jay Mulani,
 Paul Knight,
