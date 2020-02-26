@@ -11,6 +11,7 @@ appropriate standards bodies (such as [WICG](https://github.com/WICG)).
 ### Authentication
 
 * [Delivering origin-bound one-time codes over SMS](sms-one-time-code-format/)
+* [IsLoggedIn](IsLoggedIn/)
 
 ### Media
 
