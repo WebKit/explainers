@@ -10,7 +10,7 @@ appropriate standards bodies (such as [WICG](https://github.com/WICG)).
 
 ### Authentication
 
-* [Delivering origin-bound one-time codes over SMS](sms-one-time-code-format/)
+* Moved to WICG: [Delivering origin-bound one-time codes over SMS](https://github.com/wicg/sms-one-time-codes)
 * [IsLoggedIn](IsLoggedIn/)
 
 ### Media
