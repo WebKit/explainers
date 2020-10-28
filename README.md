@@ -4,6 +4,7 @@ This repo is a place where WebKit contributors may post [explainers](https://git
 
 ## Explainers
 
+* [Centralized Consent API](CentralizedConsentAPI)
 * [TextTrackCue enhancements for programmatic subtitle and caption presentation](texttracks/)
 
 ## Graduates
