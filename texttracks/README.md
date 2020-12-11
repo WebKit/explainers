@@ -25,7 +25,7 @@
   - [Cue Fragments](#cue-fragments)
 - [Considered alternatives](#considered-alternatives)
   - [Abstract Data Model](#abstract-data-model)
-- [Stakeholder Feedback / Opposition](#stakeholder-feedback--opposition)
+- [Stakeholder Signals](#stakeholder-signals)
 - [Acknowledgements](#acknowledgements)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
