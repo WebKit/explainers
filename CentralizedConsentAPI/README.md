@@ -75,7 +75,7 @@ cookies, decreasing the frequency of new banners after website data is cleared.
 A site wants to know whether it should display a consent banner for a specific
 user. The script may look like this:
 
-```
+```js
 document.dataConsentPreference()
     .then(function (hasGivenConsent) {
         // No need to display a consent banner.
@@ -97,7 +97,7 @@ document.dataConsentPreference()
 If the user does not have a preference set, a site may want to record their consent
 preferences:
 
-```
+```js
 // Truncated to 2 bits.
 document.setDataConsentInformation(1);
 ```
