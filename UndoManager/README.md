@@ -33,7 +33,7 @@ An `UndoItem` represents a single undoable or redoable action. A custom `UndoIte
 * an optional `redo` callback, which is invoked when the platform undo manager pushes a custom item (that has been popped) back onto the stack.
 * an optional `merged` flag; if `true`, this means that the undo item will be undone or redone together with the previous item in the undo stack. By default, an `UndoItem` is not merged.
 
-```
+```idl
 [
   Exposed=Window,
   Constructor(UndoItemInit initDict)
@@ -58,7 +58,7 @@ An `UndoManager` exposes the ability to query and manipulate the undo stack. `Un
 
 The `n`th `UndoItem` in the stack can be queried using `item(n)`, and the index of the current item is given by `position`. The `length` attribute exposes the total number of undo items in the stack. The `undo` and `redo` methods of `UndoManager` respectively decrement and increment the `position`, and, in the process, invoke and `undo` or `redo` methods of the previous item.
 
-```
+```idl
 [
   Exposed=Window
 ] interface UndoManager {
@@ -75,7 +75,7 @@ The `n`th `UndoItem` in the stack can be queried using `item(n)`, and the index 
 
 An element’s `undoManager` is the `UndoManager` associated with that element, or `null` if there is none (for instance, if the element is disconnected). An element also has a boolean `undoScope` attribute, which is initially `false`. If changed to `true`, that element and its descendants are associated with a new `UndoManager`, with its own undo stack.
 
-```
+```idl
 partial interface Element {
   readonly attribute UndoManager undoManager;
   [CEReactions] attribute boolean undoScope;
@@ -90,7 +90,7 @@ The following example implements a helper function, `insertContentAtSelection`, 
 
 `replaceWithContent` and `rangeFromContent` are separate helper methods that respectively (1) replace a given range with a list of DOM nodes, and (2) compute a DOMRange given a list of sibling nodes. These are both utilized in the implementation of `insertContentAtSelection`.
 
-```
+```js
 function replaceWithContent(rangeToReplace, content) {
     // Returns the content being replaced.
     const replacedContent = rangeToReplace.cloneContents();
@@ -111,7 +111,7 @@ function rangeFromContent(content) {
 
 First, `insertContentAtSelection` uses `replaceWithContent` to remove the contents of the existing selection and replace it with `contentToInsert`; the existing content is kept in `originalContent`. The method then uses the browsing context's `UndoManager` to add a new `UndoItem`. The `undo` and `redo` callbacks are, respectively, implemented by swapping out the given content to insert for the original content that was replaced, and vice versa. After undoing or redoing, it additionally selects the inserted content (if any).
 
-```
+```js
 function insertContentAtSelection(contentToInsert, undoLabel) {
     const originalRange = getSelection().getRangeAt(0);
     const originalContent = replaceWithContent(originalRange, contentToInsert);
