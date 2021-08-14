@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="editing.js"></script>
+    <script src="drawing.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+    <div id="toolbar">
+        <span title="Toggle bold" class="toolbar-item toggle-bold"><b>B</b></span>
+        <span title="Toggle italic" class="toolbar-item toggle-italic"><i>I</i></span>
+        <span title="Toggle underline" class="toolbar-item toggle-underline"><u>U</u></span>
+        <span title="Toggle strikethrough" class="toolbar-item toggle-strikethrough"><s>S</s></span>
+        <span class="toolbar-divider">&nbsp;</span>
+        <span title="Insert drawing" class="toolbar-item insert-drawing">🖼</span>
+        <span class="toolbar-divider">&nbsp;</span>
+        <span title="Undo" class="toolbar-item undo">↪️</span>
+        <span title="Redo" class="toolbar-item redo">↩️</span>
+        <span class="toolbar-divider">&nbsp;</span>
+        <span title="Clear all" class="toolbar-item clear">❌</span>
+    </div>
+    <div id="editor" contenteditable>
+        Here’s to the crazy ones. The misfits. The rebels. The troublemakers. The round pegs in the square holes. The ones who see things differently. They’re not fond of rules. And they have no respect for the status quo. You can quote them, disagree with them, glorify or vilify them. About the only thing you can’t do is ignore them. Because they change things. They push the human race forward. And while some may see them as the crazy ones, we see genius. Because the people who are crazy enough to think they can change the world, are the ones who do.
+    </div>
+    <template id="drawable">
+        <div class="drawable-container" contenteditable="false">
+            <canvas class="drawable"></canvas>
+            <div class="resize-handle">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M80 304h352v16H80zM80 248h352v16H80zM80 192h352v16H80z"></path></svg>
+            </div>
+            <input type="color"></input>
+        </div>
+        <div><br></div>
+    </template>
+</body>
+</html>

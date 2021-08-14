@@ -1,0 +1,111 @@
+html {
+    --blue-tint-color: rgb(0, 122, 255);
+    --red-tint-color: rgb(255, 59, 48);
+    --light-background-color: #EEE;
+    --dark-border-color: #CCC;
+    --black-stroke-color: rgb(10, 10, 10);
+    --red-stroke-color: rgb(255, 59, 48);
+    --orange-stroke-color: rgb(255, 149, 0);
+    --yellow-stroke-color: rgb(255, 204, 0);
+    --green-stroke-color: rgb(76, 217, 100);
+    --blue-stroke-color: rgb(90, 200, 250);
+    --gray-tint-color: rgb(150, 150, 150);
+}
+
+body, html {
+    font-family: system-ui;
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: var(--light-background-color);
+    overflow: hidden;
+}
+
+#editor {
+    background-color: white;
+    border-right: 1px solid var(--dark-border-color);
+    border-bottom: 1px solid var(--dark-border-color);
+    width: calc(100% - 2em);
+    height: calc(100% - 4.5em);
+    margin: 0.5em;
+    padding: 0.5em;
+    overflow: scroll;
+    line-height: 1.5em;
+}
+
+#editor:focus {
+    outline: none;
+}
+
+#toolbar {
+    padding-left: 0.25em;
+    margin-top: 0.25em;
+    height: 2.25em;
+    overflow-x: scroll;
+}
+
+.toolbar-divider {
+    border-right: 1px solid lightgray;
+    height: 2em;
+    margin-right: 0.25em;
+}
+
+.toolbar-item {
+    background-color: lightgray;
+    text-align: center;
+    width: 2em;
+    height: 2em;
+    display: inline-block;
+    line-height: 2em;
+    border-radius: 0.25em;
+    margin: 0.25em;
+    cursor: pointer;
+}
+
+.toolbar-item.undo, .toolbar-item.redo {
+    transform: rotate(-180deg);
+}
+
+.drawable-container {
+    box-sizing: border-box;
+    border: 1px lightgray solid;
+    width: 100%;
+    min-height: 200px;
+    display: block;
+    cursor: crosshair;
+    position: relative;
+    margin: 1em 0;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+
+.drawable-container > input[type="color"] {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+.drawable-container > .resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 4em;
+    height: 3em;
+    cursor: ns-resize;
+    box-sizing: border-box;
+    padding: 1em;
+}
+
+.drawable-container:hover {
+    border: 1px gray solid;
+}
+
+canvas.drawable {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
