@@ -8,6 +8,7 @@ This repo is a place where WebKit contributors may post [explainers](https://git
 * [TextTrackCue enhancements for programmatic subtitle and caption presentation](texttracks/)
 * [Coordinated media playback through MediaSession](MediaSessionCoordinator)
 * [UndoManager API](UndoManager/)
+* [`model` Element](model/)
 
 ## Graduates
 
