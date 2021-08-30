@@ -50,8 +50,8 @@ are WebGL frameworks that can process many different formats. Then there is
 the [model-viewer](https://modelviewer.dev) project which shows models
 inline in a web page, and also allows users on some devices to see the 3D
 object in augmented reality. And iOS Safari has the ability to navigate
-directly to an augmented reality view with its [AR Quick Look feature]
-(https://webkit.org/blog/8421/viewing-augmented-reality-assets-in-safari-for-ios/).
+directly to an augmented reality view with its
+[AR Quick Look feature](https://webkit.org/blog/8421/viewing-augmented-reality-assets-in-safari-for-ios/).
 
 However, there are cases where these current options cannot render content.
 This might be due to security restrictions or to the limitations of `<canvas>`
@@ -83,7 +83,7 @@ resource in different formats to be specified.
 This is an example showing how a
 [USDZ](https://graphics.pixar.com/usd/docs/Usdz-File-Format-Specification.html)
 file may be shown in an area measuring 400px by 300px, with a fallback
-to a [obj](https://en.wikipedia.org/wiki/Wavefront_.obj_file)
+to an [obj](https://en.wikipedia.org/wiki/Wavefront_.obj_file)
 file.
 
 ```html
@@ -109,7 +109,7 @@ The previous example can be augmented to allow interaction provided by the brows
 
 It is also possible that browsers support an animated presentation of the model, by running
 animations defined in the source data. Such animations are not enabled by default, but can
-be triggered on load by using `autoplay` HTML attribute.
+be triggered on load by using the `autoplay` HTML attribute.
 
 The original example can be augmented to allow for such animations:
 
@@ -155,7 +155,7 @@ elements to the `<model>` element.
 * `autoplay`: read-write boolean indicating whether the model will automatically start playback.
 Setting this property to `false` removes the `autoplay` HTML attribute if present, while setting it to `true`
 adds the `autoplay` HTML attribute if absent.
-* `interactive`: read-write boolean indicating whether the model is animated. Setting this
+* `interactive`: read-write boolean indicating whether the model can be interacted with. Setting this
 property to `false` removes the `interactive` HTML attribute if present, while setting it to `true`
 adds the `interactive` HTML attribute if absent.
 
@@ -165,7 +165,7 @@ APIs to observe the loading and decoding of data.
 While HTML supports the notion of taking an element fullscreen, browsers may want to offer yet more
 immersive experiences that require going beyond the page itself, one example would be to present the
 model in augmented reality to allow the user to visualize it at real scale in the user's immediate
-surroundings. To support this, new DOM APIs may be added or the existing HTML fullscreen API extended
+surroundings. To support this, new DOM APIs may be added or the existing HTML Fullscreen API extended
 via more [FullscreenOptions](https://fullscreen.spec.whatwg.org/#dictdef-fullscreenoptions) properties.
 
 ## DOM Events
@@ -184,7 +184,7 @@ The `mousedown` and `touchstart` compatibility events may also be used for this 
 
 Model resources may contain audio and animations and as such should be
 considered like other media and animated content by browsers. This means
-that browser behaviors around loading, autoplay and accessibility should be
+that browser behaviors around loading, autoplay, and accessibility should be
 honored for the `<model>` element as well, for instance:
 
 - a static poster image may be displayed prior to loading the full `<model>` resource,
@@ -217,9 +217,9 @@ However, some existing browsers already process such formats in a non-inline man
 ### Why add a new element?
 
 We believe it is time for files representing 3D geometric data to become a first class
-citizen on the Web.
+citizen on the web.
 
-Adding a new element to HTML requires significant justification. At first glace, the `<model>` element
+Adding a new element to HTML requires significant justification. At first glance, the `<model>` element
 does not appear necessary since HTML already provides a mechanism to load arbitrary data and
 render it: `<canvas>` and its rendering contexts.
 
@@ -230,7 +230,7 @@ a third-party library. Like raster images, vector images, audio and video, three
 geometric data should be a data type that can be directly embedded in HTML content.
 
 Secondly, while we are not proposing a DOM for the data at the moment, we expect to in the
-future. It would be of benefit to the Web developer to learn a single common API for 3D
+future. It would be of benefit to the web developer to learn a single common API for 3D
 geometry rather than learn the API of various third-party libraries. Furthermore, different
 file types would then conform to the same API.
 
@@ -240,30 +240,29 @@ surface in the web page.
 
 Consider a browser or web-view being displayed in Augmented Reality. The developer wants to
 show a 3D model in the page. In order for the model to look accurate, it must be rendered
-from the viewpoint of the user - otherwise it is a flat rendering of a three-dimensional
+from the viewpoint of the user—otherwise it is a flat rendering of a three-dimensional
 image with incorrect perspective.
 
-A solution to this would be to allow the Web page, in particular the WebGL
+A solution to this would be to allow the web page, in particular the WebGL
 showing the 3D model, to render from the perspective of the user. This would
 involve granting too much private information to the page, possibly including
 the camera feed, some scene understanding, and very accurate position data on
-the user. It should not be a requirement that every Web page has to request
+the user. It should not be a requirement that every web page has to request
 permission to show a 3D model in this manner. The user should not have to
 provide access to this sensitive information to have the experience.
 
 Furthermore, there is more information needed to produce a realistic rendering, such as
 the ability to cast and receive shadows and reflections from other content in the scene, that
-might not be on the same Web page.
+might not be on the same web page.
 
 This means that rendering in Augmented Reality is currently limited to a system
 component, different from the in-page component, leading to inconsistent results.
-
 
 ### Rendering
 
 Unfortunately it is impractical to define a pixel accurate rendering approach for the `<model>` element. If such
 an attempt was made, it would likely pose too many restrictions on the browser engines, which have to work
-on a number of operating systems, hardware and environments.
+on a number of operating systems, hardware, and environments.
 
 Instead we suggest adopting a Physically-Based Rendering approach, probably referencing an existing
 shading model such as [MaterialX](https://materialx.org/). Browsers would be free to
@@ -281,7 +280,6 @@ For reference, the Model Viewer project has a [rendering engine fidelity compari
 
 A future version of this explainer will describe the lighting model and environment in which the
 3D content should be rendered. Both items will require community collaboration and some consensus.
-
 
 ## Considered alternatives
 
