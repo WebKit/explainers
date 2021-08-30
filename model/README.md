@@ -50,8 +50,8 @@ are WebGL frameworks that can process many different formats. Then there is
 the [model-viewer](https://modelviewer.dev) project which shows models
 inline in a web page, and also allows users on some devices to see the 3D
 object in augmented reality. And iOS Safari has the ability to navigate
-directly to an augmented reality view with its [AR Quick Look feature]
-(https://webkit.org/blog/8421/viewing-augmented-reality-assets-in-safari-for-ios/).
+directly to an augmented reality view with its
+[AR Quick Look feature](https://webkit.org/blog/8421/viewing-augmented-reality-assets-in-safari-for-ios/).
 
 However, there are cases where these current options cannot render content.
 This might be due to security restrictions or to the limitations of `<canvas>`
