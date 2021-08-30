@@ -207,7 +207,7 @@ policy directive), and likely a few others.
 ## Security considerations
 
 As always, introducing support for parsing and processing new formats raises the surface area
-of attach posibilities in a browser.
+of attack possibilities in a browser.
 
 However, some existing browsers already process such formats in a non-inline manner
 (such as iOS's AR Quick Look and Android's Scene Viewer).
@@ -219,7 +219,7 @@ However, some existing browsers already process such formats in a non-inline man
 We believe it is time for files representing 3D geometric data to become a first class
 citizen on the Web.
 
-Adding a new element to HTML requires significant justification. At first glace, the `<model>` element
+Adding a new element to HTML requires significant justification. At first glance, the `<model>` element
 does not appear necessary since HTML already provides a mechanism to load arbitrary data and
 render it: `<canvas>` and its rendering contexts.
 
