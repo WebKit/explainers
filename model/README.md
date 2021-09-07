@@ -160,6 +160,8 @@ property to `false` removes the `interactive` HTML attribute if present, while s
 adds the `interactive` HTML attribute if absent.
 * `loading`: behaves in the same manner as the
 [`img` attribute of the same name](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-loading).
+* `crossorigin`: behaves in the same manner as the
+[`img` attribute of the same name](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-crossorigin).
 
 Similar to other elements with sub-resources, the `HTMLModelElement` will provide
 APIs to observe the loading and decoding of data.
