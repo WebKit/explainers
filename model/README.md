@@ -83,13 +83,13 @@ resource in different formats to be specified.
 This is an example showing how a
 [USDZ](https://graphics.pixar.com/usd/docs/Usdz-File-Format-Specification.html)
 file may be shown in an area measuring 400px by 300px, with a fallback
-to an [obj](https://en.wikipedia.org/wiki/Wavefront_.obj_file)
+to a [glTF](https://www.khronos.org/gltf/) binary
 file.
 
 ```html
 <model style="width: 400px; height: 300px">
     <source src="assets/example.usdz" type="model/vnd.usd+zip">
-    <source src="assets/example.obj" type="model/obj">
+    <source src="assets/example.glb" type="model/gltf-binary">
 </model>
 ```
 
@@ -103,7 +103,7 @@ The previous example can be augmented to allow interaction provided by the brows
 ```html
 <model style="width: 400px; height: 300px" interactive>
     <source src="assets/example.usdz" type="model/vnd.usd+zip">
-    <source src="assets/example.obj" type="model/obj">
+    <source src="assets/example.glb" type="model/gltf-binary">
 </model>
 ```
 
@@ -116,7 +116,7 @@ The original example can be augmented to allow for such animations:
 ```html
 <model style="width: 400px; height: 300px" autoplay>
     <source src="assets/example.usdz" type="model/vnd.usd+zip">
-    <source src="assets/example.obj" type="model/obj">
+    <source src="assets/example.glb" type="model/gltf-binary">
 </model>
 ```
 
@@ -129,7 +129,7 @@ As such, the original example can be augmented to allow for both animations and 
 ```html
 <model style="width: 400px; height: 300px" autoplay interactive>
     <source src="assets/example.usdz" type="model/vnd.usd+zip">
-    <source src="assets/example.obj" type="model/obj">
+    <source src="assets/example.glb" type="model/gltf-binary">
 </model>
 ```
 
@@ -207,7 +207,7 @@ policy directive), and likely a few others.
 ## Security considerations
 
 As always, introducing support for parsing and processing new formats raises the surface area
-of attach posibilities in a browser.
+of attack possibilities in a browser.
 
 However, some existing browsers already process such formats in a non-inline manner
 (such as iOS's AR Quick Look and Android's Scene Viewer).
