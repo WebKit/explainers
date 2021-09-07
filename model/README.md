@@ -158,6 +158,8 @@ adds the `autoplay` HTML attribute if absent.
 * `interactive`: read-write boolean indicating whether the model can be interacted with. Setting this
 property to `false` removes the `interactive` HTML attribute if present, while setting it to `true`
 adds the `interactive` HTML attribute if absent.
+* `loading`: behaves in the same manner as the
+[`img` attribute of the same name](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-loading).
 
 Similar to other elements with sub-resources, the `HTMLModelElement` will provide
 APIs to observe the loading and decoding of data.
