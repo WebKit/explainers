@@ -89,7 +89,7 @@ file.
 ```html
 <model style="width: 400px; height: 300px">
     <source src="assets/example.usdz" type="model/vnd.usd+zip">
-    <source src="assets/example.glb" type="model/gltf+json">
+    <source src="assets/example.glb" type="model/gltf-binary">
 </model>
 ```
 
@@ -103,7 +103,7 @@ The previous example can be augmented to allow interaction provided by the brows
 ```html
 <model style="width: 400px; height: 300px" interactive>
     <source src="assets/example.usdz" type="model/vnd.usd+zip">
-    <source src="assets/example.glb" type="model/gltf+json">
+    <source src="assets/example.glb" type="model/gltf-binary">
 </model>
 ```
 
@@ -116,7 +116,7 @@ The original example can be augmented to allow for such animations:
 ```html
 <model style="width: 400px; height: 300px" autoplay>
     <source src="assets/example.usdz" type="model/vnd.usd+zip">
-    <source src="assets/example.glb" type="model/gltf+json">
+    <source src="assets/example.glb" type="model/gltf-binary">
 </model>
 ```
 
@@ -129,7 +129,7 @@ As such, the original example can be augmented to allow for both animations and 
 ```html
 <model style="width: 400px; height: 300px" autoplay interactive>
     <source src="assets/example.usdz" type="model/vnd.usd+zip">
-    <source src="assets/example.glb" type="model/gltf+json">
+    <source src="assets/example.glb" type="model/gltf-binary">
 </model>
 ```
 
