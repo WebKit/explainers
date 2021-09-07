@@ -17,6 +17,7 @@
 - [tl;dr](#tldr)
 - [Introduction](#introduction)
 - [The HTMLModelElement](#the-htmlmodelelement)
+  - [Fallback content](#fallback-content)
 - [DOM API](#dom-api)
 - [DOM Events](#dom-events)
 - [Playback and accessibility considerations](#playback-and-accessibility-considerations)
@@ -140,6 +141,25 @@ Here is [an example](example.html) of the `<model>` element. On a browser that h
 the element, it should appear as in the image below.
 
 ![Ha-Ha iMessage tap-back bubble](assets/haha.png)
+
+### Fallback content
+
+In the case where `<model>` can not display any of its `<source>` children, it
+will fall-back to showing its last non-`<source>` child that is a replaced
+element. In the example below, this would mean the contents of the `<picture>`
+element would be displayed.
+
+```html
+<model>
+    <source src="fake.typ1" type="imaginary/type-1">
+    <source src="fake.typ2" type="imaginary/type-2">
+    <picture>
+        <source src="animated-version.mp4" type="video/mp4">
+        <source src="animated-version.webp" type="image/webp">
+        <img src="animated-version.gif"/>
+    </picture>
+</model>
+```
 
 
 ## DOM API
