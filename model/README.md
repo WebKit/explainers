@@ -27,6 +27,7 @@
   - [Why add a new element?](#why-add-a-new-element)
   - [Rendering](#rendering)
 - [Considered alternatives](#considered-alternatives)
+- [Additional reading](#additional-reading)
 - [Acknowledgements](#acknowledgements)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -326,6 +327,12 @@ A future version of this explainer will describe the lighting model and environm
     experience to request and have the user trust that site enough to allow
     them access to the camera stream as well as other information. A new
     element allows this use case without requiring the user to make that decision.
+
+## Additional reading
+
+For additional insight into the history and how we see the potential evolution
+of the `<model>` element going, please see the ["`<model>` Evolution"](HistoryAndEvolution.md)
+companion document.
 
 ## Acknowledgements
 
