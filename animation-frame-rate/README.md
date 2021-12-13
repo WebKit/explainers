@@ -40,7 +40,7 @@ Starting with the iPad Pro in 2018 and now in 2021 with the iPhone 13 Pro and th
 
 On Apple's 120Hz devices, accelerated already run at 120Hz thanks to Core Animation's built-in support for the ProMotion technology, whereas the rest of the Web page only updates at 60Hz. This "rest of the Web page" includes script-driven animations using `requestAnimationFrame()` as well as all non-accelerated Web Animations (including CSS Transitions and CSS Animations).
 
-WebKit chose to restrict web content updates to 60Hz for two reasons: first, anything faster would trigger a significant increase in power usage, and second, we found several examples of web pages that had incorrect behavior when `requestAnimationFrame()` callbacks were fired at a non-60Hz frequency.
+WebKit chose to restrict web content updates to 60Hz for two reasons: first, we measured a significant increase in power usage, and second, we found several examples of web pages that had incorrect behavior when `requestAnimationFrame()` callbacks were fired at a non-60Hz frequency.
 
 However, now that there are more devices with high refresh rate displays, we believe it's judicious to propose advancing the Web platform to take advantage of higher refresh rates and allow authors to choose a suitable refresh rate for different kinds of animations.
 
