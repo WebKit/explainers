@@ -66,6 +66,7 @@ We think that it's important that API enhancements in this area allow authors to
 * Animation on a small element (e.g. progress meter)
 * Background ambient animation
 * Fade animations (opacity, color, some filters) where lower frame rates are less noticeable
+* Animated content that uses a `steps()` timing function
 
 Outside of animations that may benefit from a lower frame rates without jeopardizing their overall impact, authors may want to preserve power usage by generally taking a conservative approach towards opting into higher frame rate animations.
 
