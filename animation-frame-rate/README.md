@@ -42,7 +42,7 @@ On Apple's 120Hz devices, accelerated animations already run at 120Hz thanks to 
 
 WebKit chose to restrict web content updates to 60Hz for two reasons: first, we measured a significant increase in power usage, and second, we found several examples of web pages that had incorrect behavior when `requestAnimationFrame()` callbacks were fired at a non-60Hz frequency.
 
-However, now that there are more devices with high refresh rate displays, we believe it's judicious to propose advancing the Web platform to take advantage of higher refresh rates and allow authors to choose a suitable refresh rate for different kinds of animations.
+However, now that there are more devices with high refresh rate displays, we believe it's judicious to propose advancing the Web platform to take advantage of higher refresh rates and allow authors to choose a suitable refresh rate for different kinds of animations, including low-impact animations that could run at lower frame rates and allow lower power usage.
 
 ## Variable frame rate
 
