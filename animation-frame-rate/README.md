@@ -79,7 +79,7 @@ We propose that authors are able specify an intent conveying the frame rate at w
 
 Animations created using the [Web Animations API](https://www.w3.org/TR/web-animations-1) can indicate their `frameRate` by providing one of four values from the `AnimationFrameRatePreset` enum, the default value being `auto`, matching the browser's default frame rate used to [update the page rendering](https://html.spec.whatwg.org/multipage/webappapis.html#update-the-rendering). Alternatively, the `frameRate` property may be set to a numeric value.
 
-In order to set frame rates that may best align with the refresh rate of the device's display, the document timeline advertises its `maximumFrameRate`. Setting frame rates that are the result of dividing this value by a whole number is the best way to expect the provided frame rate to be met. 
+In order to set frame rates that may best align with the refresh rate of the device's display, the document timeline advertises its `maximumFrameRate`. Setting frame rates that are the result of dividing this value by a whole number is usually the best way to expect the provided frame rate to be met. 
 
 ```idl
 typedef unsigned long FramesPerSecond;
