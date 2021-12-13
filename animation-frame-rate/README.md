@@ -126,4 +126,5 @@ Another alternative would have been to propose a solution based on the `requestA
 
 Many thanks for valuable feedback and advice from:
 
+- Dean Jackson
 - Myles Maxfield
