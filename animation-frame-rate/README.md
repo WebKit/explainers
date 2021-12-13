@@ -34,9 +34,9 @@ We propose adding a `frameRate` property on the `Animation` interface to allow a
 
 ## Introduction
 
-Starting with the iPad Pro in 2018 and now in 2021 with the iPhone 13 Pro and the 14” and 16” 2021 MacBooks Pro, Apple devices have supported multiple refresh rates under the moniker [ProMotion](https://developer.apple.com/documentation/quartzcore/optimizing_promotion_refresh_rates_for_iphone_13_pro_and_ipad_pro). Using this technology, displays may refresh their display at up to 120Hz, but can also adjust to various refresh rates along the way, instead of using the constant refresh rate of 60Hz.
+Plenty of devices sport displays with refresh rates that are greater than 60Hz; mobile devices exist with 90Hz and 120Hz refresh rates, and desktop screens exist with 144Hz and 240Hz refresh rates.
 
-Devices from other manufacturers also have screen refresh rates that are greater than 60Hz; mobile devices exist with 90Hz and 120Hz refresh rates, and desktop screens exist with 144Hz and 240Hz refresh rates.
+Starting with the iPad Pro in 2018 and now in 2021 with the iPhone 13 Pro and the 14” and 16” 2021 MacBooks Pro, Apple devices have supported multiple refresh rates under the moniker [ProMotion](https://developer.apple.com/documentation/quartzcore/optimizing_promotion_refresh_rates_for_iphone_13_pro_and_ipad_pro). Using this technology, displays may refresh their display at up to 120Hz, but can also adjust to various refresh rates along the way, instead of using the constant refresh rate of 60Hz.
 
 On Apple platforms, accelerated animations will already run at 120Hz thanks to Core Animation's built-in support for the ProMotion technology, whereas the rest of the Web page only updates at 60Hz. This "rest of the Web page" includes script-driven animations using `requestAnimationFrame()` as well as all non-accelerated Web Animations (including CSS Transitions and CSS Animations).
 
