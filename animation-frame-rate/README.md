@@ -108,7 +108,7 @@ Most JavaScript-based animations on the web today use `requestAnimationFrame()`.
 
 The [Web Animations 2](https://drafts.csswg.org/web-animations-2) specification introduces the notion of [Custom Effects](https://drafts.csswg.org/web-animations-2/#custom-effects), a powerful way to run script-based animations while leveraging the Web Animations timing model. With the Web Animations extension described above, we believe this is the most appropriate way for web developers to request JavaScript callbacks for animation while communicating animation intent to the user agent.
 
-WebKit is dedicated to push the concept of Custom Effects forward and has revived standardization discussions (https://github.com/w3c/csswg-drafts/issues/6861) about that feature and experimental support (https://trac.webkit.org/changeset/286555/webkit) behind an off-by-default flag is available.
+WebKit is dedicated to push the concept of Custom Effects forward and has revived [standardization discussions](https://github.com/w3c/csswg-drafts/issues/6861) about that feature and [experimental support](https://trac.webkit.org/changeset/286555/webkit) behind an off-by-default flag is available.
 
 > **Note:** In the context of `OffscreenCanvas` and [`DedicatedWorkerGlobalScope`](https://html.spec.whatwg.org/#dedicatedworkerglobalscope), which lend themselves particularly well to the implementation of high performance canvas-based games or visualization, `requestAnimationFrame()` is currently the sole way to drive an animation. In the future, this proposal will investigate the possibility to expose the Web Animations API to `DedicatedWorkerGlobalScope` with a shared time origin with the main frame's timeline. It is not clear yet if this will prove to be a workable solution.
 
