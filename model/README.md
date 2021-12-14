@@ -78,9 +78,12 @@ element similar to `<video>` in that it is replaced visually by the content
 of an external resource referenced via a `<source>` element. Like other
 HTML elements, it can be styled using CSS.
 
-The resource is resolved by selecting the first `<source>` elements with a
-supported `type` attribute, allowing different versions of the same
-resource in different formats to be specified.
+The resource is resolved by selecting the first, most appropriate `<source>`
+element with supported `type` and `media` attributes, allowing different versions of the same
+resource in different formats to be specified. See the HTML specification for
+the definition of
+[type](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-source-type) and
+[media](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-source-media).
 
 This is an example showing how a
 [USDZ](https://graphics.pixar.com/usd/docs/Usdz-File-Format-Specification.html)
