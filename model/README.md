@@ -178,7 +178,9 @@ Setting this property to `false` removes the `autoplay` HTML attribute if presen
 adds the `autoplay` HTML attribute if absent.
 * `interactive`: read-write boolean indicating whether the model can be interacted with. Setting this
 property to `false` removes the `interactive` HTML attribute if present, while setting it to `true`
-adds the `interactive` HTML attribute if absent.
+adds the `interactive` HTML attribute if absent. An interactive model will provide some default
+behaviour that allows the user to transform the virtual camera around the model, such as by clicking
+and dragging.
 * `loading`: behaves in the same manner as the
 [`img` attribute of the same name](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-loading).
 
