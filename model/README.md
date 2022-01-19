@@ -21,6 +21,7 @@
 - [DOM API](#dom-api)
   - [Controlling the camera](#controlling-the-camera)
   - [Controlling animations](#controlling-animations)
+  - [Controlling audio](#controlling-audio)
 - [DOM Events](#dom-events)
 - [Playback and accessibility considerations](#playback-and-accessibility-considerations)
 - [Privacy considerations](#privacy-considerations)
@@ -251,6 +252,20 @@ interface HTMLModelElement : HTMLElement {
     Promise<double> animationDuration();
     Promise<double> animationCurrentTime();
     Promise<undefined> setAnimationCurrentTime(double currentTime);
+}
+```
+
+### Controlling audio
+
+Another feature that may be supported by the resource file format is audio. Much like animations,
+this is a wide topic with potentially multiple audio clips being built into the resource, and our
+initial proposal involves simply controlling whether built-in audio is muted:
+
+```idl
+interface HTMLModelElement : HTMLElement {
+    Promise<boolean> hasAudio();
+    Promise<boolean> isMuted();
+    Promise<undefined> setIsMuted(boolean isMuted);
 }
 ```
 
