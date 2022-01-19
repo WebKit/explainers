@@ -19,6 +19,7 @@
 - [The HTMLModelElement](#the-htmlmodelelement)
   - [Fallback content](#fallback-content)
 - [DOM API](#dom-api)
+  - [Controlling the camera](#controlling-the-camera)
 - [DOM Events](#dom-events)
 - [Playback and accessibility considerations](#playback-and-accessibility-considerations)
 - [Privacy considerations](#privacy-considerations)
@@ -195,6 +196,33 @@ immersive experiences that require going beyond the page itself, one example wou
 model in augmented reality to allow the user to visualize it at real scale in the user's immediate
 surroundings. To support this, new DOM APIs may be added or the existing HTML Fullscreen API extended
 via more [FullscreenOptions](https://fullscreen.spec.whatwg.org/#dictdef-fullscreenoptions) properties.
+
+### Controlling the camera
+
+While by setting the `interactive` property the author will allow a built-in behavior such that dragging
+over a `<model>` element would result in modifying the camera, we propose to allow authors direct control
+of the camera via DOM APIs. An initial proposition would be to add an `HTMLModelElementCamera`:
+
+```idl
+dictionary HTMLModelElementCamera {
+    double pitch;
+    double yaw;
+    double scale;
+};
+```
+
+Then the camera can be set and read back:
+
+```idl
+interface HTMLModelElement : HTMLElement {
+    Promise<HTMLModelElementCamera> getCamera();
+    Promise<undefined> setCamera(HTMLModelElementCamera camera);
+}
+```
+
+Note the use of promises since it is likely that the model is rendered out-of-process and any communication
+with that process would need to be asynchronous. This applies to other promise-based APIs discussed in this
+document.
 
 ## DOM Events
 
