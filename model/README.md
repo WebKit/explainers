@@ -20,6 +20,7 @@
   - [Fallback content](#fallback-content)
 - [DOM API](#dom-api)
   - [Controlling the camera](#controlling-the-camera)
+  - [Controlling animations](#controlling-animations)
 - [DOM Events](#dom-events)
 - [Playback and accessibility considerations](#playback-and-accessibility-considerations)
 - [Privacy considerations](#privacy-considerations)
@@ -223,6 +224,35 @@ interface HTMLModelElement : HTMLElement {
 Note the use of promises since it is likely that the model is rendered out-of-process and any communication
 with that process would need to be asynchronous. This applies to other promise-based APIs discussed in this
 document.
+
+### Controlling animations
+
+Formats supported by `<model>` may support animations built into the resource itself, such as the  USDZ
+file format. We propose allowing page authors to control such animations.
+
+This is a wide topic with likely dependencies on the file format support for animations itself. Another
+important topic would be whether the Web Animations specification could be leveraged to expose and control
+animations for the resource.
+
+For experimental purposes, we propose an initial, basic set of DOM APIs based on the assumption that
+a single animation is controlled. With this proposal the author could control whether the animation is
+playing, looping, query its duration and set its current time, allowing the creation of controls to
+toggle playback and scrub through the animation.
+
+```idl
+interface HTMLModelElement : HTMLElement {
+    Promise<boolean> isPlayingAnimation();
+    Promise<undefined> playAnimation();
+    Promise<undefined> pauseAnimation();
+
+    Promise<boolean> isLoopingAnimation();
+    Promise<undefined> setIsLoopingAnimation(boolean looping);
+
+    Promise<double> animationDuration();
+    Promise<double> animationCurrentTime();
+    Promise<undefined> setAnimationCurrentTime(double currentTime);
+}
+```
 
 ## DOM Events
 
