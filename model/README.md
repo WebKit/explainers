@@ -201,8 +201,8 @@ via more [FullscreenOptions](https://fullscreen.spec.whatwg.org/#dictdef-fullscr
 
 ### Controlling the camera
 
-While by setting the `interactive` property the author will allow a built-in behavior such that dragging
-over a `<model>` element would result in modifying the camera, we propose to allow authors direct control
+Using the `interactive` property, the author allows a built-in behavior such that dragging over a
+`<model>` element will result in modifying the camera. We also propose to allow authors direct control
 of the camera via DOM APIs. An initial proposition would be to add an `HTMLModelElementCamera`:
 
 ```idl
