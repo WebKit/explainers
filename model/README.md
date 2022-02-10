@@ -270,6 +270,9 @@ interface HTMLModelElement : HTMLElement {
 }
 ```
 
+Note that the audio state is not related to the animation state, so the embedded audio may be played
+while embedded animations are paused and vice versa.
+
 ## DOM Events
 
 While the author may prevent any built-in interactive behavior for a `<model>` by ommitting the `interactive`
