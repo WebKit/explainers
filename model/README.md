@@ -233,7 +233,8 @@ file format. We propose allowing page authors to control such animations.
 
 This is a wide topic with likely dependencies on the file format support for animations itself. Another
 important topic would be whether the Web Animations specification could be leveraged to expose and control
-animations for the resource.
+animations for the resource. At the moment, this document intentionally doesn't describe how animations
+within a `<model>` element relate to the [default document timeline](https://www.w3.org/TR/web-animations-1/#the-documents-default-timeline).
 
 For experimental purposes, we propose an initial, basic set of DOM APIs based on the assumption that
 a single animation is controlled. With this proposal the author could control whether the animation is
