@@ -228,7 +228,7 @@ document.
 
 ### Controlling animations
 
-Formats supported by `<model>` may support animations built into the resource itself, such as the  USDZ
+Formats supported by `<model>` may support animations built into the resource itself, such as the USDZ
 file format. We propose allowing page authors to control such animations.
 
 This is a wide topic with likely dependencies on the file format support for animations itself. Another
