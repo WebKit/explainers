@@ -19,6 +19,9 @@
 - [The HTMLModelElement](#the-htmlmodelelement)
   - [Fallback content](#fallback-content)
 - [DOM API](#dom-api)
+  - [Controlling the camera](#controlling-the-camera)
+  - [Controlling animations](#controlling-animations)
+  - [Controlling audio](#controlling-audio)
 - [DOM Events](#dom-events)
 - [Playback and accessibility considerations](#playback-and-accessibility-considerations)
 - [Privacy considerations](#privacy-considerations)
@@ -195,6 +198,80 @@ immersive experiences that require going beyond the page itself, one example wou
 model in augmented reality to allow the user to visualize it at real scale in the user's immediate
 surroundings. To support this, new DOM APIs may be added or the existing HTML Fullscreen API extended
 via more [FullscreenOptions](https://fullscreen.spec.whatwg.org/#dictdef-fullscreenoptions) properties.
+
+### Controlling the camera
+
+Using the `interactive` property, the author allows a built-in behavior such that dragging over a
+`<model>` element will result in modifying the camera. We also propose to allow authors direct control
+of the camera via DOM APIs. An initial proposition would be to add an `HTMLModelElementCamera`:
+
+```idl
+dictionary HTMLModelElementCamera {
+    double pitch;
+    double yaw;
+    double scale;
+};
+```
+
+Then the camera can be set and read back:
+
+```idl
+interface HTMLModelElement : HTMLElement {
+    Promise<HTMLModelElementCamera> getCamera();
+    Promise<undefined> setCamera(HTMLModelElementCamera camera);
+}
+```
+
+Note the use of promises since it is likely that the model is rendered out-of-process and any communication
+with that process would need to be asynchronous. This applies to other promise-based APIs discussed in this
+document.
+
+### Controlling animations
+
+Formats supported by `<model>` may support animations built into the resource itself, such as the USDZ
+file format. We propose allowing page authors to control such animations.
+
+This is a wide topic with likely dependencies on the file format support for animations itself. Another
+important topic would be whether the Web Animations specification could be leveraged to expose and control
+animations for the resource. At the moment, this document intentionally doesn't describe how animations
+within a `<model>` element relate to the [default document timeline](https://www.w3.org/TR/web-animations-1/#the-documents-default-timeline).
+
+For experimental purposes, we propose an initial, basic set of DOM APIs based on the assumption that
+a single animation is controlled. With this proposal the author could control whether the animation is
+playing, looping, query its duration and set its current time, allowing the creation of controls to
+toggle playback and scrub through the animation.
+
+```idl
+interface HTMLModelElement : HTMLElement {
+    Promise<boolean> isPlayingAnimation();
+    Promise<undefined> playAnimation();
+    Promise<undefined> pauseAnimation();
+
+    Promise<boolean> isLoopingAnimation();
+    Promise<undefined> setIsLoopingAnimation(boolean looping);
+
+    Promise<double> animationDuration();
+    Promise<double> animationCurrentTime();
+    Promise<undefined> setAnimationCurrentTime(double currentTime);
+}
+```
+
+### Controlling audio
+
+Another feature that may be supported by the resource file format is audio. Much like animations,
+this is a wide topic with potentially multiple audio clips being built into the resource, and our
+initial proposal involves simply controlling whether built-in audio is muted:
+
+```idl
+interface HTMLModelElement : HTMLElement {
+    Promise<boolean> hasAudio();
+    Promise<boolean> isMuted();
+    Promise<undefined> setIsMuted(boolean isMuted);
+}
+```
+
+Note that the audio state is not related to the animation state, so the embedded audio may be played
+while embedded animations are paused and vice versa.
 
 ## DOM Events
 
