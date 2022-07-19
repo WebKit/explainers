@@ -5,6 +5,7 @@
 - [Antoine Quint](https://github.com/graouts)
 - [Dean Jackson](https://github.com/grorg)
 - [Theresa O'Connor](https://github.com/hober)
+- [Marcos Cáceres](https://github.com/marcoscaceres)
 
 ## Participate
 - https://github.com/WebKit/explainers
@@ -43,13 +44,13 @@ a renderer built-in to the browser.
 ## Introduction
 
 HTML allows the display of many media types through elements such as `<img>`,
-`<picture>`, or `<video>`, but it does not provide a native manner to directly
-consume 3D content. Embedding such content within a page is comparatively
+`<picture>`, or `<video>`, but it does not provide a declarative manner to directly
+display 3D content. Embedding 3D content within a page is comparatively
 cumbersome and relies on scripting the `<canvas>` element. We believe it is
 time to put 3D models on equal footing with other, already supported, media
 types.
 
-There is a variety of prior art here: For example,
+There is a long history of precedence for presenting 3D content on the Web: For example,
 [three.js](https://threejs.org/) and [Babylon JS](https://babylonjs.com/)
 are WebGL frameworks that can process many different formats. Then there is
 the [model-viewer](https://modelviewer.dev) project which shows models
@@ -59,7 +60,7 @@ directly to an augmented reality view with its
 [AR Quick Look feature](https://webkit.org/blog/8421/viewing-augmented-reality-assets-in-safari-for-ios/).
 
 However, there are cases where these current options cannot render content.
-This might be due to security restrictions or to the limitations of `<canvas>`
+This is due to security restrictions or to technical limitations of `<canvas>`
 (see below for [more details on motivation](#detailed-design-discussion)).
 
 The HTML `<model>` element aims to allow a website to embed interactive 3D models as
@@ -73,7 +74,7 @@ more immersive experiences, such as augmented reality.
 This proposal does *not* aim to define a mechanism that allows the creation of a 3D scene
 within a browser using declarative primitives or a programmatic API.
 
-## The HTMLModelElement
+## The `HTMLModelElement`
 
 The `<model>` element is a new
 [replaced](https://drafts.csswg.org/css-display/#replaced-element) HTML
@@ -88,11 +89,9 @@ the definition of
 [type](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-source-type) and
 [media](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-source-media).
 
-This is an example showing how a
+This is an example showing a 400px by 300px, allowing the browser to choose between a
 [USDZ](https://graphics.pixar.com/usd/docs/Usdz-File-Format-Specification.html)
-file may be shown in an area measuring 400px by 300px, with a fallback
-to a [glTF](https://www.khronos.org/gltf/) binary
-file.
+file and a [glTF](https://www.khronos.org/gltf/) file, depending on what the browser supports.
 
 ```html
 <model style="width: 400px; height: 300px">
@@ -101,7 +100,7 @@ file.
 </model>
 ```
 
-Browsers may support direct manipulation of the `<model>` element while presented in the page. A browser
+Browsers may support direct manipulation of the `<model>` element while presented in the page. For example, a browser
 may allow the model to be rotated or zoomed within the element's bounds without affecting the scrolling
 position or zoom level of the page. To opt into this behavior, the author may use the `interactive`
 HTML attribute.
@@ -228,7 +227,7 @@ document.
 
 ### Controlling animations
 
-Formats supported by `<model>` may support animations built into the resource itself, such as the USDZ
+Formats supported by `<model>` may support animations built into the resource itself, such as those supported by the USDZ
 file format. We propose allowing page authors to control such animations.
 
 This is a wide topic with likely dependencies on the file format support for animations itself. Another
@@ -321,7 +320,7 @@ However, some existing browsers already process such formats in a non-inline man
 
 ### Why add a new element?
 
-We believe it is time for files representing 3D geometric data to become a first class
+We believe it is time for files representing 3D geometric data to become a first-class
 citizen on the web.
 
 Adding a new element to HTML requires significant justification. At first glance, the `<model>` element
@@ -392,6 +391,9 @@ A future version of this explainer will describe the lighting model and environm
 
    It would be possible to reuse one of the generic embedding elements, such as `<embed>` or `<object>`,
    for this purpose. However, we think that 3D content should behave like other media types.
+   Further, having an accompanying IDL interface (`HTMLModelElement`) provides developers with a means 
+   to programmatically interact with various aspects of the 3D content (which would otherwise not be possible
+   or simply cumbersome via `<embed>` or `<object>`). 
 
 2. *Reuse `<img>`, `<picture>` or `<video>` instead of adding a new element*
 
