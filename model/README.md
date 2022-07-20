@@ -50,7 +50,7 @@ cumbersome and relies on scripting the `<canvas>` element. We believe it is
 time to put 3D models on equal footing with other, already supported, media
 types.
 
-There is a long history of precedence for presenting 3D content on the Web: For example,
+There is a long history of presenting 3D content on the Web: For example,
 [three.js](https://threejs.org/) and [Babylon JS](https://babylonjs.com/)
 are WebGL frameworks that can process many different formats. Then there is
 the [model-viewer](https://modelviewer.dev) project which shows models
