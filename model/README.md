@@ -189,6 +189,7 @@ behaviour that allows the user to transform the virtual camera around the model,
 and dragging.
 * `loading`: behaves in the same manner as the
 [`img` attribute of the same name](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-loading).
+* `poster`: behaves in the same manner as the [`video` attribute of the same name](https://html.spec.whatwg.org/multipage/media.html#attr-video-poster)
 
 Similar to other elements with sub-resources, the `HTMLModelElement` will provide
 APIs to observe the loading and decoding of data.
