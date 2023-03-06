@@ -156,8 +156,7 @@ A **cue fragment** is a [DocumentFragment][] containing cue text,
 represented in a limited subset of HTML and styled with CSS with
 ::[cue][] and ::[cue-region][].
 
-The [br][], [div][], [img][], [p][], `rb`, [rt][], `rtc`, [ruby][], and
-[span][] elements are allowed, as are [text nodes][].
+The elements and nodes allowed are those of [WebVTT cue text DOM construction rules][]. 
 
 The **`cue`** and **`cuebackground`** attributes must each appear once.
 The `cue` attribute identifies the element containing the cue text, and
