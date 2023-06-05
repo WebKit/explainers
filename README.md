@@ -9,6 +9,7 @@ This repo is a place where WebKit contributors may post [explainers](https://git
 * [Coordinated media playback through MediaSession](MediaSessionCoordinator)
 * [UndoManager API](UndoManager/)
 * [Controlling Animation Frame Rate](animation-frame-rate/)
+* [TrackConfiguration API](TrackConfiguration/)
 
 ## Graduates
 
