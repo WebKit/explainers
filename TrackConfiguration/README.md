@@ -8,14 +8,6 @@
 
 * https://github.com/WebKit/explainers
 
-## Table of Contents
-
-<!— START doctoc generated TOC please keep comment here to allow auto update -->
-<!— DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-<!— END doctoc generated TOC please keep comment here to allow auto update -->
-
 ## tl;dr
 
 We propose adding a `configuration` property on the `VideoTrack` and `AudioTrack` interfaces to allow authors to read media file properties as determined by the User Agent.
