@@ -34,19 +34,19 @@ The `HTMLMediaElement`’s `VideoTrack` and `AudioTrack` objects would vend a ne
 
 ```
 dictionary VideoTrackConfiguration {
-    attribute DOMString codec;
-    attribute unsigned long long bitrate;
-    attribute double framerate;
-    attribute unsigned long width;
-    attribute unsigned long height;
-    attribute VideoColorSpace colorSpace;
+    DOMString codec;
+    unsigned long long bitrate;
+    double framerate;
+    unsigned long width;
+    unsigned long height;
+    VideoColorSpace colorSpace;
 };
 
 dictionary AudioTrackConfiguration {
-    attribute DOMString codec;
-    attribute unsigned long long bitrate;
-    attribute unsigned long sampleRate;
-    attribute unsigned long numberOfChannels;
+    DOMString codec;
+    unsigned long long bitrate;
+    unsigned long sampleRate;
+    unsigned long numberOfChannels;
 };
 
 partial interface VideoTrack {
