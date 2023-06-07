@@ -33,20 +33,20 @@ A page would like to validate that its encoder and muxer generates media whose `
 The `HTMLMediaElement`’s `VideoTrack` and `AudioTrack` objects would vend a new attribute `VideoTrackConfiguration` and `AudioTrackConfiguration`. 
 
 ```
-interface VideoTrackConfiguration {
-    readonly attribute DOMString codec;
-    readonly attribute unsigned long long bitrate;
-    readonly attribute double framerate;
-    readonly attribute unsigned long width;
-    readonly attribute unsigned long height;
-    readonly attribute VideoColorSpace colorSpace;
+dictionary VideoTrackConfiguration {
+    DOMString codec;
+    unsigned long long bitrate;
+    double framerate;
+    unsigned long width;
+    unsigned long height;
+    VideoColorSpace colorSpace;
 };
 
-interface AudioTrackConfiguration {
-    readonly attribute DOMString codec;
-    readonly attribute unsigned long long bitrate;
-    readonly attribute unsigned long sampleRate;
-    readonly attribute unsigned long numberOfChannels;
+dictionary AudioTrackConfiguration {
+    DOMString codec;
+    unsigned long long bitrate;
+    unsigned long sampleRate;
+    unsigned long numberOfChannels;
 };
 
 partial interface VideoTrack {
