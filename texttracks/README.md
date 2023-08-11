@@ -93,7 +93,7 @@ native ability to display subtitles and captions. This should
 2. reduce the bandwidth cost of delivering all this custom javascript;
 3. allow websites to (re)gain the ability to respect system conventions
    or user preferences re: display of captions and subtitles;
-4. websites no longer need to to duplicate user settings re: how
+4. websites no longer need to duplicate user settings re: how
    captions and subtitles get displayed;
 5. let websites (re)gain the ability to hook into platform features like
    picture-in-picture and media fullscreen;
