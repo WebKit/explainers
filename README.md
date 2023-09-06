@@ -20,3 +20,4 @@ Proposals which have moved on to incubation or standardization in another venue.
 | [Delivering origin-bound one-time codes over SMS](https://github.com/wicg/sms-one-time-codes) | [WICG](https://github.com/WICG) |
 | [`<model>` element](https://github.com/immersive-web/model-element) | [Immersive Web CG](https://www.w3.org/community/immersive-web/) |
 | [IsLoggedIn](https://github.com/privacycg/is-logged-in) | [Privacy CG](https://github.com/privacycg) |
+| [Private Ad Measurement](https://github.com/patcg-individual-drafts/private-ad-measurement) | [Private Advertising Technology CG](https://patcg.github.io/) |
