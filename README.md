@@ -10,6 +10,7 @@ This repo is a place where WebKit contributors may post [explainers](https://git
 * [UndoManager API](UndoManager/)
 * [Controlling Animation Frame Rate](animation-frame-rate/)
 * [TrackConfiguration API](TrackConfiguration/)
+* [Declarative Web Push](DeclarativeWebPush)
 
 ## Graduates
 
