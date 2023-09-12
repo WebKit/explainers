@@ -47,7 +47,7 @@ The [W3C’s Push API](https://www.w3.org/TR/push-api/) and related specificatio
 
 ## Learning from platform experience
 
-Push notifications that come in to an OS platform generally contain a payload describing a user visible notificaiton that the platform can display itself, without any app code executing.
+Push notifications that come in to an OS platform generally contain a payload describing a user visible notification that the platform can display itself, without any app code executing.
 
 It is also fairly standard practice for platforms to grant small pieces of an application limited CPU time to *transform* an incoming push notification. Some examples of these tasks  during include decrypting push data with device-local keys, updating the notification based on up-to-the-minute scores from an in-progress sporting event, or calculatng a new unread count for the application badge.
 
