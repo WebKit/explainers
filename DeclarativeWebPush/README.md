@@ -34,7 +34,7 @@ Declarative Web Push is a model by which push-initiated notifications can be pre
 
 This explainer describes some motivations for this model and describes various changes or additions to existing web standards to enable this model.
 
-This explainer describes what we have implemented internally as a prototype, or what we plan to implement next.
+This explainer describes what we propose as a solution for this use case.
 Implementation experience and feedback from partners in both the standards community and web developer community might change some details.
 
 ## What are the drawbacks of the current Web Push model?
@@ -78,7 +78,7 @@ Declarative Web Push should be easy to use, privacy-preserving, and efficient. S
 * Add a new event to optionally transform a notification, but leaving it impossible for a push to be silent
 * Include declarative Badging API support
 
-We’ve made an initial, experimental implementation of our proposal that we believe achieves these goals and validates our design.
+Below follows a concrete proposal. Apple's WebKit team has made an initial, experimental implementation of our proposal that validates our design.
 
 ## Plan of action: Amend existing specifications
 
@@ -88,7 +88,7 @@ To help with the standardization process and re-use existing push-related primit
 
 We will engage the standards community to coordinate on small-to-moderate changes to [RFC 8030](https://www.rfc-editor.org/rfc/rfc8030), [Push API](https://w3c.github.io/push-api/), [Notifications API](https://notifications.spec.whatwg.org/), and the [Badging API](https://www.w3.org/TR/badging/). Our goal is to retain full backwards compatibility with the current Push API. Any amendments will live along side it (or integrate directly into the appropriate sections).
 
-The spec changes proposed below are the ones we know to be necessary starting points but are by no means exhaustive. While our experimental implementation is near complete, we know the scope will increase once details are being ironed out in the various specs and with more stakeholders involved.
+The spec changes proposed below are the ones we know to be necessary starting points but are by no means exhaustive. We expect the scope will increase once details are being ironed out in the various specs and with more stakeholders involved.
 
 ## RFC 8030 - Generic Event Delivery Using HTTP Push
 
@@ -197,7 +197,7 @@ The Notifications API needs a few tweaks to reflect all desired new behaviors:
 * Similarly, creating a persistent notification in JavaScript also needs a way to specify an optional default action URL, probably in `NotificationOptions`
 * The Notifications spec will cover the JSON expected in a push notification payload.
 
-In our current implementation, we implement JSON structure illustrated by the following example:
+Here is an example of the proposed JSON syntax:
 
 ```json
 {
@@ -269,7 +269,7 @@ A variant of this explainer has been posted as an [issue with the Push API](http
 
 More fine grained issues will be filed in the various specs mentioned, and engaging with our standards partners will continue.
 
-As those conversations happen, and as we polish off the edge cases in our experimental implementation, we will likely update this explainer as we go.
+We plan to update this explainer based on standards discussions and implementation experience.
 
 ## Acknowledgements
 
