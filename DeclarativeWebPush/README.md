@@ -49,7 +49,7 @@ The [W3C’s Push API](https://www.w3.org/TR/push-api/) and related specificatio
 
 Push notifications that come in to an OS platform generally contain a payload describing a user visible notification that the platform can display itself, without any app code executing.
 
-It is also fairly standard practice for platforms to grant small pieces of an application limited CPU time to *transform* an incoming push notification. Some examples of these tasks  during include decrypting push data with device-local keys, updating the notification based on up-to-the-minute scores from an in-progress sporting event, or calculatng a new unread count for the application badge.
+It is also fairly standard practice for platforms to grant small pieces of an application limited CPU time to *transform* an incoming push notification. Some examples include decrypting push data with device-local keys, updating the notification based on up-to-the-minute scores from an in-progress sporting event, or calculatng a new unread count for the application badge.
 
 If the app fails to complete a transformation task in their allotted time - due to coding error or other factors outside their control - then the original notification is displayed to the user by the platform. This automatic recovery model avoids disrupting the user experience, and ensures that push notifications don’t become a vector for untrusted silent background runtime.
 
@@ -61,7 +61,7 @@ We detail how this model works in the sections below.
 
 ## Our proposal
 
-We believe everybody benefits from a model where a push message directly declares a user visible notification that the platform can display. We also believe the existing Web Push standards, as well as the infrastructure in use on the web have proven reliable, and any new standards should build on them.
+We believe everybody benefits from a model where a push message directly declares a user visible notification that the platform can display. We also believe the existing Web Push standards, as well as the Web Push infrastructure in use on the web, have proven reliable. Any new standards should build on them.
 
 We are **not** proposing that Declarative Web Push replace the existing Web Push model, but rather that it be an optional model for web developers to provide better experiences for all.
 
@@ -108,7 +108,7 @@ Push messages received with that content type are considered to have a `notifica
 A neat trick here is that many legacy Service Worker `push` event handlers simply transcribe an applicaiton specific JSON description of a `Notification` into their call to `ServiceWorkerRegistration.showNotification`
 
 By switching their JSON format over to the new standard format, their JSON payload becomes backwards compatible with other browsers that don’t have support for Declarative Web Push.
-By sending all of their push messages with `Content-Type: application/notification+json`, newer browsers that support Declarative Web Push can handle the notification in the efficient, privacy preserving manner, and older browsers that haven't updated yet will still receive the push messasge and fire a `push` event to the Service Worker like usual.
+By sending all of their push messages with `Content-Type: application/notification+json`, newer browsers that support Declarative Web Push can handle the notification in the efficient, privacy preserving manner, and older browsers that haven't updated yet will still receive the push message and fire a `push` event to the Service Worker like usual.
 
 ## Push API - Push Subscription
 
