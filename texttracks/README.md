@@ -4,6 +4,7 @@
 
 - [Eric Carlson](https://github.com/eric-carlson)
 - [Theresa O'Connor](https://github.com/hober)
+- [Marcos Cáceres‎](https://github.com/marcoscaceres)
 
 ## Participate
 
@@ -40,39 +41,40 @@ in WebVTT, the site must render its subtitles and captions itself.
 If a site implements its own subtitle and caption rendering, it incurs
 many costs:
 
-1. the engineering cost of maintaining bespoke text track display code;
-2. the inability of bespoke text track display code to respect system
+1. The engineering cost of maintaining bespoke text track display code.
+2. The inability of bespoke text track display code to respect system
    conventions or user preferences re: display of captions and
-   subtitles;
-3. the inability of bespoke code to hook into platform features like
+   subtitles.
+3. The inability of bespoke code to hook into platform features like
    picture-in-picture and some forms of media fullscreen;
-4. relatedly, the need (due to regulatory requirements) to duplicate
-   those system user settings re: how captions and subtitles get
-   displayed;
-5. the bandwidth cost of delivering all this custom javascript;
-6. the performance cost of executing all this custom javascript.
+4. Relatedly, the need (due to regulatory requirements) to duplicate
+   those system user settings for how captions and subtitles get
+   displayed. This compounds across web sites, as each site provides
+   its own set of user settings. 
+6. The bandwidth cost of delivering all this custom javascript.
+7. The performance cost of executing all this custom javascript.
 
 Given how costly this is, why do people ever go down this path?
 Unfortunately, delivering text tracks in WebVTT can sometimes be too
-costly.
+costly or not possible:
 
-1. There are storage and (potentially lossy) conversion costs if you
-   have a large existing corpus of subtitle and caption data in other
+1. There are storage and (potentially lossy) conversion costs if one
+   has an existing corpus of subtitle and caption data in other
    formats.
 2. It can also be awkward and error-prone to generate webvtt on the fly
    for live captioning or similar cases (e.g. the dynamic generation of
-   text tracks using a TTS engine)
+   text tracks using a TTS engine).
 
 ### Goals
 
 * Allow video publishers to continue storing captions in legacy or
-  custom formats.
-* Make sure users can control the presence and style of captions with
+  custom formats, but then allow those to be represented by a
+  restricted subset of HTML.
+* Give users control the presence and style of captions with
   system accessibility settings.
 
-Exposing the values of user preferences to web content is unacceptable
-for fingerprinting reasons; given this constraint and the above goals,
-we therefore arrive at a third goal:
+As exposing user preferences to web content would be an unacceptable
+fingerprinting vector, we arrive at a third goal:
 
 * Allow captions to be served in custom formats, but still be rendered
   by the browser engine.
@@ -86,18 +88,18 @@ we therefore arrive at a third goal:
 
 We propose *refactoring the web platform's text track APIs* to *decouple
 the delivery format* of out-of-band text tracks from the browser's
-native ability to display subtitles and captions. This should
+ability to display subtitles and captions. This should:
 
-1. reduce the engineering cost of website code development and
-   maintenance;
-2. reduce the bandwidth cost of delivering all this custom javascript;
-3. allow websites to (re)gain the ability to respect system conventions
-   or user preferences re: display of captions and subtitles;
-4. websites no longer need to duplicate user settings re: how
-   captions and subtitles get displayed;
-5. let websites (re)gain the ability to hook into platform features like
-   picture-in-picture and media fullscreen;
-6. see performance benefits from reducing the amount of bespoke
+1. Reduce the engineering cost of website code development and
+   maintenance.
+2. Reduce the bandwidth cost of delivering all this custom javascript.
+3. Allow websites to (re)gain the ability to respect system conventions
+   or user preferences when displaying captions and subtitles.
+4. Reduce the need for duplicate user settings for how
+   captions and subtitles get displayed.
+5. Let websites (re)gain the ability to hook into platform features like
+   picture-in-picture and media fullscreen.
+6. See performance benefits from reducing the amount of bespoke
    javascript involved.
    
 This refactoring may also benefit the internals of browser engines,
@@ -128,16 +130,11 @@ these specs.
 
 ### HTML
 
-1. Add a [DocumentFragment][] `cueNode` attribute to [TextTrackCue][].
-2. Expose a constructor for [TextTrackCue][] which takes
+1. Expose a constructor for [TextTrackCue][] which takes
    [startTime][], [endTime][], and `cueNode` arguments.
-3. Define authoring and processing requirements for [cue fragments][]
+2. Define authoring and processing requirements for [cue fragments][]
    (which see).
-4. Add `cue` and `cuebackground` [global attributes][].
-5. Move [getCueAsHTML()][] from [VTTCue][] up to [TextTrackCue][] and
-   define it in terms of `cueNode`.
-6. Move integration of ::[cue][] and ::[cue-region][] with the
-   platform's text track model from [WebVTT][] to [HTML][].
+3. Add `cue` and `cuebackground` [global attributes][].
 
 ### WebVTT
 
@@ -153,21 +150,23 @@ these specs.
 ### Cue Fragments
 
 A **cue fragment** is a [DocumentFragment][] containing cue text,
-represented in a limited subset of HTML and styled with CSS with
+represented in a limited subset of HTML and styled with CSS using
 ::[cue][] and ::[cue-region][].
 
-The [br][], [div][], [img][], [p][], `rb`, [rt][], `rtc`, [ruby][], and
-[span][] elements are allowed, as are [text nodes][].
+The `<b>`, `<br>`, `<i>`, `<div>`, `<p>`, `<rb>`, `<rt>`, `<rtc>`,
+`<ruby>`, `<span>` elements are allowed, as are [text nodes][].
 
 The **`cue`** and **`cuebackground`** attributes must each appear once.
-The `cue` attribute identifies the element containing the cue text, and
-the `cuebackground` identifies the cue's background. The `cue` attribute
-must appear on an element which is a descendent of the element on which
-the `cuebackground` element appears.
+The attribute can appear on the same element. The `cue` attribute
+identifies the element containing the cue text, and the `cuebackground`
+identifies the cue's background.
 
-Here's a simple example:
+Here are some simple examples:
 
-```<p cuebackground><span cue>This is a simple cue.</span></p>```
+```HTML
+<p cuebackground><span cue>This is a simple cue.</span></p>
+<div cuebackground cue>This is a <b>simple</b> cue.</div>
+```
 
 ## Considered alternatives
 
@@ -192,15 +191,17 @@ something they're comfortable doing in this case.
 
 ## Stakeholder Signals
 
-* Apple / Safari / WebKit: prototyped as an experimental feature named "Generic Text Track Cue API". The prototype is available in Safari Technology Preview.
-* Firefox / Gecko: [Jean-Yves Avenard](https://github.com/jyavenard) and Nils liked the idea. It needs review by someone who works on captioning in Gecko.
-* Google / Chrome / Blink: Mixed signals. [Chris Cunningham](https://github.com/chcunningham) and [Joey Parrish](https://github.com/joeyparrish) have both expressed interest / support, and [Mounir Lamouri](https://github.com/mounirlamouri) has expressed opposition.
-* Developers of several JS video libraries and websites have expressed support of the general approach, at FOMS and TPAC in 2019.
-    * [Gary Katsevman](https://github.com/gkatsev) of [Video.js](https://github.com/videojs)
-    * [Joey Parrish](https://github.com/joeyparrish) of [Shaka Player](https://github.com/google/shaka-player)
-    * [Pierre-Anthony Lemieux](https://github.com/palemieux) of [imscJS](https://github.com/sandflow/imscJS)
-    * A member of the Netflix frontend team.
-  
+This propsal was intially presented at TPAC 2019 and again at TPAC 2023.
+
+Implementer and community interest will be gathered through pull requests
+to the various specification and through coordiantion with the relevant
+working groups, namely:
+
+ * W3C Timed Text Working Group
+ * Web Media Text Tracks Community Group
+ * Web Hypertext Application Technology Working Group
+ * CSS Working Group
+
 ## Acknowledgements
 
 Pierre-Anthony Lemieux did extensive work on the earlier form of this
