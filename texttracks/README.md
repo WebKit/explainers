@@ -178,7 +178,7 @@ const videoElement = document.getElementById("someVideoElement");
 
 // Create a new text track.
 const textTrack = videoElement.addTextTrack("captions", "English", "en");
-textTrack.mode = 'showing';
+textTrack.mode = "showing";
 
 // Create a new cue fragment.
 const cueFragment = document.createDocumentFragment();
