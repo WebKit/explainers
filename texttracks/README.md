@@ -193,7 +193,7 @@ textTrack.addCue(cue);
 ```
 
 And then the `::cue` and ::`cuebackground` pseudo-elements can be used
-to style the cue:
+to style the text track cue:
 
 ```css
 ::cue {
