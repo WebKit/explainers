@@ -15,7 +15,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Introduction](#introduction)
   - [Goals](#goals)
   - [Non-goals](#non-goals)
@@ -24,6 +23,7 @@
   - [HTML](#html)
   - [WebVTT](#webvtt)
   - [Cue Fragments](#cue-fragments)
+- [Using the API and styling cues](#using-the-api-and-styling-cues)
 - [Considered alternatives](#considered-alternatives)
   - [Abstract Data Model](#abstract-data-model)
 - [Stakeholder Signals](#stakeholder-signals)
@@ -166,6 +166,50 @@ Here are some simple examples:
 ```HTML
 <p cuebackground><span cue>This is a simple cue.</span></p>
 <div cuebackground cue>This is a <b>simple</b> cue.</div>
+```
+
+## Using the API and styling cues
+
+It is expected that the API will be used as follows:
+
+```js
+// Get a reference to a video element.
+const videoElement = document.getElementById("someVideoElement");
+
+// Create a new text track.
+const textTrack = videoElement.addTextTrack("captions", "English", "en");
+textTrack.mode = "showing";
+
+// Create a new cue fragment.
+const cueFragment = new DocumentFragment();
+const div = document.createElement("div");
+div.cuebackground = true;
+div.innerHTML = "This is a <span cue class='important'>cue</span>.";
+cueFragment.appendChild(div);
+const cue = new TextTrackCue(0, 30, cueFragment);
+
+// Now add the cue to the text track.
+textTrack.addCue(cue);
+```
+
+And then the `::cue` and ::`cuebackground` pseudo-elements can be used
+to style the text track cue:
+
+```css
+::cue {
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+::cue.important {
+  border: 1px solid red;
+}
+
+::cuebackground {
+  background-color: black;
+  opacity: 0.5;
+}
 ```
 
 ## Considered alternatives
