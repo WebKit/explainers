@@ -181,7 +181,7 @@ const textTrack = videoElement.addTextTrack("captions", "English", "en");
 textTrack.mode = "showing";
 
 // Create a new cue fragment.
-const cueFragment = document.createDocumentFragment();
+const cueFragment = new DocumentFragment();
 const div = document.createElement("div");
 div.cuebackground = true;
 div.innerHTML = "This is a <span cue class='important'>cue</span>.";
