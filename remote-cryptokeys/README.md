@@ -1,17 +1,18 @@
 # Explainer: “remote” CryptoKeys
 
+Authors: [Jon Choukroun](https://github.com/jonchoukroun), Simon Gornall, Michael Hashe, Andy Pace, [Marcos Cáceres](http://github.com/marcoscaceres/). 
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Explainer: “remote” CryptoKeys](#explainer-remote-cryptokeys)
-  - [Problem](#problem)
-  - [Goals](#goals)
-  - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-  - [`RemoteKeyParams` Dictionary](#remotekeyparams-dictionary)
-  - [Extensions to the `SubtleCrypto` Interface](#extensions-to-the-subtlecrypto-interface)
-  - [Examples](#examples)
-  - [Security \& Privacy Considerations](#security--privacy-considerations)
+- [Problem](#problem)
+- [Goals](#goals)
+- [Non-Goals](#non-goals)
+- [Proposal](#proposal)
+- [`RemoteKeyParams` Dictionary](#remotekeyparams-dictionary)
+- [Extensions to the `SubtleCrypto` Interface](#extensions-to-the-subtlecrypto-interface)
+- [Examples](#examples)
+- [Security \& Privacy Considerations](#security--privacy-considerations)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
