@@ -150,7 +150,7 @@ const signature = await window.crypto.subtle.sign(
 
 This proposal focuses on obtaining access to key handles, but does not dictate the access control and user consent checks that the platform should enforce. Instead we will list concerns and possible mitigations (where possible) that a platform SHOULD implement to better protect these keys.
 
-- If the web application is compromised, automatically providing use access to the user’s keys will allow an attacker to decrypt sensitive data and/or impersonate the user. While preventing web application compromise is entirely out of scope, we recommend certain mitigations:
-  - As the browser will provide the web application’s origin, platforms should scope the user’s keys to a domain and ensure they match before providing access. Domain-scoped keys also mitigates using a single key across multiple domains for tracking purposes.
+- If the web application is compromised, automatically providing use access to the user’s keys will allow an attacker to decrypt sensitive data and/or digitally sign as the user. While preventing web application compromise is entirely out of scope, we recommend certain mitigations:
+  - As the browser will provide the web application’s origin, platforms should scope the user’s keys to a domain and ensure they match before providing access. Domain-scoped keys also mitigate using a single key across multiple domains for tracking purposes.
   - Prompting the user for consent on key access is another means to ensure cryptographic operations are not being executed without their knowledge. This approach must strike a balance between protection and a burdensome UX.
 - For many use cases, leaking a user’s public keys can be a significant issue. For example, a spammer with a user’s public encryption key can send encrypted messages that will undoubtedly sail through spam filters. We recommend using this mechanism to get a handle to public keys, to mitigate this risk.
