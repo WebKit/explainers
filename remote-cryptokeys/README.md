@@ -5,14 +5,15 @@ Authors: [Jon Choukroun](https://github.com/jonchoukroun), Simon Gornall, Michae
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Problem](#problem)
-- [Goals](#goals)
-- [Non-Goals](#non-goals)
-- [Proposal](#proposal)
-- [`RemoteKeyParams` Dictionary](#remotekeyparams-dictionary)
-- [Extensions to the `SubtleCrypto` Interface](#extensions-to-the-subtlecrypto-interface)
-- [Examples](#examples)
-- [Security \& Privacy Considerations](#security--privacy-considerations)
+- [Explainer: “remote” CryptoKeys](#explainer-remote-cryptokeys)
+  - [Problem](#problem)
+  - [Goals](#goals)
+  - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+  - [`RemoteKeyParams` Dictionary](#remotekeyparams-dictionary)
+  - [Extensions to the `SubtleCrypto` Interface](#extensions-to-the-subtlecrypto-interface)
+  - [Examples](#examples)
+  - [Security \& Privacy Considerations](#security--privacy-considerations)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -48,7 +49,10 @@ We identified 4 requirements that informed the design of this proposal:
 4. No additional user experience burden.
 
 The rest of this document illustrates how end-to-end encryption on the web can be supported using minimal extensions to the [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/) to support executing cryptographic operations (encrypt, decrypt, sign, and verify) using keys from a user’s secure key store.
-[Image: key-use-overview.png]We propose a mechanism through which a web application can request that a cryptographic operation be executed on a given data chunk, using the following process:
+
+![System overview flow chart](key-use-overview.png)
+
+We propose a mechanism through which a web application can request that a cryptographic operation be executed on a given data chunk, using the following process:
 
 1. The web application first acquires an instance of a “remote” `CryptoKey` by calling `getRemoteKey()`, [detailed below](https://quip-apple.com/GGuFA2E20npX#temp:C:SBa6c0fc02f8d014b3bbeaccc68e).
 
@@ -57,7 +61,7 @@ The rest of this document illustrates how end-to-end encryption on the web can b
 2. The web application passes this `CryptoKey` as an argument to methods in the .`subtle` namespace, along with the data to sign, decrypt, etc.
 3. The browser then passes the `CryptoKey` and data to the platform. This may be the default key store, an entity managing one or more key stores, or some other process running on the operating system.
     1. The device may have more than one such process, it is up to the browser to select one - with user preference guiding the choice.
-4. This platform process makes the appropriate access control, user consent checks, and search for a matching key.
+4. This platform process makes the appropriate access control and user consent checks, and searches for a matching key.
 5. If the key is found, the process will execute the requested cryptographic operation on the given data, and return the output to the browser.
 6. If the key is not found, or access control checks fail, the process will return an error to the browser.
     1. Returning the same error for both of these cases mitigates a privacy vulnerability where a web application could check on the existence of a key.
@@ -69,7 +73,7 @@ We propose defining a kind of “remote” key that is usable with `CryptoKey` �
 When creating a remote instance of a `CryptoKey`, the browser sets its attributes accordingly:
 
 - The `extractable` attribute is always `false`.
-- For the [[`algorithm]]`internal slot, we define a`RemoteKeyParams` dictionary with the following members:
+- For the `[[algorithm]]` internal slot, we define a`RemoteKeyParams` dictionary with the following members:
 
 ```WebIDL
 // The [[algorithm]] internal slot takes a RemoteKeyParams
@@ -87,9 +91,9 @@ dictionary RemoteKeyParams : Algorithm {
 
 ## Extensions to the `SubtleCrypto` Interface
 
-The intention of this proposal is to leverage the existing SubtleCrypto namespace. A platform instance of the `CryptoKey` can be passed as the key argument to existing cryptographic methods without requiring an API change.
+The intention of this proposal is to leverage the existing SubtleCrypto namespace. A remote instance of the `CryptoKey` can be passed as the key argument to existing cryptographic methods without requiring an API change.
 
-To support getting a `CryptoKey` handle to remote key material, we propose a new method, an alternative to the existing `generateKey()` function. This method takes a `RemoteKeyParams` dictionary (see above) and an array of key usages. Because the key is never be extractable, we omit the `extractable` boolean parameter from the method signature:
+To support getting a `CryptoKey` handle to remote key material, we propose a new method, an alternative to the existing `generateKey()` function. This method takes a `RemoteKeyParams` dictionary (see above) and an array of key usages. Because remote keys are never extractable, we omit the `extractable` boolean parameter from the method signature:
 
 ```WebIDL
 Promise<CryptoKey> getRemoteKey(
@@ -100,16 +104,16 @@ Promise<CryptoKey> getRemoteKey(
 
 We propose the following implementation of `getRemoteKey()`:
 
-- When called, `getRemoteKey()` receives `RemoteKeyParams` and `keyUsages` parameters, otherwise returns a rejected Promise with some error.
-- Return a Promise, and run the following steps [in parallel](https://html.spec.whatwg.org/#in-parallel).
-- The browser wraps the existing parameters with the origin of the requesting web application.
-- The browser communicates with the platform, passing the parameters to match an existing key.
-  - The browser will need to implement some means for choosing 1 out of possibly several platforms from which to get the key handle. User preferences should guide this choice.
-- How the platform handles access control and user consent checks is out of scope for this proposal. However any response that isn’t a success should reject the Promise with a `NotFoundError`.
-- On success, the platform should return a unique identifier which can be used for subsequent key lookups.
-- The browser then creates a `CryptoKey` instance, setting the identifier returned from the platform as the `keyId` member, and the expiration time as the `expiresAt` member - if provided.
-  - A platform process may choose not to return these values, forcing subsequent cryptographic calls through the SubtleCrypto API to do a full key search.
-- Finally, resolve the Promise with this CryptoKey object.
+1. When called, `getRemoteKey()` receives `RemoteKeyParams` and `keyUsages` parameters, otherwise returns a rejected Promise with some error.
+1. Return a Promise, and run the following steps [in parallel](https://html.spec.whatwg.org/#in-parallel).
+1. The browser wraps the existing parameters with the origin of the requesting web application.
+1. The browser communicates with the platform, passing the parameters to match an existing key.
+  1. The browser will need to implement some UI for choosing one out of possibly several key providers. User preferences should guide this choice.
+1. How the platform handles access control and user consent checks is out of scope for this proposal. However any response that isn’t a success should reject the Promise with a `NotFoundError`.
+1. On success, the platform should return a unique identifier which can be used for subsequent key lookups.
+1. The browser then creates a `CryptoKey` instance, setting the identifier returned from the platform as the `keyId` member, and the expiration time as the `expiresAt` member - if provided.
+  1. A platform process may choose not to return these values, forcing subsequent cryptographic calls through the SubtleCrypto API to do a full key search.
+1. Finally, resolve the Promise with this `CryptoKey` object.
 
 ## Examples
 
