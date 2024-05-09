@@ -7,6 +7,7 @@ This repo is a place where WebKit contributors may post [explainers](https://git
 * [Centralized Consent API](CentralizedConsentAPI/)
 * [Controlling Animation Frame Rate](animation-frame-rate/)
 * [Coordinated media playback through MediaSession](MediaSessionCoordinator/)
+* [Cryptographic Message Syntax (CMS) API](https://github.com/WebKit/explainers/blob/main/cryptographic-message-syntax-API/README.md)
 * [Declarative Web Push](DeclarativeWebPush/)
 * ["remote" CryptoKeys](remote-cryptokeys/)
 * [TextTrackCue enhancements for programmatic subtitle and caption presentation](texttracks/)
