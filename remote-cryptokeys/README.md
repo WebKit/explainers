@@ -5,7 +5,7 @@ Authors: [Jon Choukroun](https://github.com/jonchoukroun), Simon Gornall, Michae
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Explainer: “remote” CryptoKeys](#explainer-remote-cryptokeys)
+- [Explainer: Remote CryptoKeys](#explainer-remote-cryptokeys)
   - [Problem](#problem)
   - [Goals](#goals)
   - [Non-Goals](#non-goals)
