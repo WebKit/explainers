@@ -1,4 +1,4 @@
-# Explainer: “remote” CryptoKeys
+# Explainer: Remote CryptoKeys
 
 Authors: [Jon Choukroun](https://github.com/jonchoukroun), Simon Gornall, Michael Hashe, Andy Pace, [Marcos Cáceres](http://github.com/marcoscaceres/). 
 
