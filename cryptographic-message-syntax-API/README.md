@@ -1,7 +1,12 @@
-# Cryptographic Message Syntax (CMS) API Explainer
+# Cryptographic Message Syntax (CMS) API Explainer (Historical)
 
 Authors: [Jon Choukroun](https://github.com/jonchoukroun), Michael Hashe, Simon Gornall, [Marcos Cáceres](http://github.com/marcoscaceres/).
 
+----
+
+**Note**: After discussing with other industry colleagues, we’ve decided not to pursue standardization of a Cryptographic Message Synta API. However, collectively, we may pursue an alternative like a JS or WASM library. There are no concrete plans, but discussions about that are ongoing as per June 2024.
+
+----
 This explainer presents a straw-person proposal for a Web API that expose Cryptographic Message Syntax (CMS) functionality to JavaScript. Due to the complexity, and ambiguities in the CMS RFC, this API aim is to reduce the need of third-party JavaScript libraries to perform CMS operations (particularly as they relate to email). As such, the proposed APIs provide what we believe to be the bare minimum API surface to sign, encrypt, decrypt, and verify S/MIME messages, in addition to some utility methods for ease-of-use by developers. How user agents implement CMS encoding and the underlying cryptographic operations (including remote key usage) is beyond the scope of this draft.
 
 ## Table of contents
