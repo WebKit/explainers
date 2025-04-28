@@ -12,6 +12,7 @@ This repo is a place where WebKit contributors may post [explainers](https://git
 * [TextTrackCue enhancements for programmatic subtitle and caption presentation](texttracks/)
 * [TrackConfiguration API](TrackConfiguration/)
 * [UndoManager API](UndoManager/)
+* [Spatial Backdrop](spatial-backdrop/)
 
 ## Graduates
 
