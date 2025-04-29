@@ -1,6 +1,6 @@
 # Spatial Backdrop Explainer
 
-The purpose of this document is to explain a new type of Link Tag for adding Immersive Backdrops from 3D models to Web Pages. The primary target for this is for standalone head mounted immersive displays but it should have application on other platforms too.
+The purpose of this document is to explain a new [Link type](https://html.spec.whatwg.org/#linkTypes) for adding Immersive Backdrops from 3D models to Web Pages. The primary target for this is for standalone head mounted immersive displays but it should have application on other platforms too.
 
 ## Authors
 
@@ -10,7 +10,7 @@ The purpose of this document is to explain a new type of Link Tag for adding Imm
 ## Background
 
 Operating systems on virtual reality devices have the capability of displaying virtual environments behind the windows and volumes of the various applications running on the device including its Web Browsers.
-This link tag enables Websites to to change this virtual environment to one that is specified by the Web Page.
+This new Link type enables Websites to to change this virtual environment to one that is specified by the Web Page.
 
 ![An animation of a user in front of a stylized web browser, a backdrop environment is revealed around them.](./assets/backdropanim.webp)
 *Model Source: [Kraków's bed by on sketchfab by Wirtualne Muzea Małopolski](https://sketchfab.com/WirtualneMuzeaMalopolski/collections/national-museum-in-krakow-5bf7a88a295848fa886898a9335d4aa7)*
@@ -32,9 +32,9 @@ This doesn’t cover using 2D Images or Videos as backdrop sources although they
 
 ## Usage
 
-The backdrop should be specified with a link tag which indicates that the browser should download the model asset which can be supported by the operating system, it may also include an environment map which describes the lighting for lit materials. 
+The backdrop should be specified using a link in the head which indicates that the browser should download the model asset which can be supported by the operating system, it may also include an environment map which describes the lighting for lit materials. 
 
-```
+```html
 <link
     media="(prefers-color-scheme: light)"
     rel="spatial-backdrop"
@@ -61,6 +61,8 @@ Using a CSS @rule approach is being considered as an alternative.
 ```
 
 ## Requesting the Assets
+
+The processing model for the 3D model asset should be the same as for the assets used by the `<model>` tag. 
 
 The resource described in the `environmentmap` attribute should be requested with an accepts header listing the types which are supported which should at least include the HDR “`image/vnd.radiance`” type. This header is to ensure environment maps can use future formats when improved image formats become available.
 
