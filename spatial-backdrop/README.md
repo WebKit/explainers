@@ -26,8 +26,8 @@ Developers should not assume the user or UA will always display the backdrop the
 ## Concepts
 
 This capability is for displaying full scale 3D models as virtual environments. Since 3D model formats are quite flexible this could have a wide variety of appearance such as hand crafted polygon scenes, scans of real world environments or simple geometry with photographic textures applied.
-This is related to the HTML model element as it is also used for displaying 3D models in the context of a Web Page, although this places the 3D content around the user rather than embedding it into a web page.
-This doesn’t cover using 2D Images or Videos as backdrop sources although they may be included as part of a 3D model.
+This is related to the HTML model element as it is also used for displaying 3D models in the context of a web page, although this places the 3D content around the user rather than embedding it into a web page.
+This doesn’t cover using 2D images or videos as backdrop sources although they may be included as part of a 3D model.
 2D images can be used for providing environmental lighting for the 3D model.
 
 ## Usage
@@ -62,7 +62,7 @@ Using a CSS @rule approach is being considered as an alternative.
 
 ## Requesting the Assets
 
-The processing model for the 3D model asset should be the same as for the assets used by the `<model>` tag. 
+The processing model for the 3D model asset should be the same as for the assets used by the `model` element. 
 
 The resource described in the `environmentmap` attribute should be requested with an accepts header listing the types which are supported which should at least include the HDR “`image/vnd.radiance`” type. This header is to ensure environment maps can use future formats when improved image formats become available.
 
@@ -114,7 +114,7 @@ The other kind of lighting is an externally-imposed environment map. This image 
 
 These light sources are used to light the 3D model, but may also be used to light the browser chrome and other physically-lit parts of the operating system to give a natural appearance.
 
-If a backdrop is not provided use the same default environment map from the &lt;model&gt; element.
+If a backdrop is not provided use the same default environment map from the `model` element.
 
 ## Accessibility
 
