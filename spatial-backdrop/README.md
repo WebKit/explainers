@@ -17,7 +17,7 @@ This new link type enables Websites to change this virtual environment to one th
 
 ## Use Cases
 
-* Website Ambiance, E.g. look at the page for a popular streaming series in an environment from that series. 
+* Website ambiance, e.g., look at the page for a popular streaming series in an environment from that series. 
 * Displaying life-sized Products such as a Car Showroom, Hotel Room
 * Informative, see these dinosaurs to scale as you read about the jurassic era.
 
