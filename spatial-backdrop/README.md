@@ -10,7 +10,7 @@ The purpose of this document is to explain a new [link type](https://html.spec.w
 ## Background
 
 Operating systems on virtual reality devices have the capability of displaying virtual environments behind the windows and volumes of the various applications running on the device including its web browsers.
-This new Link type enables Websites to to change this virtual environment to one that is specified by the Web Page.
+This new link type enables Websites to change this virtual environment to one that is specified by the web page.
 
 ![An animation of a user in front of a stylized web browser, a backdrop environment is revealed around them.](./assets/backdropanim.webp)
 *Model Source: [Kraków's bed by on sketchfab by Wirtualne Muzea Małopolski](https://sketchfab.com/WirtualneMuzeaMalopolski/collections/national-museum-in-krakow-5bf7a88a295848fa886898a9335d4aa7)*
