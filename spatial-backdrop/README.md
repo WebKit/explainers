@@ -1,6 +1,6 @@
 # Spatial Backdrop Explainer
 
-The purpose of this document is to explain a new [Link type](https://html.spec.whatwg.org/#linkTypes) for adding Immersive Backdrops from 3D models to Web Pages. The primary target for this is for standalone head mounted immersive displays but it should have application on other platforms too.
+The purpose of this document is to explain a new [link type](https://html.spec.whatwg.org/#linkTypes) for adding Immersive Backdrops from 3D models to web pages. The primary target for this is for standalone head mounted immersive displays, but it could have application on other platforms too.
 
 ## Authors
 
