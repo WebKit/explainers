@@ -38,7 +38,7 @@ The backdrop should be specified using a link in the head which indicates that t
 <link
     media="(prefers-color-scheme: light)"
     rel="spatial-backdrop"
-    type="model/**`vnd.usdz+zip`**"
+    type="model/vnd.usdz+zip"
     href="garden.usdz"
     alt="A science fiction cantina with 3 aliens playing instruments"
     environmentmap="sunset.hdr">
