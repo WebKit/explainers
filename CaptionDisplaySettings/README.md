@@ -48,8 +48,8 @@ programming on their screen while changing the closed captioning display setting
 
 ```idl
 dictionary CaptionDisplaySettingsOptions {
-	attribute Node? anchorNode;
-	attribute CSSOMString? positionArea;
+	attribute Node? anchorNode = null;
+	attribute CSSOMString? positionArea = null;
 };
 
 partial interface HTMLMediaElement {
