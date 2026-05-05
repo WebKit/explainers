@@ -32,7 +32,85 @@ This doesn’t cover using 2D images or videos as backdrop sources although they
 
 ## Usage
 
-The backdrop should be specified using a link in the head which indicates that the browser should download the model asset which can be supported by the operating system, it may also include an environment map which describes the lighting for lit materials. 
+The spatial backdrop is exposed through a JavaScript API on the `<model>` element,
+following a pattern similar to the [Fullscreen API](https://fullscreen.spec.whatwg.org/).
+A model element has `requestImmersive()` which can be called to enter the immersive presentation,
+and `document.exitImmersive()` ends it.
+The `requestImmersive()` method returns a promise that rejects if,
+for example, the user declines to give consent to the backdrop opening.
+
+`document.immersiveElement` returns the model element currently being presented immersively,
+or `null` if no immersive presentation is active.
+
+The user agent fires a simple `onimmersivechange` event when the immersive presentation starts or ends,
+allowing the website to update its layout to suit the immersive presentation.
+The user may choose to end the immersive presentation at any point.
+
+The user agent fires an `onimmersiveerror` if the immersive presentation ends without
+the website or the user requesting it (i.e., because of some error). 
+
+The selected model acts as the API surface for controlling the environment.
+It can be used to control animations,
+to dynamically change the environment map,
+and to use its `entityTransform` to move the environment in relation to the user.
+
+```html
+<model id="backdrop" src="garden.usdz"></model>
+<label>
+    <input id="toggle" type="checkbox" role="switch" disabled>
+    Immersive environment
+</label>
+```
+
+```js
+const model = document.getElementById("backdrop");
+const toggle = document.getElementById("toggle");
+
+// Only enable the switch once the API is supported and the model is ready
+if ("requestImmersive" in model) {
+    await model.ready;
+    toggle.disabled = false;
+}
+
+toggle.addEventListener("change", async () => {
+    try {
+        if (toggle.checked) {
+            await model.requestImmersive();
+        } else {
+            await document.exitImmersive();
+        }
+    } catch (e) {
+        console.error("Failed to toggle immersive mode", e);
+        toggle.checked = !!document.immersiveElement;
+    }
+});
+
+model.onimmersivechange = () => {
+    const immersive = !!document.immersiveElement;
+    document.body.classList.toggle("immersive", immersive);
+    toggle.checked = immersive;
+};
+
+model.onimmersiveerror = (e) => {
+    console.error("Immersive error", e);
+};
+```
+
+## Alternative Considered: Declarative Approach
+
+An earlier developer preview used a declarative approach
+where the backdrop was specified using a `<link>` element in the document head
+or a CSS `@backdrop` at-rule.
+
+This required less work on the website side,
+less code to write,
+and was a straight forward progressive enhancement.
+
+However, the feature's discoverability was limited
+because the browser needed to provide its own UI affordance for activating the backdrop.
+The website did not own the experience
+and was limited in what it could offer,
+since it had no awareness of whether or when the backdrop was being presented.
 
 ```html
 <link
@@ -44,16 +122,10 @@ The backdrop should be specified using a link in the head which indicates that t
     environmentmap="sunset.hdr">
 ```
 
-Just like with stylesheets you can use media to pick different models and environment maps for light mode/dark mode or prefers-reduced-data.
+A similar CSS based approach has also been considered:
 
-The backdrop must be requested in the top level frame, backdrops in frames are ignored.
-
-## Alternative Considered Usage
-
-Using a CSS @rule approach is being considered as an alternative.
-
-```
-*@backdrop* {
+```css
+@backdrop {
     model: url("./bg.usdz");
     environment: url("./bg-env.hdr");
     content: "A science fiction cantina with 3 aliens playing instruments";
