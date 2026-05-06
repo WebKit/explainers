@@ -13,6 +13,7 @@ This repo is a place where WebKit contributors may post [explainers](https://www
 * [TrackConfiguration API](TrackConfiguration/)
 * [UndoManager API](UndoManager/)
 * [Spatial Backdrop](spatial-backdrop/)
+* [CSS Spatial Layout](css-spatial/explainer.md)
 
 ## Graduates
 
