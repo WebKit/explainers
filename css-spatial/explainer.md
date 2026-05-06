@@ -7,6 +7,9 @@
 ## Participate
 - https://github.com/WebKit/explainers
 
+## Specification
+- https://webkit.github.io/explainers/css-spatial/Overview.html
+
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

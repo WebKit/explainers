@@ -23,6 +23,7 @@ spec:mediaqueries-5; type:dfn; text:false in the negative range
 spec:css-syntax-3; type:dfn; text:descriptor
 </pre>
 
+<!-- IMPORTANT!!!!!!!!!!! Overview.html needs its SOTD section manually modified. -->
 
 <h2 id='intro'>
 Introduction</h2>
