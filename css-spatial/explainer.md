@@ -7,7 +7,7 @@
 ## Participate
 - https://github.com/WebKit/explainers
 
-## Specification
+## Specification Draft
 - https://webkit.github.io/explainers/css-spatial/Overview.html
 
 ## Table of Contents
