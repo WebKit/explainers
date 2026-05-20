@@ -189,7 +189,7 @@ without clipping content that would exceed it.
 **Example 2: Raising content off the page:**
 
 <figure style="max-width: 300px;">
-  <img src="images/diagrams/2-card.svg" alt="Isometric view of 3 product cards with the middle one has it's image lifted forward from the page">
+  <img src="images/diagrams/2-card.svg" alt="Isometric view of 3 product cards with the middle one has its image lifted forward from the page">
   <figcaption>On hover, the thumbnail lifts off the page.</figcaption>
 </figure>
 
@@ -495,7 +495,7 @@ A custom `<transform-list>` can also be provided for additional control.
 }
 ```
 
-This portal turns it's contents by `45deg`
+This portal turns its contents by `45deg`
 before performing the autofit behaviour
 so that it still fits in the container even though it has now been rotated.
 
