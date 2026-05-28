@@ -1,6 +1,6 @@
 # Spatial Backdrop Explainer
 
-The purpose of this document is to explain a new [link type](https://html.spec.whatwg.org/#linkTypes) for adding Immersive Backdrops from 3D models to web pages. The primary target for this is for standalone head mounted immersive displays, but it could have application on other platforms too.
+The purpose of this document is to explain a new capability for adding Immersive Backdrops from 3D models to web pages. The primary target for this is for standalone head mounted immersive displays, but it could have application on other platforms too.
 
 ## Authors
 
@@ -10,7 +10,8 @@ The purpose of this document is to explain a new [link type](https://html.spec.w
 ## Background
 
 Operating systems on virtual reality devices have the capability of displaying virtual environments behind the windows and volumes of the various applications running on the device including its web browsers.
-This new link type enables Websites to change this virtual environment to one that is specified by the web page.
+
+The Model Element allows websites to host 3D models inside the page; this proposal allows websites to use a 3D model from the page as that virtual environment.
 
 ![An animation of a user in front of a stylized web browser, a backdrop environment is revealed around them.](./assets/backdropanim.webp)
 *Model Source: [Kraków's bed by on sketchfab by Wirtualne Muzea Małopolski](https://sketchfab.com/WirtualneMuzeaMalopolski/collections/national-museum-in-krakow-5bf7a88a295848fa886898a9335d4aa7)*
@@ -141,7 +142,9 @@ The resource described in the `environmentmap` attribute should be requested wit
 ## Displaying the backdrop
 
 The backdrop should not be displayed automatically.
-A user agent affordance to activate the backdrop should be used to trigger the backdrop to be displayed.
+
+The user can request a model to be displayed immersively via a page interaction; the
+browser should then get consent from the user to display the immersive backdrop.
 
 The model should be placed so that the origin of the 3D scene is at the user’s feet.
 For the scene coordinates the following assumptions are made to match with WebXR:
@@ -190,7 +193,7 @@ If a backdrop is not provided use the same default environment map from the `mod
 
 ## Accessibility
 
-The content provided by this like theme color or background images are only presentational and thus, can be ignored for the purposes of visual accessibility but the description should be revealed through the UA elements used to enable the environment backdrop.
+The content provided by this is presentational, like theme color or background images. The alt text of the model should be used to describe the presented environment.
 
 ## Handling models which are computationally expensive to render
 
