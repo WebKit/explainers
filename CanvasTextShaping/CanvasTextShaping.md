@@ -43,7 +43,6 @@ for(let [index, cluster] of clusters) {
 
 This proposal solves a single problem and gives no indication of how it might be extended going forward. Our assessment raises the following concerns:
 
-
 1. **Not extensible**. Everything happens in a single step via `getTextClusters()`, using whatever style is currently selected. Clients have no opportunity to intervene before shaping to achieve, for example, custom rendering.
 2. **No support for rich text**. The proposal doesn't handle text where multiple fonts or colors are applied within a single line.
 3. **Extends the wrong object**. It extends `TextMetrics` and has it own both the text and its shaping information. Today, `TextMetrics` simply returns the geometry of measured text—we believe `CanvasText` is the more appropriate place to add text-shaping support. Extending `CanvasText` allows multi-styled text to be processed.
@@ -408,10 +407,10 @@ These examples are for demo purposes. Their main goal is to show how simple and 
 
 ### Example 1: Drawing Colored Clusters
 
-This example shows how Google's [proposal](https://github.com/fserb/canvas2D/blob/master/spec/enhanced-textmetrics.md) can be implemented using the proposed shaping APIs. The text is split into clusters using the same selected font, with each cluster returned as a `GlyphRun`. `fillGlyphRuns()` is then called, with a custom  `styleCallback` to change the text color for each cluster.
+This example shows how a test case from this [Google's proposal](https://github.com/fserb/canvas2D/blob/master/spec/enhanced-textmetrics.md)can be implemented using the proposed shaping APIs. The text is split into clusters using the same selected font, with each cluster returned as a `GlyphRun`. `fillGlyphRuns()` is then called, with a custom  `styleCallback` to change the text color for each cluster.
 
 ```
-// Google example
+// Google example (1)
 function fillClustersWithColors(ctx, text, x, y, colors)
 {
     const clusters = ctx.splitText(text);
@@ -436,7 +435,52 @@ fillClustersWithColors(ctx, text, 0, 0, colors);
 
 The result should look like this. Notice that the emojis, as well as the letters "f" and "i", are each rendered as a single glyph and treated as a single cluster.
 ![Drawing Colored Clusters Display](drawing-colored-clusters-display.png)
-### Example 2: Drawing Justified Colored Words
+### Example 2: Drawing Clusters on a Circle
+
+This example shows how another test case from this [Google's proposal](https://github.com/fserb/canvas2D/blob/master/spec/enhanced-textmetrics.md)can be implemented using the proposed shaping APIs. The text is split into clusters with each cluster is returned as a `GlyphRun`. For every cluster, its position on the circle is computed, and the context is rotated about that point to match the angle tangent to the circle there. `fillGlyphRuns()` is then invoked for that cluster.
+
+```
+// Google example (2)
+function fillClustersOnCircle(ctx, text, centerX, centerY, radius, colors)
+{
+    const clusters = ctx.splitText(text);
+    const clustersWidth = clusters.reduce((width, cluster) => width + cluster.textMetrics().width, 0);
+
+    let distance = 0;
+    for (const cluster of clusters) {
+        const ratio = distance / clustersWidth;
+        const angle = 2 * Math.PI * ratio;
+        const x = radius * Math.cos(angle) + centerX;
+        const y = radius * Math.sin(angle) + centerY;
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle + Math.PI / 2);
+        ctx.translate(-x, -y);
+        ctx.fillGlyphRun(cluster, x, y);
+        ctx.restore();
+
+        distance += cluster.textMetrics().width;
+    }
+}
+```
+
+This method can be called like this
+
+```
+ctx.font = '50px serif';
+ctx.textAlign = 'left';
+
+const centerX = 250;
+const centerY = 250;
+const radius = 150;
+const text = "🐞 Render this text on a circle! 🐈‍⬛";
+fillClustersWithColorsOnCircle(ctx, text, centerX, centerY, radius, colors)
+```
+
+The result should look like this.
+![Drawing Clusters on Cirlce Display](drawing-clusters-on-circle-display.png)
+### Example 3: Drawing Justified Colored Words
 
 This example shows how a line of text can be displayed justified, with each word styled in a different color. First, the word boundaries in the text are calculated by calling `Intl.Segmenter.breakText()`. The text is then shaped, with the word boundaries enforced by passing them to `shapeText()`. The resulting `GlyphRuns` are justified, and each one is displayed after changing the text color.
 
@@ -467,7 +511,7 @@ fillJustifiedColoredWords(ctx, text, 0, 0, 500, colors);
 
 The result of using this function can be something like this screenshot
 ![Drawing Colored Justified Words Display](drawing-colored-justified-words-display.png)
-### Example 3: Drawing Styled Text
+### Example 4: Drawing Styled Text
 
 This example shows how a multi-style line can be displayed using the proposed shaping APIs. First, the style boundaries in the text are calculated. The text is then shaped, with the style boundaries enforced by passing them to `shapeText()`. The resulting `GlyphRuns` are displayed, ensuring the text color is changed accordingly for each `GlyphRun`.
 
@@ -505,7 +549,7 @@ The result of this should look like this. Notice the letters ‘ل’ and ‘أ�
 ![Drawing Text with Styles Display](drawing-text-with-styles-display.png)
 The following diagram below shows the steps which should be taken place to process this scenario:
 ![Drawing Text with Styles](drawing-text-with-styles.png)
-### Example 4: Drawing  Wrapped Justified Styled Text
+### Example 5: Drawing  Wrapped Justified Styled Text
 
 This example shows how styled text can be wrapped and justified using the proposed shaping APIs. First, the style boundaries in the text are calculated. The text is then wrapped and shaped, with the style boundaries enforced by passing them to `wrapText()`. The style of each segment is enforced via the `styleCallback`, which is also passed to `wrapText()`. Then the resulting lines are justified, except for the last line. Finally the `GlyphRuns` of each line are then displayed, ensuring the text color is changed accordingly for each `GlyphRun`.
 
