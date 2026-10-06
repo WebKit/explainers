@@ -17,34 +17,39 @@ Names in this document are the ones we would propose. WebKit currently spells th
 `x-webkit-projection`, `x-webkit-yaw`, `x-webkit-pitch`, and `x-webkit-fieldofview`, and the events
 `webkitcameramoved` and `webkitcameraviewchanged`.
 
-Some implementation limits are worth knowing when reading the rest of this document, since none of
-them is a property of the proposal. The renderer draws inside the browser's own media controls, so
-it is present only when those controls are, and not in presentations the platform takes over —
-picture-in-picture on every platform, and fullscreen on iOS and iPadOS. It also reads frames the
-same way page content does, which restricts it to same-origin and CORS-enabled media.
+A few limits are worth knowing when reading the rest of this document. They belong to this
+experimental implementation, not to the idea. It draws inside the browser's own media controls, so
+the projection is present only when those controls are, and not in presentations the platform takes
+over — picture-in-picture on every platform, and fullscreen on iOS and iPadOS. And it reads frames
+the same way page content does, which limits it to same-origin and CORS-enabled media, though a
+projection is a property of the media in the same way its resolution and aspect ratio are, and
+those are not withheld for cross-origin files.
 
 ## tl;dr
 
-Video files can declare that their frames are a projection of a sphere rather than a flat image:
-360°/180° equirectangular video, and wide-field-of-view lenses such as those described by Apple
-Projected Media Profile (APMP). A browser that ignores that declaration paints the raw, warped
-frame. We propose that the browser honor the declaration and present such video as a draggable,
-zoomable projection in its built-in media controls, that a `projection` content attribute on
-`<video>` let a page override that presentation, decline it, or supply one for a file that declares
-nothing, and that a page be able to frame the opening shot and follow where the user looks.
+Video files can declare that their frames are a projection of a sphere rather than a flat image.
+One such example is media conforming to Apple Projected Media Profile (APMP), which supports
+projections such as 360°/180° equirectangular video, fisheye projection, and custom parametric
+projections recorded from wide-field-of-view cameras. A browser that ignores that declaration
+paints the raw, warped frame. We propose that the browser honor the declaration and present such
+video as projected and fully interactive when using built-in media controls, that a `projection`
+content attribute on `<video>` allow a page to specify and potentially override the projection to
+be used, and that a page be able to customize the user's interaction with the projected content.
 
 ## Introduction
 
-`<video>` assumes its frames are rectilinear: a flat image to be scaled into a box. Equirectangular
-video stores a full or half sphere in a rectangular frame; parametric formats store a
-wide-field-of-view fisheye image. These formats already carry a projection declaration in the
-container — APMP defines it for QuickTime and ISO BMFF as a format description extension, which
-CoreMedia surfaces as a projection kind of `Equirectangular`, `HalfEquirectangular`,
-`ParametricImmersive`, `AppleImmersiveVideo`, or `Rectilinear`.
+`<video>` assumes its frames are rectilinear: a flat image to be scaled and cropped into a box.
+Projected video formats such as APMP define a mechanism to map that rectilinear video frame onto a
+three-dimensional shape.
 
-That extension is the only projection declaration WebKit reads today. Other schemes exist and are
-shaped differently, and are not interpreted, so a file declaring its projection only that way is
-presented flat unless the page names the projection itself.
+Common projections include full equirectangular, or 360 equirectangular, which maps the frame onto
+a sphere; half equirectangular, which similarly maps the frame onto a semi-spherical shape; fisheye,
+which maps it onto a spherical cap; and parametric, in which the projection mapping depends on
+metadata read from the media data.
+
+Many projected media files carry no such signaling, though — they were transcoded, or stripped, or
+produced by a tool that writes none. For those files a page can supply the projection itself, if it
+knows it out of band.
 
 Today, a page that wants to present such a file correctly must build a renderer: create a WebGL
 context, generate sphere geometry, upload each video frame as a texture, and implement its own
@@ -80,7 +85,7 @@ A travel site wants each 360° clip to open pointing at the thing the clip is ab
 whatever direction the camera operator happened to be facing.
 
 A page wants a shareable link that reopens a video at the moment *and* the direction the user was
-looking, so it needs to read the view back out.
+looking, so it needs to observe the view as the user changes it.
 
 A page draws a compass, a minimap, or a hotspot overlay beside the video and needs to keep it in
 sync with where the user is looking.
@@ -110,7 +115,7 @@ projected presentation entirely.
 
 ```
 partial interface HTMLVideoElement {
-    [CEReactions, Reflect] attribute DOMString projection;
+    attribute DOMString projection;
 };
 ```
 
@@ -122,39 +127,38 @@ partial interface HTMLVideoElement {
 <video src="untagged-360.mp4" projection="equirectangular" controls></video>
 
 <!-- Presented flat; the page draws its own sphere. -->
-<video src="tour.mov" projection="none"></video>
+<video src="tour.mov" projection="rectilinear"></video>
 ```
 
 The attribute takes one of:
 
 | Value | Meaning |
 | --- | --- |
-| absent, or empty | Use the projection the container declares; flat if it declares none. |
-| `none` | Present the frames flat, whatever the container declares. |
+| `auto` — also absent, empty, or unrecognized | Use the projection the container declares; rectilinear if it declares none. |
+| `rectilinear` | Present the frames flat, whatever the container declares. |
 | a projection name | Present the video as that projection, whatever the container declares. |
 
-`none` is the flat presentation — the same thing a browser without this feature does, and the same
-thing an untagged file gets. It is spelled out as a value because a page that draws its own sphere
-needs a way to ask for it on a file that *is* tagged.
+`rectilinear` is the flat presentation — the same thing a browser without this feature does, and the
+same thing an untagged file gets. It is spelled out as a value because a page that draws its own
+sphere needs a way to ask for it on a file that *is* tagged.
 
-The projections implemented today are a full sphere (`equirectangular`, or `360`), a half sphere
-(`halfequirectangular`, or `180`), a wide-field-of-view lens (`parametric`, or `wfov`), a fisheye
-lens (`fisheye`), and an equi-angular cubemap (`equiangularcubemap`, or `eac`) — six cube faces
-packed into a 3×2 grid, which is a common delivery format for 360° video because it distributes
-pixels more evenly over the sphere than an equirectangular frame does. There is only one such
-packing, so there is no variant for a page to select.
+The projections implemented today are a full sphere (`equirectangular`), a half sphere
+(`halfequirectangular`), a fisheye lens (`fisheye`), a wide-field-of-view lens (`parametric`), and
+an equi-angular cubemap (`equiangularcubemap`) — six cube faces packed into a 3×2 grid, which is a
+common delivery format for 360° video because it distributes pixels more evenly over the sphere
+than an equirectangular frame does. There is only one such packing, so there is no variant for a
+page to select.
 
-Naming a projection does not require the file to declare one. An untagged file — transcoded,
-stripped, or produced by a tool that writes no projection extension — is projected correctly as
-soon as the page names it, with no change to the media itself. The same applies to a file whose
-declaration is in a scheme the browser does not read: the attribute is how a page states what the
-browser could not work out for itself. The cubemap is only reachable this way, since no container
-declaration maps to it.
+Naming a projection does not require the file to declare one. An untagged file is projected
+correctly as soon as the page names it, with no change to the media itself. The cubemap is only
+reachable this way, since APMP defines no signal for it.
 
-An unrecognized value is treated as absent, so a value added by a later revision degrades to the
-file's own declaration rather than to a broken presentation. That is also why `projection` is a
-`DOMString` and not a WebIDL enum, which would throw on an unknown value — the shape HTML already
-uses for keyword attributes like `loading`.
+Assigning a value outside the keywords does not throw. `auto` is both the missing value default and
+the invalid value default, so an absent, empty, or unrecognized attribute all mean the same thing,
+and a keyword added by a later revision degrades to the file's own declaration rather than to a
+broken presentation. Keywords are matched ASCII case-insensitively, so
+`projection="Equirectangular"` works. A page feature-detects a projection by assigning it and
+reading the property back, which returns `auto` if the browser does not support it.
 
 The attribute is live. Setting, changing, or removing it on a video that is already playing
 updates the presentation without interrupting playback. WebKit's implementation fires a
@@ -169,8 +173,8 @@ values: `yaw` and `pitch`, the direction it points, and `fieldOfView`, how much 
 in the element's box.
 
 The user drags to look around, and narrows or widens the field of view to take in less or more of
-the sphere. Pitch is clamped short of the poles so the view cannot invert; yaw is unconstrained, so
-a full sphere wraps continuously. Field of view is clamped to a range the browser picks, which
+the sphere. Pitch is bounded short of the poles so the view cannot invert; yaw is unconstrained, so
+a full sphere wraps continuously. Field of view is bounded to a range the browser picks, which
 keeps the user out of degenerate views and bounds the cost of the projection. Drags are
 distinguished from clicks by a small movement threshold, so a tap that does not move still reaches
 the video as a click.
@@ -179,10 +183,7 @@ Projections that cover less than the whole sphere — a half sphere, or a fishey
 and the imagery is faded out approaching it rather than ending abruptly. A full sphere has no edge
 and no fade.
 
-Two things a page needs from this camera, and neither is available to a page that is not driving
-its own renderer: to frame the shot, and to know where the user has looked. These are different
-questions — what the page asked for, and where the camera actually is — and the answer to each is
-kept in a different place.
+A page needs to frame the opening shot, which it cannot do today without driving its own renderer.
 
 ### The camera attributes
 
@@ -190,11 +191,17 @@ Three content attributes, reflected as doubles. Angles are in degrees.
 
 ```
 partial interface HTMLVideoElement {
-    [CEReactions, ReflectSetter] attribute double yaw;
-    [CEReactions, ReflectSetter] attribute double pitch;
-    [CEReactions, ReflectSetter] attribute double fieldOfView;
+    attribute double yaw;
+    attribute double pitch;
+    attribute double fieldOfView;
 
     attribute EventHandler oncameramoved;
+};
+
+interface CameraMovedEvent : Event {
+    readonly attribute double yaw;
+    readonly attribute double pitch;
+    readonly attribute double fieldOfView;
 };
 ```
 
@@ -203,28 +210,26 @@ partial interface HTMLVideoElement {
 <video src="tour.mov" yaw="90" pitch="-15" fieldOfView="60" controls></video>
 ```
 
-Writing and reading are deliberately asymmetric, because the two questions are:
+The attributes reflect the DOM properties. Assigning a value outside the browser's bounds throws a
+`RangeError`.
 
-* **Assigning** sets the content attribute and moves the camera. An absent or unparseable attribute
-  means the browser's default: pointing forward, at its default field of view.
-* **Reading** gives the live camera — where the user is actually looking, whether it got there from
-  the attribute or from a drag. It is clamped, and it lags a write by a frame, so a page that wants
-  back the value it asked for should read the content attribute instead.
+The browser's own controls do not write these properties. Dragging and zooming move the camera
+without touching them, so what a page assigned stays readable, and a page that assigned nothing
+reads nothing.
 
-A `cameramoved` event fires when the live camera changes, coalesced to at most once per presented
-frame and not fired at all when the camera is still, so a page can drive a compass or a minimap
-without polling and an idle projection costs nothing.
+A `cameramoved` event fires when the camera moves, coalesced to at most once per presented frame
+and not fired at all when the camera is still, so a page can drive a compass or a minimap without
+polling and an idle projection costs nothing. Because the browser's controls do not write the
+properties, the event carries the camera it is reporting.
 
 ```js
-video.addEventListener("cameramoved", () => {
-    compass.style.rotate = `${video.yaw}deg`;
+video.addEventListener("cameramoved", event => {
+    compass.style.rotate = `${event.yaw}deg`;
 });
 ```
 
-The attributes describe a starting point, not a binding. The user can drag and zoom away from them,
-and doing so does not change them. Assigning applies the value even if it is unchanged, which is
-what makes "return to the view I specified" expressible: a page can reset the camera by assigning
-the same number again.
+The attributes describe a starting point, not a binding. Assigning applies the value even if it is
+unchanged, so a page can return to the view it specified after the user has dragged away from it.
 
 The camera also outlives changes in how the video is presented. Resizing the element, entering or
 leaving fullscreen, and moving between inline and other presentations all leave the camera where the
@@ -250,7 +255,7 @@ A projection could be presented only when the page asks for it with an attribute
 the wrong default. It leaves correct files rendering incorrectly until every page is updated,
 which is most of the value of the feature; and the signal the browser is acting on is not a guess
 but a declaration in the file, so acting on it is honoring the author of the media rather than
-overriding the author of the page. An opt-out is still necessary — hence `none`.
+overriding the author of the page. An opt-out is still necessary — hence `rectilinear`.
 
 The cost of that choice is that it changes behavior on content that already exists. A page
 presenting projected video with its own renderer looks correct today, and a browser that starts
@@ -270,19 +275,13 @@ metadata read out of a CORS cross-origin file and handed to script is cross-orig
 leakage, which is why `VideoTrackConfiguration` is already specified to be empty for cross-origin
 media. Using the metadata only to render, and never revealing it to script, avoids that entirely.
 
-### Two sets of camera attributes
+### Reporting the live camera on the element
 
-An earlier revision of this proposal gave the two questions separate names: `yaw`, `pitch` and
-`fieldOfView` reflecting the attributes, and read-only `cameraYaw`, `cameraPitch` and
-`cameraFieldOfView` reporting the live camera. Six names for three quantities.
-
-That shape reads more precisely. A page gets back exactly what it assigned, with no frame of lag
-and no silent clamping, and the live camera is a separate thing it can watch without confusing the
-two. Those are real advantages and the current design gives them up.
-
-We prefer one name each because the content attribute already answers "what did I ask for" — the
-second set buys nothing `getAttribute` does not — and because six names for three values is a cost
-every page using the feature pays, to serve a case few pages have.
+An earlier revision had the browser write the camera back into `yaw`, `pitch` and `fieldOfView` as
+the user dragged, so a page could read where they were looking straight off the element. That makes
+the properties answer two questions at once — what the page asked for, and where the camera is —
+and the second answer arrives a frame late and silently bounded. Carrying the camera on
+`cameramoved` instead keeps the properties meaning only what the page assigned.
 
 ## Accessibility considerations
 
@@ -307,19 +306,18 @@ to the screen, never to script — so the presentation path raises no new cross-
 projection metadata is ever exposed to script, it must follow `VideoTrackConfiguration` and be
 withheld for CORS cross-origin media.
 
-`cameramoved`, and reading the camera attributes, do report user input at up to once per presented
-frame. This is input directed at the page's own element, of a kind the page can already observe
-through pointer events, so it is not new information — but it arrives from inside the browser's
-own controls, whose pointer events the page does not otherwise see, and it is a fine-grained
-behavioral signal. Coalescing per frame rather than per input event, and reporting nothing while the
-camera is still, keeps it no more revealing than it needs to be.
+`cameramoved` does report user input at up to once per presented frame. This is input directed at
+the page's own element, of a kind the page can already observe through pointer events, so it is not
+new information — but it arrives from inside the browser's own controls, whose pointer events the
+page does not otherwise see, and it is a fine-grained behavioral signal. Coalescing per frame rather
+than per input event, and reporting nothing while the camera is still, keeps it no more revealing
+than it needs to be.
 
 ## Open questions
 
 **What is the value vocabulary?** The names above are implementation names, not proposed spec
-values, and the mapping from container projection kinds to them needs to be written down —
-including which container declarations a browser is expected to honor, since more than one scheme
-exists and WebKit reads only one of them today.
+values, and the mapping from container projection kinds to them needs to be written down, as does
+which container declarations a browser is expected to honor.
 
 **How does an author state the content's field of view?** `fieldOfView` is the *camera's* field of
 view — the zoom. Wide-field-of-view and fisheye projections also need to know how much of the world
@@ -335,7 +333,7 @@ designed yet.
 **Should yaw be limited for bounded projections?** A half sphere, and more so a fisheye cap, covers
 only part of the space, but yaw is unconstrained for every projection. The user can turn away from
 the content entirely and be left looking at the feathered edge of nothing. Whether the browser
-should clamp yaw to the content's extent, and whether that clamp should be observable, is open.
+should bound yaw to the content's extent, and whether assigning past it should throw, is open.
 
 **What resets the camera, exactly?** The camera survives resizes and presentation changes, and only a
 declared attribute assignment moves it. Two edges are unsettled: whether a new media resource on the
