@@ -240,9 +240,6 @@ angle the container supplies. One of the two needs renaming.
 projection kinds to them needs writing down, as does which container declarations a browser is
 expected to honor.
 
-**Stereoscopic video.** The renderer samples a single texture, so a file carrying a stereo pair gets
-one eye's worth of geometry. How projection and stereo interact, including MV-HEVC, is unaddressed.
-
 **Bounding yaw.** Yaw is unconstrained for every projection, so on a half sphere or fisheye cap the
 user can turn away from the content entirely and face the feathered edge of nothing.
 
