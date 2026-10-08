@@ -24,8 +24,8 @@ warped frame.
 We propose that the browser read the declaration and present the video projected, that its
 built-in controls let the user look around, and that a `projection` content attribute on `<video>`
 let a page choose the projection itself when the file does not declare one or declares the wrong
-one. We also propose three attributes for framing the opening view, and an event for following
-where the user looks.
+one. We also propose three attributes for framing the opening view, three for reading where the
+camera is now, and an event for following it as the user looks around.
 
 ## Introduction
 
@@ -127,13 +127,22 @@ cannot invert or degenerate, and values outside those bounds are clamped.
 ### The camera attributes
 
 Three content attributes let a page frame the opening view, all in degrees: `yaw` and `pitch` give
-the direction, and `fieldOfView` is the vertical extent.
+the direction, and `fieldofview` is the vertical extent. Three IDL attributes reflect them, named
+`defaultYaw`, `defaultPitch`, and `defaultFieldOfView`.
+
+Three more IDL attributes report the camera as it is now. They are not reflected, so the user
+looking around does not rewrite the markup, and a page that wants the view it declared can still
+read it back from the `default*` attributes.
 
 ```
 partial interface HTMLVideoElement {
-    attribute double yaw;
-    attribute double pitch;
-    attribute double fieldOfView;
+    attribute double defaultYaw;
+    attribute double defaultPitch;
+    attribute double defaultFieldOfView;
+
+    readonly attribute double yaw;
+    readonly attribute double pitch;
+    readonly attribute double fieldOfView;
 
     attribute EventHandler oncameramoved;
 };
@@ -147,11 +156,11 @@ interface CameraMovedEvent : Event {
 
 ```html
 <!-- Open looking 90° to the right, angled slightly down, zoomed in a little. -->
-<video src="tour.mov" yaw="90" pitch="-15" fieldOfView="60" controls></video>
+<video src="tour.mov" yaw="90" pitch="-15" fieldofview="60" controls></video>
 ```
 
-The browser's controls do not write these attributes, so a page can return to the view it specified
-by assigning the same value again.
+The browser's controls do not write the content attributes, so a page can return to the view it
+specified by assigning the same value again.
 
 A `cameramoved` event reports where the user is looking, coalesced to at most once per presented
 frame and not fired while the camera is still, so a page can track it without polling.
@@ -211,30 +220,37 @@ interacts with `prefers-reduced-motion` is unresolved.
 The frames go to the screen, never to script, so rendering a projection does not give a page pixels
 it could not already obtain.
 
-`cameramoved` does tell a page that the video is projected, and the camera's behaviour narrows it
-further — yaw that wraps continuously implies a full sphere, yaw that stops at an edge implies a
-bounded one. That is information derived from the media, including cross-origin media, so it is a
-real if narrow disclosure. We think it is acceptable: the page supplied the element, the event
-reports input directed at it, and a page can already infer a good deal from how the element handles
-its own pointer events. Withholding `cameramoved` for cross-origin media would close it, at the
-cost of the compass and shareable-view use cases on most real content.
+The live camera attributes and `cameramoved` do tell a page that the video is projected, and the
+camera's behaviour narrows it further — yaw that wraps continuously implies a full sphere, yaw that
+stops at an edge implies a bounded one. That is information derived from the media, including
+cross-origin media, so it is a real if narrow disclosure. We think it is acceptable: the page
+supplied the element, the camera reports input directed at it, and a page can already infer a good
+deal from how the element handles its own pointer events. Withholding the live values and
+`cameramoved` for cross-origin media would close it, at the cost of the compass and shareable-view
+use cases on most real content.
 
-Coalescing per frame rather than per input event, and reporting nothing while the camera is still,
-keeps the signal no finer than it needs to be.
+Coalescing the event per frame rather than per input event, and firing nothing while the camera is
+still, keeps that signal no finer than it needs to be — though a page can read the live attributes
+at whatever rate it likes, so the coalescing is a convenience rather than a bound.
 
 ## Open questions
 
 **Head-mounted displays.** The interaction model differs — head and hand tracking rather than a
 pointer — and a platform may present projected video through its own immersive player instead.
 
-**Naming the camera attributes.** `yaw`, `pitch`, and `fieldOfView` only ever hold what the page
-assigned, which suggests `defaultYaw` and friends, after `defaultMuted`. But every `default*` in
-HTML has a live counterpart, and here the live camera is reported on `cameramoved` rather than on
-the element.
+**Writing the live camera.** The live attributes are read-only here, so the only way to move the
+camera from script is to assign a `default*` attribute, which writes the markup. Making them
+writable would let a page move the camera without mutating the DOM, and would give resetting an
+obvious spelling: `video.yaw = video.defaultYaw`.
 
-**Two meanings of field of view.** `fieldOfView` is the camera's. Wide-field-of-view and fisheye
-content also has a field of view — how much of the world the frame covers — which is a different
-angle the container supplies. One of the two needs renaming.
+**Whether the event needs a payload.** With the live camera on the element, `CameraMovedEvent`
+repeats what `video.yaw` already says. The HTML precedent is the other way — `volumechange` and
+`ratechange` are plain events and the page reads the element — which would make `cameramoved` a
+plain `Event`.
+
+**Two meanings of field of view.** `fieldOfView` and `defaultFieldOfView` are the camera's.
+Wide-field-of-view and fisheye content also has a field of view — how much of the world the frame
+covers — which is a different angle the container supplies. One of the two needs renaming.
 
 **The keyword vocabulary.** The keywords above are implementation names. The mapping from container
 projection kinds to them needs writing down, as does which container declarations a browser is
@@ -243,6 +259,6 @@ expected to honor.
 **Bounding yaw.** Yaw is unconstrained for every projection, so on a half sphere or fisheye cap the
 user can turn away from the content entirely and face the feathered edge of nothing.
 
-**Resetting the camera.** Assigning the same value again is how a page returns to its declared view.
-Whether that is the right way to spell it, and whether a new media resource should reset the
-camera, are both open.
+**Resetting the camera.** Assigning a `default*` attribute the same value again is how a page
+returns to its declared view. Whether that is the right way to spell it, and whether a new media
+resource should reset the camera, are both open.
