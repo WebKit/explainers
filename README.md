@@ -17,6 +17,7 @@ This repo is a place where WebKit contributors may post [explainers](https://www
 * [Animation Custom Effects](animation-custom-effects)
 * [Controlling Animation Frame Rate ](animation-frame-rate)
 - [Media Session Call-to-Action](CallToAction/README.md)
+* [Projected Video](projected-video/)
 
 ## Graduates
 
