@@ -129,9 +129,9 @@ Three content attributes let a page frame the opening view, all in degrees: `yaw
 the direction, and `fieldofview` is the vertical extent. Three IDL attributes reflect them, named
 `defaultYaw`, `defaultPitch`, and `defaultFieldOfView`.
 
-Three more IDL attributes report the camera as it is now. They are not reflected, so the user
-looking around does not rewrite the markup, and a page that wants the view it declared can still
-read it back from the `default*` attributes.
+Three more IDL attributes are the camera as it is now. They are not reflected, so neither the user
+looking around nor a page moving the camera rewrites the markup, and a page that wants the view it
+declared can still read it back from the `default*` attributes.
 
 ```
 partial interface HTMLVideoElement {
@@ -139,9 +139,9 @@ partial interface HTMLVideoElement {
     attribute double defaultPitch;
     attribute double defaultFieldOfView;
 
-    readonly attribute double yaw;
-    readonly attribute double pitch;
-    readonly attribute double fieldOfView;
+    attribute double yaw;
+    attribute double pitch;
+    attribute double fieldOfView;
 
     attribute EventHandler oncameramoved;
 };
@@ -236,11 +236,6 @@ at whatever rate it likes, so the coalescing is a convenience rather than a boun
 
 **Head-mounted displays.** The interaction model differs — head and hand tracking rather than a
 pointer — and a platform may present projected video through its own immersive player instead.
-
-**Writing the live camera.** The live attributes are read-only here, so the only way to move the
-camera from script is to assign a `default*` attribute, which writes the markup. Making them
-writable would let a page move the camera without mutating the DOM, and would give resetting an
-obvious spelling: `video.yaw = video.defaultYaw`.
 
 **Whether the event needs a payload.** With the live camera on the element, `CameraMovedEvent`
 repeats what `video.yaw` already says. The HTML precedent is the other way — `volumechange` and
