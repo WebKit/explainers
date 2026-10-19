@@ -11,7 +11,7 @@
 ## Status
 
 Implemented in WebKit behind the `SpatialVideoRenderingEnabled` preference, off by default. The
-names used here are the ones we would propose; WebKit currently prefixes them with `x-webkit-`.
+keywords here are the ones we would propose; the implementation does not match all of them yet.
 
 ## tl;dr
 
