@@ -10,8 +10,7 @@
 
 ## Status
 
-Implemented in WebKit behind the `SpatialVideoRenderingEnabled` preference, off by default. The
-keywords here are the ones we would propose; the implementation does not match all of them yet.
+Implemented in WebKit behind the `SpatialVideoRenderingEnabled` preference, off by default.
 
 ## tl;dr
 
