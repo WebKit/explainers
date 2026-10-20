@@ -19,7 +19,7 @@ This repo is a place where WebKit contributors may post [explainers](https://www
 - [Media Session Call-to-Action](CallToAction/README.md)
 * [Projected Video](projected-video/)
 * [The `<agecheck>` element](agecheck/)
-* [Phone Number Possession API] (phone-number-possession)
+* [Phone Number Possession API](phone-number-possession/)
 
 ## Graduates
 
