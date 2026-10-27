@@ -5,10 +5,10 @@
 - [Elika J. Etemad / fantasai](http://fantasai.inkedblade.net/contact) (Apple)
 
 ## Participate
-- https://github.com/WebKit/explainers
+- [https://github.com/WebKit/explainers](https://github.com/WebKit/explainers)
 
 ## Specification Draft
-- https://webkit.github.io/explainers/css-spatial/Overview.html
+- [https://webkit.github.io/explainers/css-spatial/Overview.html](https://webkit.github.io/explainers/css-spatial/Overview.html)
 
 ## Table of Contents
 
