@@ -5,9 +5,9 @@
   <title>CSS Spatial Layout Module Level 1</title>
   <meta content="UD" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD" rel="stylesheet">
-  <meta content="Bikeshed version 0ef803fdf, updated Tue Jan 6 11:59:39 2026 -0800" name="generator">
+  <meta content="Bikeshed version 0a54f4e7d, updated Fri Jun 12 15:51:37 2026 -0700" name="generator">
   <link href="TBD" rel="canonical">
-  <meta content="89f9204005e0da675d2601d4efabfe50a6c67209" name="revision">
+  <meta content="b4bd4159534608714e860fd93f69f5154b320bf0" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -303,7 +303,7 @@ pre .property::before, pre .property::after {
 </style>
 <style>/* Boilerplate: style-counters */
 body {
-    counter-reset: example figure issue;
+    counter-reset: example figure issue table;
 }
 .issue {
     counter-increment: issue;
@@ -328,6 +328,13 @@ figcaption {
 }
 figcaption:not(.no-marker)::before {
     content: "Figure " counter(figure) " ";
+}
+
+figure.table figcaption {
+    counter-increment: table;
+}
+figure.table figcaption:not(.no-marker)::before {
+    content: "Table " counter(table) " ";
 }
 </style>
 <style>/* Boilerplate: style-dfn-panel */
@@ -685,16 +692,36 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
     c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
 }
+
+@media print {
+    /* Darken colors for print that would otherwise print too faintly */
+    c-[c]  { color: #555555 } /* Comment */
+    c-[d]  { color: #555555 } /* Comment.Multiline */
+    c-[cp] { color: #555555 } /* Comment.Preproc */
+    c-[c1] { color: #555555 } /* Comment.Single */
+    c-[cs] { color: #555555 } /* Comment.Special */
+    c-[o]  { color: #222222 } /* Operator */
+    c-[p]  { color: #222222 } /* Punctuation */
+    c-[ow] { color: #222222 } /* Operator.Word */
+    c-[s]  { color: #664400 } /* Literal.String */
+    c-[t]  { color: #664400 } /* Literal.String.Single */
+    c-[u]  { color: #664400 } /* Literal.String.Double */
+    c-[sb] { color: #664400 } /* Literal.String.Backtick */
+    c-[sc] { color: #664400 } /* Literal.String.Char */
+    c-[sd] { color: #664400 } /* Literal.String.Doc */
+    c-[se] { color: #664400 } /* Literal.String.Escape */
+    c-[sh] { color: #664400 } /* Literal.String.Heredoc */
+    c-[si] { color: #664400 } /* Literal.String.Interpol */
+    c-[sx] { color: #664400 } /* Literal.String.Other */
+    c-[sr] { color: #664400 } /* Literal.String.Regex */
+    c-[ss] { color: #664400 } /* Literal.String.Symbol */
+}
 </style>
  <body class="h-entry">
   <div class="head">
-   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/">
-    <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
-</a>
-</p>
    <h1 class="no-ref p-name" id="title">CSS Spatial Layout Module Level 1</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#UD">Unofficial Proposal Draft</a>,
-    <time class="dt-updated" datetime="2026-04-01">1 April 2026</time></p>
+    <time class="dt-updated" datetime="2026-10-27">27 October 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -713,7 +740,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2026 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/copyright/software-license/" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply.
+   <p class="copyright" data-fill-with="copyright">Copyright © 2026 Apple.
 </p>
    <hr title="Separator for header">
   </div>
@@ -901,7 +928,7 @@ Non-experimental implementations</span></a>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
-      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Non-Normative References</span></a>
      </ol>
     <li>
      <a href="#property-index"><span class="secno"></span> <span class="content">Property Index</span></a>
@@ -1038,7 +1065,7 @@ into the the “world” of the <a data-link-type="dfn" href="#back-spatial-cont
 	does not create a new visual context or spatial “world”,
 	it merely creates a new coordinate system within the existing <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context④">back spatial context</a>,
 	establishing a new <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume②">containing volume</a> and <a data-link-type="dfn" href="#portal-transform" id="ref-for-portal-transform">portal transform</a> only.</p>
-   <p>For example, nesting a <code><a data-link-type="element" href="https://immersive-web.github.io/model-element/#dfn-model" id="ref-for-dfn-model">model</a></code> element (which establishes its own <a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container②">spatial container</a>)
+   <p>For example, nesting a <code><a data-link-type="element" href="https://immersive-web.github.io/model-element/#elementdef-model" id="ref-for-elementdef-model">model</a></code> element (which establishes its own <a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container②">spatial container</a>)
 	inside an existing portal sizes and positions the model to its <span id="ref-for-spatial-container③">spatial container</span>,
 	but the model co-exists with the other content of the parent <span id="ref-for-spatial-container④">spatial container</span>
 	rather than creating a new pocket of reality with its own backdrop and lighting conditions.</p>
@@ -1063,7 +1090,7 @@ by clamping and/or clipping them</p>
 	and thus clips the <a data-link-type="dfn" href="#allowed-volume" id="ref-for-allowed-volume">allowed volume</a> of any <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context②">front spatial contexts</a> on the page.
 	It must include the entire viewport in the X and Y axes,
 	and in front of the page it includes the volume between
-	the page <a data-link-type="dfn" href="https://svgwg.org/svg2-draft/coords.html#TermCanvas" id="ref-for-TermCanvas">canvas</a> and the UA-defined <a data-link-type="dfn" href="#front-limit-plane" id="ref-for-front-limit-plane">front limit plane</a>.
+	the page <a data-link-type="dfn" href="https://w3c.github.io/svgwg/svg2-draft/coords.html#TermCanvas" id="ref-for-TermCanvas">canvas</a> and the UA-defined <a data-link-type="dfn" href="#front-limit-plane" id="ref-for-front-limit-plane">front limit plane</a>.
 	The UA may, however, extend the <a data-link-type="dfn" href="#page-allowed-volume" id="ref-for-page-allowed-volume">page allowed volume</a> beyond the viewport.</p>
    <p class="note" role="note"><span class="marker">Note:</span> The <a data-link-type="dfn" href="#page-allowed-volume" id="ref-for-page-allowed-volume①">page allowed volume</a> can change during the lifetime of the page.
 	For example, the UA might increase or decrease it depending on
@@ -1784,7 +1811,10 @@ for <a data-link-type="dfn" href="#absolute-spatial-positioning" id="ref-for-abs
 	if <a class="css property" data-link-type="property" href="#propdef-inset-back" id="ref-for-propdef-inset-back⑦">inset-back</a> is <a class="css" data-link-type="maybe" href="#valdef-inset-front-auto" id="ref-for-valdef-inset-front-auto②">auto</a>, then it computes to the negative of the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value②">computed value</a> of <a class="css property" data-link-type="property" href="#propdef-inset-front" id="ref-for-propdef-inset-front⑦">inset-front</a>;
 	otherwise <span class="property" id="ref-for-propdef-inset-front⑧">inset-front</span> computes to the negative of the <span id="ref-for-computed-value③">computed value</span> of <span class="property" id="ref-for-propdef-inset-back⑧">inset-back</span>.</p>
    <p>In case of overconstraint,
-	<a class="css property" data-link-type="property" href="#propdef-inset-front" id="ref-for-propdef-inset-front⑨">inset-front</a> is the <a data-link-type="dfn" href="https://drafts.csswg.org/css-position-3/#weaker-inset" id="ref-for-weaker-inset">weaker inset</a>.</p>
+	<a class="css property" data-link-type="property" href="#propdef-inset-front" id="ref-for-propdef-inset-front⑨">inset-front</a> is the <a data-link-type="dfn" href="https://drafts.csswg.org/css-position-3/#weaker-inset" id="ref-for-weaker-inset">weaker inset</a>.
+	Boxes positioned at the same <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①①">z-axis</a> position
+	are sorted primarily by <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css2/#propdef-z-index" id="ref-for-propdef-z-index①">z-index</a> and secondarily by <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-4/#document-order" id="ref-for-document-order">document order</a>
+	for the purposes of painting and hit-testing.</p>
    <p class="issue" id="issue-fc0dd4f9"><a class="self-link" href="#issue-fc0dd4f9"></a> Need a diagram!</p>
    <h4 class="heading settled" data-level="3.3.1" id="inset-aliasing"><span class="secno">3.3.1. </span><span class="content">
 Inset Aliases: the <a class="css property" data-link-type="property" href="#propdef-inset-top" id="ref-for-propdef-inset-top">inset-top</a>, <a class="css property" data-link-type="property" href="#propdef-inset-right" id="ref-for-propdef-inset-right">inset-right</a>, <a class="css property" data-link-type="property" href="#propdef-inset-bottom" id="ref-for-propdef-inset-bottom">inset-bottom</a>, and <a class="css property" data-link-type="property" href="#propdef-inset-left" id="ref-for-propdef-inset-left">inset-left</a> properties</span><a class="self-link" href="#inset-aliasing"></a></h4>
@@ -1845,7 +1875,7 @@ Anchor-based Positioning</span><a class="self-link" href="#spatial-anchor-positi
    <p><a data-link-type="dfn" href="#absolute-spatial-positioning" id="ref-for-absolute-spatial-positioning⑥">Absolute spatial positioning</a> can also be used together with
 	<a href="https://www.w3.org/TR/css-anchor-position/">CSS Anchor Positioning</a>.
 	This module extends <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-anchor-position-1/#propdef-position-area" id="ref-for-propdef-position-area">position-area</a> and the <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-anchor-position-1/#funcdef-anchor" id="ref-for-funcdef-anchor">anchor()</a> functions
-	to reference the <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①①">z-axis</a>
+	to reference the <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①②">z-axis</a>
 	and to reference the anchor’s <a data-link-type="dfn" href="#origin" id="ref-for-origin②">origin</a> in all three axes.</p>
    <div class="note" role="note">
     
@@ -1945,11 +1975,11 @@ Extensions to <a class="css property" data-link-type="property" href="https://dr
    <p>This creates a 3-axis syntax that describes a 27-sector 3-dimensional grid,
 	essentially extruding the existing 9-sector 2-dimensional grid
 	by adding areas corresponding to the front, center, and back of the <a data-link-type="dfn" href="https://drafts.csswg.org/css-anchor-position-1/#anchor-box" id="ref-for-anchor-box②">anchor box</a>.
-	The <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①②">z-axis</a> positioning value is specified after a slash (<span class="css">/</span>)
+	The <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①③">z-axis</a> positioning value is specified after a slash (<span class="css">/</span>)
 	following the 2D positioning values.</p>
-   <p>If only one keyword is specified, and it is a valid <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①③">z-axis</a> keyword,
+   <p>If only one keyword is specified, and it is a valid <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①④">z-axis</a> keyword,
 	then it is repeated for all three axes.
-	Otherwise, the <span id="ref-for-z-axis①④">z-axis</span> value defaults to <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-anchor-position-1/#valdef-position-area-center" id="ref-for-valdef-position-area-center">center</a>.</p>
+	Otherwise, the <span id="ref-for-z-axis①⑤">z-axis</span> value defaults to <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-anchor-position-1/#valdef-position-area-center" id="ref-for-valdef-position-area-center">center</a>.</p>
    <h4 class="heading settled" data-level="3.4.3" id="position-area-origin"><span class="secno">3.4.3. </span><span class="content">
 Extensions to <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-anchor-position-1/#propdef-position-area" id="ref-for-propdef-position-area⑤">position-area</a>: the <a class="css" data-link-type="maybe" href="#valdef-position-area-origin" id="ref-for-valdef-position-area-origin①">origin</a> area</span><a class="self-link" href="#position-area-origin"></a></h4>
    <table class="def partial propdef" data-link-for-hint="position-area">
@@ -1978,7 +2008,7 @@ Extensions to <a class="css" data-link-type="maybe" href="https://drafts.csswg.o
 	the corresponding sides of the <a data-link-type="dfn" href="https://drafts.csswg.org/css-anchor-position-1/#anchor-box" id="ref-for-anchor-box③">anchor box</a>.</p>
    <p>Similarly, for sizing purposes, the <a class="css production" data-link-type="function" href="https://drafts.csswg.org/css-anchor-position-1/#funcdef-anchor-size" id="ref-for-funcdef-anchor-size①">&lt;anchor-size()></a> syntax
 	gains a <dfn class="css dfn-paneled" data-dfn-for="<<anchor-size>>" data-dfn-type="value" data-export id="valdef-anchor-size-depth">depth</dfn> keyword
-	to represent the <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①⑤">z-axis</a> size of the <a data-link-type="dfn" href="https://drafts.csswg.org/css-anchor-position-1/#anchor-box" id="ref-for-anchor-box④">anchor box</a>.</p>
+	to represent the <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①⑥">z-axis</a> size of the <a data-link-type="dfn" href="https://drafts.csswg.org/css-anchor-position-1/#anchor-box" id="ref-for-anchor-box④">anchor box</a>.</p>
    <p>It also adds an <dfn class="css dfn-paneled" data-dfn-for="<<anchor-side>>" data-dfn-type="value" data-export id="valdef-anchor-side-origin">origin</dfn> keyword
 	to <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-anchor-position-1/#typedef-anchor-side" id="ref-for-typedef-anchor-side①">&lt;anchor-side></a>,
 	which resolves against the <a data-link-type="dfn" href="#origin" id="ref-for-origin④">origin</a> of the <a data-link-type="dfn" href="https://drafts.csswg.org/css-anchor-position-1/#anchor-box" id="ref-for-anchor-box⑤">anchor box</a>.</p>
@@ -2045,7 +2075,7 @@ Extensions to Box Alignment: the <a class="css property" data-link-type="propert
       <td>discrete
    </table>
    <p>These properties are analogous to <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-align-3/#propdef-align-self" id="ref-for-propdef-align-self①">align-self</a> and <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-align-3/#propdef-align-items" id="ref-for-propdef-align-items①">align-items</a>,
-	except they operate in the <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①⑥">z-axis</a>.</p>
+	except they operate in the <a data-link-type="dfn" href="#z-axis" id="ref-for-z-axis①⑦">z-axis</a>.</p>
    <p>They are <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#longhand" id="ref-for-longhand②">sub-properties</a> of the <a class="css property" data-link-type="property" href="#propdef-place-self" id="ref-for-propdef-place-self">place-self</a> and <a class="css property" data-link-type="property" href="#propdef-place-items" id="ref-for-propdef-place-items">place-items</a> <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#shorthand-property" id="ref-for-shorthand-property①">shorthand properties</a>, respectively,
 	which are themselves extended as follows:</p>
    <table class="def propdef shorthand" data-link-for-hint="place-self">
@@ -2394,7 +2424,7 @@ Referencing an Environment Map: the <a class="css property" data-link-type="prop
 	each map’s color value is first multiplied by its corresponding <a class="css property" data-link-type="property" href="#propdef-environment-intensity" id="ref-for-propdef-environment-intensity">environment-intensity</a>
 	and the results are summed.</p>
    <p class="note" role="note"><span class="marker">Note:</span> These calculations should be performed in a linear color space
-	such as <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-color-4/#valdef-color-srgb-linear" id="ref-for-valdef-color-srgb-linear">srgb-linear</a> or <span class="css">display-p3-linear</span>
+	such as <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-color-4/#valdef-color-srgb-linear" id="ref-for-valdef-color-srgb-linear">srgb-linear</a> or <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-color-4/#valdef-color-display-p3-linear" id="ref-for-valdef-color-display-p3-linear">display-p3-linear</a>
 	in order to be physically correct.
 	A gamma-corrected color space will produce inaccurate results.</p>
    <h4 class="heading settled" data-level="6.2.2" id="environment-map-intensity"><span class="secno">6.2.2. </span><span class="content">
@@ -2820,6 +2850,7 @@ Non-experimental implementations</span><a class="self-link" href="#w3c-testing">
     <a data-link-type="biblio">[CSS-COLOR-4]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="7b5f3ed1">canvas</span>
+     <li><span class="dfn-paneled" id="2a8c8584">display-p3-linear</span>
      <li><span class="dfn-paneled" id="bcdf0026">srgb-linear</span>
     </ul>
    <li>
@@ -2836,6 +2867,7 @@ Non-experimental implementations</span><a class="self-link" href="#w3c-testing">
     <a data-link-type="biblio">[CSS-DISPLAY-4]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="ea663a43">containing block</span>
+     <li><span class="dfn-paneled" id="f38acac5">document order</span>
      <li><span class="dfn-paneled" id="083ffe5f">inline box</span>
      <li><span class="dfn-paneled" id="a1bcd55e">internal ruby element</span>
      <li><span class="dfn-paneled" id="6d0d9897">internal table element</span>
@@ -2981,7 +3013,7 @@ Non-experimental implementations</span><a class="self-link" href="#w3c-testing">
    <li>
     <a data-link-type="biblio">[MODEL-ELEMENT]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="9da91db6">model</span>
+     <li><span class="dfn-paneled" id="afc0febc">model</span>
     </ul>
    <li>
     <a data-link-type="biblio">[MOTION-1]</a> defines the following terms:
@@ -2993,7 +3025,7 @@ Non-experimental implementations</span><a class="self-link" href="#w3c-testing">
    <li>
     <a data-link-type="biblio">[SVG2]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="1b9e57ee">canvas</span>
+     <li><span class="dfn-paneled" id="c981bd08">canvas</span>
     </ul>
   </ul>
   <h2 class="heading no-num no-ref settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -3062,9 +3094,9 @@ Non-experimental implementations</span><a class="self-link" href="#w3c-testing">
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
    <dt id="biblio-svg2">[SVG2]
-   <dd>Amelia Bellamy-Royds; et al. <a href="https://w3c.github.io/svgwg/svg2-draft/"><cite>Scalable Vector Graphics (SVG) 2</cite></a>. URL: <a href="https://w3c.github.io/svgwg/svg2-draft/">https://w3c.github.io/svgwg/svg2-draft/</a>
+   <dd>Karl Dubost; et al. <a href="https://w3c.github.io/svgwg/svg2-draft/"><cite>Scalable Vector Graphics (SVG) 2</cite></a>. URL: <a href="https://w3c.github.io/svgwg/svg2-draft/">https://w3c.github.io/svgwg/svg2-draft/</a>
   </dl>
-  <h3 class="heading no-num no-ref settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <h3 class="heading no-num no-ref settled" id="informative"><span class="content">Non-Normative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-compat">[COMPAT]
    <dd>Mike Taylor. <a href="https://compat.spec.whatwg.org/"><cite>Compatibility Standard</cite></a>. Living Standard. URL: <a href="https://compat.spec.whatwg.org/">https://compat.spec.whatwg.org/</a>
@@ -3626,11 +3658,11 @@ let dfnPanelData = {
 "14b92907": {"dfnID":"14b92907","dfnText":"inset-block-end","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-inset-block-end"}],"title":"3.3.1. \nInset Aliases: the inset-top, inset-right, inset-bottom, and inset-left properties"}],"url":"https://drafts.csswg.org/css-position-3/#propdef-inset-block-end"},
 "16310992": {"dfnID":"16310992","dfnText":"<number>","external":true,"refSections":[{"refs":[{"id":"ref-for-number-value"}],"title":"6.2.2. \nBrightening and Dimming the Environment: the environment-intensity property"}],"url":"https://drafts.csswg.org/css-values-4/#number-value"},
 "18222566": {"dfnID":"18222566","dfnText":"<length-percentage>","external":true,"refSections":[{"refs":[{"id":"ref-for-typedef-length-percentage"}],"title":"3.3. \nZ-axis Insets: the inset-front and inset-back properties"}],"url":"https://drafts.csswg.org/css-values-4/#typedef-length-percentage"},
-"1b9e57ee": {"dfnID":"1b9e57ee","dfnText":"canvas","external":true,"refSections":[{"refs":[{"id":"ref-for-TermCanvas"}],"title":"2.2. \nSpatial Contexts and the Spatial Layout Model"}],"url":"https://svgwg.org/svg2-draft/coords.html#TermCanvas"},
 "1fb62f09": {"dfnID":"1fb62f09","dfnText":"media feature","external":true,"refSections":[{"refs":[{"id":"ref-for-media-feature"},{"id":"ref-for-media-feature\u2460"}],"title":"2.4.2. \nQuerying the Front Limit: the front-limit media query"}],"url":"https://drafts.csswg.org/mediaqueries-5/#media-feature"},
 "22285cb2": {"dfnID":"22285cb2","dfnText":"3D rendering context","external":true,"refSections":[{"refs":[{"id":"ref-for-3d-rendering-context"}],"title":"2.2. \nSpatial Contexts and the Spatial Layout Model"},{"refs":[{"id":"ref-for-3d-rendering-context\u2460"},{"id":"ref-for-3d-rendering-context\u2461"},{"id":"ref-for-3d-rendering-context\u2462"}],"title":"4. \nSpatial Transforms"}],"url":"https://drafts.csswg.org/css-transforms-2/#3d-rendering-context"},
 "28493ab3": {"dfnID":"28493ab3","dfnText":"end","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-anchor-end"}],"title":"3.4.4. \nExtensions to anchor() and anchor-size()"}],"url":"https://drafts.csswg.org/css-anchor-position-1/#valdef-anchor-end"},
 "28aace60": {"dfnID":"28aace60","dfnText":"touch-action","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-touch-action"}],"title":"2.3.3. \nInteracting with the Stage: the portal-action property"}],"url":"https://compat.spec.whatwg.org/#propdef-touch-action"},
+"2a8c8584": {"dfnID":"2a8c8584","dfnText":"display-p3-linear","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-color-display-p3-linear"}],"title":"6.2.1. \nReferencing an Environment Map: the environment-map property"}],"url":"https://drafts.csswg.org/css-color-4/#valdef-color-display-p3-linear"},
 "2c77b30f": {"dfnID":"2c77b30f","dfnText":"justify-items","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-justify-items"}],"title":"3.4.5. \nExtensions to Box Alignment: the z-align-self and z-align-items properties"},{"refs":[{"id":"ref-for-propdef-justify-items\u2460"}],"title":"3.4.6. \nExtensions to Anchor Alignment: the anchor-origin value"}],"url":"https://drafts.csswg.org/css-align-3/#propdef-justify-items"},
 "31ccd1a9": {"dfnID":"31ccd1a9","dfnText":"longhand property","external":true,"refSections":[{"refs":[{"id":"ref-for-longhand"}],"title":"3.3. \nZ-axis Insets: the inset-front and inset-back properties"},{"refs":[{"id":"ref-for-longhand\u2460"}],"title":"3.3.2. \nInset Shorthand: the / <inset-back> <inset-front>? extension to inset"},{"refs":[{"id":"ref-for-longhand\u2461"}],"title":"3.4.5. \nExtensions to Box Alignment: the z-align-self and z-align-items properties"}],"url":"https://drafts.csswg.org/css-cascade-5/#longhand"},
 "3559c926": {"dfnID":"3559c926","dfnText":"<angle>","external":true,"refSections":[{"refs":[{"id":"ref-for-angle-value"}],"title":"6.2.3. \nRotating the Environment: the environment-rotate property"}],"url":"https://drafts.csswg.org/css-values-4/#angle-value"},
@@ -3673,7 +3705,6 @@ let dfnPanelData = {
 "998b9e6e": {"dfnID":"998b9e6e","dfnText":"<image>","external":true,"refSections":[{"refs":[{"id":"ref-for-typedef-image"}],"title":"6.1.3. \nEnvironment Map Images: the src descriptor"}],"url":"https://drafts.csswg.org/css-images-3/#typedef-image"},
 "9bc55323": {"dfnID":"9bc55323","dfnText":"UA","external":true,"refSections":[{"refs":[{"id":"ref-for-user-agent"}],"title":"2.4. \nFront Limits: how far content can be raised on the page"},{"refs":[{"id":"ref-for-user-agent\u2460"}],"title":"2.4.2. \nQuerying the Front Limit: the front-limit media query"}],"url":"https://drafts.csswg.org/css-2023/#user-agent"},
 "9cd25054": {"dfnID":"9cd25054","dfnText":"computed value","external":true,"refSections":[{"refs":[{"id":"ref-for-computed-value"},{"id":"ref-for-computed-value\u2460"}],"title":"2.4.1. \nControlling the Front Limit: the front-limit property"},{"refs":[{"id":"ref-for-computed-value\u2461"},{"id":"ref-for-computed-value\u2462"}],"title":"3.3. \nZ-axis Insets: the inset-front and inset-back properties"}],"url":"https://drafts.csswg.org/css-cascade-5/#computed-value"},
-"9da91db6": {"dfnID":"9da91db6","dfnText":"model","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-model"}],"title":"2.1. \nEstablishing Spatial Contexts and Portals: the spatial property"}],"url":"https://immersive-web.github.io/model-element/#dfn-model"},
 "9ddea951": {"dfnID":"9ddea951","dfnText":"px","external":true,"refSections":[{"refs":[{"id":"ref-for-px"},{"id":"ref-for-px\u2460"},{"id":"ref-for-px\u2461"}],"title":"2.3.2. \nTransforming the Stage: the portal-transform property"}],"url":"https://drafts.csswg.org/css-values-4/#px"},
 "9ea6bed2": {"dfnID":"9ea6bed2","dfnText":"initial value","external":true,"refSections":[{"refs":[{"id":"ref-for-initial-value"}],"title":"3.2. \nAbsolute Spatial Positioning: the spatial-absolute keyword for position"},{"refs":[{"id":"ref-for-initial-value\u2460"}],"title":"3.4.5. \nExtensions to Box Alignment: the z-align-self and z-align-items properties"}],"url":"https://drafts.csswg.org/css-cascade-5/#initial-value"},
 "9f890aae": {"dfnID":"9f890aae","dfnText":"normal","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-align-self-normal"}],"title":"3.2. \nAbsolute Spatial Positioning: the spatial-absolute keyword for position"}],"url":"https://drafts.csswg.org/css-align-3/#valdef-align-self-normal"},
@@ -3688,6 +3719,7 @@ let dfnPanelData = {
 "ab61d2d8": {"dfnID":"ab61d2d8","dfnText":"self-alignment","external":true,"refSections":[{"refs":[{"id":"ref-for-self-align"}],"title":"3.2. \nAbsolute Spatial Positioning: the spatial-absolute keyword for position"}],"url":"https://drafts.csswg.org/css-align-3/#self-align"},
 "absolute-spatial-positioning": {"dfnID":"absolute-spatial-positioning","dfnText":"absolute spatial positioning","external":false,"refSections":[{"refs":[{"id":"ref-for-absolute-spatial-positioning"}],"title":"2.1. Establishing Spatial Contexts and Portals: the spatial property"},{"refs":[{"id":"ref-for-absolute-spatial-positioning\u2460"}],"title":"2.2. Spatial Contexts and the Spatial Layout Model"},{"refs":[{"id":"ref-for-absolute-spatial-positioning\u2461"}],"title":"2.2.1. The Front Spatial Context"},{"refs":[{"id":"ref-for-absolute-spatial-positioning\u2462"}],"title":"2.3.1. Defining Stage: the portal-stage property"},{"refs":[{"id":"ref-for-absolute-spatial-positioning\u2463"}],"title":"2.3.1.1. Calculating an Automatic Containing Volume"},{"refs":[{"id":"ref-for-absolute-spatial-positioning\u2464"}],"title":"3.3. Z-axis Insets: the inset-front and inset-back properties"},{"refs":[{"id":"ref-for-absolute-spatial-positioning\u2465"}],"title":"3.4. Anchor-based Positioning"}],"url":"#absolute-spatial-positioning"},
 "ad49d317": {"dfnID":"ad49d317","dfnText":"inset-block-start","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-inset-block-start"}],"title":"3.3.1. \nInset Aliases: the inset-top, inset-right, inset-bottom, and inset-left properties"}],"url":"https://drafts.csswg.org/css-position-3/#propdef-inset-block-start"},
+"afc0febc": {"dfnID":"afc0febc","dfnText":"model","external":true,"refSections":[{"refs":[{"id":"ref-for-elementdef-model"}],"title":"2.1. \nEstablishing Spatial Contexts and Portals: the spatial property"}],"url":"https://immersive-web.github.io/model-element/#elementdef-model"},
 "allowed-volume": {"dfnID":"allowed-volume","dfnText":"allowed volume","external":false,"refSections":[{"refs":[{"id":"ref-for-allowed-volume"}],"title":"2.2. Spatial Contexts and the Spatial Layout Model"},{"refs":[{"id":"ref-for-allowed-volume\u2460"}],"title":"2.2.1. The Front Spatial Context"},{"refs":[{"id":"ref-for-allowed-volume\u2461"}],"title":"2.2.2. The Back Spatial Context"},{"refs":[{"id":"ref-for-allowed-volume\u2462"}],"title":"2.3.1. Defining Stage: the portal-stage property"}],"url":"#allowed-volume"},
 "at-ruledef-environment-map": {"dfnID":"at-ruledef-environment-map","dfnText":"@environment-map","external":false,"refSections":[{"refs":[{"id":"ref-for-at-ruledef-environment-map"},{"id":"ref-for-at-ruledef-environment-map\u2460"},{"id":"ref-for-at-ruledef-environment-map\u2461"},{"id":"ref-for-at-ruledef-environment-map\u2462"},{"id":"ref-for-at-ruledef-environment-map\u2463"}],"title":"6.1. Defining Environment Maps: the @environment-map rule"},{"refs":[{"id":"ref-for-at-ruledef-environment-map\u2464"}],"title":"6.1.1. Naming an Environment Map: the name descriptor"},{"refs":[{"id":"ref-for-at-ruledef-environment-map\u2465"}],"title":"6.1.2. Environment Map Formats: the format descriptor"},{"refs":[{"id":"ref-for-at-ruledef-environment-map\u2466"}],"title":"6.1.3. Environment Map Images: the src descriptor"},{"refs":[{"id":"ref-for-at-ruledef-environment-map\u2467"}],"title":"6.2.1. Referencing an Environment Map: the environment-map property"}],"url":"#at-ruledef-environment-map"},
 "b0b8d8c0": {"dfnID":"b0b8d8c0","dfnText":"right","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-right"}],"title":"3.3.1. \nInset Aliases: the inset-top, inset-right, inset-bottom, and inset-left properties"},{"refs":[{"id":"ref-for-propdef-right\u2460"},{"id":"ref-for-propdef-right\u2461"}],"title":"3.4.6. \nExtensions to Anchor Alignment: the anchor-origin value"}],"url":"https://drafts.csswg.org/css-position-3/#propdef-right"},
@@ -3704,7 +3736,8 @@ let dfnPanelData = {
 "c21450f8": {"dfnID":"c21450f8","dfnText":"sub-property","external":true,"refSections":[{"refs":[{"id":"ref-for-longhand"}],"title":"3.3. \nZ-axis Insets: the inset-front and inset-back properties"},{"refs":[{"id":"ref-for-longhand\u2460"}],"title":"3.3.2. \nInset Shorthand: the / <inset-back> <inset-front>? extension to inset"},{"refs":[{"id":"ref-for-longhand\u2461"}],"title":"3.4.5. \nExtensions to Box Alignment: the z-align-self and z-align-items properties"}],"url":"https://drafts.csswg.org/css-cascade-5/#longhand"},
 "c373c5f8": {"dfnID":"c373c5f8","dfnText":"color-scheme","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-color-scheme"}],"title":"2.2.2. \nThe Back Spatial Context"}],"url":"https://drafts.csswg.org/css-color-adjust-1/#propdef-color-scheme"},
 "c3c67a12": {"dfnID":"c3c67a12","dfnText":"y-axis","external":true,"refSections":[{"refs":[{"id":"ref-for-y-axis"}],"title":"3.1. \nRelative Spatial Positioning"},{"refs":[{"id":"ref-for-y-axis\u2460"}],"title":"6.2.3. \nRotating the Environment: the environment-rotate property"}],"url":"https://drafts.csswg.org/css-writing-modes-4/#y-axis"},
-"c82d6e13": {"dfnID":"c82d6e13","dfnText":"z-index","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-z-index"}],"title":"1. \nIntroduction"}],"url":"https://drafts.csswg.org/css2/#propdef-z-index"},
+"c82d6e13": {"dfnID":"c82d6e13","dfnText":"z-index","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-z-index"}],"title":"1. \nIntroduction"},{"refs":[{"id":"ref-for-propdef-z-index\u2460"}],"title":"3.3. \nZ-axis Insets: the inset-front and inset-back properties"}],"url":"https://drafts.csswg.org/css2/#propdef-z-index"},
+"c981bd08": {"dfnID":"c981bd08","dfnText":"canvas","external":true,"refSections":[{"refs":[{"id":"ref-for-TermCanvas"}],"title":"2.2. \nSpatial Contexts and the Spatial Layout Model"}],"url":"https://w3c.github.io/svgwg/svg2-draft/coords.html#TermCanvas"},
 "c981d71a": {"dfnID":"c981d71a","dfnText":"descriptor declarations","external":true,"refSections":[{"refs":[{"id":"ref-for-css-descriptor-declarations"}],"title":"6.1. \nDefining Environment Maps: the @environment-map rule"}],"url":"https://drafts.csswg.org/css-syntax-3/#css-descriptor-declarations"},
 "cae60f65": {"dfnID":"cae60f65","dfnText":"position-area grid","external":true,"refSections":[{"refs":[{"id":"ref-for-position-area-grid"},{"id":"ref-for-position-area-grid\u2460"}],"title":"3.4.1. \nAnchor-based Coordinates: the position-context property"}],"url":"https://drafts.csswg.org/css-anchor-position-1/#position-area-grid"},
 "cb25aab3": {"dfnID":"cb25aab3","dfnText":"object-view-box","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-object-view-box"}],"title":"2.3.1. \nDefining Stage: the portal-stage property"}],"url":"https://drafts.csswg.org/css-images-5/#propdef-object-view-box"},
@@ -3730,6 +3763,7 @@ let dfnPanelData = {
 "environment-map-name": {"dfnID":"environment-map-name","dfnText":"name","external":false,"refSections":[{"refs":[{"id":"ref-for-environment-map-name"},{"id":"ref-for-environment-map-name\u2460"}],"title":"6.1. Defining Environment Maps: the @environment-map rule"}],"url":"#environment-map-name"},
 "environment-map-sources": {"dfnID":"environment-map-sources","dfnText":"sources","external":false,"refSections":[{"refs":[{"id":"ref-for-environment-map-sources"},{"id":"ref-for-environment-map-sources\u2460"}],"title":"6.1.2. Environment Map Formats: the format descriptor"},{"refs":[{"id":"ref-for-environment-map-sources\u2461"}],"title":"6.1.2.1. Mapping Images Onto a Cube"}],"url":"#environment-map-sources"},
 "f285fdb1": {"dfnID":"f285fdb1","dfnText":"relative positioning","external":true,"refSections":[{"refs":[{"id":"ref-for-x34"}],"title":"1. \nIntroduction"},{"refs":[{"id":"ref-for-x34\u2460"}],"title":"3.3. \nZ-axis Insets: the inset-front and inset-back properties"}],"url":"https://www.w3.org/TR/CSS2/visuren.html#x34"},
+"f38acac5": {"dfnID":"f38acac5","dfnText":"document order","external":true,"refSections":[{"refs":[{"id":"ref-for-document-order"}],"title":"3.3. \nZ-axis Insets: the inset-front and inset-back properties"}],"url":"https://drafts.csswg.org/css-display-4/#document-order"},
 "f480b70f": {"dfnID":"f480b70f","dfnText":"false in the negative range","external":true,"refSections":[{"refs":[{"id":"ref-for-false-in-the-negative-range"}],"title":"2.4.2. \nQuerying the Front Limit: the front-limit media query"}],"url":"https://drafts.csswg.org/mediaqueries-5/#false-in-the-negative-range"},
 "f598742d": {"dfnID":"f598742d","dfnText":"border box","external":true,"refSections":[{"refs":[{"id":"ref-for-border-box"},{"id":"ref-for-border-box\u2460"}],"title":"2.1. \nEstablishing Spatial Contexts and Portals: the spatial property"},{"refs":[{"id":"ref-for-border-box\u2461"}],"title":"2.2.2. \nThe Back Spatial Context"},{"refs":[{"id":"ref-for-border-box\u2462"}],"title":"2.3.2. \nTransforming the Stage: the portal-transform property"}],"url":"https://drafts.csswg.org/css-box-4/#border-box"},
 "f616a86d": {"dfnID":"f616a86d","dfnText":"inset properties","external":true,"refSections":[{"refs":[{"id":"ref-for-inset-properties"}],"title":"3.1. \nRelative Spatial Positioning"},{"refs":[{"id":"ref-for-inset-properties\u2460"},{"id":"ref-for-inset-properties\u2461"}],"title":"3.2. \nAbsolute Spatial Positioning: the spatial-absolute keyword for position"},{"refs":[{"id":"ref-for-inset-properties\u2462"}],"title":"3.3.1. \nInset Aliases: the inset-top, inset-right, inset-bottom, and inset-left properties"},{"refs":[{"id":"ref-for-inset-properties\u2463"}],"title":"3.4.4. \nExtensions to anchor() and anchor-size()"},{"refs":[{"id":"ref-for-inset-properties\u2464"}],"title":"3.4.6. \nExtensions to Anchor Alignment: the anchor-origin value"}],"url":"https://drafts.csswg.org/css-logical-1/#inset-properties"},
@@ -3806,7 +3840,7 @@ let dfnPanelData = {
 "valdef-spatial-none": {"dfnID":"valdef-spatial-none","dfnText":"none","external":false,"refSections":[{"refs":[{"id":"ref-for-valdef-spatial-none"}],"title":"2.1. Establishing Spatial Contexts and Portals: the spatial property"}],"url":"#valdef-spatial-none"},
 "valdef-spatial-page": {"dfnID":"valdef-spatial-page","dfnText":"page","external":false,"refSections":[{"refs":[{"id":"ref-for-valdef-spatial-page"}],"title":"2.1. Establishing Spatial Contexts and Portals: the spatial property"}],"url":"#valdef-spatial-page"},
 "valdef-spatial-portal": {"dfnID":"valdef-spatial-portal","dfnText":"portal","external":false,"refSections":[],"url":"#valdef-spatial-portal"},
-"z-axis": {"dfnID":"z-axis","dfnText":"z-axis","external":false,"refSections":[{"refs":[{"id":"ref-for-z-axis"}],"title":"1. Introduction"},{"refs":[{"id":"ref-for-z-axis\u2460"}],"title":"2.1. Establishing Spatial Contexts and Portals: the spatial property"},{"refs":[{"id":"ref-for-z-axis\u2461"}],"title":"2.2. Spatial Contexts and the Spatial Layout Model"},{"refs":[{"id":"ref-for-z-axis\u2462"}],"title":"2.2.1. The Front Spatial Context"},{"refs":[{"id":"ref-for-z-axis\u2463"}],"title":"2.4. Front Limits: how far content can be raised on the page"},{"refs":[{"id":"ref-for-z-axis\u2464"}],"title":"3. Spatial Positioning"},{"refs":[{"id":"ref-for-z-axis\u2465"}],"title":"3.1. Relative Spatial Positioning"},{"refs":[{"id":"ref-for-z-axis\u2466"}],"title":"3.1.1. Clamping Relative Spatial Positioning to the Front Limit"},{"refs":[{"id":"ref-for-z-axis\u2467"},{"id":"ref-for-z-axis\u2468"},{"id":"ref-for-z-axis\u2460\u24ea"}],"title":"3.3. Z-axis Insets: the inset-front and inset-back properties"},{"refs":[{"id":"ref-for-z-axis\u2460\u2460"}],"title":"3.4. Anchor-based Positioning"},{"refs":[{"id":"ref-for-z-axis\u2460\u2461"},{"id":"ref-for-z-axis\u2460\u2462"},{"id":"ref-for-z-axis\u2460\u2463"}],"title":"3.4.2. Extensions to position-area: 3-dimensional areas"},{"refs":[{"id":"ref-for-z-axis\u2460\u2464"}],"title":"3.4.4. Extensions to anchor() and anchor-size()"},{"refs":[{"id":"ref-for-z-axis\u2460\u2465"}],"title":"3.4.5. Extensions to Box Alignment: the z-align-self and z-align-items properties"}],"url":"#z-axis"},
+"z-axis": {"dfnID":"z-axis","dfnText":"z-axis","external":false,"refSections":[{"refs":[{"id":"ref-for-z-axis"}],"title":"1. Introduction"},{"refs":[{"id":"ref-for-z-axis\u2460"}],"title":"2.1. Establishing Spatial Contexts and Portals: the spatial property"},{"refs":[{"id":"ref-for-z-axis\u2461"}],"title":"2.2. Spatial Contexts and the Spatial Layout Model"},{"refs":[{"id":"ref-for-z-axis\u2462"}],"title":"2.2.1. The Front Spatial Context"},{"refs":[{"id":"ref-for-z-axis\u2463"}],"title":"2.4. Front Limits: how far content can be raised on the page"},{"refs":[{"id":"ref-for-z-axis\u2464"}],"title":"3. Spatial Positioning"},{"refs":[{"id":"ref-for-z-axis\u2465"}],"title":"3.1. Relative Spatial Positioning"},{"refs":[{"id":"ref-for-z-axis\u2466"}],"title":"3.1.1. Clamping Relative Spatial Positioning to the Front Limit"},{"refs":[{"id":"ref-for-z-axis\u2467"},{"id":"ref-for-z-axis\u2468"},{"id":"ref-for-z-axis\u2460\u24ea"},{"id":"ref-for-z-axis\u2460\u2460"}],"title":"3.3. Z-axis Insets: the inset-front and inset-back properties"},{"refs":[{"id":"ref-for-z-axis\u2460\u2461"}],"title":"3.4. Anchor-based Positioning"},{"refs":[{"id":"ref-for-z-axis\u2460\u2462"},{"id":"ref-for-z-axis\u2460\u2463"},{"id":"ref-for-z-axis\u2460\u2464"}],"title":"3.4.2. Extensions to position-area: 3-dimensional areas"},{"refs":[{"id":"ref-for-z-axis\u2460\u2465"}],"title":"3.4.4. Extensions to anchor() and anchor-size()"},{"refs":[{"id":"ref-for-z-axis\u2460\u2466"}],"title":"3.4.5. Extensions to Box Alignment: the z-align-self and z-align-items properties"}],"url":"#z-axis"},
 };
 
 document.addEventListener("DOMContentLoaded", ()=>{
@@ -4310,10 +4344,12 @@ let refsData = {
 "https://drafts.csswg.org/css-cascade-5/#shorthand-property": {"displayText":"shorthand property","export":true,"for_":[],"level":"5","normative":true,"shortname":"css-cascade","spec":"css-cascade-5","status":"current","text":"shorthand property","type":"dfn","url":"https://drafts.csswg.org/css-cascade-5/#shorthand-property"},
 "https://drafts.csswg.org/css-cascade-5/#used-value": {"displayText":"used value","export":true,"for_":[],"level":"5","normative":true,"shortname":"css-cascade","spec":"css-cascade-5","status":"current","text":"used value","type":"dfn","url":"https://drafts.csswg.org/css-cascade-5/#used-value"},
 "https://drafts.csswg.org/css-color-4/#valdef-color-canvas": {"displayText":"canvas","export":true,"for_":["<color>","<system-color>"],"level":"4","normative":true,"shortname":"css-color","spec":"css-color-4","status":"current","text":"canvas","type":"value","url":"https://drafts.csswg.org/css-color-4/#valdef-color-canvas"},
+"https://drafts.csswg.org/css-color-4/#valdef-color-display-p3-linear": {"displayText":"display-p3-linear","export":true,"for_":["color()"],"level":"4","normative":true,"shortname":"css-color","spec":"css-color-4","status":"current","text":"display-p3-linear","type":"value","url":"https://drafts.csswg.org/css-color-4/#valdef-color-display-p3-linear"},
 "https://drafts.csswg.org/css-color-4/#valdef-color-srgb-linear": {"displayText":"srgb-linear","export":true,"for_":["color()"],"level":"4","normative":true,"shortname":"css-color","spec":"css-color-4","status":"current","text":"srgb-linear","type":"value","url":"https://drafts.csswg.org/css-color-4/#valdef-color-srgb-linear"},
 "https://drafts.csswg.org/css-color-adjust-1/#propdef-color-scheme": {"displayText":"color-scheme","export":true,"for_":[],"level":"1","normative":true,"shortname":"css-color-adjust","spec":"css-color-adjust-1","status":"current","text":"color-scheme","type":"property","url":"https://drafts.csswg.org/css-color-adjust-1/#propdef-color-scheme"},
 "https://drafts.csswg.org/css-conditional-3/#at-ruledef-media": {"displayText":"@media","export":true,"for_":[],"level":"3","normative":true,"shortname":"css-conditional","spec":"css-conditional-3","status":"current","text":"@media","type":"at-rule","url":"https://drafts.csswg.org/css-conditional-3/#at-ruledef-media"},
 "https://drafts.csswg.org/css-display-4/#containing-block": {"displayText":"containing block","export":true,"for_":[],"level":"4","normative":true,"shortname":"css-display","spec":"css-display-4","status":"current","text":"containing block","type":"dfn","url":"https://drafts.csswg.org/css-display-4/#containing-block"},
+"https://drafts.csswg.org/css-display-4/#document-order": {"displayText":"document order","export":true,"for_":[],"level":"4","normative":true,"shortname":"css-display","spec":"css-display-4","status":"current","text":"document order","type":"dfn","url":"https://drafts.csswg.org/css-display-4/#document-order"},
 "https://drafts.csswg.org/css-display-4/#inline-box": {"displayText":"inline box","export":true,"for_":[],"level":"4","normative":true,"shortname":"css-display","spec":"css-display-4","status":"current","text":"inline box","type":"dfn","url":"https://drafts.csswg.org/css-display-4/#inline-box"},
 "https://drafts.csswg.org/css-display-4/#internal-ruby-element": {"displayText":"internal ruby element","export":true,"for_":[],"level":"4","normative":true,"shortname":"css-display","spec":"css-display-4","status":"current","text":"internal ruby element","type":"dfn","url":"https://drafts.csswg.org/css-display-4/#internal-ruby-element"},
 "https://drafts.csswg.org/css-display-4/#internal-table-element": {"displayText":"internal table element","export":true,"for_":[],"level":"4","normative":true,"shortname":"css-display","spec":"css-display-4","status":"current","text":"internal table element","type":"dfn","url":"https://drafts.csswg.org/css-display-4/#internal-table-element"},
@@ -4383,8 +4419,8 @@ let refsData = {
 "https://drafts.csswg.org/motion-1/#propdef-offset-path": {"displayText":"offset-path","export":true,"for_":[],"level":"1","normative":true,"shortname":"motion","spec":"motion-1","status":"current","text":"offset-path","type":"property","url":"https://drafts.csswg.org/motion-1/#propdef-offset-path"},
 "https://drafts.csswg.org/motion-1/#propdef-offset-position": {"displayText":"offset-position","export":true,"for_":[],"level":"1","normative":true,"shortname":"motion","spec":"motion-1","status":"current","text":"offset-position","type":"property","url":"https://drafts.csswg.org/motion-1/#propdef-offset-position"},
 "https://html.spec.whatwg.org/multipage/sections.html#the-section-element": {"displayText":"section","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"section","type":"element","url":"https://html.spec.whatwg.org/multipage/sections.html#the-section-element"},
-"https://immersive-web.github.io/model-element/#dfn-model": {"displayText":"model","export":true,"for_":[],"level":"1","normative":true,"shortname":"model-element","spec":"model-element","status":"current","text":"model","type":"element","url":"https://immersive-web.github.io/model-element/#dfn-model"},
-"https://svgwg.org/svg2-draft/coords.html#TermCanvas": {"displayText":"canvas","export":true,"for_":[],"level":"2","normative":true,"shortname":"svg","spec":"svg2","status":"current","text":"canvas","type":"dfn","url":"https://svgwg.org/svg2-draft/coords.html#TermCanvas"},
+"https://immersive-web.github.io/model-element/#elementdef-model": {"displayText":"model","export":true,"for_":[],"level":"1","normative":true,"shortname":"model-element","spec":"model-element","status":"current","text":"model","type":"element","url":"https://immersive-web.github.io/model-element/#elementdef-model"},
+"https://w3c.github.io/svgwg/svg2-draft/coords.html#TermCanvas": {"displayText":"canvas","export":true,"for_":[],"level":"2","normative":true,"shortname":"svg","spec":"svg2","status":"current","text":"canvas","type":"dfn","url":"https://w3c.github.io/svgwg/svg2-draft/coords.html#TermCanvas"},
 "https://www.w3.org/TR/CSS2/visuren.html#x34": {"displayText":"relative positioning","export":true,"for_":[],"level":"2","normative":true,"shortname":"css","spec":"css2","status":"snapshot","text":"relative positioning","type":"dfn","url":"https://www.w3.org/TR/CSS2/visuren.html#x34"},
 };
 

@@ -798,6 +798,9 @@ Z-axis Insets: the 'inset-front' and 'inset-back' properties</h3>
 
 	In case of overconstraint,
 	'inset-front' is the [=weaker inset=].
+	Boxes positioned at the same [=z-axis=] position
+	are sorted primarily by 'z-index' and secondarily by [=document order=]
+	for the purposes of painting and hit-testing.
 
 	ISSUE: Need a diagram!
 
