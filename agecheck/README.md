@@ -76,7 +76,7 @@ A site picks one age per check: 13, 16, or 18. Every platform age API we know of
 
 A site can ask about more than one age, with one check for each age, for example a movie site with films rated 13, 16, and 18.
 
-A site that asks again and again can see the day the answer changes. That day is the anniversary of when the age was set, not the birthday. Where the browser keeps a copy or stores the age itself, it changes on the anniversary of when the browser got it. If the person updates the age early, the change may hint at a birthday. The cost is that someone who has just had a birthday may fail until that anniversary, unless they or a parent update the age.
+A site that asks again and again can see the day the answer changes. That day is the anniversary of when the age was set, not the birthday. Where the browser keeps a copy or stores the age itself, it changes on the anniversary of when the browser got it. If the person updates the age early, the change may hint at a birthday. The cost is that someone who has just had a birthday may fail until that anniversary, unless they or a parent update the age. A lower range from the platform applies at once, so a site can see yes become no. The site can't tell why, and the change doesn't point to a birthday.
 
 So by asking several ages, a site learns the highest age the person agrees to share. The site can guess the person is younger than the next age, but it can't be sure, because it can't tell a refusal from a person who is too young. A native app using Declared Age Range learns the person's age range with a single request. Sites that already share data about a person can also pool what they each learned, but the answer carries little that links a person across sites.
 
@@ -155,7 +155,7 @@ When the person starts the element, the browser takes a snapshot of `age` and us
 3. If `age` isn't 13, 16, or 18, fire `error` and stop. For this step and step 2, the browser also writes the reason to the developer console, which scripts can't read.
 4. On every check, the browser asks the platform for the person's age range. The browser lets the platform show a prompt if the platform chooses. The browser passes the ages 13, 16, and 18 to the platform.
    - Some platforms have an anniversary rule. For these platforms, the browser keeps no copy, so the platform's own rules apply every time. These rules include a parent's choice to ask the child each time.
-   - A platform might lack an anniversary rule. For this platform, the browser keeps the answer for a user-agent specific time period (e.g., one year) and uses the answer for every site, so the answer still changes only on an anniversary.
+   - A platform might lack an anniversary rule. For this platform, the browser keeps one copy of the answer for a user-agent specific time period (e.g., one year) and uses that copy for every site. If the platform reports a higher range, the browser keeps using the copy, so a higher answer appears only on an anniversary. If the platform reports a lower range, the browser uses the lower range and replaces the copy at once, so a parent's correction applies at once.
    - The platform might stop sharing. The browser drops its copy, so a parent's change applies at once.
    - For an age the browser stores itself, the rules in "Where the age comes from" apply.
    - If the person declines in the platform's prompt, the browser fires `error`. The browser then stops.
