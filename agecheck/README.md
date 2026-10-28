@@ -16,12 +16,12 @@ A strawperson proposal, meant to start discussion. Nothing is implemented in a s
 
 Sites that check age today use either a simple link/button, or send people to third-party services or ask them to upload an ID. Uploading IDs leaks personal data and collects far more than the site needs. Sites need a way to learn "at least this age" and nothing else, without needing a third-party age service, in regular and private browsing alike.
 
-`<agecheck>` is a form element that lets a site learn only one thing: whether the person is at least 13, 16, or 18. The answer is declared, not verified. The browser takes the answer from an age the person or a parent already gave the platform, asks the person before sharing it, and gives the site only yes or no.
+`<agecheck>` is a form element that lets a site ask one question: whether the person is at least 13, 16, or 18. The answer is declared, not verified. The browser takes the answer from an age the person or a parent already gave the platform. Where the platform offers no age API, the browser takes the answer from an age the person enters in the browser. The browser asks the person before sharing it, and gives the site only yes or no.
 
 ## Goals
 
-- A site learns only whether a person meets each age it names, and nothing else: no birthdate, no name, no ID, and not how the age was set.
-- A site can't use the answer to track people across sites.
+- A site learns whether a person meets each age it names. The site gets no birthdate, no name, and no ID, and the answer does not say how the age was set. A site that asks again and again can learn a little more; see "[Ages](#ages)".
+- A site can't use the answer to track people across sites, except by matching the day the answer changes; see "[Ages](#ages)".
 - A user finds it as easy to use as today's "I'm over 18" button.
 - A site adds one element. The site doesn't need an age-check service.
 - The person doesn't need a government ID.
@@ -58,15 +58,15 @@ The browser doesn't ask the site or a third party. When the platform has an age 
 
 What the browser does:
 
-- If a platform API exists, the browser uses only that, so a stored age can't get around a parent's setting.
-- If no platform API exists, the browser offers to store an age the person enters, the way the browser stores payment instruments for autofill.
+- If the platform offers an age API, the browser uses only that, so a stored age can't get around a parent's setting. The rule holds when this browser can't call the API, or when the API has no age for the person. In those cases the check fails.
+- If the platform offers no age API, the browser offers to store an age the person enters, the way the browser stores payment instruments for autofill.
 - A browser should not store a birth date. A browser should keep only the age group (under 13, 13 to 15, 16 to 17, or 18 and over) and the date the person entered it.
 - A browser should ask the person to enter an age again after, for example, one year. A browser should not ask the person again if the stored age is the 18 and over age group.
 - A browser that stores its own age lets the person change that age.
-- Private browsing works the same way as regular browsing and still uses the platform API, but the browser forgets any age it kept once the private browsing session ends.
+- Private browsing works the same way as regular browsing and still uses the platform API. A private window can use an age that regular browsing stored. The browser forgets any age that a private window stored once the private browsing session ends.
 - The answer never carries a platform identifier.
 - The browser never tells the platform which site asked.
-- The browser could have a setting to turn the feature off, and could list which sites have asked, as the browser does for camera or location in site settings.
+- The browser could have a setting to turn the feature off, and a control that clears every remembered age choice at once. The browser should not list which sites have asked; see "People in danger" under "Open risks".
 
 For children, the platform's parental controls decide whether the browser gets an age at all. On Apple platforms a parent can choose to always share, never share, or have the child asked each time. If a parent's setting or the platform blocks sharing, the browser shows its "your age can't be shared" prompt, the same for children and adults.
 
@@ -76,9 +76,9 @@ A site picks one age per check: 13, 16, or 18. Every platform age API we know of
 
 A site can ask about more than one age, with one check for each age, for example a movie site with films rated 13, 16, and 18.
 
-A site that asks again and again can see the day the answer changes. That day is the anniversary of when the age was set, not the birthday. Where the browser keeps a copy or stores the age itself, it changes on the anniversary of when the browser got it. If the person updates the age early, the change may hint at a birthday. The cost is that someone who has just had a birthday may fail until that anniversary, unless they or a parent update the age.
+A site that asks again and again can see the day the answer changes. That day is the anniversary of when the age was set, not the birthday. Where the browser keeps a copy or stores the age itself, a higher answer appears on the anniversary of when the browser got it. If the person updates the age early, the change may hint at a birthday. The cost is that someone who has just had a birthday may fail until that anniversary, unless they or a parent update the age. A lower range from the platform applies at once, so a site can see yes become no. The site can't tell why, and a drop doesn't point to a birthday.
 
-So by asking several ages, a site learns the highest age the person agrees to share. The site can guess the person is younger than the next age, but it can't be sure, because it can't tell a refusal from a person who is too young. A native app using Declared Age Range learns the person's age range with a single request. Sites that already share data about a person can also pool what they each learned, but the answer carries little that links a person across sites.
+So by asking several ages, a site learns the highest age the person agrees to share. The site can guess the person is younger than the next age, but it can't be sure, because it can't tell a refusal from a person who is too young. A native app using Declared Age Range learns the person's age range with a single request. Sites that already share data about a person can also pool what they each learned. The answer carries little that links a person across sites, except the day it changes. That day is the same on every site, so sites that pool can match it. A site that checks every day sees the exact day, which narrows the person to one day of the year. Apart from a correction, only people under 18, who still have an age to reach, have such a day.
 
 ## Jurisdiction
 
@@ -105,7 +105,7 @@ Some regions replace the ages the site asked about with their own ages. An age r
 **Advice for sites.** This section is advice that the browser does not enforce.
 
 - Sites should use `method="post"` on the form. This choice keeps the answer out of URLs.
-- With `required`, a site should offer another way to show age, on the same page and outside the form.
+- With `required`, a site should offer another way to show age on the same page. Use a link. A submit button in the same form would not work until the check passes.
 - Sites should treat `error` as "not now". Sites should offer to try again or offer another way.
 - Sites should show that message in a live region, a part of the page that screen readers announce when it changes, so screen reader users hear the message.
 - Sites should put any new options right after the element or the element's label. The next Tab reaches the options.
@@ -117,24 +117,21 @@ This code example shows a site following the advice. People who use a screen rea
 ```html
 <form method="post" action="/enter">
   <agecheck id="check" name="age" age="18" required>Share that I'm 18 or older</agecheck>
+  <a href="/other-ways">Share my age some other way</a>
   <span id="message" role="status"></span>
-  <a id="other" href="/other-ways" hidden>Show my age another way</a>
   <button>Enter</button>
 </form>
 
 <script>
   const check = document.getElementById("check");
   const message = document.getElementById("message");
-  const other = document.getElementById("other");
 
   check.addEventListener("change", () => {
-    other.hidden = true;
     message.textContent = "Thanks. You can go in now.";
   });
 
   check.addEventListener("error", () => {
-    message.textContent = "We couldn't use your age this time. You can try again, or show your age another way.";
-    other.hidden = false;
+    message.textContent = "We couldn't use your age this time. You can try again, or share your age some other way.";
   });
 </script>
 ```
@@ -143,9 +140,9 @@ The live region starts empty, so screen readers are already watching the live re
 
 ## Older browsers and repeat checks
 
-A site can check for `HTMLAgeCheckElement` in `window` and show its old fallback if it's missing. In a browser that doesn't know the element, the text inside it shows as plain text. A site can't learn in advance whether the person has an age set.
+A site can check for `HTMLAgeCheckElement` in `window` and show its old fallback if it's missing. The interface is also missing on a page that isn't a secure context, so the check fails there too. In a browser that doesn't know the element, the text inside it shows as plain text. A site can't learn in advance whether the person has an age set.
 
-The first time a site uses the element, the browser shows its own prompt. If the person agrees, the browser remembers that choice for that site and that age, and later checks on the same site skip the browser's prompt. A site that asks about a different age gets a new prompt. A site should still remember a successful check in its own session rather than asking again. In private browsing, the browser forgets these choices when the private browsing session ends. People can remove these choices in the browser's site settings.
+The first time a site uses the element, the browser shows its own prompt. If the person agrees, the browser remembers that choice for that site and that age, and later checks on the same site skip the browser's prompt. A site that asks about a different age gets a new prompt. A site should still remember a successful check in its own session rather than asking again. A private window starts with no remembered choices and never reads the choices from regular browsing. The browser forgets the choices made in a private window when the private browsing session ends. People can clear all of these choices at once in the browser's site settings. The browser also clears these choices whenever it clears the site's data.
 
 ## Processing model
 
@@ -154,11 +151,11 @@ The element starts from a click or tap on it or its label, a key press, or an as
 When the person starts the element, the browser takes a snapshot of `age` and uses it for the steps below, so the person answers the question they saw:
 
 1. If the element is disabled, if `meetsAge` is already true, or if a check from this element is already running, stop without firing an event.
-2. If the element isn't in a secure-context, top-level document, for example inside an iframe or an embedded object, fire `error` and stop.
+2. If the element isn't in a top-level document, for example inside an iframe or an embedded object, fire `error` and stop.
 3. If `age` isn't 13, 16, or 18, fire `error` and stop. For this step and step 2, the browser also writes the reason to the developer console, which scripts can't read.
 4. On every check, the browser asks the platform for the person's age range. The browser lets the platform show a prompt if the platform chooses. The browser passes the ages 13, 16, and 18 to the platform.
    - Some platforms have an anniversary rule. For these platforms, the browser keeps no copy, so the platform's own rules apply every time. These rules include a parent's choice to ask the child each time.
-   - A platform might lack an anniversary rule. For this platform, the browser keeps the answer for a user-agent specific time period (e.g., one year) and uses the answer for every site, so the answer still changes only on an anniversary.
+   - A platform might lack an anniversary rule. For this platform, the browser keeps one copy of the answer for a user-agent specific time period (e.g., one year). The browser uses that copy for every site. If the platform reports a higher range, the browser keeps using the copy, so a higher answer appears only on an anniversary. If the platform reports a lower range, the browser uses the lower range and replaces the copy at once. A parent's correction then applies at once.
    - The platform might stop sharing. The browser drops its copy, so a parent's change applies at once.
    - For an age the browser stores itself, the rules in "Where the age comes from" apply.
    - If the person declines in the platform's prompt, the browser fires `error`. The browser then stops.
@@ -230,7 +227,7 @@ The prompts use the language of the browser's or the platform's own interface. T
 
 - The site learns the answer for one age per check.
 - Every failure looks the same to the site, whether the person is too young, has no age set, or declined.
-- The browser's prompt should ignore input for a short time after it appears, for example as long as the system's double-click time, and while another window covers it. A page can't use a fast second click to answer a prompt the person hasn't seen yet.
+- The browser's prompt should ignore input for a short time after it appears, for example as long as the system's double-click time, and while a window from the page or from another app covers it. A window that the person's assistive technology draws, such as an on-screen keyboard or a magnifier, doesn't count as covering the prompt. A page can't use a fast second click to answer a prompt the person hasn't seen yet. A key that the person was already holding when the prompt appeared must not answer the prompt either. For example, the prompt can have no default button.
 
 ## Open questions
 
@@ -241,7 +238,7 @@ The prompts use the language of the browser's or the platform's own interface. T
 - Does a platform always give a range to a verified adult? The Google pages we read don't say whether it does.
 - Should a later version let iframes use the element? If so, how does it stop one company's iframe, embedded on many sites, from becoming the kind of third party this proposal aims to avoid?
 - Should one check ask about several ages at once, as Declared Age Range lets apps do? A movie site could then ask once, but the person's group would be revealed in a single prompt.
-- Should assistive technology see the element as a checkbox or a button? A checkbox (`aria-checked`, then `aria-readonly` after success) can say the check succeeded, and matches how the form submits it. But people may not expect a checkbox to open a prompt. Also, ARIA 1.2 deprecates `aria-haspopup` on checkbox, so a checkbox can't warn that it opens a prompt. A button with `aria-haspopup="dialog"` sets that expectation, but none of its states can say the check succeeded: `aria-pressed` makes it a toggle and `aria-expanded` a disclosure. We'd like advice from accessibility experts.
+- Should assistive technology see the element as a checkbox or a button? A checkbox (`aria-checked`, then `aria-readonly` after success) can say the check succeeded, and matches how the form submits it. But people may not expect a checkbox to open a prompt. Also, ARIA 1.2 deprecates `aria-haspopup` on checkbox, so a checkbox can't warn that it opens a prompt. A button with `aria-haspopup="dialog"` sets that expectation, but none of its states can say the check succeeded: `aria-pressed` makes it a toggle and `aria-expanded` a disclosure. Either way, step 1 stops a press after a successful check without firing an event. The page then cannot answer a screen reader user who presses again. Should that press fire an event? We'd like advice from accessibility experts.
 - [Nick Doty's Age Range API](https://github.com/npdoty/age-range) requires a site to publish a declaration at a well-known address, and the browser checks it before returning a range. Should sites that use this element do the same? For example, a site could publish which ages it asks about and what it does with the answer.
 - `meetsAge` and the `error` event are placeholder names. On other elements, `error` usually means something failed to load. `meetsAge` must say the check passed without claiming anyone verified the age. What should they be called?
 - The element leaves out 21 because the default age groups of some platform age APIs, such as Google's Play Age Signals, end at 18 and over, so a check for 21 might not work everywhere. Sites that must check for 21 can't use the `<agecheck>` element today. Should the set grow when every platform can answer 21?
@@ -249,9 +246,13 @@ The prompts use the language of the browser's or the platform's own interface. T
 - How does a person or a parent update an age early, for example after a birthday? On Apple platforms, people can update it in Settings, under Personal Information, then Age Range for Apps. What do other platforms offer?
 - When age sharing is off, can the browser tell whether the person or a parent turned it off? The prompt should point to settings only when the person can change them.
 - On some managed devices and accounts, such as ones a school or employer runs, the person can't set an age at all. Declared Age Range has an `invalidAccount` error, "the current Apple Account isn't eligible for age range sharing", but its documentation doesn't say which accounts that covers. Because a platform API exists, the browser won't let the person enter an age instead, so only the site's own fallback helps. Should the browser offer its stored age in this case?
-- If the browser skips its prompt for a site and age the person already allowed, a later failure comes back quickly. Because the site already got a yes, it can't mean "too young" for the same person. It could still show that sharing was turned off, or that someone else is using the profile. Does that matter?
+- If the person already allowed an age for a site, the site already got a yes for that age. A later failure can't mean "too young" for the same person. The failure could show that a parent lowered the age, that sharing was turned off, or that someone else is using the profile. Does that matter?
 - Should `error` be an `ErrorEvent` that carries an `AbortError` when the page removes the element during a check? A plain event can't carry one. A richer event could also tell the page which failure happened, so it would have to carry an error only where that reveals nothing about the person.
 - On a shared device, the browser cannot tell who is holding the device. Should the browser, or the platform, ask the person to confirm with Touch ID, Face ID, or a similar tool from the platform before the platform shares an age? A first version does not need this extra step. This extra step could be an option for shared devices. The open risk called "Shared devices" covers the rest.
+- Should the browser remember a refusal, so a page can't open the prompt again after every click? Then a later check would fail at once with no prompt, and the quick failure would show the site that the person refused.
+- Should the browser move the day a higher answer appears by a different few days for each site? Then sites that pool couldn't match the day. The cost is that a person who just reached an age waits longer. On a platform with an anniversary rule, the browser would also have to keep a copy, which step 4 says it does not.
+- Should a site be able to turn the element off for its own page, for example with a [Permissions Policy](https://www.w3.org/TR/permissions-policy/)? Then a script the site loads couldn't use the element. A site that doesn't use the element would lose nothing.
+- A platform can require an app to have permission before it can call the platform's age API. A browser without that permission would fail every check on that platform. Is failing every check the right outcome, or should such a browser offer a stored age, which could get around a parent's setting?
 
 ## Stakeholder feedback
 
@@ -267,7 +268,7 @@ The `<agecheck>` element doesn't replace these. Several solve different problems
 
 **An Age Range API**, [proposed by Nick Doty](https://github.com/npdoty/age-range) (Center for Democracy & Technology). A page calls `navigator.ageRange()` and, once the person gives permission, gets an age range such as 13 to 17. The site must also publish a declaration at a well-known address, which the browser checks first. The `<agecheck>` element answers one age per check, only the person's own action starts it, and the element needs no declaration file.
 
-**The Digital Credentials API**, with or without passkeys. It can carry a cryptographic proof, but it needs a digital ID, which many people don't have. It doesn't guarantee that only the age is revealed, and it lets a site ask for more than age. Presenting an ID is also heavy for a simple age check. The `<agecheck>` element uses the age the platform already has, and asks only about age.
+**The Digital Credentials API**, with or without passkeys. It can carry a cryptographic proof, but it needs a digital ID, which many people don't have. It doesn't guarantee that only the age is revealed, and it lets a site ask for more than age. Presenting an ID is also heavy for a simple age check. The `<agecheck>` element uses the age the platform already has, or an age the person enters in the browser, and asks only about age.
 
 **A JavaScript method** could open the same prompt. But it would still need a user action to start it, and wouldn't work in a form without script. For a canvas, the [HTML-in-Canvas proposal](https://github.com/WICG/html-in-canvas) would let the element itself be drawn inside the canvas, if a click on a drawn element counts as the person's own click.
 
@@ -276,15 +277,17 @@ The `<agecheck>` element doesn't replace these. Several solve different problems
 - **Proof for regulators.** Sites may need to show a regulator that they checked age, and a declared answer can't show that.
 - **People left out.** Some people have no account, no supported device, or no age set. Sites may fall back to ID uploads, and nothing here can stop them. Adults whose account is still set up as a child's, for example one a carer manages, are treated as children until whoever manages the account changes it.
 - **Old buttons.** A site can keep today's "I'm 18" button next to the element, and then the element protects no one. Nothing here makes a site remove the button, so the element helps children only on sites that do. Those same sites shut out people who can't or won't answer.
+- **Ages the browser stores.** Where the platform has no age API, the browser keeps an age the person enters, and the person can change it. A child can enter 18 and over, and the element then protects that child no more than today's "I'm 18" button does.
 - **Shared devices.** A minor can use an adult's unlocked device, or control it remotely. Child accounts on the platform are the main defense. On a shared computer or browser profile, a stored age applies to whoever is using it. Anyone looking at the screen can also tell from the browser's prompt whether the person passed.
 - **A third party as the top-level page.** A company can run the check as the top-level page, in a popup or after a redirect, and pass the answer back, as "Embedded content" describes. Nothing stops this.
-- **Tricked approvals.** A page can push someone to approve without thinking. See "Why an element".
+- **Tricked approvals.** A page can push someone to approve without thinking. A page can make a label for the element cover the whole page, so a click meant for something else opens the prompt. The page can open the prompt again after every refusal. After the person agrees for a site and age, a click on that label starts a new check that runs with no prompt. See "Why an element".
 - **Pushy platforms.** A platform could use the feature to push people into creating or signing in to its own account before it shares an age.
 - **An age on every device.** To pass the check on sites that rely on the element, people must declare an age on every device they use. Over time, declaring an age could become a condition for using parts of the web.
 - **Friction and refusal.** People may find the prompt annoying and refuse it. We have no research yet on how many.
-- **Scripts on the page.** Like any form field, the answer is visible to every script the site chooses to run, including analytics.
+- **Scripts on the page.** Like any form field, the answer is visible to every script the site chooses to run, including analytics. A script can also add its own `<agecheck>` element and read the result of a check that a click on it starts. The prompt names the site, not the script, so the person can't tell who asked. After the person agrees for a site and age, a click on that script's element or label starts a new check that runs with no prompt.
 - **Trusting the platform.** A platform age API may contact its vendor's servers. Declared Age Range, for example, can fail with a network error. Because the browser never names the site, the platform can't report which sites a person visits. Where the browser asks the platform on every check, the platform can learn how often and when checks happen.
 - **Human timing.** A prompt that only informs takes a different time than one that asks, and a platform that has the person set up an age first takes longer still. So how long the person took, or the page noticing focus leave for the system settings, may hint that no age is set.
+- **A failed try.** A site sees that the person started a check and did not pass. The site can't tell why, but it can treat a failed try as a hint that a child tried, and block or flag that person. The advice says sites should never treat `error` as "too young", and nothing here makes them follow it.
 - **People in danger.** For some people, an adult age on their device is risky. If sharing is turned off, for example because the person declined the platform's prompt or turned off a browser setting, a site must see it as an ordinary refusal. The browser's record of which sites asked about age is also sensitive, so it should be cleared with the site's data and kept out of view.
 
 ## User research
