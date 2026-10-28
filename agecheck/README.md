@@ -142,7 +142,7 @@ The live region starts empty, so screen readers are already watching the live re
 
 A site can check for `HTMLAgeCheckElement` in `window` and show its old fallback if it's missing. In a browser that doesn't know the element, the text inside it shows as plain text. A site can't learn in advance whether the person has an age set.
 
-The first time a site uses the element, the browser shows its own prompt. If the person agrees, the browser remembers that choice for that site and that age, and later checks on the same site skip the browser's prompt. A site that asks about a different age gets a new prompt. A site should still remember a successful check in its own session rather than asking again. In private browsing, the browser forgets these choices when the private browsing session ends. People can remove these choices in the browser's site settings.
+The first time a site uses the element, the browser shows its own prompt. If the person agrees, the browser remembers that choice for that site and that age, and later checks on the same site skip the browser's prompt. A site that asks about a different age gets a new prompt. A site should still remember a successful check in its own session rather than asking again. In private browsing, the browser forgets these choices when the private browsing session ends. People can remove these choices in the browser's site settings. The browser also clears these choices whenever it clears the site's data.
 
 ## Processing model
 
