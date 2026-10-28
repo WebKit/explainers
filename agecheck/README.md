@@ -63,7 +63,7 @@ What the browser does:
 - A browser should not store a birth date. A browser should keep only the age group (under 13, 13 to 15, 16 to 17, or 18 and over) and the date the person entered it.
 - A browser should ask the person to enter an age again after, for example, one year. A browser should not ask the person again if the stored age is the 18 and over age group.
 - A browser that stores its own age lets the person change that age.
-- Private browsing works the same way as regular browsing and still uses the platform API, but the browser forgets any age it kept once the private browsing session ends.
+- Private browsing works the same way as regular browsing and still uses the platform API. A private window can use an age that regular browsing stored. The browser forgets any age that a private window stored once the private browsing session ends.
 - The answer never carries a platform identifier.
 - The browser never tells the platform which site asked.
 - The browser could have a setting to turn the feature off, and a control that clears every remembered age choice at once. The browser should not list which sites have asked; see "People in danger" under "Open risks".
@@ -142,7 +142,7 @@ The live region starts empty, so screen readers are already watching the live re
 
 A site can check for `HTMLAgeCheckElement` in `window` and show its old fallback if it's missing. The interface is also missing on a page that isn't a secure context, so the check fails there too. In a browser that doesn't know the element, the text inside it shows as plain text. A site can't learn in advance whether the person has an age set.
 
-The first time a site uses the element, the browser shows its own prompt. If the person agrees, the browser remembers that choice for that site and that age, and later checks on the same site skip the browser's prompt. A site that asks about a different age gets a new prompt. A site should still remember a successful check in its own session rather than asking again. In private browsing, the browser forgets these choices when the private browsing session ends. People can clear all of these choices at once in the browser's site settings. The browser also clears these choices whenever it clears the site's data.
+The first time a site uses the element, the browser shows its own prompt. If the person agrees, the browser remembers that choice for that site and that age, and later checks on the same site skip the browser's prompt. A site that asks about a different age gets a new prompt. A site should still remember a successful check in its own session rather than asking again. A private window starts with no remembered choices and never reads the choices from regular browsing. The browser forgets the choices made in a private window when the private browsing session ends. People can clear all of these choices at once in the browser's site settings. The browser also clears these choices whenever it clears the site's data.
 
 ## Processing model
 
