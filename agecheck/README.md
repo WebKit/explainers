@@ -249,6 +249,7 @@ The prompts use the language of the browser's or the platform's own interface. T
 - If the person already allowed an age for a site, a later failure for that site and age can't mean "too young" for the same person, because the site already got a yes. It could show that a parent lowered the age, that sharing was turned off, or that someone else is using the profile. Does that matter?
 - Should `error` be an `ErrorEvent` that carries an `AbortError` when the page removes the element during a check? A plain event can't carry one. A richer event could also tell the page which failure happened, so it would have to carry an error only where that reveals nothing about the person.
 - On a shared device, the browser cannot tell who is holding the device. Should the browser, or the platform, ask the person to confirm with Touch ID, Face ID, or a similar tool from the platform before the platform shares an age? A first version does not need this extra step. This extra step could be an option for shared devices. The open risk called "Shared devices" covers the rest.
+- Should the browser remember a refusal, so a page can't open the prompt again after every click? Then a later check would fail at once with no prompt, and the quick failure would show the site that the person refused.
 
 ## Stakeholder feedback
 
@@ -276,7 +277,7 @@ The `<agecheck>` element doesn't replace these. Several solve different problems
 - **Ages the browser stores.** Where the platform has no age API, the browser keeps an age the person enters, and the person can change it. A child can enter 18 and over, and the element then protects that child no more than today's "I'm 18" button does.
 - **Shared devices.** A minor can use an adult's unlocked device, or control it remotely. Child accounts on the platform are the main defense. On a shared computer or browser profile, a stored age applies to whoever is using it. Anyone looking at the screen can also tell from the browser's prompt whether the person passed.
 - **A third party as the top-level page.** A company can run the check as the top-level page, in a popup or after a redirect, and pass the answer back, as "Embedded content" describes. Nothing stops this.
-- **Tricked approvals.** A page can push someone to approve without thinking. See "Why an element".
+- **Tricked approvals.** A page can push someone to approve without thinking. A page can make a label for the element cover the whole page, so a click meant for something else opens the prompt, and the page can open the prompt again after every refusal. After the person agrees for a site and age, a click on that label runs the check with no prompt. See "Why an element".
 - **Pushy platforms.** A platform could use the feature to push people into creating or signing in to its own account before it shares an age.
 - **An age on every device.** To pass the check on sites that rely on the element, people must declare an age on every device they use. Over time, declaring an age could become a condition for using parts of the web.
 - **Friction and refusal.** People may find the prompt annoying and refuse it. We have no research yet on how many.
