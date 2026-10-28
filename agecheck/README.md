@@ -227,7 +227,7 @@ The prompts use the language of the browser's or the platform's own interface. T
 
 - The site learns the answer for one age per check.
 - Every failure looks the same to the site, whether the person is too young, has no age set, or declined.
-- The browser's prompt should ignore input for a short time after it appears, for example as long as the system's double-click time, and while a window from the page or from another app covers it. A window that the person's assistive technology draws, such as an on-screen keyboard or a magnifier, doesn't count as covering the prompt. A page can't use a fast second click to answer a prompt the person hasn't seen yet.
+- The browser's prompt should ignore input for a short time after it appears, for example as long as the system's double-click time, and while a window from the page or from another app covers it. A window that the person's assistive technology draws, such as an on-screen keyboard or a magnifier, doesn't count as covering the prompt. A page can't use a fast second click to answer a prompt the person hasn't seen yet. A key that the person was already holding when the prompt appeared must not answer it either, for example because the prompt has no default button.
 
 ## Open questions
 
