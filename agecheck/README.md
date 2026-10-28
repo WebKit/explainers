@@ -58,8 +58,8 @@ The browser doesn't ask the site or a third party. When the platform has an age 
 
 What the browser does:
 
-- If a platform API exists, the browser uses only that, so a stored age can't get around a parent's setting.
-- If no platform API exists, the browser offers to store an age the person enters, the way the browser stores payment instruments for autofill.
+- If the platform offers an age API, the browser uses only that, so a stored age can't get around a parent's setting. This holds when this browser can't call the API, or when the API has no age for the person. In those cases the check fails.
+- If the platform offers no age API, the browser offers to store an age the person enters, the way the browser stores payment instruments for autofill.
 - A browser should not store a birth date. A browser should keep only the age group (under 13, 13 to 15, 16 to 17, or 18 and over) and the date the person entered it.
 - A browser should ask the person to enter an age again after, for example, one year. A browser should not ask the person again if the stored age is the 18 and over age group.
 - A browser that stores its own age lets the person change that age.
@@ -252,6 +252,7 @@ The prompts use the language of the browser's or the platform's own interface. T
 - Should the browser remember a refusal, so a page can't open the prompt again after every click? Then a later check would fail at once with no prompt, and the quick failure would show the site that the person refused.
 - Should the browser move the day a higher answer appears by a few days, a different number for each site, so that sites that pool can't match the day? The cost is that a person who just reached an age waits longer. On a platform with an anniversary rule, the browser would also have to keep a copy, which step 4 says it does not.
 - Should a site be able to turn the element off for its own page, so that a script it loads can't use it, for example with a [Permissions Policy](https://www.w3.org/TR/permissions-policy/)? A site that doesn't use the element would then lose nothing.
+- A platform can require an app to have permission before it can call the platform's age API. A browser without that permission would fail every check on that platform. Is that the right outcome, or should such a browser offer a stored age, which could get around a parent's setting?
 
 ## Stakeholder feedback
 
