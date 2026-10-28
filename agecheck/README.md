@@ -16,7 +16,7 @@ A strawperson proposal, meant to start discussion. Nothing is implemented in a s
 
 Sites that check age today use either a simple link/button, or send people to third-party services or ask them to upload an ID. Uploading IDs leaks personal data and collects far more than the site needs. Sites need a way to learn "at least this age" and nothing else, without needing a third-party age service, in regular and private browsing alike.
 
-`<agecheck>` is a form element that lets a site learn only one thing: whether the person is at least 13, 16, or 18. The answer is declared, not verified. The browser takes the answer from an age the person or a parent already gave the platform, asks the person before sharing it, and gives the site only yes or no.
+`<agecheck>` is a form element that lets a site learn only one thing: whether the person is at least 13, 16, or 18. The answer is declared, not verified. The browser takes the answer from an age the person or a parent already gave the platform. Where the platform has no age, the browser takes the answer from an age the person enters in the browser. The browser asks the person before sharing it, and gives the site only yes or no.
 
 ## Goals
 
@@ -273,6 +273,7 @@ The `<agecheck>` element doesn't replace these. Several solve different problems
 - **Proof for regulators.** Sites may need to show a regulator that they checked age, and a declared answer can't show that.
 - **People left out.** Some people have no account, no supported device, or no age set. Sites may fall back to ID uploads, and nothing here can stop them. Adults whose account is still set up as a child's, for example one a carer manages, are treated as children until whoever manages the account changes it.
 - **Old buttons.** A site can keep today's "I'm 18" button next to the element, and then the element protects no one. Nothing here makes a site remove the button, so the element helps children only on sites that do. Those same sites shut out people who can't or won't answer.
+- **Ages the browser stores.** Where the platform has no age API, the browser keeps an age the person enters, and the person can change it. A child can enter 18 and over, and the element then protects that child no more than today's "I'm 18" button does.
 - **Shared devices.** A minor can use an adult's unlocked device, or control it remotely. Child accounts on the platform are the main defense. On a shared computer or browser profile, a stored age applies to whoever is using it. Anyone looking at the screen can also tell from the browser's prompt whether the person passed.
 - **A third party as the top-level page.** A company can run the check as the top-level page, in a popup or after a redirect, and pass the answer back, as "Embedded content" describes. Nothing stops this.
 - **Tricked approvals.** A page can push someone to approve without thinking. See "Why an element".
