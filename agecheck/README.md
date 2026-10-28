@@ -118,23 +118,20 @@ This code example shows a site following the advice. People who use a screen rea
 <form method="post" action="/enter">
   <agecheck id="check" name="age" age="18" required>Share that I'm 18 or older</agecheck>
   <span id="message" role="status"></span>
-  <a id="other" href="/other-ways" hidden>Show my age another way</a>
   <button>Enter</button>
 </form>
+<a href="/other-ways">Share my age some other way</a>
 
 <script>
   const check = document.getElementById("check");
   const message = document.getElementById("message");
-  const other = document.getElementById("other");
 
   check.addEventListener("change", () => {
-    other.hidden = true;
     message.textContent = "Thanks. You can go in now.";
   });
 
   check.addEventListener("error", () => {
-    message.textContent = "We couldn't use your age this time. You can try again, or show your age another way.";
-    other.hidden = false;
+    message.textContent = "We couldn't use your age this time. You can try again, or share your age some other way.";
   });
 </script>
 ```
