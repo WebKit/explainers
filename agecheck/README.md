@@ -140,7 +140,7 @@ The live region starts empty, so screen readers are already watching the live re
 
 ## Older browsers and repeat checks
 
-A site can check for `HTMLAgeCheckElement` in `window` and show its old fallback if it's missing. In a browser that doesn't know the element, the text inside it shows as plain text. A site can't learn in advance whether the person has an age set.
+A site can check for `HTMLAgeCheckElement` in `window` and show its old fallback if it's missing. The interface is also missing on a page that isn't a secure context, so the check fails there too. In a browser that doesn't know the element, the text inside it shows as plain text. A site can't learn in advance whether the person has an age set.
 
 The first time a site uses the element, the browser shows its own prompt. If the person agrees, the browser remembers that choice for that site and that age, and later checks on the same site skip the browser's prompt. A site that asks about a different age gets a new prompt. A site should still remember a successful check in its own session rather than asking again. In private browsing, the browser forgets these choices when the private browsing session ends. People can remove these choices in the browser's site settings. The browser also clears these choices whenever it clears the site's data.
 
@@ -151,7 +151,7 @@ The element starts from a click or tap on it or its label, a key press, or an as
 When the person starts the element, the browser takes a snapshot of `age` and uses it for the steps below, so the person answers the question they saw:
 
 1. If the element is disabled, if `meetsAge` is already true, or if a check from this element is already running, stop without firing an event.
-2. If the element isn't in a secure-context, top-level document, for example inside an iframe or an embedded object, fire `error` and stop.
+2. If the element isn't in a top-level document, for example inside an iframe or an embedded object, fire `error` and stop.
 3. If `age` isn't 13, 16, or 18, fire `error` and stop. For this step and step 2, the browser also writes the reason to the developer console, which scripts can't read.
 4. On every check, the browser asks the platform for the person's age range. The browser lets the platform show a prompt if the platform chooses. The browser passes the ages 13, 16, and 18 to the platform.
    - Some platforms have an anniversary rule. For these platforms, the browser keeps no copy, so the platform's own rules apply every time. These rules include a parent's choice to ask the child each time.
