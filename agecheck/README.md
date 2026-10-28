@@ -20,7 +20,7 @@ Sites that check age today use either a simple link/button, or send people to th
 
 ## Goals
 
-- A site learns only whether a person meets each age it names, and nothing else: no birthdate, no name, no ID, and not how the age was set.
+- A site learns whether a person meets each age it names. The site gets no birthdate, no name, and no ID, and the answer does not say how the age was set. A site that asks again and again can learn a little more; see "[Ages](#ages)".
 - A site can't use the answer to track people across sites.
 - A user finds it as easy to use as today's "I'm over 18" button.
 - A site adds one element. The site doesn't need an age-check service.
@@ -76,7 +76,7 @@ A site picks one age per check: 13, 16, or 18. Every platform age API we know of
 
 A site can ask about more than one age, with one check for each age, for example a movie site with films rated 13, 16, and 18.
 
-A site that asks again and again can see the day the answer changes. That day is the anniversary of when the age was set, not the birthday. Where the browser keeps a copy or stores the age itself, it changes on the anniversary of when the browser got it. If the person updates the age early, the change may hint at a birthday. The cost is that someone who has just had a birthday may fail until that anniversary, unless they or a parent update the age. A lower range from the platform applies at once, so a site can see yes become no. The site can't tell why, and the change doesn't point to a birthday.
+A site that asks again and again can see the day the answer changes. That day is the anniversary of when the age was set, not the birthday. Where the browser keeps a copy or stores the age itself, it changes on the anniversary of when the browser got it. If the person updates the age early, the change may hint at a birthday. The cost is that someone who has just had a birthday may fail until that anniversary, unless they or a parent update the age. A lower range from the platform applies at once, so a site can see yes become no. The site can't tell why, and a drop doesn't point to a birthday.
 
 So by asking several ages, a site learns the highest age the person agrees to share. The site can guess the person is younger than the next age, but it can't be sure, because it can't tell a refusal from a person who is too young. A native app using Declared Age Range learns the person's age range with a single request. Sites that already share data about a person can also pool what they each learned, but the answer carries little that links a person across sites.
 
