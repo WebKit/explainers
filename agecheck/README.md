@@ -21,7 +21,7 @@ Sites that check age today use either a simple link/button, or send people to th
 ## Goals
 
 - A site learns whether a person meets each age it names. The site gets no birthdate, no name, and no ID, and the answer does not say how the age was set. A site that asks again and again can learn a little more; see "[Ages](#ages)".
-- A site can't use the answer to track people across sites.
+- A site can't use the answer to track people across sites, except by matching the day the answer changes; see "[Ages](#ages)".
 - A user finds it as easy to use as today's "I'm over 18" button.
 - A site adds one element. The site doesn't need an age-check service.
 - The person doesn't need a government ID.
@@ -78,7 +78,7 @@ A site can ask about more than one age, with one check for each age, for example
 
 A site that asks again and again can see the day the answer changes. That day is the anniversary of when the age was set, not the birthday. Where the browser keeps a copy or stores the age itself, it changes on the anniversary of when the browser got it. If the person updates the age early, the change may hint at a birthday. The cost is that someone who has just had a birthday may fail until that anniversary, unless they or a parent update the age. A lower range from the platform applies at once, so a site can see yes become no. The site can't tell why, and a drop doesn't point to a birthday.
 
-So by asking several ages, a site learns the highest age the person agrees to share. The site can guess the person is younger than the next age, but it can't be sure, because it can't tell a refusal from a person who is too young. A native app using Declared Age Range learns the person's age range with a single request. Sites that already share data about a person can also pool what they each learned, but the answer carries little that links a person across sites.
+So by asking several ages, a site learns the highest age the person agrees to share. The site can guess the person is younger than the next age, but it can't be sure, because it can't tell a refusal from a person who is too young. A native app using Declared Age Range learns the person's age range with a single request. Sites that already share data about a person can also pool what they each learned. The answer carries little that links a person across sites, except the day it changes. That day is the same on every site, so sites that pool can match it. A site that checks every day sees the exact day, which narrows the person to one day of the year. Only people under 18, who still have an age to reach, have such a day.
 
 ## Jurisdiction
 
@@ -250,6 +250,7 @@ The prompts use the language of the browser's or the platform's own interface. T
 - Should `error` be an `ErrorEvent` that carries an `AbortError` when the page removes the element during a check? A plain event can't carry one. A richer event could also tell the page which failure happened, so it would have to carry an error only where that reveals nothing about the person.
 - On a shared device, the browser cannot tell who is holding the device. Should the browser, or the platform, ask the person to confirm with Touch ID, Face ID, or a similar tool from the platform before the platform shares an age? A first version does not need this extra step. This extra step could be an option for shared devices. The open risk called "Shared devices" covers the rest.
 - Should the browser remember a refusal, so a page can't open the prompt again after every click? Then a later check would fail at once with no prompt, and the quick failure would show the site that the person refused.
+- Should the browser move the day a higher answer appears by a few days, a different number for each site, so that sites that pool can't match the day? The cost is that a person who just reached an age waits longer. On a platform with an anniversary rule, the browser would also have to keep a copy, which step 4 says it does not.
 
 ## Stakeholder feedback
 
