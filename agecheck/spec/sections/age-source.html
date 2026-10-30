@@ -334,12 +334,6 @@
         The prompt MUST name the [=origin=] of the top-level document that
         started the check.
       </li>
-      <li id="prompt-requirements-active">
-        The prompt MUST NOT appear while its document is not
-        [=Document/fully active|fully active=]. The prompt MUST
-        close when its document stops being fully active. The user agent
-        closes it in the unloading steps in [[[#forms-unloading]]].
-      </li>
       <li id="prompt-requirements-modal">
         The person MUST NOT be able to use the page until the person answers or
         closes the prompt.
@@ -378,18 +372,10 @@
         group's range. If the person chooses no group, the check fails.
       </li>
       <li id="prompt-requirements-same-failure">
-        Every failure MUST look the same to the page. The page learns of a
-        failure only through the <code>error</code> event, whether the person is
-        too young, has no age set, declined, or the age source failed. After the
-        user agent's prompt appears, the page learns of a failure only after the
-        person closes the prompt. The user agent MUST NOT add a timing
-        difference of its own between failures.
+        The user agent MUST NOT add a timing difference of its own between
+        failures. So the page cannot tell a person who is too young from a
+        person who has no age set, declined, or hit an age source failure.
       </li>
     </ol>
-    <aside class="note">
-      A [=age check result/declined=] result fails the check at once, with no
-      second prompt from the user agent. The platform's own prompt already
-      asked the person.
-    </aside>
   </section>
 </section>

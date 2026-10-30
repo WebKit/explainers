@@ -127,10 +127,6 @@
         </ol>
       </li>
     </ol>
-    <p>
-      Steps 1 to 3 return without firing an event.
-      So a click that does not start a check fires no event.
-    </p>
   </section>
 
   <section id="finish-a-check-algorithm">
@@ -174,41 +170,6 @@
         {{Event/bubbles}} attribute initialized to true.
       </li>
     </ol>
-    <p>
-      When the person answers a prompt after the check was dropped, the user agent drops the
-      answer.
-      The [=agecheck/finish a check=] steps then fire <code>error</code>, even when the person agreed.
-    </p>
-  </section>
-
-  <section id="check-events">
-    <h3>Events</h3>
-    <p>
-      Both events use the {{Event}} interface.
-      The <code>change</code> event bubbles.
-      The <code>error</code> event does not bubble, so a failed check never reaches
-      {{Window}} error handlers and never looks like a script error.
-      Neither event is cancelable.
-    </p>
-    <p>
-      The user agent never fires these events during the [=agecheck/activation behavior=].
-      The user agent always fires them in a queued task.
-      Every check that gets past step 3 of [=agecheck/run a check=] ends with exactly one event at the
-      element: one <code>change</code> or one <code>error</code>.
-      The element fires no other event for a check.
-      While [=agecheck/check pending=] is true, a new activation of the same element fires no
-      event.
-    </p>
-    <p>
-      Every failure fires the same <code>error</code> event, with no detail attached.
-      The page cannot tell a person who declined from a person who does not meet the age, has no
-      age set, or whose platform failed.
-    </p>
-    <aside class="note">
-      A "declined" result from the age source fires <code>error</code> at once.
-      The user agent does not show a second prompt after the person declines in the platform's
-      own prompt.
-    </aside>
   </section>
 
   <section id="check-lifetime">
@@ -234,11 +195,5 @@
         <code>EventSource</code> that is connecting.
       </p>
     </aside>
-    <p>
-      A task is runnable only when its document is [=Document/fully active|fully active=].
-      If the document stops being fully active during a check, the queued task waits.
-      If the document becomes fully active again, the task runs and fires <code>error</code>,
-      because the reset on restore sets [=agecheck/check dropped=] to true. See [[[#forms-bfcache]]].
-    </p>
   </section>
 </section>
