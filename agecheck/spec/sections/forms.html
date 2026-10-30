@@ -1,3 +1,445 @@
 <section id="forms">
   <h2>Form mechanics and lifecycle</h2>
+
+  <p>
+    This section says how an <code>agecheck</code> element takes part in a
+    form, and what happens to the
+    <a href="#dfn-meets-age">meets age</a> flag and to a running check when
+    the page or the element changes.
+  </p>
+
+  <section id="forms-check-dropped">
+    <h3>The check dropped flag</h3>
+    <p>
+      Each <code>agecheck</code> element has a
+      <dfn id="dfn-check-dropped" data-dfn-for="agecheck" data-export>check
+      dropped</dfn> flag, initially false. The steps in this section set the
+      flag to true when a running check must not succeed.
+      <a href="#run-a-check">Run a check</a> sets the flag to false when a
+      check starts. When the check ends and the flag is true,
+      <a href="#finish-a-check">finish a check</a> fires <code>error</code> and
+      does not set the <a href="#dfn-meets-age">meets age</a> flag.
+    </p>
+    <aside class="note">
+      A dropped check still waits for the person to finish with the prompt,
+      unless a step below lets the user agent close the prompt. The page then
+      learns nothing new from the timing.
+    </aside>
+  </section>
+
+  <section id="forms-owner">
+    <h3>Form owner</h3>
+    <p>
+      The <code>agecheck</code> element is a
+      <a data-cite="HTML#form-associated-element">form-associated element</a>.
+      The element is also <a data-cite="HTML#category-listed">listed</a>,
+      <a data-cite="HTML#category-submit">submittable</a>,
+      <a data-cite="HTML#category-reset">resettable</a>, and
+      <a data-cite="HTML#category-label">labelable</a>.
+    </p>
+    <p>
+      HTML's rules for the
+      <a data-cite="HTML#form-owner">form owner</a> apply without change. An
+      <code>agecheck</code> element with a
+      <a data-cite="HTML#attr-fae-form"><code>form</code></a> attribute uses
+      the <code>form</code> element that the attribute names. Otherwise the
+      element uses its nearest <code>form</code> ancestor. The user agent
+      <a data-cite="HTML#reset-the-form-owner">resets the form owner</a> at the
+      same times as for any other listed element. The
+      {{HTMLAgeCheckElement/form}} getter follows the
+      <a data-cite="HTML#dom-fae-form"><code>form</code> IDL attribute</a>
+      rules.
+    </p>
+    <p>
+      Because the element is listed, the element appears in the
+      <code>form.elements</code> and <code>fieldset.elements</code>
+      collections.
+    </p>
+  </section>
+
+  <section id="forms-entry">
+    <h3>Entry contribution</h3>
+    <p>
+      When the user agent
+      <a data-cite="HTML#constructing-the-form-data-set">constructs the entry
+      list</a> for a form, an <code>agecheck</code> element adds at most one
+      entry. The <dfn id="agecheck-entry" data-export>agecheck entry</dfn> has
+      these parts:
+    </p>
+    <ul>
+      <li>
+        The name is the value of the element's
+        <a data-cite="HTML#attr-fe-name"><code>name</code></a> attribute.
+      </li>
+      <li>
+        The value is the age that the check confirmed. The user agent writes
+        the age in base ten ASCII digits with no leading zeros, such as
+        <code>"18"</code>.
+      </li>
+    </ul>
+    <p>
+      The element adds the [=agecheck entry=] only when all of these are true:
+    </p>
+    <ul>
+      <li>the element's <a href="#dfn-meets-age">meets age</a> flag is true;</li>
+      <li>the element has a <code>name</code> attribute whose value is not the
+      empty string; and</li>
+      <li>the element is not
+      <a data-cite="HTML#concept-fe-disabled">disabled</a>.</li>
+    </ul>
+    <p>
+      Otherwise the element adds nothing, the same as an unchecked checkbox.
+    </p>
+    <aside class="note">
+      The <a href="#dfn-meets-age">meets age</a> flag is true only while the
+      element's [=agecheck/requested age=] equals the age the check confirmed
+      (see [[[#forms-age-change]]]). So the user agent can read the value from
+      the requested age.
+    </aside>
+    <p>
+      The <code>agecheck</code> element is never a
+      <a data-cite="HTML#concept-button">button</a>, so the step that skips
+      "a button but not submitter" never skips the element. The element is
+      also never a
+      <a data-cite="HTML#concept-submit-button">submit button</a>. So
+      <a data-cite="HTML#dom-form-requestsubmit"><code>requestSubmit()</code></a>
+      throws a <code>TypeError</code> when a page passes an
+      <code>agecheck</code> element as the submitter.
+    </p>
+
+    <section id="forms-entry-patch">
+      <h4>Patch to constructing the entry list</h4>
+      <p>
+        In <a data-cite="HTML#constructing-form-data-set">Constructing the entry
+        list</a>, the step that lists the cases where the user agent continues
+        to the next field gains one case. The new case goes after the case for
+        an unchecked radio button:
+      </p>
+      <blockquote>
+        <p>
+          <ins><var>field</var> is an <code>agecheck</code> element whose
+          meets age flag is false;</ins>
+        </p>
+      </blockquote>
+      <p>
+        No other step needs a change. The step that creates an entry with
+        <var>name</var> and "the value of the field element" then adds the
+        [=agecheck entry=], as long as HTML defines the
+        <a data-cite="HTML#concept-fe-value">value</a> of an
+        <code>agecheck</code> element as follows:
+      </p>
+      <blockquote>
+        <p>
+          <ins>The value of an <code>agecheck</code> element is the empty
+          string when its meets age flag is false. Otherwise the value is the
+          age that the check confirmed, written as a
+          <a data-cite="HTML#valid-non-negative-integer">valid non-negative
+          integer</a> with no leading zeros.</ins>
+        </p>
+      </blockquote>
+      <p>
+        The submittable category list in
+        <a data-cite="HTML#categories">Categories</a> also gains
+        <code>agecheck</code>. The existing steps already skip a field that is
+        disabled or that has no <code>name</code>.
+      </p>
+    </section>
+  </section>
+
+  <section id="forms-reset">
+    <h3>Reset</h3>
+    <p>
+      The <dfn id="agecheck-reset-algorithm" data-export>agecheck reset
+      algorithm</dfn> is the
+      <a data-cite="HTML#concept-form-reset-control">reset algorithm</a> for
+      <code>agecheck</code> elements. HTML
+      <a data-cite="HTML#resetting-a-form">invokes</a> the algorithm for each
+      resettable element whose form owner is the form being reset, after the
+      <code>reset</code> event is not canceled. Given an
+      <code>agecheck</code> element <var>element</var>:
+    </p>
+    <ol class="algorithm">
+      <li>
+        If <var>element</var>'s
+        [=agecheck/check pending=] is true, set
+        <var>element</var>'s [=agecheck/check dropped=] flag to true.
+      </li>
+      <li>
+        Set <var>element</var>'s <a href="#dfn-meets-age">meets age</a> flag
+        to false.
+      </li>
+    </ol>
+    <p>
+      The algorithm fires no event of its own. A dropped check fires
+      <code>error</code> when the check ends. When the person answers the
+      prompt after a reset, the user agent drops the answer.
+    </p>
+  </section>
+
+  <section id="forms-validation">
+    <h3>Constraint validation</h3>
+    <p>
+      The <code>agecheck</code> element is submittable, so the element is a
+      <a data-cite="HTML#candidate-for-constraint-validation">candidate for
+      constraint validation</a> unless a condition
+      <a data-cite="HTML#barred-from-constraint-validation">bars</a> the
+      element.
+    </p>
+    <p>
+      A disabled <code>agecheck</code> element is barred from constraint
+      validation. HTML already says so for every disabled element, once the
+      <code>disabled</code> attribute applies to <code>agecheck</code> (see
+      [[[#forms-fieldset]]]). An <code>agecheck</code> element with a
+      <code>datalist</code> ancestor is also barred, as for any submittable
+      element.
+    </p>
+    <p>
+      An <code>agecheck</code> element is
+      <a data-cite="HTML#suffering-from-being-missing">suffering from being
+      missing</a> when the element has a <code>required</code> attribute and
+      the element's <a href="#dfn-meets-age">meets age</a> flag is false.
+    </p>
+    <p>
+      The constraint validation members of {{HTMLAgeCheckElement}} use HTML's
+      definitions without change:
+    </p>
+    <ul>
+      <li>{{HTMLAgeCheckElement/willValidate}}: see
+      <a data-cite="HTML#dom-cva-willvalidate"><code>willValidate</code></a>.</li>
+      <li>{{HTMLAgeCheckElement/validity}}: see
+      <a data-cite="HTML#dom-cva-validity"><code>validity</code></a>.</li>
+      <li>{{HTMLAgeCheckElement/validationMessage}}: see
+      <a data-cite="HTML#dom-cva-validationmessage"><code>validationMessage</code></a>.</li>
+      <li>{{HTMLAgeCheckElement/checkValidity()}}: see
+      <a data-cite="HTML#dom-cva-checkvalidity"><code>checkValidity()</code></a>.</li>
+      <li>{{HTMLAgeCheckElement/reportValidity()}}: see
+      <a data-cite="HTML#dom-cva-reportvalidity"><code>reportValidity()</code></a>.</li>
+      <li>{{HTMLAgeCheckElement/setCustomValidity()}}: see
+      <a data-cite="HTML#dom-cva-setcustomvalidity"><code>setCustomValidity()</code></a>.
+      The method sets the element's
+      <a data-cite="HTML#custom-validity-error-message">custom validity error
+      message</a>.</li>
+    </ul>
+    <p>
+      So a form with a required <code>agecheck</code> element does not submit
+      until a check succeeds, unless the form or the submitter turns
+      validation off.
+    </p>
+
+    <section id="forms-validation-patch">
+      <h4>Patch to the definitions of validity states</h4>
+      <p>
+        HTML defines <code>required</code> only for <code>input</code>,
+        <code>select</code> and <code>textarea</code>. The entry for
+        "Suffering from being missing" in
+        <a data-cite="HTML#constraints">Constraints</a> gains this case:
+      </p>
+      <blockquote>
+        <p>
+          <ins>When an <code>agecheck</code> element has a
+          <code>required</code> attribute and its meets age flag is
+          false.</ins>
+        </p>
+      </blockquote>
+    </section>
+  </section>
+
+  <section id="forms-fieldset">
+    <h3>Disabled state and <code>fieldset</code></h3>
+    <p>
+      In
+      <a data-cite="HTML#enabling-and-disabling-form-controls:-the-disabled-attribute">Enabling
+      and disabling form controls</a>, the first case of "A form control is
+      disabled" lists element names. The list gains <code>agecheck</code>:
+    </p>
+    <blockquote>
+      <p>
+        the element is a <code>button</code>, <ins><code>agecheck</code>,</ins>
+        <code>input</code>, <code>select</code>, <code>textarea</code>, or
+        form-associated custom element, and the <code>disabled</code>
+        attribute is specified on this element (regardless of its value); or
+      </p>
+    </blockquote>
+    <p>
+      The second case needs no change. An <code>agecheck</code> element inside
+      a <code>fieldset</code> with a <code>disabled</code> attribute is
+      disabled, unless the element is inside that <code>fieldset</code>'s first
+      <code>legend</code> child.
+    </p>
+    <p>
+      A disabled <code>agecheck</code> element:
+    </p>
+    <ul>
+      <li>starts no check, because HTML blocks queued click events on a
+      disabled form control;</li>
+      <li>adds no entry to the entry list;</li>
+      <li>is barred from constraint validation; and</li>
+      <li>keeps its <a href="#dfn-meets-age">meets age</a> flag. When the
+      element becomes enabled again, the element adds its entry again.</li>
+    </ul>
+    <p>
+      When an element becomes disabled during a check, the check fires
+      <code>error</code> when the check ends (see
+      <a href="#finish-a-check">finish a check</a>).
+    </p>
+  </section>
+
+  <section id="forms-cloning">
+    <h3>Cloning</h3>
+    <p>
+      The <a data-cite="DOM#concept-node-clone-ext">cloning steps</a> for
+      <code>agecheck</code> elements, given <var>node</var>, <var>copy</var> and
+      <var>subtree</var>, do nothing. The <var>copy</var> starts with its
+      <a href="#dfn-meets-age">meets age</a> flag false and with no check in
+      progress, whatever the state of <var>node</var>.
+    </p>
+    <aside class="note">
+      The <code>input</code> element copies its checkedness to a clone. The
+      <code>agecheck</code> element does not copy its flag on purpose. A page
+      cannot make a passed check by cloning an element that passed.
+    </aside>
+  </section>
+
+  <section id="forms-insertion-removal">
+    <h3>Insertion, removal and adoption</h3>
+    <p>
+      The <code>agecheck</code> element defines no HTML element insertion
+      steps. HTML's insertion steps reset the form owner, as for every
+      form-associated element.
+    </p>
+    <p>
+      The element defines no HTML element removing steps and no moving steps.
+      Script can remove the element and put it back while a check runs, with
+      <code>insertBefore()</code>, <code>remove()</code> followed by
+      <code>append()</code>, or <code>moveBefore()</code>, and the check goes
+      on. A page that reorders a list does exactly that, and the person's
+      answer should survive it. When the check ends, the
+      <a href="#finish-a-check">finish steps</a> look at where the element is.
+      They fail the check when the element is not connected, or when the
+      element's node document is not the document where the check started.
+    </p>
+    <p>
+      So adopting the element into another document fails a running check,
+      even when the other document is a same-origin iframe. DOM removes a node
+      from its parent before the node moves to another document, but the
+      <code>agecheck</code> element needs no
+      <a data-cite="DOM#concept-node-adopt-ext">adopting steps</a> for this.
+      The finish steps clear the
+      <a href="#dfn-check-in-progress">check in progress</a> flag on the document
+      where the check started, not on the document where the element ends up.
+    </p>
+    <div class="issue" id="issue-flag-on-removal">
+      <p>
+        This draft does not decide whether removal or insertion clears the
+        <a href="#dfn-meets-age">meets age</a> flag. As written, the flag
+        stays true when script removes the element and inserts the element
+        again. The flag also stays true when script moves the element into a
+        different form, so the new form submits the [=agecheck entry=].
+      </p>
+    </div>
+  </section>
+
+  <section id="forms-age-change">
+    <h3>Changes to <code>age</code></h3>
+    <p>
+      The <a href="#agecheck-age-change-steps">attribute change steps</a> for
+      <code>age</code> clear the <a href="#dfn-meets-age">meets age</a> flag
+      when the requested age changes. A running check compares the requested
+      age with its own snapshot when the check ends (see
+      <a href="#finish-a-check">finish a check</a>).
+    </p>
+  </section>
+
+  <section id="forms-bfcache">
+    <h3>Back/forward cache</h3>
+    <p>
+      The user agent never restores the
+      <a href="#dfn-meets-age">meets age</a> flag after a navigation. When a
+      document comes back from the back/forward cache, the user agent clears
+      the flag before the <code>pageshow</code> event. The page can then update
+      its own state.
+    </p>
+    <p>
+      In <a data-cite="HTML#reactivate-a-document">reactivate a document</a>, a
+      new step goes right after the step that resets form controls whose
+      autofill field name is "off":
+    </p>
+    <blockquote>
+      <p>
+        <ins>For each <code>agecheck</code> element whose node document is
+        <var>document</var>, invoke the reset algorithm for that
+        element.</ins>
+      </p>
+    </blockquote>
+    <p>
+      The new step comes before the step that fires <code>pageshow</code>. The
+      step covers elements that are not connected, since script can still
+      hold them.
+    </p>
+  </section>
+
+  <section id="forms-unloading">
+    <h3>Navigation and unloading during a check</h3>
+    <p>
+      HTML's
+      <a data-cite="HTML#unloading-document-cleanup-steps">unloading document
+      cleanup steps</a> gain these steps, given a <code>Document</code>
+      <var>document</var>:
+    </p>
+    <ol class="algorithm">
+      <li>
+        For each <code>agecheck</code> element <var>element</var> whose node
+        document is <var>document</var> and whose
+        [=agecheck/check pending=] is true:
+        <ol>
+          <li>Set <var>element</var>'s [=agecheck/check dropped=] flag to
+          true.</li>
+          <li>The user agent MUST close any prompt that the check shows.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      Closing the prompt this way counts as the person closing the prompt
+      without agreeing. A prompt that outlived its document would name a site
+      the person no longer sees.
+    </p>
+    <p>
+      The dropped check never sets the
+      <a href="#dfn-meets-age">meets age</a> flag. The check queues an
+      <code>error</code> event. The event loop runs that task only when the
+      document is <a data-cite="HTML#fully-active">fully active</a> again,
+      because of the rules for a
+      <a data-cite="HTML#concept-task-runnable">runnable</a> task. A document
+      that the user agent destroys never sees the event. A document that comes
+      back from the back/forward cache sees the <code>error</code> event after
+      the reactivation steps.
+    </p>
+  </section>
+
+  <section id="forms-implicit-submission">
+    <h3>Enter and implicit submission</h3>
+    <p>
+      The <code>agecheck</code> element is never a submit button, so the
+      element is never a form's
+      <a data-cite="HTML#default-button">default button</a>. The element is
+      also never a
+      <a data-cite="HTML#field-that-blocks-implicit-submission">field that
+      blocks implicit submission</a>.
+    </p>
+    <p>
+      When an <code>agecheck</code> element has focus, a trusted Enter key
+      press activates the element and so runs
+      <a href="#run-a-check">run a check</a>. The element consumes that key
+      press. The user agent MUST NOT also treat the key press as
+      <a data-cite="HTML#implicit-submission">implicit submission</a> of the
+      element's form owner. Enter on a focused <code>agecheck</code> element
+      never submits the form, and never clicks the form's default button.
+    </p>
+    <p>
+      Enter in a text field of the same form works as before. The user agent
+      fires a <code>click</code> at the default button, and the form then
+      validates its controls. A required <code>agecheck</code> element without
+      a successful check stops the submission.
+    </p>
+  </section>
 </section>
