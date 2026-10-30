@@ -71,15 +71,16 @@
 </h3>
 <p>
   The prompt belongs to the browser or the platform, not the page. Its
-  accessibility is still in scope. The prompt should meet WCAG 2.2. Where the
-  prompt is not web content, the prompt should meet WCAG 2.2 as WCAG2ICT
-  describes. The prompt exposes its content to assistive technology with the
-  right names, roles and values. The prompt does not rely on one sense or one
-  way of interacting. The prompt gives people enough time.
+  accessibility is still in scope. The user agent SHOULD make the prompt meet
+  WCAG 2.2. Where the prompt is not web content, the user agent SHOULD make the
+  prompt meet WCAG 2.2 as WCAG2ICT describes. The prompt exposes its content to
+  assistive technology with the right names, roles and values. The prompt does
+  not rely on one sense or one way of interacting. The prompt gives people
+  enough time.
 </p>
 <p>
   The prompt ignores input for a short time after it appears, as [=prompt
-  requirements=] says. During that time, the prompt MUST tell assistive
+  requirements=] says. During that time, the user agent MUST tell assistive
   technology that the prompt is not ready yet. Otherwise a person using
   assistive technology has to guess why their input does nothing.
 </p>
@@ -175,7 +176,7 @@
         `role=button`
       </td>
       <td>
-        No `role`. Authors MUST NOT use the `aria-checked`, `aria-pressed` or
+        No `role`. Authors must not use the `aria-checked`, `aria-pressed` or
         `aria-expanded` attributes on [^agecheck^] elements. Otherwise, global
         `aria-*` attributes and any `aria-*` attributes applicable to the
         implicit role.

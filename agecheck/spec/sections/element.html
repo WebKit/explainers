@@ -214,7 +214,7 @@
   What counts as activating the element
 </h4>
 <p>
-  The user agent must fire a `click` event at an [^agecheck^] element, with
+  The user agent MUST fire a `click` event at an [^agecheck^] element, with
   {{Event/isTrusted}} set to true, in each of these cases:
 </p>
 <ul>
@@ -226,8 +226,9 @@
   </li>
   <li>The person's assistive technology asks for the element's press action, or
   the platform's equivalent default action. Before the user agent fires the
-  `click` event, it MUST give the element's [=relevant global object=]
-  transient activation, as it does for an activation triggering input event.
+  `click` event, the user agent MUST give the element's [=relevant global
+  object=] transient activation, as it does for an activation triggering input
+  event.
   </li>
   <li>The person clicks a `label` whose labeled control is the element. The
   label patch in [[[#patch-label]]] makes that a trusted click on the element.
