@@ -202,19 +202,10 @@
   <section id="forms-fieldset">
     <h3>Disabled state and <code>fieldset</code></h3>
     <p>
-      In
-      <a data-cite="HTML#enabling-and-disabling-form-controls:-the-disabled-attribute">Enabling
-      and disabling form controls</a>, the first case of "A form control is
-      disabled" lists element names. The list gains <code>agecheck</code>:
+      The <code>disabled</code> attribute makes the element disabled through
+      one change to HTML's list of elements. <a href="#patch-disabled"></a>
+      gives the exact words.
     </p>
-    <blockquote>
-      <p>
-        the element is a <code>button</code>, <ins><code>agecheck</code>,</ins>
-        <code>input</code>, <code>select</code>, <code>textarea</code>, or
-        form-associated custom element, and the <code>disabled</code>
-        attribute is specified on this element (regardless of its value); or
-      </p>
-    </blockquote>
     <p>
       The second case needs no change. An <code>agecheck</code> element inside
       a <code>fieldset</code> with a <code>disabled</code> attribute is
@@ -225,8 +216,9 @@
       A disabled <code>agecheck</code> element:
     </p>
     <ul>
-      <li>starts no check, because HTML blocks queued click events on a
-      disabled form control;</li>
+      <li>starts no check, because the first step of the activation behavior
+      and of <a href="#run-a-check">run a check</a> returns for a disabled
+      element;</li>
       <li>adds no entry to the entry list;</li>
       <li>is barred from constraint validation; and</li>
       <li>keeps its <a href="#dfn-meets-age">meets age</a> flag. When the
