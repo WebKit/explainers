@@ -1,4 +1,4 @@
-<section id="testing" data-cite="webdriver webdriver-bidi">
+<section data-cite="webdriver webdriver-bidi">
   <h2>
     Automated testing
   </h2>
@@ -8,7 +8,7 @@
     [^agecheck^] element without a real person or a real age. Support for the
     module is OPTIONAL for a [=user agent=].
   </p>
-  <h3 id="testing-module">
+  <h3>
     The `ageCheck` module
   </h3>
   <p>
@@ -36,7 +36,7 @@
     Each {^ageCheck.VirtualAgeSourceAction^} value says how [=ask the age
     source=] answers:
   </p>
-  <dl id="virtual-age-source-actions">
+  <dl>
     <dt>
       `"meets"`
     </dt>
@@ -90,7 +90,7 @@
     Each {^ageCheck.VirtualPromptAction^} value names what the virtual person
     does when the user agent's prompt appears:
   </p>
-  <dl id="virtual-prompt-actions">
+  <dl>
     <dt>
       `"share"`
     </dt>
@@ -105,7 +105,7 @@
       The virtual person cancels the prompt.
     </dd>
   </dl>
-  <h4 id="testing-commands">
+  <h4>
     The `ageCheck.setVirtualAgeSourceBehavior` command
   </h4>
   <dl>
@@ -138,7 +138,7 @@
     The [=remote end steps=] for the `ageCheck.setVirtualAgeSourceBehavior`
     command, given |session| and |command parameters|, are:
   </p>
-  <ol class="algorithm" id="set-virtual-age-source-behavior">
+  <ol class="algorithm">
     <li>Let |action: VirtualAgeSourceAction| be |command
     parameters|["`action`"].
     </li>
@@ -181,7 +181,7 @@
     <li>Return [=success=] with data `null`.
     </li>
   </ol>
-  <h4 id="testing-handle">
+  <h4>
     Using the virtual behavior during a check
   </h4>
   <p>

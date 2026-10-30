@@ -1,10 +1,10 @@
-<h2 id="age-source">
+<h2>
   Age source and prompt requirements
 </h2>
 <p>
   The <dfn class="export">supported ages</dfn> are 13, 16 and 18.
 </p>
-<h3 id="age-results">
+<h3>
   Age check results
 </h3>
 <p>
@@ -44,7 +44,7 @@
     other reason.
   </dd>
 </dl>
-<h3 id="platform-age-service">
+<h3>
   Platform age services
 </h3>
 <p>
@@ -69,7 +69,7 @@
   gets an age at all. The user agent MUST follow those controls, including a
   parent's choice that the child is asked each time.
 </p>
-<h3 id="result-for-range">
+<h3>
   Result for an age range
 </h3>
 <p>
@@ -86,7 +86,7 @@
   <li>Return [=age check result/does not meet=].
   </li>
 </ol>
-<h3 id="kept-copy">
+<h3>
   The kept copy of a platform answer
 </h3>
 <p>
@@ -122,7 +122,7 @@
   One range is lower than another when the first range's [=age range/lower
   bound=] is smaller. A lower bound of none is smaller than every age.
 </p>
-<h3 id="stored-age-group">
+<h3>
   An age group the user agent stores
 </h3>
 <p>
@@ -151,7 +151,7 @@
   private browsing window stored once that private browsing session ends.
   </li>
 </ul>
-<h3 id="ask-age-source">
+<h3>
   Asking the age source
 </h3>
 <p>
@@ -212,7 +212,7 @@
   range and |age|.
   </li>
 </ol>
-<h3 id="remembered-consent-section">
+<h3>
   Remembered consent
 </h3>
 <p>
@@ -240,7 +240,7 @@
   [[[#sp-people-in-danger]]].
   </li>
 </ul>
-<h3 id="prompt-requirements-section">
+<h3>
   Prompt requirements
 </h3>
 <p>
@@ -249,43 +249,41 @@
   looks, what the prompt's controls say, or where those controls go.
 </p>
 <ol>
-  <li id="prompt-requirements-origin">The prompt MUST name the [=origin=] of
-  the top-level document that started the check.
+  <li>The prompt MUST name the [=origin=] of the top-level document that
+  started the check.
   </li>
-  <li id="prompt-requirements-modal">The person MUST NOT be able to use the
-  page until the person answers or closes the prompt.
+  <li>The person MUST NOT be able to use the page until the person answers or
+  closes the prompt.
   </li>
-  <li id="prompt-requirements-delay">The prompt MUST ignore input for a short
-  time after the prompt appears, for example as long as the system's
-  double-click time. A page then cannot use a fast second click to answer a
-  prompt the person has not seen yet.
+  <li>The prompt MUST ignore input for a short time after the prompt appears,
+  for example as long as the system's double-click time. A page then cannot use
+  a fast second click to answer a prompt the person has not seen yet.
   </li>
-  <li id="prompt-requirements-covered">The prompt MUST ignore input while a
-  window from the page or from another application covers the prompt. A window
-  that the person's assistive technology draws, such as an on-screen keyboard
-  or a magnifier, does not count as covering the prompt.
+  <li>The prompt MUST ignore input while a window from the page or from another
+  application covers the prompt. A window that the person's assistive
+  technology draws, such as an on-screen keyboard or a magnifier, does not
+  count as covering the prompt.
   </li>
-  <li id="prompt-requirements-held-key">A key that the person was already
-  holding down when the prompt appeared MUST NOT answer the prompt.
+  <li>A key that the person was already holding down when the prompt appeared
+  MUST NOT answer the prompt.
   </li>
-  <li id="prompt-requirements-traces">The page MUST NOT be able to learn the
-  person's choice from traces the prompt leaves, such as where the pointer
-  rests, which element has focus afterward, or how long the user agent took.
+  <li>The page MUST NOT be able to learn the person's choice from traces the
+  prompt leaves, such as where the pointer rests, which element has focus
+  afterward, or how long the user agent took.
   </li>
-  <li id="prompt-requirements-no-unmet-age">The prompt MUST NOT ask the person
-  to share an age the person does not meet. When the result is not [=age check
-  result/meets=], the prompt tells the person that the age cannot be shared,
-  and the person can only close the prompt.
+  <li>The prompt MUST NOT ask the person to share an age the person does not
+  meet. When the result is not [=age check result/meets=], the prompt tells the
+  person that the age cannot be shared, and the person can only close the
+  prompt.
   </li>
-  <li id="prompt-requirements-enter-age">When the user agent offers a [=stored
-  age group=] and has none, the prompt MAY let the person choose an age group.
-  The user agent then stores that group. The check then goes on with the
-  [=result for an age range=] given that group's range and the age asked about.
-  If the person chooses no group, the check fails.
+  <li>When the user agent offers a [=stored age group=] and has none, the
+  prompt MAY let the person choose an age group. The user agent then stores
+  that group. The check then goes on with the [=result for an age range=] given
+  that group's range and the age asked about. If the person chooses no group,
+  the check fails.
   </li>
-  <li id="prompt-requirements-same-failure">The user agent MUST NOT add a
-  timing difference of its own between failures. So the page cannot tell a
-  person who is too young from a person who has no age set, declined, or hit an
-  age source failure.
+  <li>The user agent MUST NOT add a timing difference of its own between
+  failures. So the page cannot tell a person who is too young from a person who
+  has no age set, declined, or hit an age source failure.
   </li>
 </ol>

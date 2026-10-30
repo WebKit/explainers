@@ -1,7 +1,7 @@
-<h2 id="the-agecheck-element">
+<h2>
   The `agecheck` element
 </h2>
-<dl class="element" id="agecheck-element-definition">
+<dl class="element">
   <dt>
     Categories:
   </dt>
@@ -105,21 +105,21 @@
       </pre>
   </dd>
 </dl>
-<p id="agecheck-represents">
+<p>
   The <dfn class="export" data-dfn-type="element">agecheck</dfn> element
   represents a control labeled by its contents. A person uses the control to
   share that they are at least the age that the [^agecheck/age^] attribute
   names. The element uses the <dfn class="export">HTMLAgeCheckElement</dfn>
   interface.
 </p>
-<aside class="note" id="agecheck-declared-not-verified">
+<aside class="note">
   <p>
     The answer is an age that the person, a parent, or the platform declared.
     The element does not prove anyone's age. Anyone can send the same form
     value to a server.
   </p>
 </aside>
-<h3 id="agecheck-age-attribute">
+<h3>
   The `age` attribute
 </h3>
 <p>
@@ -132,7 +132,7 @@
   To <dfn class="export" data-dfn-for="agecheck">parse an age</dfn> given a
   string or null |value|:
 </p>
-<ol class="algorithm" id="agecheck-parse-an-age-steps">
+<ol class="algorithm">
   <li>If |value| is null, then return 18.
   </li>
   <li>Let |number| be the result of parsing |value| with the rules for parsing
@@ -151,7 +151,7 @@
   the element's [^agecheck/age^] attribute value. When the element has no `age`
   attribute, [=agecheck/parse an age=] gets null instead.
 </p>
-<p id="agecheck-age-change-steps">
+<p>
   The [=attribute change steps=] for an [^agecheck^] element |element|, given
   |localName|, |oldValue|, |value|, and |namespace|, are:
 </p>
@@ -168,7 +168,7 @@
   <li>Set |element|'s [=agecheck/meets age=] flag to false.
   </li>
 </ol>
-<h3 id="agecheck-form-attributes">
+<h3>
   The `name`, `form`, `disabled`, and `required` attributes
 </h3>
 <p>
@@ -182,7 +182,7 @@
   "element-attr">required</dfn> attribute is a boolean attribute. When the
   attribute is specified, the element is required.
 </p>
-<h3 id="agecheck-meets-age">
+<h3>
   The `meetsAge` attribute
 </h3>
 <p>
@@ -193,7 +193,7 @@
   The <dfn data-dfn-for="HTMLAgeCheckElement">meetsAge</dfn> getter steps are
   to return [=this=]'s [=agecheck/meets age=] flag.
 </p>
-<h3 id="agecheck-activation">
+<h3>
   Activation behavior
 </h3>
 <p>
@@ -219,29 +219,27 @@
   {{Event/isTrusted}} set to true, in each of these cases:
 </p>
 <ul>
-  <li id="activate-pointer">The person clicks or taps the element.
+  <li>The person clicks or taps the element.
   </li>
-  <li id="activate-keys">The element has focus and the person presses the Enter
-  key, or presses and then releases the Space key. For the button role, these
-  are the same keys that activate a `button` element on the same platform.
+  <li>The element has focus and the person presses the Enter key, or presses
+  and then releases the Space key. For the button role, these are the same keys
+  that activate a `button` element on the same platform.
   </li>
-  <li id="activate-assistive-technology">The person's assistive technology asks
-  for the element's press action, or the platform's equivalent default action.
-  Before the user agent fires the `click` event, it MUST give the element's
-  [=relevant global object=] transient activation, as it does for an activation
-  triggering input event.
+  <li>The person's assistive technology asks for the element's press action, or
+  the platform's equivalent default action. Before the user agent fires the
+  `click` event, it MUST give the element's [=relevant global object=]
+  transient activation, as it does for an activation triggering input event.
   </li>
-  <li id="activate-label">The person clicks a `label` whose labeled control is
-  the element. The label patch in [[[#patch-label]]] makes that a trusted click
-  on the element.
+  <li>The person clicks a `label` whose labeled control is the element. The
+  label patch in [[[#patch-label]]] makes that a trusted click on the element.
   </li>
 </ul>
-<aside class="note" id="note-activation-monkeypatch">
+<aside class="note">
   The rule in the last item patches HTML's user activation processing model,
   which has no notion of an assistive technology press action. The rule sits
   here for now. It moves into HTML with the other patches.
 </aside>
-<h3 id="agecheck-idl-attributes">
+<h3>
   IDL attributes and methods
 </h3>
 <p>
