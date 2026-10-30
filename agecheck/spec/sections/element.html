@@ -32,11 +32,11 @@
 
     <dt>Content attributes:</dt>
     <dd>[[[HTML#global-attributes]]]</dd>
-    <dd><code>[^agecheck/age^]</code>: The age that a check asks about</dd>
+    <dd>[^agecheck/age^]: The age that a check asks about</dd>
     <dd>`disabled`: Whether the form control is disabled</dd>
-    <dd>`form`: Associates the element with a <code>form</code> element</dd>
-    <dd>`name`: Name of the element to use for form submission and in the <code>form.elements</code> API</dd>
-    <dd><code>[^agecheck/required^]</code>: Whether the control must pass a check before the form submits</dd>
+    <dd>`form`: Associates the element with a `form` element</dd>
+    <dd>`name`: Name of the element to use for form submission and in the `form.elements` API</dd>
+    <dd>[^agecheck/required^]: Whether the control must pass a check before the form submits</dd>
 
     <dt>Accessibility considerations:</dt>
     <dd>
@@ -80,7 +80,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     The <dfn class="export" data-dfn-type="element" id="dfn-agecheck">agecheck</dfn>
     element represents a control labeled by its contents. A person uses the
     control to share that they are at least the age that the
-    <code>[^agecheck/age^]</code> attribute names. The element uses the
+    [^agecheck/age^] attribute names. The element uses the
     <dfn class="export">HTMLAgeCheckElement</dfn> interface.
   </p>
 
@@ -121,8 +121,8 @@ interface HTMLAgeCheckElement : HTMLElement {
     <p>
       The <dfn class="export" data-dfn-for="agecheck" id="dfn-requested-age">requested age</dfn>
       of an [^agecheck^] element is the result of running
-      [=agecheck/parse an age=] on the element's <code>[^agecheck/age^]</code>
-      attribute value. When the element has no <code>age</code> attribute,
+      [=agecheck/parse an age=] on the element's [^agecheck/age^]
+      attribute value. When the element has no `age` attribute,
       [=agecheck/parse an age=] gets null instead.
     </p>
 
@@ -133,7 +133,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     </p>
     <ol class="algorithm">
       <li>
-        If |localName| is not <code>age</code> or |namespace|
+        If |localName| is not `age` or |namespace|
         is not null, then return.
       </li>
       <li>
@@ -220,7 +220,7 @@ interface HTMLAgeCheckElement : HTMLElement {
       <h4>What counts as activating the element</h4>
 
       <p>
-        The user agent must fire a <code>click</code> event at an
+        The user agent must fire a `click` event at an
         [^agecheck^] element, with {{Event/isTrusted}} set to true, in
         each of these cases:
       </p>
@@ -231,19 +231,19 @@ interface HTMLAgeCheckElement : HTMLElement {
         <li id="activate-keys">
           The element has focus and the person presses the Enter key, or
           presses and then releases the Space key. For the button role, these are
-          the same keys that activate a <code>button</code> element on the
+          the same keys that activate a `button` element on the
           same platform.
         </li>
         <li id="activate-assistive-technology">
           The person's assistive technology asks for the element's press
           action, or the platform's equivalent default action. Before the user
-          agent fires the <code>click</code> event, it MUST give the element's
+          agent fires the `click` event, it MUST give the element's
           [=relevant global object=]
           transient activation, as it does for an
           activation triggering input event.
         </li>
         <li id="activate-label">
-          The person clicks a <code>label</code> whose labeled control is the
+          The person clicks a `label` whose labeled control is the
           element. The label patch in <a href="#patch-label"></a> makes that a
           trusted click on the element.
         </li>
@@ -263,7 +263,7 @@ interface HTMLAgeCheckElement : HTMLElement {
 
     <p>
       The <dfn data-dfn-for="HTMLAgeCheckElement">age</dfn> IDL attribute
-      [=reflects=] the <code>[^agecheck/age^]</code> content attribute, with a
+      [=reflects=] the [^agecheck/age^] content attribute, with a
       default value of 18. The
       <dfn data-dfn-for="HTMLAgeCheckElement">disabled</dfn>,
       <dfn data-dfn-for="HTMLAgeCheckElement">name</dfn>, and
@@ -282,12 +282,12 @@ interface HTMLAgeCheckElement : HTMLElement {
       methods, are part of the
       constraint validation API.
       The <dfn data-dfn-for="HTMLAgeCheckElement">labels</dfn> IDL attribute
-      provides a list of the element's <code>label</code> elements, as
+      provides a list of the element's `label` elements, as
       `labels` defines. The
-      <code>disabled</code>,
+      `disabled`,
       <dfn data-dfn-for="HTMLAgeCheckElement">form</dfn>, and
-      <code>name</code> IDL attributes are part of the element's forms API.
-      The <code>form</code> getter follows
+      `name` IDL attributes are part of the element's forms API.
+      The `form` getter follows
       `HTML's definition`.
     </p>
 

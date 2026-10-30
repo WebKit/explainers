@@ -36,41 +36,41 @@
       <li>
         If |document|'s [=Document/pending agecheck element=] is not null, then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=fire an event=] named <code>error</code> at |element|, and return.
+        [=fire an event=] named `error` at |element|, and return.
       </li>
       <li>
         If |document|'s [=node navigable=] is null, or is not a [=top-level traversable=], then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=fire an event=] named <code>error</code> at |element|, and return.
+        [=fire an event=] named `error` at |element|, and return.
       </li>
       <li>
         If |element|'s [=relevant settings object=] is not a [=secure context=], then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=fire an event=] named <code>error</code> at |element|, and return.
+        [=fire an event=] named `error` at |element|, and return.
       </li>
       <li>
         If |document|'s [=Document/active sandboxing flag set|active sandboxing flag set=] has the
         [=sandboxed modals flag=], then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=fire an event=] named <code>error</code> at |element|, and return.
+        [=fire an event=] named `error` at |element|, and return.
       </li>
       <li>
         If |document|'s [=Document/origin=] is an [=opaque origin=], then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=fire an event=] named <code>error</code> at |element|, and return.
+        [=fire an event=] named `error` at |element|, and return.
       </li>
       <li>
         Let |age: integer or failure| be the [=agecheck/requested age=] of |element|.
       </li>
       <li>
         If |age| is failure, then [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=fire an event=] named <code>error</code> at |element|, and return.
+        [=fire an event=] named `error` at |element|, and return.
       </li>
       <li>
         If |element|'s [=relevant global object=] does not have
         [=transient activation=], then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=fire an event=] named <code>error</code> at |element|, and return.
+        [=fire an event=] named `error` at |element|, and return.
       </li>
       <li>
         [=Consume user activation=] of |element|'s
@@ -139,29 +139,29 @@
       <li>
         If |element| is not [=connected=], or |element|'s [=Node/node document|node document=] is not |document|,
         or |document| is not [=Document/fully active|fully active=], then
-        [=fire an event=] named <code>error</code> at |element|, and return.
+        [=fire an event=] named `error` at |element|, and return.
       </li>
       <li>
-        If |element|'s [=agecheck/check dropped=] is true, then [=fire an event=] named <code>error</code> at |element|, and
+        If |element|'s [=agecheck/check dropped=] is true, then [=fire an event=] named `error` at |element|, and
         return.
       </li>
       <li>
         Let |currentAge: integer or failure| be the [=agecheck/requested age=] of |element|.
       </li>
       <li>
-        If |currentAge| is not |age|, then [=fire an event=] named <code>error</code> at |element|, and return.
+        If |currentAge| is not |age|, then [=fire an event=] named `error` at |element|, and return.
       </li>
       <li>
         If |element| is disabled, then
-        [=fire an event=] named <code>error</code> at |element|, and return.
+        [=fire an event=] named `error` at |element|, and return.
       </li>
       <li>
-        If |shared| is false, then [=fire an event=] named <code>error</code> at |element|, and
+        If |shared| is false, then [=fire an event=] named `error` at |element|, and
         return.
       </li>
       <li>Set |element|'s <a href="#dfn-meets-age">meets age</a> flag to true.</li>
       <li>
-        [=Fire an event=] named <code>change</code> at |element|, with the
+        [=Fire an event=] named `change` at |element|, with the
         {{Event/bubbles}} attribute initialized to true.
       </li>
     </ol>
@@ -186,8 +186,8 @@
       <p>
         HTML and other specifications give the same kind of guarantee for
         other objects with pending work, such as media elements, a
-        <code>MessagePort</code> with a queued event, and an
-        <code>EventSource</code> that is connecting.
+        `MessagePort` with a queued event, and an
+        `EventSource` that is connecting.
       </p>
     </aside>
   </section>

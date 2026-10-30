@@ -10,7 +10,7 @@
   <section id="testing-module">
     <h3>The <code>ageCheck</code> module</h3>
     <p>
-      The <code>ageCheck</code> module contains a command that sets a
+      The `ageCheck` module contains a command that sets a
       <dfn class="export">virtual age source behavior</dfn>. While a virtual age
       source behavior is set, a check talks to neither the platform nor the
       person. The user agent answers both the age source and the prompt from
@@ -35,33 +35,33 @@ ageCheck.SetVirtualAgeSourceBehaviorParameters = {
         <a href="#ask-the-age-source">ask the age source</a> returns:
       </p>
       <dl id="virtual-age-source-actions">
-        <dt><code>"meets"</code></dt>
+        <dt>`"meets"`</dt>
         <dd>
           The age source reports that the person is at least the age the
           check asks about.
         </dd>
-        <dt><code>"does-not-meet"</code></dt>
+        <dt>`"does-not-meet"`</dt>
         <dd>
           The age source reports that the person is younger than the age the
           check asks about.
         </dd>
-        <dt><code>"no-age-set"</code></dt>
+        <dt>`"no-age-set"`</dt>
         <dd>The age source reports that the person has no age set.</dd>
-        <dt><code>"declined"</code></dt>
+        <dt>`"declined"`</dt>
         <dd>
           The age source reports that the person declined in the platform's own
           prompt.
         </dd>
-        <dt><code>"failed"</code></dt>
+        <dt>`"failed"`</dt>
         <dd>The age source reports a failure.</dd>
-        <dt><code>"wait"</code></dt>
+        <dt>`"wait"`</dt>
         <dd>
           The age source does not answer until the test sets another behavior
           for the same context. The waiting check then continues with that
           behavior. Until then the check stays pending, so a test can observe
           what happens while a check runs.
         </dd>
-        <dt><code>"clear"</code></dt>
+        <dt>`"clear"`</dt>
         <dd>The command removes a [=virtual age source behavior=].</dd>
       </dl>
       <p>
@@ -69,12 +69,12 @@ ageCheck.SetVirtualAgeSourceBehaviorParameters = {
         person does when the user agent's prompt appears:
       </p>
       <dl id="virtual-prompt-actions">
-        <dt><code>"share"</code></dt>
+        <dt>`"share"`</dt>
         <dd>
           The virtual person agrees to share. Where the prompt says the age
           cannot be shared, the virtual person closes the prompt instead.
         </dd>
-        <dt><code>"cancel"</code></dt>
+        <dt>`"cancel"`</dt>
         <dd>The virtual person cancels the prompt.</dd>
       </dl>
     </section>
@@ -105,21 +105,21 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
       </p>
       <p>
         The [=remote end steps=] for the
-        <code>ageCheck.setVirtualAgeSourceBehavior</code> command, given
+        `ageCheck.setVirtualAgeSourceBehavior` command, given
         |session| and |command parameters|, are:
       </p>
       <ol class="algorithm" id="set-virtual-age-source-behavior">
-        <li>Let |action: VirtualAgeSourceAction| be |command parameters|["<code>action</code>"].</li>
+        <li>Let |action: VirtualAgeSourceAction| be |command parameters|["`action`"].</li>
         <li>
-          Let |prompt action: VirtualPromptAction| be |command parameters|["<code>prompt</code>"]
-          if present, and <code>"share"</code> otherwise.
+          Let |prompt action: VirtualPromptAction| be |command parameters|["`prompt`"]
+          if present, and `"share"` otherwise.
         </li>
         <li>
-          Let |context: BrowsingContext| be |command parameters|["<code>context</code>"] if
-          present, and <code>null</code> otherwise.
+          Let |context: BrowsingContext| be |command parameters|["`context`"] if
+          present, and `null` otherwise.
         </li>
         <li>
-          If |context| is not <code>null</code>:
+          If |context| is not `null`:
           <ol>
             <li>
               Let |navigable: navigable| be the result of [=trying=] to
@@ -132,30 +132,30 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
           </ol>
         </li>
         <li>
-          If |action| is <code>"clear"</code>:
+          If |action| is `"clear"`:
           <ol>
             <li>
-              If |context| is not <code>null</code>, remove the entry for
+              If |context| is not `null`, remove the entry for
               |context| from |session|'s map of virtual age source behaviors.
             </li>
             <li>
               Otherwise, clear |session|'s map of virtual age source behaviors
               and set |session|'s default [=virtual age source behavior=] to
-              <code>null</code>.
+              `null`.
             </li>
-            <li>Return [=success=] with data <code>null</code>.</li>
+            <li>Return [=success=] with data `null`.</li>
           </ol>
         </li>
         <li>Let |behavior: pair| be the pair (|action|, |prompt action|).</li>
         <li>
-          If |context| is not <code>null</code>, set |session|'s map of
+          If |context| is not `null`, set |session|'s map of
           virtual age source behaviors[|context|] to |behavior|.
         </li>
         <li>
           Otherwise, set |session|'s default [=virtual age source behavior=] to
           |behavior|.
         </li>
-        <li>Return [=success=] with data <code>null</code>.</li>
+        <li>Return [=success=] with data `null`.</li>
       </ol>
     </section>
 
@@ -168,7 +168,7 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
       <ol class="algorithm">
         <li>
           If the user agent's
-          webdriver-active flag is false, return <code>null</code>.
+          webdriver-active flag is false, return `null`.
         </li>
         <li>
           Let |context ID: string| be the ID of |document|'s [=node navigable=]'s
