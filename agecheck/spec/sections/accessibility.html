@@ -17,7 +17,7 @@
   The user agent MUST compute the element's accessible name with the same steps
   HTML-AAM gives for the `button` element:
 </p>
-<ol class="algorithm" id="a11y-name-steps">
+<ol class="algorithm">
   <li>If the element has an `aria-label` or an `aria-labelledby` attribute, use
   the accessible name computation from <cite>Accessible Name and
   Description</cite>.
@@ -31,7 +31,7 @@
   <li>Otherwise, use the element's `title` attribute.
   </li>
 </ol>
-<h3 id="a11y-states">
+<h3>
   States
 </h3>
 <ul>
@@ -42,7 +42,7 @@
   the element as required, where the button role supports a required state.
   </li>
 </ul>
-<h3 id="a11y-focus-return">
+<h3>
   Focus return
 </h3>
 <p>
@@ -50,7 +50,7 @@
   needs to land where they left off. When the user agent shows its prompt for
   an [^agecheck^] element |element|, the user agent MUST run these steps:
 </p>
-<ol class="algorithm" id="a11y-focus-return-steps">
+<ol class="algorithm">
   <li>Let |previous| be the focused area of the document of |element|'s
   [=Node/node document=], as the prompt opens.
   </li>
@@ -66,7 +66,7 @@
 <p>
   Focus returns before the user agent fires `change` or `error`.
 </p>
-<h3 id="a11y-prompt">
+<h3>
   The prompt
 </h3>
 <p>
@@ -83,7 +83,7 @@
   technology that the prompt is not ready yet. Otherwise a person using
   assistive technology has to guess why their input does nothing.
 </p>
-<h3 id="a11y-companion">
+<h3>
   Companion changes
 </h3>
 <p>
