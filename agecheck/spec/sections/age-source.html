@@ -2,42 +2,42 @@
   Age source and prompt requirements
 </h2>
 <p>
-  The <dfn class="export">supported ages</dfn> are 13, 16 and 18.
+  The <dfn>supported ages</dfn> are 13, 16 and 18.
 </p>
 <h3>
   Age check results
 </h3>
 <p>
-  An <dfn class="export">age check result</dfn> is one of the following:
+  An <dfn>age check result</dfn> is one of the following:
 </p>
 <dl>
   <dt>
-    <dfn class="export" data-dfn-for="age check result">meets</dfn>
+    <dfn data-dfn-for="age check result">meets</dfn>
   </dt>
   <dd>
     The age source says the person is at least the age asked about.
   </dd>
   <dt>
-    <dfn class="export" data-dfn-for="age check result">does not meet</dfn>
+    <dfn data-dfn-for="age check result">does not meet</dfn>
   </dt>
   <dd>
     The age source gave an age, and that age does not show the person is at
     least the age asked about.
   </dd>
   <dt>
-    <dfn class="export" data-dfn-for="age check result">no age set</dfn>
+    <dfn data-dfn-for="age check result">no age set</dfn>
   </dt>
   <dd>
     The age source has no age for the person.
   </dd>
   <dt>
-    <dfn class="export" data-dfn-for="age check result">declined</dfn>
+    <dfn data-dfn-for="age check result">declined</dfn>
   </dt>
   <dd>
     The person declined inside the platform's own age prompt.
   </dd>
   <dt>
-    <dfn class="export" data-dfn-for="age check result">failed</dfn>
+    <dfn data-dfn-for="age check result">failed</dfn>
   </dt>
   <dd>
     The age source refused to share, could not be reached, or failed for any
@@ -48,16 +48,16 @@
   Platform age services
 </h3>
 <p>
-  A <dfn class="export">platform age service</dfn> is a service of the
-  operating system or device platform that tells applications an age a person
-  declared, an age a parent set, or an age the platform checked. How the
-  platform sets the age is up to the platform.
+  A <dfn>platform age service</dfn> is a service of the operating system or
+  device platform that tells applications an age a person declared, an age a
+  parent set, or an age the platform checked. How the platform sets the age is
+  up to the platform.
 </p>
 <p>
-  A [=platform age service=] gives an <dfn class="export">age range</dfn>. An
-  [=age range=] has a <dfn class="export" data-dfn-for="age range">lower
-  bound</dfn>, which is either an age or none. A lower bound of none means the
-  range has no bottom, as for a person under 13.
+  A [=platform age service=] gives an <dfn>age range</dfn>. An [=age range=]
+  has a <dfn data-dfn-for="age range">lower bound</dfn>, which is either an age
+  or none. A lower bound of none means the range has no bottom, as for a person
+  under 13.
 </p>
 <p>
   The user agent MUST NOT tell the [=platform age service=] which site asked.
@@ -73,8 +73,8 @@
   Result for an age range
 </h3>
 <p>
-  To get the <dfn class="export">result for an age range</dfn> given an [=age
-  range=] |range| and an age |age|:
+  To get the <dfn>result for an age range</dfn> given an [=age range=] |range|
+  and an age |age|:
 </p>
 <ol class="algorithm">
   <li>If |range|'s [=age range/lower bound=] is none, return [=age check
@@ -90,19 +90,18 @@
   The kept copy of a platform answer
 </h3>
 <p>
-  Some platform age services have an <dfn class="export">anniversary
-  rule</dfn>: a higher range appears only on the anniversary of the day the age
-  was set.
+  Some platform age services have an <dfn>anniversary rule</dfn>: a higher
+  range appears only on the anniversary of the day the age was set.
 </p>
 <p>
-  A <dfn class="export">kept copy</dfn> holds an [=age range=] and the date the
-  user agent stored the range. The user agent uses the same [=kept copy=] for
-  every site. The length of time before a higher range applies is user agent
-  specific, for example one year.
+  A <dfn>kept copy</dfn> holds an [=age range=] and the date the user agent
+  stored the range. The user agent uses the same [=kept copy=] for every site.
+  The length of time before a higher range applies is user agent specific, for
+  example one year.
 </p>
 <p>
-  To <dfn class="export">update the kept copy</dfn> given an [=age range=]
-  |range| from the platform:
+  To <dfn>update the kept copy</dfn> given an [=age range=] |range| from the
+  platform:
 </p>
 <ol class="algorithm">
   <li>If there is no [=kept copy=], store |range| and today's date as the
@@ -131,10 +130,10 @@
   way the user agent stores payment details for autofill.
 </p>
 <p>
-  A <dfn class="export">stored age group</dfn> holds one of four age groups and
-  the date the person entered the group. The age groups are under 13, 13 to 15,
-  16 to 17, and 18 and over. Each group gives an [=age range=] whose [=age
-  range/lower bound=] is none, 13, 16 or 18, in that order.
+  A <dfn>stored age group</dfn> holds one of four age groups and the date the
+  person entered the group. The age groups are under 13, 13 to 15, 16 to 17,
+  and 18 and over. Each group gives an [=age range=] whose [=age range/lower
+  bound=] is none, 13, 16 or 18, in that order.
 </p>
 <ul>
   <li>The user agent SHOULD NOT store a birth date.
@@ -155,9 +154,9 @@
   Asking the age source
 </h3>
 <p>
-  To <dfn class="export">ask the age source</dfn> given an age |age| from the
-  [=supported ages=] and a {{Document}} |document|, the user agent runs these
-  steps. The steps return an [=age check result=].
+  To <dfn>ask the age source</dfn> given an age |age| from the [=supported
+  ages=] and a {{Document}} |document|, the user agent runs these steps. The
+  steps return an [=age check result=].
 </p>
 <ol class="algorithm">
   <li>Let |behavior| be the result of [=get the virtual age source behavior=]
@@ -196,7 +195,7 @@
       <li>If the platform failed for any other reason, such as a network
       problem, return [=age check result/failed=].
       </li>
-      <li>Let |range: age range| be the [=age range=] the platform gave.
+      <li>Let |range:age range| be the [=age range=] the platform gave.
       </li>
       <li>If the [=platform age service=] has no [=anniversary rule=], set
       |range| to the result of [=update the kept copy=] given |range|.
@@ -216,11 +215,10 @@
   Remembered consent
 </h3>
 <p>
-  <dfn class="export">Remembered consent</dfn> is a record that the person
-  agreed to share that the person is at least a given age with a given
-  [=site=]. The user agent keys each record by the [=site=] of the top-level
-  document's [=origin=] and by the age. A record for one age says nothing about
-  any other age.
+  <dfn>Remembered consent</dfn> is a record that the person agreed to share
+  that the person is at least a given age with a given [=site=]. The user agent
+  keys each record by the [=site=] of the top-level document's [=origin=] and
+  by the age. A record for one age says nothing about any other age.
 </p>
 <ul>
   <li>The user agent creates a record when the person agrees in the user
@@ -244,9 +242,9 @@
   Prompt requirements
 </h3>
 <p>
-  The <dfn class="export">prompt requirements</dfn> are the outcomes the user
-  agent's prompt must achieve. This specification does not say how the prompt
-  looks, what the prompt's controls say, or where those controls go.
+  The <dfn>prompt requirements</dfn> are the outcomes the user agent's prompt
+  must achieve. This specification does not say how the prompt looks, what the
+  prompt's controls say, or where those controls go.
 </p>
 <ol>
   <li>The prompt MUST name the [=origin=] of the top-level document that

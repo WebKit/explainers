@@ -2,16 +2,15 @@
   Form reset and page lifecycle
 </h2>
 <p>
-  Each [^agecheck^] element has a <dfn class="export" data-dfn-for=
-  "agecheck">check dropped</dfn> flag, initially false. The steps in this
-  section set the flag to true when a running check must not succeed.
+  Each [^agecheck^] element has a <dfn data-dfn-for="agecheck">check
+  dropped</dfn> flag, initially false. The steps in this section set the flag
+  to true when a running check must not succeed.
 </p>
 <h3>
   Reset
 </h3>
 <p>
-  The <dfn class="export">agecheck reset algorithm</dfn> is the reset algorithm
-  for [^agecheck^] elements. Given an [^agecheck^] element |element|:
+  The reset algorithm for an [^agecheck^] element |element| is:
 </p>
 <ol class="algorithm">
   <li>If |element|'s [=agecheck/check pending=] is true, set |element|'s

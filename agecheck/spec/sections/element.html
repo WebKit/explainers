@@ -106,11 +106,10 @@
   </dd>
 </dl>
 <p>
-  The <dfn class="export" data-dfn-type="element">agecheck</dfn> element
-  represents a control labeled by its contents. A person uses the control to
-  share that they are at least the age that the [^agecheck/age^] attribute
-  names. The element uses the <dfn class="export">HTMLAgeCheckElement</dfn>
-  interface.
+  The <dfn data-dfn-type="element">agecheck</dfn> element represents a control
+  labeled by its contents. A person uses the control to share that they are at
+  least the age that the [^agecheck/age^] attribute names. The element uses the
+  <dfn>HTMLAgeCheckElement</dfn> interface.
 </p>
 <aside class="note">
   <p>
@@ -123,14 +122,14 @@
   The `age` attribute
 </h3>
 <p>
-  The <dfn class="export" data-dfn-for="agecheck" data-dfn-type=
-  "element-attr">age</dfn> content attribute gives the age that a check asks
-  about. If the attribute is present, its value must be a valid non-negative
-  integer equal to 13, 16, or 18.
+  The <dfn data-dfn-for="agecheck" data-dfn-type="element-attr">age</dfn>
+  content attribute gives the age that a check asks about. If the attribute is
+  present, its value must be a valid non-negative integer equal to 13, 16, or
+  18.
 </p>
 <p>
-  To <dfn class="export" data-dfn-for="agecheck">parse an age</dfn> given a
-  string or null |value|:
+  To <dfn data-dfn-for="agecheck">parse an age</dfn> given a string or null
+  |value|:
 </p>
 <ol class="algorithm">
   <li>If |value| is null, then return 18.
@@ -146,10 +145,10 @@
   </li>
 </ol>
 <p>
-  The <dfn class="export" data-dfn-for="agecheck">requested age</dfn> of an
-  [^agecheck^] element is the result of running [=agecheck/parse an age=] on
-  the element's [^agecheck/age^] attribute value. When the element has no `age`
-  attribute, [=agecheck/parse an age=] gets null instead.
+  The <dfn data-dfn-for="agecheck">requested age</dfn> of an [^agecheck^]
+  element is the result of running [=agecheck/parse an age=] on the element's
+  [^agecheck/age^] attribute value. When the element has no `age` attribute,
+  [=agecheck/parse an age=] gets null instead.
 </p>
 <p>
   The [=attribute change steps=] for an [^agecheck^] element |element|, given
@@ -178,16 +177,16 @@
   non-interactive and to keep its value out of form submission.
 </p>
 <p>
-  The <dfn class="export" data-dfn-for="agecheck" data-dfn-type=
-  "element-attr">required</dfn> attribute is a boolean attribute. When the
-  attribute is specified, the element is required.
+  The <dfn data-dfn-for="agecheck" data-dfn-type="element-attr">required</dfn>
+  attribute is a boolean attribute. When the attribute is specified, the
+  element is required.
 </p>
 <h3>
   The `meetsAge` attribute
 </h3>
 <p>
-  Each [^agecheck^] element has a <dfn class="export" data-dfn-for=
-  "agecheck">meets age</dfn> flag, a boolean. The flag is initially false.
+  Each [^agecheck^] element has a <dfn data-dfn-for="agecheck">meets age</dfn>
+  flag, a boolean. The flag is initially false.
 </p>
 <p>
   The <dfn data-dfn-for="HTMLAgeCheckElement">meetsAge</dfn> getter steps are
@@ -197,8 +196,8 @@
   Activation behavior
 </h3>
 <p>
-  An [^agecheck^] element |element|'s <dfn class="export" data-dfn-for=
-  "agecheck">activation behavior</dfn> given |event| is:
+  An [^agecheck^] element |element|'s [=EventTarget/activation behavior=] given
+  |event| is:
 </p>
 <ol class="algorithm">
   <li>If |element| is disabled, then return.
