@@ -272,8 +272,8 @@
       <code>agecheck</code> element needs no
       <a data-cite="DOM#concept-node-adopt-ext">adopting steps</a> for this.
       The finish steps clear the
-      <a href="#dfn-check-in-progress">check in progress</a> flag on the document
-      where the check started, not on the document where the element ends up.
+      <a href="#dfn-pending-agecheck-element">pending agecheck element</a> of the document
+      where the check started, not of the document where the element ends up.
     </p>
     <p id="forms-owner-change">
       Changing the form owner changes neither the
@@ -335,9 +335,11 @@
     </p>
     <ol class="algorithm">
       <li>
-        For each <code>agecheck</code> element <var>element</var> whose node
-        document is <var>document</var> and whose
-        [=agecheck/check pending=] is true:
+        Let <var>element</var> be <var>document</var>'s
+        [=Document/pending agecheck element=].
+      </li>
+      <li>
+        If <var>element</var> is not null:
         <ol>
           <li>Set <var>element</var>'s [=agecheck/check dropped=] flag to
           true.</li>

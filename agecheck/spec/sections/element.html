@@ -328,6 +328,12 @@ interface HTMLAgeCheckElement : HTMLElement {
         </li>
       </ul>
 
+      <aside class="note" id="note-activation-monkeypatch">
+        The rule in the last item patches HTML's user activation processing
+        model, which has no notion of an assistive technology press action.
+        The rule sits here for now. It moves into HTML with the other patches.
+      </aside>
+
       <p id="activate-label">
         HTML lets each platform decide what a click on a
         <code>label</code> element does. For an <code>agecheck</code> element
