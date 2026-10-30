@@ -1,3 +1,254 @@
 <section id="security-privacy">
   <h2>Security and privacy considerations</h2>
+  <p>
+    The privacy goal is that a site learns one thing per check: whether the
+    person agreed to share that the person is at least one age. The site learns
+    nothing else about the person from the element. Every failure looks the
+    same, whether the person is too young, has no age set, or declined. The
+    [=prompt requirements=] say how the user agent keeps failures alike.
+  </p>
+  <p>
+    The answer is declared, not verified. The element gives a site no proof of
+    age. The rest of this section lists what remains exposed, what this
+    specification requires, and what this specification leaves open.
+  </p>
+
+  <section id="sp-several-ages">
+    <h3>Asking several ages</h3>
+    <p>
+      A site can ask about each of the [=supported ages=] in turn. The site then
+      learns the highest age the person agrees to share. The site can guess
+      that the person is younger than the next age, but the site cannot be
+      sure, because a refusal looks the same as a person who is too young.
+    </p>
+    <div class="issue" id="issue-several-ages-one-check">
+      Should one check ask about several ages at once? A movie site could then
+      ask once, but the person's age group would be revealed in a single
+      prompt.
+    </div>
+  </section>
+
+  <section id="sp-change-day">
+    <h3>The day an answer changes</h3>
+    <p>
+      A site that asks again and again can see the day the answer changes from
+      no to yes. That day is the anniversary of when the age was set, not the
+      birthday. The day is the same on every site, so sites that pool what they
+      learn can use the day to match a person across sites. A site that checks
+      every day sees the exact day, which narrows the person to one day of the
+      year. Apart from a correction, only people under 18 have such a day.
+    </p>
+    <p>
+      The [=kept copy=] rules hold back a higher answer until the anniversary,
+      so the day does not point to a birthday. If the person updates the age
+      early, the change may hint at a birthday. A lower range applies at once,
+      so a site can see yes become no. The site cannot tell why, and a drop
+      does not point to a birthday. The cost is that someone who has just had a
+      birthday may fail until the anniversary, unless the person or a parent
+      updates the age.
+    </p>
+    <div class="issue" id="issue-shift-change-day">
+      Should the user agent move the day a higher answer appears by a different
+      few days for each site? Sites that pool could then not match the day. The
+      cost is that a person who just reached an age waits longer. On a platform
+      with an [=anniversary rule=], the user agent would also have to keep a
+      copy, which [=ask the age source=] forbids today.
+    </div>
+  </section>
+
+  <section id="sp-failed-try">
+    <h3>A failed try</h3>
+    <p>
+      A site sees that the person started a check and did not pass. The site
+      cannot tell why. The site can still treat a failed try as a hint that a
+      child tried, and block or flag that person. Sites should never treat
+      <code>error</code> as "too young". This specification cannot make sites
+      follow that advice.
+    </p>
+    <p>
+      Once the person has agreed for a site and an age, a later failure for the
+      same site and age cannot mean "too young" for the same person. The
+      failure could show that a parent lowered the age, that sharing was turned
+      off, or that someone else is using the browser profile.
+    </p>
+  </section>
+
+  <section id="sp-timing">
+    <h3>Human timing</h3>
+    <p>
+      The user agent adds no timing difference of its own between failures.
+      The person's own timing can still differ. A prompt that only informs takes
+      a different time than a prompt that asks. A platform that has the person
+      set up an age first takes longer still. So the time the person took, or
+      the page noticing focus leave for the system settings, may hint that no
+      age is set. This specification leaves this exposure open.
+    </p>
+  </section>
+
+  <section id="sp-traces">
+    <h3>Traces of the person's choice</h3>
+    <p>
+      The page cannot see the prompt, but the prompt can leave traces. For
+      example, the pointer stays where the person pressed, and the page may be
+      able to read that position. A trace could tell a person who declined from
+      a person who could not share. The [=prompt requirements=] forbid traces
+      that reveal the choice. This specification does not list every possible
+      trace.
+    </p>
+  </section>
+
+  <section id="sp-scripts">
+    <h3>Scripts on the page</h3>
+    <p>
+      Like any form field, the answer is visible to every script the site
+      chooses to run, including analytics. A script can also add its own
+      <code>agecheck</code> element and read the result of a check that a
+      click on that element starts. The prompt names the site, not the script,
+      so the person cannot tell who asked. After the person agrees for a site
+      and an age, a click on that script's element or label starts a check
+      that runs with no prompt.
+    </p>
+    <div class="issue" id="issue-permissions-policy">
+      Should a site be able to turn the element off for its own page, for
+      example with a Permissions Policy? A script the site loads could then not
+      use the element. A site that does not use the element would lose nothing.
+    </div>
+  </section>
+
+  <section id="sp-tricked-approvals">
+    <h3>Tricked approvals and the label that covers the page</h3>
+    <p>
+      A page can push someone to approve without thinking. A page can make a
+      label for the element cover the whole page, so a click meant for
+      something else starts a check. The page can start a check again after
+      every refusal. After the person agrees for a site and an age, a click on
+      that label starts a check that runs with no prompt.
+    </p>
+    <p>
+      This specification requires a trusted event to start a check, so script
+      alone cannot start one. A check also needs transient activation and
+      consumes it, so one click or key press starts at most one check. The [=prompt requirements=] stop a fast second
+      click or a held key from answering a prompt the person has not seen. This
+      specification does not stop a page from placing a label wherever the page
+      likes.
+    </p>
+  </section>
+
+  <section id="sp-embedded">
+    <h3>Embedded content and third parties</h3>
+    <p>
+      A check runs only in a top-level document. Embedded content, such as a
+      video player, can get the answer only from the top-level page, by its own
+      means, such as <code>postMessage</code>. A third party can run the check as
+      a top-level page of its own, in a popup or after a redirect, and pass the
+      answer back. The prompt then names the third party. Nothing stops this.
+    </p>
+    <div class="issue" id="issue-iframes">
+      Should a later version let iframes use the element? If so, how does the
+      element stop one company's iframe, embedded on many sites, from becoming
+      the kind of third party this specification aims to avoid?
+    </div>
+  </section>
+
+  <section id="sp-shared-devices">
+    <h3>Shared devices</h3>
+    <p>
+      A minor can use an adult's unlocked device, or control the device
+      remotely. Child accounts on the platform are the main defense. On a
+      shared computer or browser profile, a [=stored age group=] and any
+      [=remembered consent=] apply to whoever is using the profile. Anyone
+      looking at the screen can also tell from the user agent's prompt whether
+      the person passed. This specification leaves these risks open.
+    </p>
+    <div class="issue" id="issue-shared-device-confirm">
+      On a shared device, the user agent cannot tell who is holding the device.
+      Should the user agent or the platform ask the person to confirm with a
+      biometric or a similar platform tool before the platform shares an age?
+    </div>
+  </section>
+
+  <section id="sp-stored-ages">
+    <h3>Ages the user agent stores</h3>
+    <p>
+      Where the platform has no [=platform age service=], the user agent may
+      keep an age the person enters, and the person can change that age. A
+      child can enter 18 and over. The element then protects that child no more
+      than a button that says "I am 18". Where a [=platform age service=]
+      exists, the user agent uses only that service, so a stored age cannot get
+      around a parent's setting.
+    </p>
+  </section>
+
+  <section id="sp-people-in-danger">
+    <h3>People in danger</h3>
+    <p>
+      For some people, an adult age on their device is risky. When sharing is
+      off, for example because the person declined the platform's prompt or
+      turned off a user agent setting, a site sees an ordinary failure. The
+      user agent's record of which sites asked about age is also sensitive. The
+      user agent clears [=remembered consent=] with the site's data and should
+      not show a list of the sites that asked.
+    </p>
+  </section>
+
+  <section id="sp-platform">
+    <h3>Trusting the platform, and platform terms</h3>
+    <p>
+      A platform age service may contact its vendor's servers, and can fail
+      with a network error. The user agent never tells the platform which site
+      asked, so the platform cannot report which sites a person visits. The user
+      agent asks the platform on every check, so the platform can learn how
+      often and when checks happen.
+    </p>
+    <p>
+      A platform could use the feature to push people into creating or signing
+      in to the platform's own account before the platform shares an age.
+      This specification cannot prevent that.
+    </p>
+    <div class="issue" id="issue-platform-terms">
+      Platform age services and some laws may limit how an age answer is used.
+      For example, one platform's terms say the answer can be used only by the
+      requesting application. Can platforms allow user agents to pass a yes or
+      no on to websites, and on what terms?
+    </div>
+    <div class="issue" id="issue-automatic-sharing">
+      In some regions, a platform shares the age with applications
+      automatically, and the person cannot decline. The user agent still asks
+      before telling a website. What if a law requires websites to get the age
+      automatically too?
+    </div>
+  </section>
+
+  <section id="sp-exclusion">
+    <h3>People left out and old buttons</h3>
+    <p>
+      Some people have no account, no supported device, or no age set. Sites
+      may fall back to ID uploads, and this specification cannot stop them.
+      Adults whose account is still set up as a child's are treated as children
+      until whoever manages the account changes the account.
+    </p>
+    <p>
+      A site can keep a button that says "I am 18" next to the element. The
+      element then protects no one on that site. Over time, declaring an age on
+      every device could become a condition for using parts of the web. People
+      may also find the prompt annoying and refuse the prompt. No research yet
+      says how many.
+    </p>
+  </section>
+
+  <section id="sp-proof">
+    <h3>Proof for regulators</h3>
+    <p>
+      Sites may need to show a regulator that they checked age. A declared
+      answer cannot show that.
+    </p>
+    <div class="issue" id="issue-proof">
+      Will sites and regulators accept a declared answer? If platforms later
+      sign ages they have confirmed, could the element return a proof that says
+      how the age was confirmed and reveals nothing else? A page could opt in by
+      giving the element a nonce, and the user agent could return a token the
+      issuer cannot tie to the site. Would a site that demands such a token shut
+      out people whose user agents or platforms cannot get one?
+    </div>
+  </section>
 </section>
