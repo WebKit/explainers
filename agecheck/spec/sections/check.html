@@ -28,8 +28,7 @@
     </p>
     <ol class="algorithm">
       <li>
-        If |element| is <a data-cite="HTML#concept-fe-disabled">disabled</a> (through its own
-        attribute or through a fieldset), then return.
+        If |element| is <a data-cite="HTML#concept-fe-disabled">disabled</a>, then return.
       </li>
       <li>
         If |element|'s <a href="#dfn-meets-age">meets age</a> flag is true, then return.
@@ -55,6 +54,19 @@
         [=queue an element task=] on the [=user interaction task source=] given |element| to
         [=agecheck/report a check failure=] given |element| and "An age check works only in a secure
         context.", and return.
+      </li>
+      <li>
+        If |document|'s <a data-cite="HTML#active-sandboxing-flag-set">active sandboxing flag set</a> has the
+        <a data-cite="HTML#sandboxed-modals-flag">sandboxed modals flag</a>, then
+        [=queue an element task=] on the [=user interaction task source=] given |element| to
+        [=agecheck/report a check failure=] given |element| and "An age check does not work in a sandboxed
+        document that blocks modal dialogs.", and return.
+      </li>
+      <li>
+        If |document|'s [=Document/origin=] is an <a data-cite="HTML#concept-origin-opaque">opaque origin</a>, then
+        [=queue an element task=] on the [=user interaction task source=] given |element| to
+        [=agecheck/report a check failure=] given |element| and "An age check needs a document whose site
+        the prompt can name.", and return.
       </li>
       <li>
         Let |age| be the [=agecheck/requested age=] of |element|.
@@ -157,8 +169,7 @@
         attribute changed during the check.", and return.
       </li>
       <li>
-        If |element| is <a data-cite="HTML#concept-fe-disabled">disabled</a> (through its own
-        attribute or through a fieldset), then
+        If |element| is <a data-cite="HTML#concept-fe-disabled">disabled</a>, then
         [=agecheck/report a check failure=] given |element| and "The agecheck element was disabled during
         the check.", and return.
       </li>
