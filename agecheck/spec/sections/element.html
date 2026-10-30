@@ -1,54 +1,86 @@
 <section id="the-agecheck-element">
-  <h2>The <code>agecheck</code> element</h2>
-
+  <h2>
+    The <code>agecheck</code> element
+  </h2>
   <dl class="element" id="agecheck-element-definition">
-    <dt>Categories:</dt>
-    <dd>[=Flow content=].</dd>
-    <dd>[=Phrasing content=].</dd>
-    <dd>[=Interactive content=].</dd>
+    <dt>
+      Categories:
+    </dt>
     <dd>
-      Listed,
-      labelable,
-      submittable, and
-      resettable
-      form-associated element.
+      [=Flow content=].
+    </dd>
+    <dd>
+      [=Phrasing content=].
+    </dd>
+    <dd>
+      [=Interactive content=].
+    </dd>
+    <dd>
+      Listed, labelable, submittable, and resettable form-associated element.
       See <a href="#patch-categories">the changes to the HTML categories</a>.
     </dd>
-    <dd>[=Palpable content=].</dd>
-
-    <dt>Contexts in which this element can be used:</dt>
-    <dd>Where [=phrasing content=] is expected.</dd>
-
-    <dt>Content model:</dt>
+    <dd>
+      [=Palpable content=].
+    </dd>
+    <dt>
+      Contexts in which this element can be used:
+    </dt>
+    <dd>
+      Where [=phrasing content=] is expected.
+    </dd>
+    <dt>
+      Content model:
+    </dt>
     <dd>
       [=Phrasing content=], but there must be no [=interactive content=]
-      descendant and no descendant with the
-      `tabindex` attribute
-      specified.
+      descendant and no descendant with the `tabindex` attribute specified.
     </dd>
-
-    <dt>Tag omission in text/html:</dt>
-    <dd>Neither tag is omissible.</dd>
-
-    <dt>Content attributes:</dt>
-    <dd>[[[HTML#global-attributes]]]</dd>
-    <dd>[^agecheck/age^]: The age that a check asks about</dd>
-    <dd>`disabled`: Whether the form control is disabled</dd>
-    <dd>`form`: Associates the element with a `form` element</dd>
-    <dd>`name`: Name of the element to use for form submission and in the `form.elements` API</dd>
-    <dd>[^agecheck/required^]: Whether the control must pass a check before the form submits</dd>
-
-    <dt>Accessibility considerations:</dt>
+    <dt>
+      Tag omission in text/html:
+    </dt>
     <dd>
-      For authors and for implementers: see
-      <a href="#accessibility">the accessibility section</a>. ARIA in HTML and
-      HTML Accessibility API Mappings have no entry for this element yet.
+      Neither tag is omissible.
     </dd>
-
-    <dt>Sanitization:</dt>
-    <dd>Uncategorized.</dd>
-
-    <dt>DOM interface:</dt>
+    <dt>
+      Content attributes:
+    </dt>
+    <dd>
+      [[[HTML#global-attributes]]]
+    </dd>
+    <dd>
+      [^agecheck/age^]: The age that a check asks about
+    </dd>
+    <dd>
+      `disabled`: Whether the form control is disabled
+    </dd>
+    <dd>
+      `form`: Associates the element with a `form` element
+    </dd>
+    <dd>
+      `name`: Name of the element to use for form submission and in the
+      `form.elements` API
+    </dd>
+    <dd>
+      [^agecheck/required^]: Whether the control must pass a check before the
+      form submits
+    </dd>
+    <dt>
+      Accessibility considerations:
+    </dt>
+    <dd>
+      For authors and for implementers: see <a href="#accessibility">the
+      accessibility section</a>. ARIA in HTML and HTML Accessibility API
+      Mappings have no entry for this element yet.
+    </dd>
+    <dt>
+      Sanitization:
+    </dt>
+    <dd>
+      Uncategorized.
+    </dd>
+    <dt>
+      DOM interface:
+    </dt>
     <dd>
       <pre class="idl">
         [Exposed=Window]
@@ -75,15 +107,13 @@
       </pre>
     </dd>
   </dl>
-
   <p id="agecheck-represents">
-    The <dfn class="export" data-dfn-type="element" id="dfn-agecheck">agecheck</dfn>
-    element represents a control labeled by its contents. A person uses the
-    control to share that they are at least the age that the
-    [^agecheck/age^] attribute names. The element uses the
-    <dfn class="export">HTMLAgeCheckElement</dfn> interface.
+    The <dfn class="export" data-dfn-type="element" id=
+    "dfn-agecheck">agecheck</dfn> element represents a control labeled by its
+    contents. A person uses the control to share that they are at least the age
+    that the [^agecheck/age^] attribute names. The element uses the <dfn class=
+    "export">HTMLAgeCheckElement</dfn> interface.
   </p>
-
   <aside class="note" id="agecheck-declared-not-verified">
     <p>
       The answer is an age that the person, a parent, or the platform declared.
@@ -91,206 +121,174 @@
       value to a server.
     </p>
   </aside>
-
   <section id="agecheck-age-attribute">
-    <h3>The <code>age</code> attribute</h3>
-
+    <h3>
+      The <code>age</code> attribute
+    </h3>
     <p>
-      The <dfn class="export" data-dfn-for="agecheck" data-dfn-type="element-attr" id="attr-age">age</dfn>
-      content attribute gives the age that a check asks about. If the
-      attribute is present, its value must be a
-      valid non-negative integer
-      equal to 13, 16, or 18.
+      The <dfn class="export" data-dfn-for="agecheck" data-dfn-type=
+      "element-attr" id="attr-age">age</dfn> content attribute gives the age
+      that a check asks about. If the attribute is present, its value must be a
+      valid non-negative integer equal to 13, 16, or 18.
     </p>
-
     <p>
-      To <dfn class="export" data-dfn-for="agecheck" id="dfn-parse-an-age">parse an age</dfn>
-      given a string or null |value|:
+      To <dfn class="export" data-dfn-for="agecheck" id=
+      "dfn-parse-an-age">parse an age</dfn> given a string or null |value|:
     </p>
     <ol class="algorithm" id="agecheck-parse-an-age-steps">
-      <li>If |value| is null, then return 18.</li>
-      <li>
-        Let |number| be the result of parsing |value| with the
-        rules for parsing non-negative integers.
+      <li>If |value| is null, then return 18.
       </li>
-      <li>If |number| is an error, then return failure.</li>
-      <li>If |number| is 13, 16, or 18, then return |number|.</li>
-      <li>Return failure.</li>
+      <li>Let |number| be the result of parsing |value| with the rules for
+      parsing non-negative integers.
+      </li>
+      <li>If |number| is an error, then return failure.
+      </li>
+      <li>If |number| is 13, 16, or 18, then return |number|.
+      </li>
+      <li>Return failure.
+      </li>
     </ol>
-
     <p>
-      The <dfn class="export" data-dfn-for="agecheck" id="dfn-requested-age">requested age</dfn>
-      of an [^agecheck^] element is the result of running
-      [=agecheck/parse an age=] on the element's [^agecheck/age^]
-      attribute value. When the element has no `age` attribute,
-      [=agecheck/parse an age=] gets null instead.
+      The <dfn class="export" data-dfn-for="agecheck" id=
+      "dfn-requested-age">requested age</dfn> of an [^agecheck^] element is the
+      result of running [=agecheck/parse an age=] on the element's
+      [^agecheck/age^] attribute value. When the element has no `age`
+      attribute, [=agecheck/parse an age=] gets null instead.
     </p>
-
     <p id="agecheck-age-change-steps">
-      The [=attribute change steps=] for an [^agecheck^] element
-      |element|, given |localName|, |oldValue|,
-      |value|, and |namespace|, are:
+      The [=attribute change steps=] for an [^agecheck^] element |element|,
+      given |localName|, |oldValue|, |value|, and |namespace|, are:
     </p>
     <ol class="algorithm">
-      <li>
-        If |localName| is not `age` or |namespace|
-        is not null, then return.
+      <li>If |localName| is not `age` or |namespace| is not null, then return.
       </li>
-      <li>
-        Let |oldAge| be the result of [=agecheck/parse an age=] given
-        |oldValue|.
+      <li>Let |oldAge| be the result of [=agecheck/parse an age=] given
+      |oldValue|.
       </li>
-      <li>
-        Let |newAge| be the result of [=agecheck/parse an age=] given
-        |value|.
+      <li>Let |newAge| be the result of [=agecheck/parse an age=] given
+      |value|.
       </li>
-      <li>
-        If |oldAge| and |newAge| are both failure, or are the
-        same number, then return.
+      <li>If |oldAge| and |newAge| are both failure, or are the same number,
+      then return.
       </li>
-      <li>
-        Set |element|'s [=agecheck/meets age=] flag to false.
+      <li>Set |element|'s [=agecheck/meets age=] flag to false.
       </li>
     </ol>
   </section>
-
   <section id="agecheck-form-attributes">
-    <h3>The <code>name</code>, <code>form</code>, <code>disabled</code>, and <code>required</code> attributes</h3>
-
+    <h3>
+      The <code>name</code>, <code>form</code>, <code>disabled</code>, and
+      <code>required</code> attributes
+    </h3>
     <p>
-      Authors use the `form`
-      attribute to associate the [^agecheck^] element with its
-      [=button/form owner|form owner=]. The `name`
-      attribute represents the element's name. Authors use the
-      `disabled` attribute
-      to make the control non-interactive and to keep its value out of form
+      Authors use the `form` attribute to associate the [^agecheck^] element
+      with its [=button/form owner|form owner=]. The `name` attribute
+      represents the element's name. Authors use the `disabled` attribute to
+      make the control non-interactive and to keep its value out of form
       submission.
     </p>
-
     <p>
-      The <dfn class="export" data-dfn-for="agecheck" data-dfn-type="element-attr">required</dfn>
-      attribute is a
-      boolean attribute. When the
+      The <dfn class="export" data-dfn-for="agecheck" data-dfn-type=
+      "element-attr">required</dfn> attribute is a boolean attribute. When the
       attribute is specified, the element is required.
     </p>
-
   </section>
-
   <section id="agecheck-meets-age">
-    <h3>The <code>meetsAge</code> attribute</h3>
-
+    <h3>
+      The <code>meetsAge</code> attribute
+    </h3>
     <p>
-      Each [^agecheck^] element has a
-      <dfn class="export" data-dfn-for="agecheck" id="dfn-meets-age">meets age</dfn>
-      flag, a boolean. The flag is initially false.
+      Each [^agecheck^] element has a <dfn class="export" data-dfn-for=
+      "agecheck" id="dfn-meets-age">meets age</dfn> flag, a boolean. The flag
+      is initially false.
     </p>
-
     <p>
       The <dfn data-dfn-for="HTMLAgeCheckElement">meetsAge</dfn> getter steps
       are to return [=this=]'s [=agecheck/meets age=] flag.
     </p>
   </section>
-
   <section id="agecheck-activation">
-    <h3>Activation behavior</h3>
-
+    <h3>
+      Activation behavior
+    </h3>
     <p>
-      An [^agecheck^] element |element|'s
-      <dfn class="export" data-dfn-for="agecheck" id="dfn-agecheck-activation-behavior">activation behavior</dfn>
-      given |event| is:
+      An [^agecheck^] element |element|'s <dfn class="export" data-dfn-for=
+      "agecheck" id="dfn-agecheck-activation-behavior">activation
+      behavior</dfn> given |event| is:
     </p>
     <ol class="algorithm">
-      <li>
-        If |element| is
-        disabled, then return.
+      <li>If |element| is disabled, then return.
       </li>
-      <li>
-        If |element|'s [=Node/node document|node document=] is not [=Document/fully active|fully active=],
-        then return.
+      <li>If |element|'s [=Node/node document|node document=] is not
+      [=Document/fully active|fully active=], then return.
       </li>
-      <li>
-        If |event|'s {{Event/isTrusted}} attribute is false, then
-        return.
+      <li>If |event|'s {{Event/isTrusted}} attribute is false, then return.
       </li>
       <li>
         <a href="#run-a-check">Run a check</a> given |element|.
       </li>
     </ol>
     <section id="agecheck-what-activates">
-      <h4>What counts as activating the element</h4>
-
+      <h4>
+        What counts as activating the element
+      </h4>
       <p>
-        The user agent must fire a `click` event at an
-        [^agecheck^] element, with {{Event/isTrusted}} set to true, in
-        each of these cases:
+        The user agent must fire a `click` event at an [^agecheck^] element,
+        with {{Event/isTrusted}} set to true, in each of these cases:
       </p>
       <ul>
-        <li id="activate-pointer">
-          The person clicks or taps the element.
+        <li id="activate-pointer">The person clicks or taps the element.
         </li>
-        <li id="activate-keys">
-          The element has focus and the person presses the Enter key, or
-          presses and then releases the Space key. For the button role, these are
-          the same keys that activate a `button` element on the
-          same platform.
+        <li id="activate-keys">The element has focus and the person presses the
+        Enter key, or presses and then releases the Space key. For the button
+        role, these are the same keys that activate a `button` element on the
+        same platform.
         </li>
-        <li id="activate-assistive-technology">
-          The person's assistive technology asks for the element's press
-          action, or the platform's equivalent default action. Before the user
-          agent fires the `click` event, it MUST give the element's
-          [=relevant global object=]
-          transient activation, as it does for an
-          activation triggering input event.
+        <li id="activate-assistive-technology">The person's assistive
+        technology asks for the element's press action, or the platform's
+        equivalent default action. Before the user agent fires the `click`
+        event, it MUST give the element's [=relevant global object=] transient
+        activation, as it does for an activation triggering input event.
         </li>
-        <li id="activate-label">
-          The person clicks a `label` whose labeled control is the
-          element. The label patch in <a href="#patch-label"></a> makes that a
-          trusted click on the element.
+        <li id="activate-label">The person clicks a `label` whose labeled
+        control is the element. The label patch in <a href="#patch-label"></a>
+        makes that a trusted click on the element.
         </li>
       </ul>
-
       <aside class="note" id="note-activation-monkeypatch">
         The rule in the last item patches HTML's user activation processing
-        model, which has no notion of an assistive technology press action.
-        The rule sits here for now. It moves into HTML with the other patches.
+        model, which has no notion of an assistive technology press action. The
+        rule sits here for now. It moves into HTML with the other patches.
       </aside>
-
     </section>
   </section>
-
   <section id="agecheck-idl-attributes">
-    <h3>IDL attributes and methods</h3>
-
+    <h3>
+      IDL attributes and methods
+    </h3>
     <p>
       The <dfn data-dfn-for="HTMLAgeCheckElement">age</dfn> IDL attribute
-      [=reflects=] the [^agecheck/age^] content attribute, with a
-      default value of 18. The
-      <dfn data-dfn-for="HTMLAgeCheckElement">disabled</dfn>,
+      [=reflects=] the [^agecheck/age^] content attribute, with a default value
+      of 18. The <dfn data-dfn-for="HTMLAgeCheckElement">disabled</dfn>,
       <dfn data-dfn-for="HTMLAgeCheckElement">name</dfn>, and
       <dfn data-dfn-for="HTMLAgeCheckElement">required</dfn> IDL attributes
       [=reflect=] the content attributes of the same name.
     </p>
-
     <p>
       The <dfn data-dfn-for="HTMLAgeCheckElement">willValidate</dfn>,
       <dfn data-dfn-for="HTMLAgeCheckElement">validity</dfn>, and
       <dfn data-dfn-for="HTMLAgeCheckElement">validationMessage</dfn> IDL
-      attributes, and the
-      <dfn data-dfn-for="HTMLAgeCheckElement">checkValidity()</dfn>,
-      <dfn data-dfn-for="HTMLAgeCheckElement">reportValidity()</dfn>, and
-      <dfn data-dfn-for="HTMLAgeCheckElement" class="lint-ignore">setCustomValidity(error)</dfn>
-      methods, are part of the
-      constraint validation API.
-      The <dfn data-dfn-for="HTMLAgeCheckElement">labels</dfn> IDL attribute
-      provides a list of the element's `label` elements, as
-      `labels` defines. The
-      `disabled`,
-      <dfn data-dfn-for="HTMLAgeCheckElement">form</dfn>, and
-      `name` IDL attributes are part of the element's forms API.
-      The `form` getter follows
-      `HTML's definition`.
+      attributes, and the <dfn data-dfn-for=
+      "HTMLAgeCheckElement">checkValidity()</dfn>, <dfn data-dfn-for=
+      "HTMLAgeCheckElement">reportValidity()</dfn>, and <dfn data-dfn-for=
+      "HTMLAgeCheckElement" class="lint-ignore">setCustomValidity(error)</dfn>
+      methods, are part of the constraint validation API. The
+      <dfn data-dfn-for="HTMLAgeCheckElement">labels</dfn> IDL attribute
+      provides a list of the element's `label` elements, as `labels` defines.
+      The `disabled`, <dfn data-dfn-for="HTMLAgeCheckElement">form</dfn>, and
+      `name` IDL attributes are part of the element's forms API. The `form`
+      getter follows `HTML's definition`.
     </p>
-
     <p>
       The <dfn data-dfn-for="HTMLAgeCheckElement">constructor()</dfn> follows
       HTML's `[HTMLConstructor]` rules.
