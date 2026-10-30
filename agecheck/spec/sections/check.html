@@ -1,3 +1,243 @@
 <section id="check">
   <h2>Running a check</h2>
+
+  <section id="check-state">
+    <h3>State for a check</h3>
+    <p>
+      Each <code>agecheck</code> element has a
+      <dfn id="dfn-check-pending" data-dfn-for="agecheck" data-export>check pending</dfn>
+      boolean, initially false.
+      The boolean is true while a check from the element is running.
+    </p>
+    <p>
+      Each {{Document}} has a
+      <dfn id="dfn-check-in-progress" data-dfn-for="Document" data-export>check in progress</dfn>
+      boolean, initially false.
+      The boolean makes sure that a document runs only one check at a time.
+    </p>
+  </section>
+
+  <section id="run-a-check-algorithm">
+    <h3>The run a check algorithm</h3>
+    <p>
+      The <a href="#dfn-agecheck-activation-behavior">activation behavior</a> of an
+      <code>agecheck</code> element calls these steps only after it has checked that the event is
+      trusted.
+      To <dfn id="run-a-check" data-dfn-for="agecheck" data-export>run a check</dfn>
+      given an <code>agecheck</code> element |element|:
+    </p>
+    <ol class="algorithm">
+      <li>
+        If |element| is <a data-cite="HTML#concept-fe-disabled">disabled</a> (through its own
+        attribute or through a fieldset), then return.
+      </li>
+      <li>
+        If |element|'s <a href="#dfn-meets-age">meets age</a> flag is true, then return.
+      </li>
+      <li>
+        If |element|'s [=agecheck/check pending=] is true, then return.
+      </li>
+      <li>Let |document| be |element|'s <a data-cite="DOM#concept-node-document">node document</a>.</li>
+      <li>
+        If |document|'s [=Document/check in progress=] is true, then
+        [=queue an element task=] on the [=user interaction task source=] given |element| to
+        [=agecheck/report a check failure=] given |element| and "Another age check is already running in
+        this document.", and return.
+      </li>
+      <li>
+        If |document|'s [=node navigable=] is null, or is not a [=top-level traversable=], then
+        [=queue an element task=] on the [=user interaction task source=] given |element| to
+        [=agecheck/report a check failure=] given |element| and "An age check works only in a top-level
+        document.", and return.
+      </li>
+      <li>
+        If |element|'s [=relevant settings object=] is not a [=secure context=], then
+        [=queue an element task=] on the [=user interaction task source=] given |element| to
+        [=agecheck/report a check failure=] given |element| and "An age check works only in a secure
+        context.", and return.
+      </li>
+      <li>
+        Let |age| be the [=agecheck/requested age=] of |element|.
+      </li>
+      <li>
+        If |age| is failure, then [=queue an element task=] on the [=user interaction task source=] given |element| to
+        [=agecheck/report a check failure=] given |element| and "The age attribute must be 13, 16, or 18.", and return.
+      </li>
+      <li>
+        If |element|'s <a data-cite="HTML#concept-relevant-global">relevant global object</a> does not have
+        <a data-cite="HTML#transient-activation">transient activation</a>, then
+        [=queue an element task=] on the [=user interaction task source=] given |element| to
+        [=agecheck/report a check failure=] given |element| and "An age check needs a click, a tap, or a
+        key press from the person.", and return.
+      </li>
+      <li>
+        <a data-cite="HTML#consume-user-activation">Consume user activation</a> of |element|'s
+        relevant global object.
+      </li>
+      <li>
+        Set |element|'s [=agecheck/check pending=] to true.
+      </li>
+      <li>
+        Set |element|'s [=agecheck/check dropped=] to false.
+      </li>
+      <li>
+        Set |document|'s [=Document/check in progress=] to true.
+      </li>
+      <li>
+        Run these steps [=in parallel=]:
+        <ol>
+          <li>
+            Let |result| be the result of running
+            <a href="#ask-the-age-source">ask the age source</a> given |age| and |document|.
+            The |result| is one of "meets", "does not meet", "no age set", "declined", or
+            "failed".
+          </li>
+          <li>
+            If |result| is "declined", then [=queue an element task=] on the
+            [=user interaction task source=] given |element| to [=agecheck/finish a check=] given
+            |element|, |age|, false, and |document|, and abort these steps.
+          </li>
+          <li>
+            Let |shared| be false.
+          </li>
+          <li>
+            If |result| is "meets" and the user agent holds
+            <a href="#remembered-consent">remembered consent</a> for |document|'s site and |age|,
+            then set |shared| to true.
+          </li>
+          <li>
+            Otherwise, if |document| is <a data-cite="HTML#fully-active">fully active</a>, show a
+            prompt that meets the
+            <a href="#prompt-requirements">prompt requirements</a> for |result| and |age|, and
+            wait for the person to answer or close the prompt.
+            If |document| is not fully active, the user agent MUST NOT show the prompt.
+            Closing the prompt without agreeing leaves |shared| false.
+            If |result| is "meets" and the person agrees to share that they are at least |age|,
+            then set |shared| to true.
+          </li>
+          <li>
+            [=queue an element task=] on the [=user interaction task source=] given |element| to
+            [=agecheck/finish a check=] given |element|, |age|, |shared|, and |document|.
+          </li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      Steps 1 to 3 return without firing an event.
+      So a click that does not start a check fires no event.
+    </p>
+  </section>
+
+  <section id="finish-a-check-algorithm">
+    <h3>Finishing a check</h3>
+    <p>
+      To <dfn id="finish-a-check" data-dfn-for="agecheck" data-export>finish a check</dfn>
+      given an <code>agecheck</code> element |element|, an integer |age|, a boolean |shared|, and a
+      {{Document}} |document|, where |document| is the document in which the check started:
+    </p>
+    <ol class="algorithm">
+      <li>Set |element|'s [=agecheck/check pending=] to false.</li>
+      <li>Set |document|'s [=Document/check in progress=] to false.</li>
+      <li>
+        If |element| is not [=connected=], or |element|'s <a data-cite="DOM#concept-node-document">node document</a> is not |document|,
+        or |document| is not <a data-cite="HTML#fully-active">fully active</a>, then
+        [=agecheck/report a check failure=] given |element| and "The agecheck element left the document
+        where the check started, or that document stopped being active, during the check.", and return.
+      </li>
+      <li>
+        If |element|'s [=agecheck/check dropped=] is true, then [=agecheck/report a check failure=] given
+        |element| and "The check was dropped because the form was reset or the document unloaded.", and
+        return.
+      </li>
+      <li>
+        Let |currentAge| be the [=agecheck/requested age=] of |element|.
+      </li>
+      <li>
+        If |currentAge| is not |age|, then [=agecheck/report a check failure=] given |element| and "The age
+        attribute changed during the check.", and return.
+      </li>
+      <li>
+        If |element| is <a data-cite="HTML#concept-fe-disabled">disabled</a> (through its own
+        attribute or through a fieldset), then
+        [=agecheck/report a check failure=] given |element| and "The agecheck element was disabled during
+        the check.", and return.
+      </li>
+      <li>
+        If |shared| is false, then [=fire an event=] named <code>error</code> at |element|, and
+        return.
+      </li>
+      <li>Set |element|'s <a href="#dfn-meets-age">meets age</a> flag to true.</li>
+      <li>
+        [=Fire an event=] named <code>change</code> at |element|, with the
+        {{Event/bubbles}} attribute initialized to true.
+      </li>
+    </ol>
+    <p>
+      To <dfn id="report-a-check-failure" data-dfn-for="agecheck" data-export>report a check failure</dfn>
+      given an <code>agecheck</code> element |element| and a string |message|:
+    </p>
+    <ol class="algorithm">
+      <li>
+        The user agent SHOULD
+        <a data-cite="CONSOLE#report-a-warning-to-the-console">report a warning to the console</a> with
+        |message|. The exact text is up to the user agent.
+      </li>
+      <li>[=Fire an event=] named <code>error</code> at |element|.</li>
+    </ol>
+    <p>
+      When the person answers a prompt after the check was dropped, the user agent drops the
+      answer.
+      The [=agecheck/finish a check=] steps then fire <code>error</code>, even when the person agreed.
+    </p>
+  </section>
+
+  <section id="check-events">
+    <h3>Events</h3>
+    <p>
+      Both events use the {{Event}} interface.
+      The <code>change</code> event bubbles.
+      The <code>error</code> event does not bubble, so a failed check never reaches
+      {{Window}} error handlers and never looks like a script error.
+      Neither event is cancelable.
+    </p>
+    <p>
+      The user agent never fires these events during the activation behavior.
+      The user agent always fires them in a queued task.
+      Every check that gets past step 3 of [=agecheck/run a check=] ends with exactly one event at the
+      element: one <code>change</code> or one <code>error</code>.
+      The element fires no other event for a check.
+      While [=agecheck/check pending=] is true, a new activation of the same element fires no
+      event.
+    </p>
+    <p>
+      Every failure fires the same <code>error</code> event, with no detail attached.
+      The page cannot tell a person who declined from a person who does not meet the age, has no
+      age set, or whose platform failed.
+      Console messages appear only for failures that the page itself can cause, and scripts
+      cannot read the console.
+    </p>
+    <aside class="note">
+      A "declined" result from the age source fires <code>error</code> at once.
+      The user agent does not show a second prompt after the person declines in the platform's
+      own prompt.
+    </aside>
+  </section>
+
+  <section id="check-lifetime">
+    <h3>Keeping the element alive</h3>
+    <p>
+      While an element's [=agecheck/check pending=] is true, the user agent MUST NOT garbage
+      collect the element, even when no script holds a reference to the element.
+      The [=agecheck/finish a check=] steps then run and fire their event at the element.
+      Without this rule, the steps might never run, the document's
+      [=Document/check in progress=] flag would stay true, and no later check in the document could
+      start. The rule also keeps the element's event listeners alive until the event fires.
+    </p>
+    <p>
+      A task is runnable only when its document is <a data-cite="HTML#fully-active">fully active</a>.
+      If the document stops being fully active during a check, the queued task waits.
+      If the document becomes fully active again, the task runs and fires <code>error</code>,
+      because the reset on restore sets [=agecheck/check dropped=] to true. See [[[#forms-bfcache]]].
+    </p>
+  </section>
 </section>
