@@ -22,16 +22,16 @@
     Types
   </h4>
   <pre class="cddl" data-cddl-module="remote-cddl">
-        ageCheck.VirtualAgeSourceAction = "meets" / "does-not-meet" / "no-age-set" / "declined" / "failed" / "wait" / "clear"
+    ageCheck.VirtualAgeSourceAction = "meets" / "does-not-meet" / "no-age-set" / "declined" / "failed" / "wait" / "clear"
 
-        ageCheck.VirtualPromptAction = "share" / "cancel"
+    ageCheck.VirtualPromptAction = "share" / "cancel"
 
-        ageCheck.SetVirtualAgeSourceBehaviorParameters = {
-          action: ageCheck.VirtualAgeSourceAction,
-          ? prompt: ageCheck.VirtualPromptAction,
-          ? context: browsingContext.BrowsingContext,
-        }
-      </pre>
+    ageCheck.SetVirtualAgeSourceBehaviorParameters = {
+      action: ageCheck.VirtualAgeSourceAction,
+      ? prompt: ageCheck.VirtualPromptAction,
+      ? context: browsingContext.BrowsingContext,
+    }
+  </pre>
   <p>
     Each {^ageCheck.VirtualAgeSourceAction^} value says how [=ask the age
     source=] answers:
@@ -114,19 +114,19 @@
     </dt>
     <dd>
       <pre class="cddl" data-cddl-module="remote-cddl">
-            ageCheck.SetVirtualAgeSourceBehavior = (
-              method: "ageCheck.setVirtualAgeSourceBehavior",
-              params: ageCheck.SetVirtualAgeSourceBehaviorParameters
-            )
-          </pre>
+        ageCheck.SetVirtualAgeSourceBehavior = (
+          method: "ageCheck.setVirtualAgeSourceBehavior",
+          params: ageCheck.SetVirtualAgeSourceBehaviorParameters
+        )
+      </pre>
     </dd>
     <dt>
       Return Type
     </dt>
     <dd>
       <pre class="cddl" data-cddl-module="local-cddl">
-            ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
-          </pre>
+        ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
+      </pre>
     </dd>
   </dl>
   <p>

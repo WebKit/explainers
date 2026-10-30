@@ -81,28 +81,28 @@
   </dt>
   <dd>
     <pre class="idl">
-        [Exposed=Window]
-        interface HTMLAgeCheckElement : HTMLElement {
-          [HTMLConstructor] constructor();
+      [Exposed=Window]
+      interface HTMLAgeCheckElement : HTMLElement {
+        [HTMLConstructor] constructor();
 
-          [CEReactions, Reflect] attribute unsigned long age;
-          readonly attribute boolean meetsAge;
+        [CEReactions, Reflect] attribute unsigned long age;
+        readonly attribute boolean meetsAge;
 
-          [CEReactions, Reflect] attribute boolean disabled;
-          readonly attribute HTMLFormElement? form;
-          [CEReactions, Reflect] attribute DOMString name;
-          [CEReactions, Reflect] attribute boolean required;
+        [CEReactions, Reflect] attribute boolean disabled;
+        readonly attribute HTMLFormElement? form;
+        [CEReactions, Reflect] attribute DOMString name;
+        [CEReactions, Reflect] attribute boolean required;
 
-          readonly attribute boolean willValidate;
-          readonly attribute ValidityState validity;
-          readonly attribute DOMString validationMessage;
-          boolean checkValidity();
-          boolean reportValidity();
-          undefined setCustomValidity(DOMString error);
+        readonly attribute boolean willValidate;
+        readonly attribute ValidityState validity;
+        readonly attribute DOMString validationMessage;
+        boolean checkValidity();
+        boolean reportValidity();
+        undefined setCustomValidity(DOMString error);
 
-          readonly attribute NodeList labels;
-        };
-      </pre>
+        readonly attribute NodeList labels;
+      };
+    </pre>
   </dd>
 </dl>
 <p>
