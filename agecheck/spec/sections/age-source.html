@@ -1,33 +1,10 @@
 <section id="age-source">
   <h2>Age source and prompt requirements</h2>
-  <p>
-    This section says where the user agent gets an age, how the user agent
-    turns that age into a result, what the user agent remembers, and what the
-    user agent's prompt must achieve. The algorithm to
-    <a href="#run-a-check">run a check</a> uses these definitions.
-  </p>
-  <p>
-    The age is declared, not verified. A person, a parent, or a platform sets
-    the age. Nothing in this section proves how old anyone is.
-  </p>
-
   <section id="supported-ages">
     <h3>Supported ages</h3>
     <p>
       The <dfn id="supported-ages-list" data-export>supported ages</dfn> are 13,
-      16 and 18. A check asks about exactly one of these ages.
-    </p>
-    <p>
-      Every [=platform age service=] the editors know of can answer for these three
-      ages. The ages also match the default age groups of some platform age
-      services: under 13, 13 to 15, 16 to 17, and 18 and over. A user agent on
-      such a platform therefore needs no special setup.
-    </p>
-    <p>
-      Other ages are not allowed because some platform age services cannot
-      answer for them. For example, a check for 21 would fail on a platform
-      whose groups end at 18 and over. A site can ask about more than one age
-      by using one element for each age.
+      16 and 18.
     </p>
   </section>
 
@@ -55,11 +32,6 @@
         any other reason.
       </dd>
     </dl>
-    <p>
-      Only [=age check result/meets=] can lead to a passed check. The page sees
-      every other result the same way, as described in
-      <a href="#prompt-requirements-same-failure">same-failure requirement</a>.
-    </p>
   </section>
 
   <section id="platform-age-service">
@@ -76,13 +48,6 @@
       <dfn data-dfn-for="age range" data-export id="age-range-lower-bound">lower bound</dfn>,
       which is either an age or none. A lower bound of none means the range has
       no bottom, as for a person under 13.
-    </p>
-    <p>
-      When the platform offers a [=platform age service=], the user agent MUST
-      use only that service as the age source. A stored age could otherwise get
-      around a parent's setting. The rule holds when the user agent cannot call
-      the service, and when the service has no age for the person. In those
-      cases the check fails.
     </p>
     <p>
       The user agent MUST NOT tell the [=platform age service=] which site asked.
@@ -113,19 +78,6 @@
       </li>
       <li>Return [=age check result/does not meet=].</li>
     </ol>
-    <p>
-      The user agent never answers about an age other than |age|.
-    </p>
-    <aside class="note">
-      <p>
-        Some regions replace the [=supported ages=] with their own ages. The
-        platform can then give a range that starts below |age| and ends above
-        |age|. For example, a site asks about 16 and the platform gives 14 to 17.
-        The user agent cannot tell whether the person is at least 16, so the
-        result is [=age check result/does not meet=]. In those regions, some
-        people who meet the age fail the check.
-      </p>
-    </aside>
   </section>
 
   <section id="kept-copy">
@@ -133,15 +85,10 @@
     <p>
       Some platform age services have an
       <dfn id="anniversary-rule" data-export>anniversary rule</dfn>: a higher
-      range appears only on the anniversary of the day the age was set. When the
-      [=platform age service=] has an [=anniversary rule=], the user agent MUST NOT
-      keep a copy of the answer. The platform's own rules then apply on every
-      check.
+      range appears only on the anniversary of the day the age was set.
     </p>
     <p>
-      When the [=platform age service=] has no [=anniversary rule=], the user agent
-      keeps one <dfn id="kept-copy-dfn" data-export>kept copy</dfn>. A [=kept
-      copy=] holds an [=age range=] and the date the user agent stored the
+      A <dfn id="kept-copy-dfn" data-export>kept copy</dfn> holds an [=age range=] and the date the user agent stored the
       range. The user agent uses the same [=kept copy=] for every site. The
       length of time before a higher range applies is user agent specific, for
       example one year.
@@ -169,11 +116,6 @@
     <p>
       One range is lower than another when the first range's [=age range/lower
       bound=] is smaller. A lower bound of none is smaller than every age.
-    </p>
-    <p>
-      A lower range applies at once, so a parent's correction applies at once.
-      A higher range waits for the anniversary. When the platform stops sharing,
-      the user agent MUST discard the [=kept copy=].
     </p>
   </section>
 
@@ -207,21 +149,22 @@
         ends.
       </li>
     </ul>
-    <p>
-      A person can enter any age group, so a [=stored age group=] protects a
-      child no more than a button that says "I am 18". See
-      <a href="#sp-stored-ages"></a>.
-    </p>
   </section>
 
   <section id="ask-age-source">
     <h3>Asking the age source</h3>
     <p>
       To <dfn id="ask-the-age-source" data-export>ask the age source</dfn> given
-      an age |age| from the [=supported ages=], the user agent runs these steps.
+      an age |age| from the [=supported ages=] and a {{Document}} |document|, the user agent runs these steps.
       The steps return an [=age check result=].
     </p>
     <ol class="algorithm">
+      <li>
+        Let |behavior| be the result of [=get the virtual age source behavior=] for
+        |document|, or null if the user agent does not support automated testing.
+        If |behavior| is not null, return the result that |behavior|'s action names in
+        <a href="#virtual-age-source-actions">the list of actions</a>.
+      </li>
       <li>
         If the platform offers a [=platform age service=]:
         <ol>
@@ -270,11 +213,6 @@
         range and |age|.
       </li>
     </ol>
-    <p>
-      The user agent asks the age source on every check. The user agent does
-      not reuse an earlier result, so a parent's change applies on the next
-      check.
-    </p>
   </section>
 
   <section id="remembered-consent-section">
@@ -290,11 +228,6 @@
       <li>
         The user agent creates a record when the person agrees in the user
         agent's prompt.
-      </li>
-      <li>
-        The user agent MAY skip its prompt only when a record exists for this
-        [=site=] and this age, and [=ask the age source=] returned
-        [=age check result/meets=] for this check.
       </li>
       <li>
         The user agent MUST clear the records for a [=site=] whenever the user
@@ -314,11 +247,6 @@
         <a href="#sp-people-in-danger"></a>.
       </li>
     </ul>
-    <aside class="note">
-      A private browsing window may read a [=stored age group=] but never the
-      [=remembered consent=] of regular browsing. The age belongs to the person.
-      The choice to share the age with a site belongs to one browsing session.
-    </aside>
   </section>
 
   <section id="prompt-requirements-section">

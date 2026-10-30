@@ -158,10 +158,6 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
         </li>
         <li>Return [=success=] with data <code>null</code>.</li>
       </ol>
-      <p>
-        The command only accepts a top-level traversable because a check runs
-        only in a top-level document.
-      </p>
     </section>
 
     <section id="testing-handle">
@@ -186,14 +182,6 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
         </li>
         <li>Return |session|'s default [=virtual age source behavior=].</li>
       </ol>
-      <p>
-        When <a href="#ask-the-age-source">ask the age source</a> starts, the
-        user agent MUST run [=get the virtual age source behavior=] for the
-        document that <a href="#ask-the-age-source">ask the age source</a> receives. If the result is not <code>null</code>,
-        the user agent MUST NOT contact the platform. The user agent instead
-        returns the result that the behavior's action names in
-        <a href="#virtual-age-source-actions">the list of actions</a>.
-      </p>
       <p>
         When a [=virtual age source behavior=] applies to a check and the check
         reaches the user agent's prompt, the user agent MUST NOT show the

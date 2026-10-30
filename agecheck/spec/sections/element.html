@@ -92,23 +92,6 @@ interface HTMLAgeCheckElement : HTMLElement {
     </p>
   </aside>
 
-  <p id="agecheck-not-a-button">
-    The [^agecheck^] element is not a
-    [=buttons|button=] in the HTML sense. So the
-    element is never a
-    [=submit buttons|submit button=], and activating
-    the element never submits or resets a form.
-  </p>
-
-  <p id="agecheck-resettable-reason">
-    The element is a resettable element because a form reset must clear the
-    result of an earlier check. HTML runs the
-    reset algorithm only for
-    resettable elements. The
-    <a href="#agecheck-reset-algorithm">reset algorithm for <code>agecheck</code></a>
-    says what a reset does.
-  </p>
-
   <section id="agecheck-age-attribute">
     <h3>The <code>age</code> attribute</h3>
 
@@ -118,14 +101,6 @@ interface HTMLAgeCheckElement : HTMLElement {
       attribute is present, its value must be a
       valid non-negative integer
       equal to 13, 16, or 18.
-    </p>
-
-    <p>
-      The attribute's missing value default is 18, so an element with no
-      <code>age</code> attribute asks whether the person is 18 or older.
-      The attribute has no invalid value default. A value that does not parse
-      to 13, 16, or 18 makes the check fail, so a site never gets an answer for
-      an age it did not name. An empty value is an invalid value, not a missing one.
     </p>
 
     <p>
@@ -149,11 +124,6 @@ interface HTMLAgeCheckElement : HTMLElement {
       [=agecheck/parse an age=] on the element's <code>[^agecheck/age^]</code>
       attribute value. When the element has no <code>age</code> attribute,
       [=agecheck/parse an age=] gets null instead.
-    </p>
-
-    <p>
-      When the [=agecheck/requested age=] is failure, a check fires <code>error</code>. See
-      <a href="#run-a-check">run a check</a>.
     </p>
 
     <p id="agecheck-age-change-steps">
@@ -182,12 +152,6 @@ interface HTMLAgeCheckElement : HTMLElement {
         Set |element|'s [=agecheck/meets age=] flag to false.
       </li>
     </ol>
-    <p>
-      A change from <code>"18"</code> to <code>"018"</code> keeps the result,
-      because both strings parse to the same number. Adding
-      <code>age="18"</code> to an element with no <code>age</code> attribute
-      also keeps the result, because both ask about 18.
-    </p>
   </section>
 
   <section id="agecheck-form-attributes">
@@ -201,9 +165,6 @@ interface HTMLAgeCheckElement : HTMLElement {
       `disabled` attribute
       to make the control non-interactive and to keep its value out of form
       submission.
-      <a href="#patch-categories">The changes to HTML</a> add
-      [^agecheck^] to the lists of elements that HTML's
-      disabled definition names.
     </p>
 
     <p>
@@ -213,20 +174,6 @@ interface HTMLAgeCheckElement : HTMLElement {
       attribute is specified, the element is required.
     </p>
 
-    <p id="agecheck-constraint-validation">
-      <strong>Constraint validation:</strong> If the element is
-      required and the element's [=agecheck/meets age=] flag is
-      false, then the element is
-      suffering from being missing.
-      A disabled element is already
-      barred from constraint validation.
-    </p>
-
-    <p>
-      So a required [^agecheck^] element blocks form submission until
-      a check succeeds. A form whose author set <code>novalidate</code> still
-      submits.
-    </p>
   </section>
 
   <section id="agecheck-meets-age">
@@ -235,22 +182,13 @@ interface HTMLAgeCheckElement : HTMLElement {
     <p>
       Each [^agecheck^] element has a
       <dfn data-dfn-for="agecheck" data-export id="dfn-meets-age">meets age</dfn>
-      flag, a boolean. The flag is initially false. Only a successful check sets
-      the flag to true. See <a href="#run-a-check">run a check</a>.
+      flag, a boolean. The flag is initially false.
     </p>
 
     <p>
       The <dfn data-dfn-for="HTMLAgeCheckElement">meetsAge</dfn> getter steps
       are to return [=this=]'s [=agecheck/meets age=] flag.
     </p>
-
-    <aside class="note">
-      <p>
-        A new element starts with the flag set to false. HTML's cloning steps
-        do not copy the flag, so a clone also starts at false. A form reset and
-        a change to <code>age</code> set the flag back to false.
-      </p>
-    </aside>
   </section>
 
   <section id="agecheck-activation">
@@ -278,27 +216,6 @@ interface HTMLAgeCheckElement : HTMLElement {
         <a href="#run-a-check">Run a check</a> given |element|.
       </li>
     </ol>
-    <p>
-      DOM runs an element's [=EventTarget/activation behavior|activation behavior=] when a
-      <code>click</code> event is dispatched at the element.
-    </p>
-
-    <aside class="note">
-      <p>
-        Script can call <code>click()</code> or <code>dispatchEvent()</code>.
-        Both create an event whose {{Event/isTrusted}} attribute is false. So
-        script cannot start a check, even while the person is clicking on
-        something else.
-      </p>
-      <p>
-        These steps ask for a trusted event. <a href="#run-a-check">Run a check</a>
-        also needs [=transient activation=]
-        and consumes it. So one click or key press starts at most one check, and
-        a page that already spent the activation on something else, such as
-        opening a popup, gets <code>error</code>.
-      </p>
-    </aside>
-
     <section id="agecheck-what-activates">
       <h4>What counts as activating the element</h4>
 
@@ -325,6 +242,11 @@ interface HTMLAgeCheckElement : HTMLElement {
           transient activation, as it does for an
           activation triggering input event.
         </li>
+        <li id="activate-label">
+          The person clicks a <code>label</code> whose labeled control is the
+          element. The label patch in <a href="#patch-label"></a> makes that a
+          trusted click on the element.
+        </li>
       </ul>
 
       <aside class="note" id="note-activation-monkeypatch">
@@ -333,23 +255,6 @@ interface HTMLAgeCheckElement : HTMLElement {
         The rule sits here for now. It moves into HTML with the other patches.
       </aside>
 
-      <p id="activate-label">
-        HTML lets each platform decide what a click on a
-        <code>label</code> element does. For an [^agecheck^] element
-        that is a label's
-        labeled control, the label
-        patch in <a href="#patch-label"></a> sets one fixed rule: a trusted
-        click on the label fires a trusted click at the element.
-      </p>
-
-      <p>
-        So a person's own click on the label can start a check. A label click
-        that script dispatched cannot. HTML already says that a
-        <code>label</code> does nothing for events aimed at an interactive
-        content descendant, such as the [^agecheck^] element itself.
-        So a click on an [^agecheck^] element inside its label starts
-        at most one check.
-      </p>
     </section>
   </section>
 
@@ -359,8 +264,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     <p>
       The <dfn data-dfn-for="HTMLAgeCheckElement">age</dfn> IDL attribute
       [=reflects=] the <code>[^agecheck/age^]</code> content attribute, with a
-      default value of 18. The IDL attribute does not check for 13, 16, or 18;
-      <a href="#run-a-check">run a check</a> does that. The
+      default value of 18. The
       <dfn data-dfn-for="HTMLAgeCheckElement">disabled</dfn>,
       <dfn data-dfn-for="HTMLAgeCheckElement">name</dfn>, and
       <dfn data-dfn-for="HTMLAgeCheckElement">required</dfn> IDL attributes
@@ -391,26 +295,5 @@ interface HTMLAgeCheckElement : HTMLElement {
       The <dfn data-dfn-for="HTMLAgeCheckElement">constructor()</dfn> follows
       HTML's `[HTMLConstructor]` rules.
     </p>
-
-    <p id="agecheck-secure-context">
-      Like every other HTML element interface, <code>HTMLAgeCheckElement</code>
-      is exposed in every context. A page that is not a secure context gets
-      the element too. A trusted click on it fires <code>error</code>, because
-      <a href="#run-a-check">run a check</a> fails when the relevant settings
-      object is not a secure context.
-    </p>
   </section>
-
-  <div class="example" id="example-agecheck-basic">
-    <p>
-      This form asks whether the person is 18 or older. The form submits
-      only after a check succeeds.
-    </p>
-    <pre class="html">
-&lt;form method="post" action="/enter"&gt;
-  &lt;agecheck name="age" age="18" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
-  &lt;button&gt;Enter&lt;/button&gt;
-&lt;/form&gt;
-    </pre>
-  </div>
 </section>

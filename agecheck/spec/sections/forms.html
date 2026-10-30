@@ -1,127 +1,18 @@
 <section id="forms">
-  <h2>Form mechanics and lifecycle</h2>
+  <h2>Form reset and page lifecycle</h2>
 
   <p>
-    This section says how an [^agecheck^] element takes part in a
-    form, and what happens to the
-    <a href="#dfn-meets-age">meets age</a> flag and to a running check when
-    the page or the element changes.
+    Each [^agecheck^] element has a
+    <dfn id="dfn-check-dropped" data-dfn-for="agecheck" data-export>check dropped</dfn>
+    flag, initially false. The steps in this section set the flag to true
+    when a running check must not succeed.
   </p>
-
-  <section id="forms-check-dropped">
-    <h3>The check dropped flag</h3>
-    <p>
-      Each [^agecheck^] element has a
-      <dfn id="dfn-check-dropped" data-dfn-for="agecheck" data-export>check
-      dropped</dfn> flag, initially false. The steps in this section set the
-      flag to true when a running check must not succeed.
-      <a href="#run-a-check">Run a check</a> sets the flag to false when a
-      check starts. When the check ends and the flag is true,
-      <a href="#finish-a-check">finish a check</a> fires <code>error</code> and
-      does not set the <a href="#dfn-meets-age">meets age</a> flag.
-    </p>
-    <aside class="note">
-      A dropped check still waits for the person to finish with the prompt,
-      unless a step below lets the user agent close the prompt. The page then
-      learns nothing new from the timing.
-    </aside>
-  </section>
-
-  <section id="forms-owner">
-    <h3>Form owner</h3>
-    <p>
-      The [^agecheck^] element is a
-      form-associated element.
-      The element is also listed,
-      submittable,
-      resettable, and
-      labelable.
-    </p>
-    <p>
-      HTML's rules for the
-      [=button/form owner|form owner=] apply without change. An
-      [^agecheck^] element with a
-      `form` attribute uses
-      the <code>form</code> element that the attribute names. Otherwise the
-      element uses its nearest <code>form</code> ancestor. The user agent
-      resets the form owner at the
-      same times as for any other listed element. The
-      {{HTMLAgeCheckElement/form}} getter follows the
-      `form IDL attribute`
-      rules.
-    </p>
-    <p>
-      Because the element is listed, the element appears in the
-      <code>form.elements</code> and <code>fieldset.elements</code>
-      collections.
-    </p>
-  </section>
-
-  <section id="forms-entry">
-    <h3>Entry contribution</h3>
-    <p>
-      When the user agent
-      constructs the entry list for a form, an [^agecheck^] element adds at most one
-      entry. The <dfn id="agecheck-entry" data-export>agecheck entry</dfn> has
-      these parts:
-    </p>
-    <ul>
-      <li>
-        The name is the value of the element's
-        `name` attribute.
-      </li>
-      <li>
-        The value is the age that the check confirmed. The user agent writes
-        the age in base ten ASCII digits with no leading zeros, such as
-        <code>"18"</code>.
-      </li>
-    </ul>
-    <p>
-      The element adds the [=agecheck entry=] only when all of these are true:
-    </p>
-    <ul>
-      <li>the element's <a href="#dfn-meets-age">meets age</a> flag is true;</li>
-      <li>the element has a <code>name</code> attribute whose value is not the
-      empty string; and</li>
-      <li>the element is not
-      disabled.</li>
-    </ul>
-    <p>
-      Otherwise the element adds nothing, the same as an unchecked checkbox.
-    </p>
-    <aside class="note">
-      The <a href="#dfn-meets-age">meets age</a> flag is true only while the
-      element's [=agecheck/requested age=] equals the age the check confirmed
-      (see [[[#forms-age-change]]]). So the user agent can read the value from
-      the [=agecheck/requested age=].
-    </aside>
-    <p>
-      The [^agecheck^] element is never a
-      [=buttons|button=], so the step that skips
-      "a button but not submitter" never skips the element. The element is
-      also never a
-      [=submit buttons|submit button=]. So
-      `requestSubmit()`
-      throws a <code>TypeError</code> when a page passes an
-      [^agecheck^] element as the submitter.
-    </p>
-
-    <p id="forms-entry-patch">
-      HTML needs two small changes for this entry, and
-      <a href="#patch-entry-list"></a> gives the exact words for both.
-    </p>
-  </section>
 
   <section id="forms-reset">
     <h3>Reset</h3>
     <p>
-      The <dfn id="agecheck-reset-algorithm" data-export>agecheck reset
-      algorithm</dfn> is the
-      reset algorithm for
-      [^agecheck^] elements. HTML
-      invokes the algorithm for each
-      resettable element whose form owner is the form being reset, after the
-      <code>reset</code> event is not canceled. Given an
+      The <dfn id="agecheck-reset-algorithm" data-export>agecheck reset algorithm</dfn>
+      is the reset algorithm for [^agecheck^] elements. Given an
       [^agecheck^] element |element|:
     </p>
     <ol class="algorithm">
@@ -135,177 +26,14 @@
         to false.
       </li>
     </ol>
-    <p>
-      The algorithm fires no event of its own. A dropped check fires
-      <code>error</code> when the check ends. When the person answers the
-      prompt after a reset, the user agent drops the answer.
-    </p>
-  </section>
-
-  <section id="forms-validation">
-    <h3>Constraint validation</h3>
-    <p>
-      The [^agecheck^] element is submittable, so the element is a
-      candidate for constraint validation unless a condition
-      bars the
-      element.
-    </p>
-    <p>
-      A disabled [^agecheck^] element is barred from constraint
-      validation. HTML already says so for every disabled element, once the
-      <code>disabled</code> attribute applies to [^agecheck^] (see
-      [[[#forms-fieldset]]]). An [^agecheck^] element with a
-      <code>datalist</code> ancestor is also barred, as for any submittable
-      element.
-    </p>
-    <p>
-      An [^agecheck^] element is
-      suffering from being missing when the element has a <code>required</code> attribute and
-      the element's <a href="#dfn-meets-age">meets age</a> flag is false.
-    </p>
-    <p>
-      The constraint validation members of {{HTMLAgeCheckElement}} use HTML's
-      definitions without change:
-    </p>
-    <ul>
-      <li>{{HTMLAgeCheckElement/willValidate}}: see
-      `willValidate`.</li>
-      <li>{{HTMLAgeCheckElement/validity}}: see
-      `validity`.</li>
-      <li>{{HTMLAgeCheckElement/validationMessage}}: see
-      `validationMessage`.</li>
-      <li>{{HTMLAgeCheckElement/checkValidity()}}: see
-      `checkValidity()`.</li>
-      <li>{{HTMLAgeCheckElement/reportValidity()}}: see
-      `reportValidity()`.</li>
-      <li>{{HTMLAgeCheckElement/setCustomValidity()}}: see
-      `setCustomValidity()`.
-      The method sets the element's
-      custom validity error message.</li>
-    </ul>
-    <p>
-      So a form with a required [^agecheck^] element does not submit
-      until a check succeeds, unless the form or the submitter turns
-      validation off.
-    </p>
-
-    <p id="forms-validation-patch">
-      HTML needs two small changes for this rule, and
-      <a href="#patch-constraint-validation"></a> gives the exact words for both.
-    </p>
-  </section>
-
-  <section id="forms-fieldset">
-    <h3>Disabled state and <code>fieldset</code></h3>
-    <p>
-      The <code>disabled</code> attribute makes the element disabled through
-      one change to HTML's list of elements. <a href="#patch-disabled"></a>
-      gives the exact words.
-    </p>
-    <p>
-      The second case needs no change. An [^agecheck^] element inside
-      a <code>fieldset</code> with a <code>disabled</code> attribute is
-      disabled, unless the element is inside that <code>fieldset</code>'s first
-      <code>legend</code> child.
-    </p>
-    <p>
-      A disabled [^agecheck^] element:
-    </p>
-    <ul>
-      <li>starts no check, because the first step of the [=agecheck/activation behavior=]
-      and of <a href="#run-a-check">run a check</a> returns for a disabled
-      element;</li>
-      <li>adds no entry to the entry list;</li>
-      <li>is barred from constraint validation; and</li>
-      <li>keeps its <a href="#dfn-meets-age">meets age</a> flag. When the
-      element becomes enabled again, the element adds its entry again.</li>
-    </ul>
-    <p>
-      When an element becomes disabled during a check, the check fires
-      <code>error</code> when the check ends (see
-      <a href="#finish-a-check">finish a check</a>).
-    </p>
-  </section>
-
-  <section id="forms-cloning">
-    <h3>Cloning</h3>
-    <p>
-      The [=cloning steps=] for
-      [^agecheck^] elements, given |node|, |copy| and
-      |subtree|, do nothing. The |copy| starts with its
-      <a href="#dfn-meets-age">meets age</a> flag false and with no check in
-      progress, whatever the state of |node|.
-    </p>
-    <aside class="note">
-      The <code>input</code> element copies its checkedness to a clone. The
-      [^agecheck^] element does not copy its flag on purpose. A page
-      cannot make a passed check by cloning an element that passed.
-    </aside>
-  </section>
-
-  <section id="forms-insertion-removal">
-    <h3>Insertion, removal and adoption</h3>
-    <p>
-      The [^agecheck^] element defines no HTML element insertion
-      steps. HTML's insertion steps reset the form owner, as for every
-      form-associated element.
-    </p>
-    <p>
-      The element defines no HTML element removing steps and no moving steps.
-      Script can remove the element and put it back while a check runs, with
-      <code>insertBefore()</code>, <code>remove()</code> followed by
-      <code>append()</code>, or <code>moveBefore()</code>, and the check goes
-      on. A page that reorders a list does exactly that, and the person's
-      answer should survive it. When the check ends, the
-      <a href="#finish-a-check">finish steps</a> look at where the element is.
-      They fail the check when the element is not connected, or when the
-      element's node document is not the document where the check started.
-    </p>
-    <p>
-      So adopting the element into another document fails a running check,
-      even when the other document is a same-origin iframe. DOM removes a node
-      from its parent before the node moves to another document, but the
-      [^agecheck^] element needs no
-      [=adopting steps=] for this.
-      The finish steps clear the
-      <a href="#dfn-pending-agecheck-element">pending agecheck element</a> of the document
-      where the check started, not of the document where the element ends up.
-    </p>
-    <p id="forms-owner-change">
-      Changing the form owner changes neither the
-      <a href="#dfn-meets-age">meets age</a> flag nor a running check. That
-      holds for a change to the <code>form</code> attribute and for removing,
-      inserting or moving the element. After the change, the new form submits
-      the [=agecheck entry=]. HTML's
-      reset the form owner steps
-      likewise leave a checkbox's checkedness and a file input's files alone.
-    </p>
-  </section>
-
-  <section id="forms-age-change">
-    <h3>Changes to <code>age</code></h3>
-    <p>
-      The <a href="#agecheck-age-change-steps">attribute change steps</a> for
-      <code>age</code> clear the <a href="#dfn-meets-age">meets age</a> flag
-      when the [=agecheck/requested age=] changes. A running check compares the requested
-      age with its own snapshot when the check ends (see
-      <a href="#finish-a-check">finish a check</a>).
-    </p>
   </section>
 
   <section id="forms-bfcache">
     <h3>Back/forward cache</h3>
     <p>
-      The user agent never restores the
-      <a href="#dfn-meets-age">meets age</a> flag after a navigation. When a
-      document comes back from the back/forward cache, the user agent clears
-      the flag before the <code>pageshow</code> event. The page can then update
-      its own state.
-    </p>
-    <p>
-      In [=Document/reactivate|reactivate a document=], a
-      new step goes right after the step that resets form controls whose
-      autofill field name is "off":
+      In [=Document/reactivate|reactivate a document=], a new step goes right
+      after the step that resets form controls whose autofill field name is
+      "off", and before the step that fires <code>pageshow</code>:
     </p>
     <blockquote>
       <p>
@@ -315,8 +43,7 @@
       </p>
     </blockquote>
     <p>
-      The new step comes before the step that fires <code>pageshow</code>. The
-      step covers elements that are not connected, since script can still
+      The step covers elements that are not connected, since script can still
       hold them.
     </p>
   </section>
@@ -347,45 +74,7 @@
     </ol>
     <p>
       Closing the prompt this way counts as the person closing the prompt
-      without agreeing. A prompt that outlived its document would name a site
-      the person no longer sees.
-    </p>
-    <p>
-      The dropped check never sets the
-      <a href="#dfn-meets-age">meets age</a> flag. The check queues an
-      <code>error</code> event. The event loop runs that task only when the
-      document is [=Document/fully active|fully active=] again,
-      because of the rules for a
-      runnable task. A document
-      that the user agent destroys never sees the event. A document that comes
-      back from the back/forward cache sees the <code>error</code> event after
-      the reactivation steps.
-    </p>
-  </section>
-
-  <section id="forms-implicit-submission">
-    <h3>Enter and implicit submission</h3>
-    <p>
-      The [^agecheck^] element is never a submit button, so the
-      element is never a form's
-      default button. The element is
-      also never a
-      field that blocks implicit submission.
-    </p>
-    <p>
-      When an [^agecheck^] element has focus, a trusted Enter key
-      press activates the element and so runs
-      <a href="#run-a-check">run a check</a>. The element consumes that key
-      press. Enter on a focused [^agecheck^] element never submits
-      the form and never clicks the form's default button, because HTML's
-      implicit submission applies
-      only to fields that allow it.
-    </p>
-    <p>
-      Enter in a text field of the same form works as before. The user agent
-      fires a <code>click</code> at the default button, and the form then
-      validates its controls. A required [^agecheck^] element without
-      a successful check stops the submission.
+      without agreeing.
     </p>
   </section>
 </section>

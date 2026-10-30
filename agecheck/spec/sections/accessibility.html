@@ -36,10 +36,6 @@
       <li>If the name is still empty, use the text of the element's contents.</li>
       <li>Otherwise, use the element's <code>title</code> attribute.</li>
     </ol>
-    <p>
-      So the name comes from text a person can see. A person using voice
-      control can say the words on the element or on its label.
-    </p>
   </section>
 
   <section id="a11y-states">
@@ -69,8 +65,7 @@
       The keys that start a check are Enter and Space, as for a
       <code>button</code> element. The user agent MUST treat a press action from assistive technology,
       such as a screen reader's default action, as a trusted activation of
-      the element. The press also gives the page transient activation, as a
-      click does. <a href="#the-agecheck-element"></a> lists every way a
+      the element. <a href="#the-agecheck-element"></a> lists every way a
       check can start.
     </p>
   </section>
@@ -105,12 +100,7 @@
     </ol>
     <p>
       Focus returns before the user agent fires <code>change</code> or
-      <code>error</code>. So a site's event listener sees focus on the
-      element, and a message the site writes next to the element is the next
-      thing a keyboard user reaches.
-    </p>
-    <p>
-      When the user agent skips its prompt, focus does not move.
+      <code>error</code>.
     </p>
   </section>
 
@@ -189,12 +179,6 @@
           </tr>
         </tbody>
       </table>
-      <p>
-        The row "Any element where the <code>disabled</code> attribute is
-        allowed" covers elements by where HTML allows the attribute. That rule
-        covers the [^agecheck^] element once HTML allows
-        <code>disabled</code> on the element, so the row needs no change.
-      </p>
     
 
   </section>
