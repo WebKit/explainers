@@ -1,3 +1,332 @@
-<section id="testing">
+<section id="testing" data-cite="webdriver webdriver-bidi">
   <h2>Automated testing</h2>
+  <p>
+    This section defines an extension module for the [[webdriver-bidi]]
+    specification. Browsers and sites can use the module to test the
+    <code>agecheck</code> element without a real person or a real age. Support
+    for the module is OPTIONAL for a [=user agent=].
+  </p>
+
+  <section id="testing-module">
+    <h3>The <code>ageCheck</code> module</h3>
+    <p>
+      The <code>ageCheck</code> module contains a command that sets a
+      <dfn data-export>virtual age source behavior</dfn>. While a virtual age
+      source behavior is set, a check talks to neither the platform nor the
+      person. The user agent answers both the age source and the prompt from
+      the behavior instead.
+    </p>
+
+    <section id="testing-types">
+      <h4>Types</h4>
+      <pre class="cddl" data-cddl-module="remote-cddl">
+ageCheck.VirtualAgeSourceAction = "meets" / "does-not-meet" / "no-age-set" / "declined" / "failed" / "wait" / "clear"
+
+ageCheck.VirtualPromptAction = "share" / "cancel"
+
+ageCheck.SetVirtualAgeSourceBehaviorParameters = {
+  action: ageCheck.VirtualAgeSourceAction,
+  ? prompt: ageCheck.VirtualPromptAction,
+  ? context: browsingContext.BrowsingContext,
+}
+      </pre>
+      <p>
+        Each {^ageCheck.VirtualAgeSourceAction^} value names what
+        <a href="#ask-the-age-source">ask the age source</a> returns:
+      </p>
+      <dl id="virtual-age-source-actions">
+        <dt><code>"meets"</code></dt>
+        <dd>
+          The age source reports that the person is at least the age the
+          check asks about.
+        </dd>
+        <dt><code>"does-not-meet"</code></dt>
+        <dd>
+          The age source reports that the person is younger than the age the
+          check asks about.
+        </dd>
+        <dt><code>"no-age-set"</code></dt>
+        <dd>The age source reports that the person has no age set.</dd>
+        <dt><code>"declined"</code></dt>
+        <dd>
+          The age source reports that the person declined in the platform's own
+          prompt. The check fires <code>error</code> and the user agent does not
+          run its own prompt.
+        </dd>
+        <dt><code>"failed"</code></dt>
+        <dd>The age source reports a failure.</dd>
+        <dt><code>"wait"</code></dt>
+        <dd>
+          The age source never answers. The check stays pending, so a test can
+          observe what happens while a check runs.
+        </dd>
+        <dt><code>"clear"</code></dt>
+        <dd>The command removes a virtual age source behavior.</dd>
+      </dl>
+      <p>
+        Each {^ageCheck.VirtualPromptAction^} value names what the virtual
+        person does when the user agent's prompt appears:
+      </p>
+      <dl id="virtual-prompt-actions">
+        <dt><code>"share"</code></dt>
+        <dd>
+          The virtual person agrees to share. Where the prompt says the age
+          cannot be shared, the virtual person closes the prompt instead.
+        </dd>
+        <dt><code>"cancel"</code></dt>
+        <dd>The virtual person cancels the prompt.</dd>
+      </dl>
+    </section>
+
+    <section id="testing-commands">
+      <h4>The <code>ageCheck.setVirtualAgeSourceBehavior</code> command</h4>
+      <dl>
+        <dt>Command Type</dt>
+        <dd>
+          <pre class="cddl" data-cddl-module="remote-cddl">
+ageCheck.SetVirtualAgeSourceBehavior = (
+  method: "ageCheck.setVirtualAgeSourceBehavior",
+  params: ageCheck.SetVirtualAgeSourceBehaviorParameters
+)
+          </pre>
+        </dd>
+        <dt>Return Type</dt>
+        <dd>
+          <pre class="cddl" data-cddl-module="local-cddl">
+ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
+          </pre>
+        </dd>
+      </dl>
+      <p>
+        Each WebDriver [=session=] has a map of virtual age source behaviors,
+        keyed by browsing context ID, and a default virtual age source behavior.
+        Both start empty. A behavior is a pair of an action and a prompt action.
+      </p>
+      <p>
+        The [=remote end steps=] for the
+        <code>ageCheck.setVirtualAgeSourceBehavior</code> command, given
+        |session| and |command parameters|, are:
+      </p>
+      <ol class="algorithm" id="set-virtual-age-source-behavior">
+        <li>Let |action| be |command parameters|["<code>action</code>"].</li>
+        <li>
+          Let |prompt action| be |command parameters|["<code>prompt</code>"]
+          if present, and <code>"share"</code> otherwise.
+        </li>
+        <li>
+          Let |context| be |command parameters|["<code>context</code>"] if
+          present, and <code>null</code> otherwise.
+        </li>
+        <li>
+          If |context| is not <code>null</code>:
+          <ol>
+            <li>
+              Let |navigable| be the result of [=trying=] to
+              [=get a navigable=] with |context|.
+            </li>
+            <li>
+              If |navigable| is not a [=top-level traversable=], return an
+              [=error=] with [=error code=] [=invalid argument=].
+            </li>
+          </ol>
+        </li>
+        <li>
+          If |action| is <code>"clear"</code>:
+          <ol>
+            <li>
+              If |context| is not <code>null</code>, remove the entry for
+              |context| from |session|'s map of virtual age source behaviors.
+            </li>
+            <li>
+              Otherwise, clear |session|'s map of virtual age source behaviors
+              and set |session|'s default virtual age source behavior to
+              <code>null</code>.
+            </li>
+            <li>Return [=success=] with data <code>null</code>.</li>
+          </ol>
+        </li>
+        <li>Let |behavior| be the pair (|action|, |prompt action|).</li>
+        <li>
+          If |context| is not <code>null</code>, set |session|'s map of
+          virtual age source behaviors[|context|] to |behavior|.
+        </li>
+        <li>
+          Otherwise, set |session|'s default virtual age source behavior to
+          |behavior|.
+        </li>
+        <li>Return [=success=] with data <code>null</code>.</li>
+      </ol>
+      <p>
+        The command only accepts a top-level traversable because a check runs
+        only in a top-level document.
+      </p>
+    </section>
+
+    <section id="testing-handle">
+      <h4>Using the virtual behavior during a check</h4>
+      <p>
+        To <dfn data-export>get the virtual age source behavior</dfn> for a
+        {{Document}} |document|:
+      </p>
+      <ol class="algorithm">
+        <li>
+          If the user agent's
+          <a data-cite="webdriver#dfn-webdriver-active-flag">webdriver-active
+          flag</a> is false, return <code>null</code>.
+        </li>
+        <li>
+          Let |context ID| be the ID of |document|'s [=node navigable=]'s
+          [=navigable/top-level traversable=].
+        </li>
+        <li>Let |session| be the current WebDriver [=session=].</li>
+        <li>
+          If |session|'s map of virtual age source behaviors contains
+          |context ID|, return that entry.
+        </li>
+        <li>Return |session|'s default virtual age source behavior.</li>
+      </ol>
+      <p>
+        When <a href="#ask-the-age-source">ask the age source</a> starts, the
+        user agent MUST run [=get the virtual age source behavior=] for the
+        element's <a data-cite="DOM#concept-node-document">node document</a>. If the result is not <code>null</code>,
+        the user agent MUST NOT contact the platform. The user agent instead
+        returns the result that the behavior's action names in
+        <a href="#virtual-age-source-actions">the list of actions</a>.
+      </p>
+      <p>
+        When a virtual age source behavior applies to a check and the check
+        reaches the user agent's prompt, the user agent MUST NOT show the
+        prompt to a person. The user agent instead answers the prompt with the
+        behavior's prompt action. The rules in
+        <a href="#prompt-requirements">prompt requirements</a> do not apply to
+        that answer.
+      </p>
+      <p>
+        With a virtual age source behavior, the outcomes are these, using the
+        steps in <a href="#run-a-check">run a check</a>:
+      </p>
+      <ul>
+        <li>
+          <code>"meets"</code> and <code>"share"</code>: the element's
+          {{HTMLAgeCheckElement/meetsAge}} becomes true and the element fires
+          <code>change</code>.
+        </li>
+        <li>
+          <code>"meets"</code> and <code>"cancel"</code>: the element fires
+          <code>error</code>.
+        </li>
+        <li>
+          <code>"does-not-meet"</code>, <code>"no-age-set"</code> or
+          <code>"failed"</code>, with either prompt action: the element fires
+          <code>error</code>.
+        </li>
+        <li>
+          <code>"declined"</code>: the element fires <code>error</code>. The
+          prompt action is never used.
+        </li>
+        <li>
+          <code>"wait"</code>: the element fires no event until the test
+          changes the document, for example by removing the element.
+        </li>
+      </ul>
+      <div class="issue">
+        The result names here must match the results that
+        <a href="#ask-the-age-source">ask the age source</a> defines. The two
+        sections need one shared list.
+      </div>
+      <div class="issue">
+        <code>"meets"</code> and <code>"does-not-meet"</code> compare against
+        whatever age the check asks about. A test cannot yet set a person who
+        is 16 and then check both 13 and 18 on one page. An age range
+        parameter, in place of these two actions, would allow such a test.
+      </div>
+      <div class="issue">
+        Remembered choices let a later check skip the prompt. The module does
+        not yet say whether a check under a virtual behavior reads or writes
+        remembered choices, or how a test clears them between tests.
+      </div>
+      <div class="issue">
+        The module stores behaviors on "the current WebDriver session", as the
+        Digital Credentials API does. The module does not yet say which session
+        applies when more than one session is active.
+      </div>
+    </section>
+  </section>
+
+  <section id="testing-wpt">
+    <h3>Testing with web-platform-tests</h3>
+    <p>
+      A check starts only from a trusted event. A test therefore starts a check
+      with <code>test_driver.click(element)</code>, which sends a real click
+      through WebDriver. A call to the element's <code>click()</code> method
+      dispatches an untrusted event and starts no check.
+    </p>
+    <p>
+      A check needs transient activation and consumes it.
+      <code>test_driver.click()</code> supplies both the trusted event and the
+      activation. <code>test_driver.bless()</code> supplies only the activation,
+      so it does not start a check on its own. Tests use
+      <code>test_driver.bless()</code> to show that a script
+      <code>click()</code> inside a real click on something else still does
+      nothing.
+    </p>
+    <div class="issue">
+      web-platform-tests has no testdriver.js wrapper for this command yet. A
+      wrapper would follow <code>test_driver.set_virtual_wallet_behavior()</code>
+      and take an action, a prompt action and an optional context.
+    </div>
+    <p>These behaviors can be tested without the <code>ageCheck</code> module:</p>
+    <ul>
+      <li>
+        Parsing: the parser creates an <code>agecheck</code> element with its
+        children.
+      </li>
+      <li>
+        IDL: the interface, the reflected attributes, and
+        {{HTMLAgeCheckElement/labels}}.
+      </li>
+      <li>
+        Form association: the <code>form</code> attribute, the form's
+        <code>elements</code>, and that the form data has no entry while
+        {{HTMLAgeCheckElement/meetsAge}} is false.
+      </li>
+      <li>
+        <code>required</code>: the element is invalid and blocks submission
+        while {{HTMLAgeCheckElement/meetsAge}} is false.
+      </li>
+      <li>
+        The untrusted case: <code>click()</code> and script-dispatched events
+        fire no event, even inside <code>test_driver.bless()</code>.
+      </li>
+      <li>
+        Spent activation: a page that spends the activation first, for example
+        with <code>window.open()</code> in a <code>mousedown</code> listener,
+        sees <code>error</code> from the next trusted click on the element.
+      </li>
+      <li>
+        Iframes: a trusted click on an element in an iframe fires
+        <code>error</code>.
+      </li>
+      <li>
+        Non-secure contexts: <code>HTMLAgeCheckElement</code> is missing from
+        <code>window</code>, and a trusted click on the element fires
+        <code>error</code>.
+      </li>
+      <li>
+        Invalid <code>age</code>: a trusted click on an element whose
+        <code>age</code> attribute has a value other than 13, 16 or 18 fires
+        <code>error</code>. A missing <code>age</code> attribute is not
+        invalid: the check asks about 18.
+      </li>
+    </ul>
+    <p>
+      These failures happen before the check asks the age source, so no
+      virtual behavior is needed.
+    </p>
+    <div class="issue">
+      The interface is not exposed in a non-secure context. The spec still has
+      to say that the parser creates the element with its activation behavior
+      there, so that a trusted click fires <code>error</code>.
+    </div>
+  </section>
 </section>
