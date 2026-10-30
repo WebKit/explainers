@@ -29,8 +29,7 @@
   </li>
   <li>If |element|'s [=agecheck/check pending=] is true, then return.
   </li>
-  <li>Let |document: Document| be |element|'s [=Node/node document|node
-  document=].
+  <li>Let |document: Document| be |element|'s [=Node/node document=].
   </li>
   <li>If |document|'s [=Document/pending agecheck element=] is not null, then
   [=queue an element task=] on the [=user interaction task source=] given
@@ -45,10 +44,10 @@
   then [=queue an element task=] on the [=user interaction task source=] given
   |element| to [=fire an event=] named `error` at |element|, and return.
   </li>
-  <li>If |document|'s [=Document/active sandboxing flag set|active sandboxing
-  flag set=] has the [=sandboxed modals flag=], then [=queue an element task=]
-  on the [=user interaction task source=] given |element| to [=fire an event=]
-  named `error` at |element|, and return.
+  <li>If |document|'s [=Document/active sandboxing flag set=] has the
+  [=sandboxed modals flag=], then [=queue an element task=] on the [=user
+  interaction task source=] given |element| to [=fire an event=] named `error`
+  at |element|, and return.
   </li>
   <li>If |document|'s [=Document/origin=] is an [=opaque origin=], then [=queue
   an element task=] on the [=user interaction task source=] given |element| to
@@ -121,10 +120,9 @@
   <li>If |document|'s [=Document/pending agecheck element=] is |element|, then
   set it to null.
   </li>
-  <li>If |element| is not [=connected=], or |element|'s [=Node/node
-  document|node document=] is not |document|, or |document| is not
-  [=Document/fully active|fully active=], then [=fire an event=] named `error`
-  at |element|, and return.
+  <li>If |element| is not [=connected=], or |element|'s [=Node/node document=]
+  is not |document|, or |document| is not [=Document/fully active=], then
+  [=fire an event=] named `error` at |element|, and return.
   </li>
   <li>If |element|'s [=agecheck/check dropped=] is true, then [=fire an event=]
   named `error` at |element|, and return.

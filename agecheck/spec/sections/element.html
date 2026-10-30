@@ -1,5 +1,5 @@
 <h2 id="the-agecheck-element">
-  The <code>agecheck</code> element
+  The `agecheck` element
 </h2>
 <dl class="element" id="agecheck-element-definition">
   <dt>
@@ -121,7 +121,7 @@
   </p>
 </aside>
 <h3 id="agecheck-age-attribute">
-  The <code>age</code> attribute
+  The `age` attribute
 </h3>
 <p>
   The <dfn class="export" data-dfn-for="agecheck" data-dfn-type="element-attr"
@@ -171,13 +171,12 @@
   </li>
 </ol>
 <h3 id="agecheck-form-attributes">
-  The <code>name</code>, <code>form</code>, <code>disabled</code>, and
-  <code>required</code> attributes
+  The `name`, `form`, `disabled`, and `required` attributes
 </h3>
 <p>
   Authors use the `form` attribute to associate the [^agecheck^] element with
-  its [=button/form owner|form owner=]. The `name` attribute represents the
-  element's name. Authors use the `disabled` attribute to make the control
+  its [=button/form owner=]. The `name` attribute represents the element's
+  name. Authors use the `disabled` attribute to make the control
   non-interactive and to keep its value out of form submission.
 </p>
 <p>
@@ -186,7 +185,7 @@
   attribute is specified, the element is required.
 </p>
 <h3 id="agecheck-meets-age">
-  The <code>meetsAge</code> attribute
+  The `meetsAge` attribute
 </h3>
 <p>
   Each [^agecheck^] element has a <dfn class="export" data-dfn-for="agecheck"
@@ -208,8 +207,8 @@
 <ol class="algorithm">
   <li>If |element| is disabled, then return.
   </li>
-  <li>If |element|'s [=Node/node document|node document=] is not
-  [=Document/fully active|fully active=], then return.
+  <li>If |element|'s [=Node/node document=] is not [=Document/fully active=],
+  then return.
   </li>
   <li>If |event|'s {{Event/isTrusted}} attribute is false, then return.
   </li>
