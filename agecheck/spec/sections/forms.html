@@ -1,35 +1,34 @@
 <section id="forms">
-  <h2>Form reset and page lifecycle</h2>
-
+  <h2>
+    Form reset and page lifecycle
+  </h2>
   <p>
-    Each [^agecheck^] element has a
-    <dfn class="export" id="dfn-check-dropped" data-dfn-for="agecheck">check dropped</dfn>
-    flag, initially false. The steps in this section set the flag to true
-    when a running check must not succeed.
+    Each [^agecheck^] element has a <dfn class="export" id="dfn-check-dropped"
+    data-dfn-for="agecheck">check dropped</dfn> flag, initially false. The
+    steps in this section set the flag to true when a running check must not
+    succeed.
   </p>
-
   <section id="forms-reset">
-    <h3>Reset</h3>
+    <h3>
+      Reset
+    </h3>
     <p>
-      The <dfn class="export" id="agecheck-reset-algorithm">agecheck reset algorithm</dfn>
-      is the reset algorithm for [^agecheck^] elements. Given an
-      [^agecheck^] element |element|:
+      The <dfn class="export" id="agecheck-reset-algorithm">agecheck reset
+      algorithm</dfn> is the reset algorithm for [^agecheck^] elements. Given
+      an [^agecheck^] element |element|:
     </p>
     <ol class="algorithm">
-      <li>
-        If |element|'s
-        [=agecheck/check pending=] is true, set
-        |element|'s [=agecheck/check dropped=] flag to true.
+      <li>If |element|'s [=agecheck/check pending=] is true, set |element|'s
+      [=agecheck/check dropped=] flag to true.
       </li>
-      <li>
-        Set |element|'s <a href="#dfn-meets-age">meets age</a> flag
-        to false.
+      <li>Set |element|'s <a href="#dfn-meets-age">meets age</a> flag to false.
       </li>
     </ol>
   </section>
-
   <section id="forms-bfcache">
-    <h3>Back/forward cache</h3>
+    <h3>
+      Back/forward cache
+    </h3>
     <p>
       In [=Document/reactivate|reactivate a document=], a new step goes right
       after the step that resets form controls whose autofill field name is
@@ -37,9 +36,8 @@
     </p>
     <blockquote>
       <p>
-        <ins>For each [^agecheck^] element whose node document is
-        |document|, invoke the reset algorithm for that
-        element.</ins>
+        <ins>For each [^agecheck^] element whose node document is |document|,
+        invoke the reset algorithm for that element.</ins>
       </p>
     </blockquote>
     <p>
@@ -47,27 +45,23 @@
       hold them.
     </p>
   </section>
-
   <section id="forms-unloading">
-    <h3>Navigation and unloading during a check</h3>
+    <h3>
+      Navigation and unloading during a check
+    </h3>
     <p>
-      HTML's
-      [=unloading document cleanup steps=] gain these steps, given a `Document`
-      |document|:
+      HTML's [=unloading document cleanup steps=] gain these steps, given a
+      `Document` |document|:
     </p>
     <ol class="algorithm">
-      <li>
-        Let |element| be |document|'s
-        [=Document/pending agecheck element=].
+      <li>Let |element| be |document|'s [=Document/pending agecheck element=].
       </li>
-      <li>
-        If |element| is not null:
+      <li>If |element| is not null:
         <ol>
-          <li>Set |element|'s [=agecheck/check dropped=] flag to
-          true.</li>
-          <li>
-            The user agent MUST close any prompt that the check shows, and MUST NOT show
-            a prompt for the check afterward.
+          <li>Set |element|'s [=agecheck/check dropped=] flag to true.
+          </li>
+          <li>The user agent MUST close any prompt that the check shows, and
+          MUST NOT show a prompt for the check afterward.
           </li>
         </ol>
       </li>
