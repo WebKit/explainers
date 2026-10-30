@@ -29,7 +29,7 @@
     </p>
     <ol class="algorithm">
       <li>
-        If |element| is <a data-cite="HTML#concept-fe-disabled">disabled</a>, then return.
+        If |element| is disabled, then return.
       </li>
       <li>
         If |element|'s <a href="#dfn-meets-age">meets age</a> flag is true, then return.
@@ -37,54 +37,48 @@
       <li>
         If |element|'s [=agecheck/check pending=] is true, then return.
       </li>
-      <li>Let |document: Document| be |element|'s <a data-cite="DOM#concept-node-document">node document</a>.</li>
+      <li>Let |document: Document| be |element|'s [=Node/node document|node document=].</li>
       <li>
         If |document|'s [=Document/pending agecheck element=] is not null, then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=agecheck/report a check failure=] given |element| and "Another age check is already running in
-        this document.", and return.
+        [=fire an event=] named <code>error</code> at |element|, and return.
       </li>
       <li>
         If |document|'s [=node navigable=] is null, or is not a [=top-level traversable=], then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=agecheck/report a check failure=] given |element| and "An age check works only in a top-level
-        document.", and return.
+        [=fire an event=] named <code>error</code> at |element|, and return.
       </li>
       <li>
         If |element|'s [=relevant settings object=] is not a [=secure context=], then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=agecheck/report a check failure=] given |element| and "An age check works only in a secure
-        context.", and return.
+        [=fire an event=] named <code>error</code> at |element|, and return.
       </li>
       <li>
-        If |document|'s <a data-cite="HTML#active-sandboxing-flag-set">active sandboxing flag set</a> has the
-        <a data-cite="HTML#sandboxed-modals-flag">sandboxed modals flag</a>, then
+        If |document|'s [=Document/active sandboxing flag set|active sandboxing flag set=] has the
+        [=sandboxed modals flag=], then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=agecheck/report a check failure=] given |element| and "An age check does not work in a sandboxed
-        document that blocks modal dialogs.", and return.
+        [=fire an event=] named <code>error</code> at |element|, and return.
       </li>
       <li>
-        If |document|'s [=Document/origin=] is an <a data-cite="HTML#concept-origin-opaque">opaque origin</a>, then
+        If |document|'s [=Document/origin=] is an [=opaque origin=], then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=agecheck/report a check failure=] given |element| and "An age check needs a document whose site
-        the prompt can name.", and return.
+        [=fire an event=] named <code>error</code> at |element|, and return.
       </li>
       <li>
         Let |age: integer or failure| be the [=agecheck/requested age=] of |element|.
       </li>
       <li>
         If |age| is failure, then [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=agecheck/report a check failure=] given |element| and "The age attribute must be 13, 16, or 18.", and return.
+        [=fire an event=] named <code>error</code> at |element|, and return.
       </li>
       <li>
-        If |element|'s <a data-cite="HTML#concept-relevant-global">relevant global object</a> does not have
-        <a data-cite="HTML#transient-activation">transient activation</a>, then
+        If |element|'s [=relevant global object=] does not have
+        [=transient activation=], then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
-        [=agecheck/report a check failure=] given |element| and "An age check needs a click, a tap, or a
-        key press from the person.", and return.
+        [=fire an event=] named <code>error</code> at |element|, and return.
       </li>
       <li>
-        <a data-cite="HTML#consume-user-activation">Consume user activation</a> of |element|'s
+        [=Consume user activation=] of |element|'s
         relevant global object.
       </li>
       <li>
@@ -152,27 +146,23 @@
         If |document|'s [=Document/pending agecheck element=] is |element|, then set it to null.
       </li>
       <li>
-        If |element| is not [=connected=], or |element|'s <a data-cite="DOM#concept-node-document">node document</a> is not |document|,
-        or |document| is not <a data-cite="HTML#fully-active">fully active</a>, then
-        [=agecheck/report a check failure=] given |element| and "The agecheck element left the document
-        where the check started, or that document stopped being active, during the check.", and return.
+        If |element| is not [=connected=], or |element|'s [=Node/node document|node document=] is not |document|,
+        or |document| is not [=Document/fully active|fully active=], then
+        [=fire an event=] named <code>error</code> at |element|, and return.
       </li>
       <li>
-        If |element|'s [=agecheck/check dropped=] is true, then [=agecheck/report a check failure=] given
-        |element| and "The check was dropped because the form was reset or the document unloaded.", and
+        If |element|'s [=agecheck/check dropped=] is true, then [=fire an event=] named <code>error</code> at |element|, and
         return.
       </li>
       <li>
         Let |currentAge: integer or failure| be the [=agecheck/requested age=] of |element|.
       </li>
       <li>
-        If |currentAge| is not |age|, then [=agecheck/report a check failure=] given |element| and "The age
-        attribute changed during the check.", and return.
+        If |currentAge| is not |age|, then [=fire an event=] named <code>error</code> at |element|, and return.
       </li>
       <li>
-        If |element| is <a data-cite="HTML#concept-fe-disabled">disabled</a>, then
-        [=agecheck/report a check failure=] given |element| and "The agecheck element was disabled during
-        the check.", and return.
+        If |element| is disabled, then
+        [=fire an event=] named <code>error</code> at |element|, and return.
       </li>
       <li>
         If |shared| is false, then [=fire an event=] named <code>error</code> at |element|, and
@@ -183,18 +173,6 @@
         [=Fire an event=] named <code>change</code> at |element|, with the
         {{Event/bubbles}} attribute initialized to true.
       </li>
-    </ol>
-    <p>
-      To <dfn id="report-a-check-failure" data-dfn-for="agecheck" data-export>report a check failure</dfn>
-      given an [^agecheck^] element |element| and a string |message|:
-    </p>
-    <ol class="algorithm">
-      <li>
-        The user agent SHOULD
-        <a data-cite="CONSOLE#report-a-warning-to-the-console">report a warning to the console</a> with
-        |message|. The exact text is up to the user agent.
-      </li>
-      <li>[=Fire an event=] named <code>error</code> at |element|.</li>
     </ol>
     <p>
       When the person answers a prompt after the check was dropped, the user agent drops the
@@ -225,8 +203,6 @@
       Every failure fires the same <code>error</code> event, with no detail attached.
       The page cannot tell a person who declined from a person who does not meet the age, has no
       age set, or whose platform failed.
-      Console messages appear only for failures that the page itself can cause, and scripts
-      cannot read the console.
     </p>
     <aside class="note">
       A "declined" result from the age source fires <code>error</code> at once.
@@ -259,7 +235,7 @@
       </p>
     </aside>
     <p>
-      A task is runnable only when its document is <a data-cite="HTML#fully-active">fully active</a>.
+      A task is runnable only when its document is [=Document/fully active|fully active=].
       If the document stops being fully active during a check, the queued task waits.
       If the document becomes fully active again, the task runs and fires <code>error</code>,
       because the reset on restore sets [=agecheck/check dropped=] to true. See [[[#forms-bfcache]]].

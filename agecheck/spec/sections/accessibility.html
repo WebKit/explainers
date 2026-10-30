@@ -46,7 +46,7 @@
     <h3>States</h3>
     <ul>
       <li>
-        When the element is <a data-cite="HTML#concept-fe-disabled">disabled</a>,
+        When the element is disabled,
         the user agent MUST expose the element as disabled.
       </li>
       <li>
@@ -60,7 +60,7 @@
   <section id="a11y-keyboard">
     <h3>Keyboard and press actions</h3>
     <p>
-      The element is a <a data-cite="HTML#focusable-area">focusable area</a>
+      The element is a focusable area
       and is sequentially focusable by default, as
       <a href="#patch-focus"></a> says. A person MUST be able to start a check
       with the keyboard alone.
@@ -86,21 +86,20 @@
     <ol class="algorithm" id="a11y-focus-return-steps">
       <li>
         Let |previous| be the
-        <a data-cite="HTML#focused-area-of-the-document">focused area of the
-        document</a> of |element|'s <a data-cite="DOM#concept-node-document">node document</a>, as the
+        focused area of the document of |element|'s [=Node/node document|node document=], as the
         prompt opens.
       </li>
       <li>Wait until the prompt closes, for any reason.</li>
       <li>
         If |element| is still a
-        <a data-cite="HTML#focusable-area">focusable area</a>, run the
-        <a data-cite="HTML#focusing-steps">focusing steps</a> for
+        focusable area, run the
+        [=focusing steps=] for
         |element|, and return.
       </li>
       <li>
         If |previous| is still a
-        <a data-cite="HTML#focusable-area">focusable area</a>, run the
-        <a data-cite="HTML#focusing-steps">focusing steps</a> for
+        focusable area, run the
+        [=focusing steps=] for
         |previous|.
       </li>
     </ol>
