@@ -1,4 +1,4 @@
-## Rendering and default style {#rendering}
+## Rendering and default style
 
 By default, the [^agecheck^] element looks and lays out like a `button`. A site that does not style the element still shows a control people recognize. Authors can restyle the element as they restyle a `button`.
 

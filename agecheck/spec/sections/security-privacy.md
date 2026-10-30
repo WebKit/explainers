@@ -8,7 +8,7 @@ The answer is declared, not verified. The element gives a site no proof of age. 
 
 A site can ask about each of the [=supported ages=] in turn. The site then learns the highest age the person agrees to share. The site can guess that the person is younger than the next age, but the site cannot be sure, because a refusal looks the same as a person who is too young.
 
-### The day an answer changes {#sp-change-day}
+### The day an answer changes
 
 A site that asks again and again can see the day the answer changes from no to yes. That day is the anniversary of when the age was set, not the birthday. The day is the same on every site, so sites that pool what they learn can use the day to match a person across sites. A site that checks every day sees the exact day, which narrows the person to one day of the year. Apart from a correction, only people under 18 have such a day.
 
@@ -50,7 +50,7 @@ A minor can use an adult's unlocked device, or control the device remotely. Chil
 
 Where the platform has no [=platform age service=], the user agent may keep an age the person enters, and the person can change that age. A child can enter 18 and over. The element then protects that child no more than a button that says "I am 18". Where a [=platform age service=] exists, the user agent uses only that service, so a stored age cannot get around a parent's setting.
 
-### People in danger {#sp-people-in-danger}
+### People in danger
 
 For some people, an adult age on their device is risky. When sharing is off, for example because the person declined the platform's prompt or turned off a user agent setting, a site sees an ordinary failure. The user agent's record of which sites asked about age is also sensitive. The user agent clears [=remembered consent=] with the site's data and should not show a list of the sites that asked.
 
