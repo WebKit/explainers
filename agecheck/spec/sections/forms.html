@@ -430,10 +430,10 @@
       When an <code>agecheck</code> element has focus, a trusted Enter key
       press activates the element and so runs
       <a href="#run-a-check">run a check</a>. The element consumes that key
-      press. The user agent MUST NOT also treat the key press as
-      <a data-cite="HTML#implicit-submission">implicit submission</a> of the
-      element's form owner. Enter on a focused <code>agecheck</code> element
-      never submits the form, and never clicks the form's default button.
+      press. Enter on a focused <code>agecheck</code> element never submits
+      the form and never clicks the form's default button, because HTML's
+      <a data-cite="HTML#implicit-submission">implicit submission</a> applies
+      only to fields that allow it.
     </p>
     <p>
       Enter in a text field of the same form works as before. The user agent

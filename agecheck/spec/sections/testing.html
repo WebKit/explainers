@@ -57,8 +57,10 @@ ageCheck.SetVirtualAgeSourceBehaviorParameters = {
         <dd>The age source reports a failure.</dd>
         <dt><code>"wait"</code></dt>
         <dd>
-          The age source never answers. The check stays pending, so a test can
-          observe what happens while a check runs.
+          The age source does not answer until the test sets another behavior
+          for the same context. The waiting check then continues with that
+          behavior. Until then the check stays pending, so a test can observe
+          what happens while a check runs.
         </dd>
         <dt><code>"clear"</code></dt>
         <dd>The command removes a virtual age source behavior.</dd>
@@ -188,7 +190,7 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
       <p>
         When <a href="#ask-the-age-source">ask the age source</a> starts, the
         user agent MUST run [=get the virtual age source behavior=] for the
-        element's <a data-cite="DOM#concept-node-document">node document</a>. If the result is not <code>null</code>,
+        document that <a href="#ask-the-age-source">ask the age source</a> receives. If the result is not <code>null</code>,
         the user agent MUST NOT contact the platform. The user agent instead
         returns the result that the behavior's action names in
         <a href="#virtual-age-source-actions">the list of actions</a>.
@@ -225,8 +227,8 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
           prompt action is never used.
         </li>
         <li>
-          <code>"wait"</code>: the element fires no event until the test
-          changes the document, for example by removing the element.
+          <code>"wait"</code>: the element fires no event until the test sets
+          another behavior for the same context.
         </li>
       </ul>
       <div class="issue">

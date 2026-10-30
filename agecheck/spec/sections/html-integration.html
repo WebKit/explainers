@@ -499,13 +499,15 @@
         <blockquote>
           <ins>the agecheck element</ins>
         </blockquote>
-        So a check in a document with this flag fires <code>error</code>.
+        So a check in a document with this flag fires <code>error</code>. See
+        <a href="#run-a-check">run a check</a>.
       </li>
       <li>
         The <a data-cite="HTML#sandboxed-origin-browsing-context-flag">sandboxed
         origin browsing context flag</a> forces an opaque origin. The prompt
         must name the site, and an opaque origin has no name a person can
-        read. No new flag is needed, but the check needs a rule.
+        read. No new flag is needed. <a href="#run-a-check">Run a check</a>
+        fails when the document's origin is opaque.
       </li>
     </ul>
     <p>
@@ -514,13 +516,6 @@
       for example through the <code>sandbox</code> directive of Content
       Security Policy, or through a popup that inherits its opener's flags.
     </p>
-    <div class="issue" id="issue-sandbox-checks">
-      The check in <a href="#the-agecheck-element"></a> needs two new early
-      failures: when the document's active sandboxing flag set has the
-      sandboxed modals flag, and when the document's origin is opaque. Both
-      should fire <code>error</code> with a console message, like the
-      top-level failure.
-    </div>
   </section>
 
   <section id="patch-parser">
