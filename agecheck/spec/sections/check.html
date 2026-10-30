@@ -11,9 +11,10 @@
     </p>
     <p>
       Each {{Document}} has a
-      <dfn id="dfn-check-in-progress" data-dfn-for="Document" data-export>check in progress</dfn>
-      boolean, initially false.
-      The boolean makes sure that a document runs only one check at a time.
+      <dfn id="dfn-pending-agecheck-element" data-dfn-for="Document" data-export>pending agecheck element</dfn>,
+      an <code>agecheck</code> element or null, initially null.
+      The pending agecheck element is the element whose check runs in the document.
+      It makes sure that a document runs only one check at a time.
     </p>
   </section>
 
@@ -38,7 +39,7 @@
       </li>
       <li>Let |document| be |element|'s <a data-cite="DOM#concept-node-document">node document</a>.</li>
       <li>
-        If |document|'s [=Document/check in progress=] is true, then
+        If |document|'s [=Document/pending agecheck element=] is not null, then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
         [=agecheck/report a check failure=] given |element| and "Another age check is already running in
         this document.", and return.
@@ -93,7 +94,7 @@
         Set |element|'s [=agecheck/check dropped=] to false.
       </li>
       <li>
-        Set |document|'s [=Document/check in progress=] to true.
+        Set |document|'s [=Document/pending agecheck element=] to |element|.
       </li>
       <li>
         Run these steps [=in parallel=]:
@@ -118,11 +119,9 @@
             then set |shared| to true.
           </li>
           <li>
-            Otherwise, if |document| is <a data-cite="HTML#fully-active">fully active</a>, show a
-            prompt that meets the
+            Otherwise, show a prompt that meets the
             <a href="#prompt-requirements">prompt requirements</a> for |result| and |age|, and
             wait for the person to answer or close the prompt.
-            If |document| is not fully active, the user agent MUST NOT show the prompt.
             Closing the prompt without agreeing leaves |shared| false.
             If |result| is "meets" and the person agrees to share that they are at least |age|,
             then set |shared| to true.
@@ -149,7 +148,9 @@
     </p>
     <ol class="algorithm">
       <li>Set |element|'s [=agecheck/check pending=] to false.</li>
-      <li>Set |document|'s [=Document/check in progress=] to false.</li>
+      <li>
+        If |document|'s [=Document/pending agecheck element=] is |element|, then set it to null.
+      </li>
       <li>
         If |element| is not [=connected=], or |element|'s <a data-cite="DOM#concept-node-document">node document</a> is not |document|,
         or |document| is not <a data-cite="HTML#fully-active">fully active</a>, then
@@ -246,8 +247,8 @@
       <p>
         A user agent gets this by not garbage collecting the element while its
         [=agecheck/check pending=] is true. Without that, the steps might never
-        run, the document's [=Document/check in progress=] flag would stay
-        true, and no later check in the document could start. The element's
+        run, the document's [=Document/pending agecheck element=] would stay
+        set, and no later check in the document could start. The element's
         listeners could also be gone when the event fires.
       </p>
       <p>
