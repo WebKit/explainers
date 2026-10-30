@@ -5,20 +5,20 @@
   State for a check
 </h3>
 <p>
-  Each [^agecheck^] element has a <dfn class="export" data-dfn-for=
-  "agecheck">check pending</dfn> boolean, initially false.
+  Each [^agecheck^] element has a <dfn data-dfn-for="agecheck">check
+  pending</dfn> boolean, initially false.
 </p>
 <p>
-  Each {{Document}} has a <dfn class="export" data-dfn-for="Document">pending
-  agecheck element</dfn>, an [^agecheck^] element or null, initially null. The
-  pending [^agecheck^] element is the element whose check runs in the document.
+  Each {{Document}} has a <dfn data-dfn-for="Document">pending agecheck
+  element</dfn>, an [^agecheck^] element or null, initially null. The pending
+  [^agecheck^] element is the element whose check runs in the document.
 </p>
 <h3>
   The run a check algorithm
 </h3>
 <p>
-  To <dfn class="export" data-dfn-for="agecheck">run a check</dfn> given an
-  [^agecheck^] element |element|:
+  To <dfn data-dfn-for="agecheck">run a check</dfn> given an [^agecheck^]
+  element |element|:
 </p>
 <ol class="algorithm">
   <li>If |element| is disabled, then return.
@@ -27,7 +27,7 @@
   </li>
   <li>If |element|'s [=agecheck/check pending=] is true, then return.
   </li>
-  <li>Let |document: Document| be |element|'s [=Node/node document=].
+  <li>Let |document:Document| be |element|'s [=Node/node document=].
   </li>
   <li>If |document|'s [=Document/pending agecheck element=] is not null, then
   [=queue an element task=] on the [=user interaction task source=] given
@@ -51,7 +51,7 @@
   an element task=] on the [=user interaction task source=] given |element| to
   [=fire an event=] named `error` at |element|, and return.
   </li>
-  <li>Let |age: integer or failure| be the [=agecheck/requested age=] of
+  <li>Let |age:integer or failure| be the [=agecheck/requested age=] of
   |element|.
   </li>
   <li>If |age| is failure, then [=queue an element task=] on the [=user
@@ -73,7 +73,7 @@
   </li>
   <li>Run these steps [=in parallel=]:
     <ol>
-      <li>Let |result: age check result| be the result of running [=ask the age
+      <li>Let |result:age check result| be the result of running [=ask the age
       source=] given |age| and |document|. The |result| is one of "meets",
       "does not meet", "no age set", "declined", or "failed".
       </li>
@@ -82,7 +82,7 @@
       check=] given |element|, |age|, false, and |document|, and abort these
       steps.
       </li>
-      <li>Let |shared: boolean| be false.
+      <li>Let |shared:boolean| be false.
       </li>
       <li>If |result| is "meets" and the user agent holds [=remembered
       consent=] for |document|'s site and |age|, then set |shared| to true.
@@ -104,10 +104,9 @@
   Finishing a check
 </h3>
 <p>
-  To <dfn class="export" data-dfn-for="agecheck">finish a check</dfn> given an
-  [^agecheck^] element |element|, an integer |age|, a boolean |shared|, and a
-  {{Document}} |document|, where |document| is the document in which the check
-  started:
+  To <dfn data-dfn-for="agecheck">finish a check</dfn> given an [^agecheck^]
+  element |element|, an integer |age|, a boolean |shared|, and a {{Document}}
+  |document|, where |document| is the document in which the check started:
 </p>
 <ol class="algorithm">
   <li>Set |element|'s [=agecheck/check pending=] to false.
@@ -122,7 +121,7 @@
   <li>If |element|'s [=agecheck/check dropped=] is true, then [=fire an event=]
   named `error` at |element|, and return.
   </li>
-  <li>Let |currentAge: integer or failure| be the [=agecheck/requested age=] of
+  <li>Let |currentAge:integer or failure| be the [=agecheck/requested age=] of
   |element|.
   </li>
   <li>If |currentAge| is not |age|, then [=fire an event=] named `error` at

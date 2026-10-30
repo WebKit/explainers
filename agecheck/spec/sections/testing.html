@@ -139,18 +139,18 @@
     command, given |session| and |command parameters|, are:
   </p>
   <ol class="algorithm">
-    <li>Let |action: VirtualAgeSourceAction| be |command
+    <li>Let |action:VirtualAgeSourceAction| be |command
     parameters|["`action`"].
     </li>
-    <li>Let |prompt action: VirtualPromptAction| be |command
+    <li>Let |prompt action:VirtualPromptAction| be |command
     parameters|["`prompt`"] if present, and `"share"` otherwise.
     </li>
-    <li>Let |context: BrowsingContext| be |command parameters|["`context`"] if
+    <li>Let |context:BrowsingContext| be |command parameters|["`context`"] if
     present, and `null` otherwise.
     </li>
     <li>If |context| is not `null`:
       <ol>
-        <li>Let |navigable: navigable| be the result of [=trying=] to [=get a
+        <li>Let |navigable:navigable| be the result of [=trying=] to [=get a
         navigable=] with |context|.
         </li>
         <li>If |navigable| is not a [=top-level traversable=], return an
@@ -170,7 +170,7 @@
         </li>
       </ol>
     </li>
-    <li>Let |behavior: pair| be the pair (|action|, |prompt action|).
+    <li>Let |behavior:pair| be the pair (|action|, |prompt action|).
     </li>
     <li>If |context| is not `null`, set |session|'s map of virtual age source
     behaviors[|context|] to |behavior|.
@@ -185,16 +185,16 @@
     Using the virtual behavior during a check
   </h4>
   <p>
-    To <dfn class="export">get the virtual age source behavior</dfn> for a
-    {{Document}} |document|:
+    To <dfn>get the virtual age source behavior</dfn> for a {{Document}}
+    |document|:
   </p>
   <ol class="algorithm">
     <li>If the user agent's webdriver-active flag is false, return `null`.
     </li>
-    <li>Let |context ID: string| be the ID of |document|'s [=node navigable=]'s
+    <li>Let |context ID:string| be the ID of |document|'s [=node navigable=]'s
     [=navigable/top-level traversable=].
     </li>
-    <li>Let |session: session| be the current WebDriver [=session=].
+    <li>Let |session:session| be the current WebDriver [=session=].
     </li>
     <li>If |session|'s map of virtual age source behaviors contains |context
     ID|, return that entry.
