@@ -50,8 +50,7 @@ ageCheck.SetVirtualAgeSourceBehaviorParameters = {
         <dt><code>"declined"</code></dt>
         <dd>
           The age source reports that the person declined in the platform's own
-          prompt. The check fires <code>error</code> and the user agent does not
-          run its own prompt.
+          prompt.
         </dd>
         <dt><code>"failed"</code></dt>
         <dd>The age source reports a failure.</dd>
@@ -190,34 +189,6 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
         <a href="#prompt-requirements">prompt requirements</a> do not apply to
         that answer.
       </p>
-      <p>
-        With a [=virtual age source behavior=], the outcomes are these, using the
-        steps in <a href="#run-a-check">run a check</a>:
-      </p>
-      <ul>
-        <li>
-          <code>"meets"</code> and <code>"share"</code>: the element's
-          {{HTMLAgeCheckElement/meetsAge}} becomes true and the element fires
-          <code>change</code>.
-        </li>
-        <li>
-          <code>"meets"</code> and <code>"cancel"</code>: the element fires
-          <code>error</code>.
-        </li>
-        <li>
-          <code>"does-not-meet"</code>, <code>"no-age-set"</code> or
-          <code>"failed"</code>, with either prompt action: the element fires
-          <code>error</code>.
-        </li>
-        <li>
-          <code>"declined"</code>: the element fires <code>error</code>. The
-          prompt action is never used.
-        </li>
-        <li>
-          <code>"wait"</code>: the element fires no event until the test sets
-          another behavior for the same context.
-        </li>
-      </ul>
     </section>
   </section>
 
