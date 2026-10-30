@@ -1,74 +1,65 @@
-<section id="forms">
-  <h2>
-    Form reset and page lifecycle
-  </h2>
+<h2 id="forms">
+  Form reset and page lifecycle
+</h2>
+<p>
+  Each [^agecheck^] element has a <dfn class="export" id="dfn-check-dropped"
+  data-dfn-for="agecheck">check dropped</dfn> flag, initially false. The steps
+  in this section set the flag to true when a running check must not succeed.
+</p>
+<h3 id="forms-reset">
+  Reset
+</h3>
+<p>
+  The <dfn class="export" id="agecheck-reset-algorithm">agecheck reset
+  algorithm</dfn> is the reset algorithm for [^agecheck^] elements. Given an
+  [^agecheck^] element |element|:
+</p>
+<ol class="algorithm">
+  <li>If |element|'s [=agecheck/check pending=] is true, set |element|'s
+  [=agecheck/check dropped=] flag to true.
+  </li>
+  <li>Set |element|'s <a href="#dfn-meets-age">meets age</a> flag to false.
+  </li>
+</ol>
+<h3 id="forms-bfcache">
+  Back/forward cache
+</h3>
+<p>
+  In [=Document/reactivate|reactivate a document=], a new step goes right after
+  the step that resets form controls whose autofill field name is "off", and
+  before the step that fires `pageshow`:
+</p>
+<blockquote>
   <p>
-    Each [^agecheck^] element has a <dfn class="export" id="dfn-check-dropped"
-    data-dfn-for="agecheck">check dropped</dfn> flag, initially false. The
-    steps in this section set the flag to true when a running check must not
-    succeed.
+    <ins>For each [^agecheck^] element whose node document is |document|,
+    invoke the reset algorithm for that element.</ins>
   </p>
-  <section id="forms-reset">
-    <h3>
-      Reset
-    </h3>
-    <p>
-      The <dfn class="export" id="agecheck-reset-algorithm">agecheck reset
-      algorithm</dfn> is the reset algorithm for [^agecheck^] elements. Given
-      an [^agecheck^] element |element|:
-    </p>
-    <ol class="algorithm">
-      <li>If |element|'s [=agecheck/check pending=] is true, set |element|'s
-      [=agecheck/check dropped=] flag to true.
+</blockquote>
+<p>
+  The step covers elements that are not connected, since script can still hold
+  them.
+</p>
+<h3 id="forms-unloading">
+  Navigation and unloading during a check
+</h3>
+<p>
+  HTML's [=unloading document cleanup steps=] gain these steps, given a
+  `Document` |document|:
+</p>
+<ol class="algorithm">
+  <li>Let |element| be |document|'s [=Document/pending agecheck element=].
+  </li>
+  <li>If |element| is not null:
+    <ol>
+      <li>Set |element|'s [=agecheck/check dropped=] flag to true.
       </li>
-      <li>Set |element|'s <a href="#dfn-meets-age">meets age</a> flag to false.
-      </li>
-    </ol>
-  </section>
-  <section id="forms-bfcache">
-    <h3>
-      Back/forward cache
-    </h3>
-    <p>
-      In [=Document/reactivate|reactivate a document=], a new step goes right
-      after the step that resets form controls whose autofill field name is
-      "off", and before the step that fires `pageshow`:
-    </p>
-    <blockquote>
-      <p>
-        <ins>For each [^agecheck^] element whose node document is |document|,
-        invoke the reset algorithm for that element.</ins>
-      </p>
-    </blockquote>
-    <p>
-      The step covers elements that are not connected, since script can still
-      hold them.
-    </p>
-  </section>
-  <section id="forms-unloading">
-    <h3>
-      Navigation and unloading during a check
-    </h3>
-    <p>
-      HTML's [=unloading document cleanup steps=] gain these steps, given a
-      `Document` |document|:
-    </p>
-    <ol class="algorithm">
-      <li>Let |element| be |document|'s [=Document/pending agecheck element=].
-      </li>
-      <li>If |element| is not null:
-        <ol>
-          <li>Set |element|'s [=agecheck/check dropped=] flag to true.
-          </li>
-          <li>The user agent MUST close any prompt that the check shows, and
-          MUST NOT show a prompt for the check afterward.
-          </li>
-        </ol>
+      <li>The user agent MUST close any prompt that the check shows, and MUST
+      NOT show a prompt for the check afterward.
       </li>
     </ol>
-    <p>
-      Closing the prompt this way counts as the person closing the prompt
-      without agreeing.
-    </p>
-  </section>
-</section>
+  </li>
+</ol>
+<p>
+  Closing the prompt this way counts as the person closing the prompt without
+  agreeing.
+</p>

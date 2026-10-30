@@ -1,35 +1,34 @@
-<section id="examples" class="informative">
-  <h3>
-    Examples
-  </h3>
-  <div class="example" title=
-  "A form that asks whether the person is at least 18">
-    <pre class="html">
+<h3 id="examples">
+  Examples
+</h3>
+<div class="example" title=
+"A form that asks whether the person is at least 18">
+  <pre class="html">
       &lt;form method="post" action="/enter"&gt;
         &lt;agecheck name="age" age="18" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
         &lt;button&gt;Enter&lt;/button&gt;
       &lt;/form&gt;
     </pre>
-    <p>
-      The person cannot submit the form until the check passes. When the form
-      submits, the form data has one entry named `age` with the value `18`.
-    </p>
-  </div>
-  <div class="example" title="An element with no age attribute">
-    <pre class="html">
+  <p>
+    The person cannot submit the form until the check passes. When the form
+    submits, the form data has one entry named `age` with the value `18`.
+  </p>
+</div>
+<div class="example" title="An element with no age attribute">
+  <pre class="html">
       &lt;form method="post" action="/enter"&gt;
         &lt;agecheck name="age" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
         &lt;button&gt;Enter&lt;/button&gt;
       &lt;/form&gt;
     </pre>
-    <p>
-      With no `age` attribute, the element asks about 18. This form behaves the
-      same as the one above.
-    </p>
-  </div>
-  <div class="example" title=
-  "A form with a message and another way to share age">
-    <pre class="html">
+  <p>
+    With no `age` attribute, the element asks about 18. This form behaves the
+    same as the one above.
+  </p>
+</div>
+<div class="example" title=
+"A form with a message and another way to share age">
+  <pre class="html">
       &lt;form method="post" action="/enter"&gt;
         &lt;agecheck id="check" name="age" age="18" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
         &lt;a href="/other-ways"&gt;Share my age some other way&lt;/a&gt;
@@ -50,14 +49,14 @@
         });
       &lt;/script&gt;
     </pre>
-    <p>
-      The message region starts empty, so screen readers already watch the
-      region when the text changes. The page never moves focus on its own. The
-      link sits right after the element, so the next Tab reaches the link.
-    </p>
-  </div>
-  <div class="example" title="A site that asks about two ages">
-    <pre class="html">
+  <p>
+    The message region starts empty, so screen readers already watch the region
+    when the text changes. The page never moves focus on its own. The link sits
+    right after the element, so the next Tab reaches the link.
+  </p>
+</div>
+<div class="example" title="A site that asks about two ages">
+  <pre class="html">
       &lt;form method="post" action="/join"&gt;
         &lt;agecheck name="over13" age="13" required&gt;Share that I'm 13 or older&lt;/agecheck&gt;
         &lt;agecheck name="over18" age="18"&gt;Also share that I'm 18 or older&lt;/agecheck&gt;
@@ -65,51 +64,50 @@
         &lt;button&gt;Join&lt;/button&gt;
       &lt;/form&gt;
     </pre>
-    <p>
-      The site needs every member to be at least 13. The site also offers more
-      to members who are at least 18. Each element asks its own question, and
-      the browser asks the person about each age separately. The person can
-      share one answer and not the other.
-    </p>
-    <p>
-      Only the first element is `required`, so the person can join without the
-      second answer. The form data holds an entry for each check that passed,
-      for example `over13=13` and `over18=18`.
-    </p>
-    <p>
-      Only one check runs at a time in a document. If the person starts the
-      second element while the first check runs, the second element fires
-      `error`.
-    </p>
-  </div>
-  <aside class="note" title="Advice for sites">
-    <p>
-      Browsers do not enforce this advice.
-    </p>
-    <ul>
-      <li>Use `method="post"` on the form, so the answer stays out of URLs.
-      </li>
-      <li>With `required`, offer another way to share age on the same page. Use
-      a link, because a submit button in the same form does not work until the
-      check passes.
-      </li>
-      <li>Treat `error` as "not now". Offer to try again or another way.
-      </li>
-      <li>Never treat `error` as "too young".
-      </li>
-      <li>Show the message in a live region, so screen readers announce the
-      message when the text changes.
-      </li>
-      <li>Put any new options right after the element or its label, so the next
-      Tab reaches them.
-      </li>
-      <li>To offer a different path for younger visitors, put an ordinary "I'm
-      under 18" link next to the element. The person follows the link only by
-      choice.
-      </li>
-      <li>Remember a successful check in the site's own session rather than
-      asking again.
-      </li>
-    </ul>
-  </aside>
-</section>
+  <p>
+    The site needs every member to be at least 13. The site also offers more to
+    members who are at least 18. Each element asks its own question, and the
+    browser asks the person about each age separately. The person can share one
+    answer and not the other.
+  </p>
+  <p>
+    Only the first element is `required`, so the person can join without the
+    second answer. The form data holds an entry for each check that passed, for
+    example `over13=13` and `over18=18`.
+  </p>
+  <p>
+    Only one check runs at a time in a document. If the person starts the
+    second element while the first check runs, the second element fires
+    `error`.
+  </p>
+</div>
+<aside class="note" title="Advice for sites">
+  <p>
+    Browsers do not enforce this advice.
+  </p>
+  <ul>
+    <li>Use `method="post"` on the form, so the answer stays out of URLs.
+    </li>
+    <li>With `required`, offer another way to share age on the same page. Use a
+    link, because a submit button in the same form does not work until the
+    check passes.
+    </li>
+    <li>Treat `error` as "not now". Offer to try again or another way.
+    </li>
+    <li>Never treat `error` as "too young".
+    </li>
+    <li>Show the message in a live region, so screen readers announce the
+    message when the text changes.
+    </li>
+    <li>Put any new options right after the element or its label, so the next
+    Tab reaches them.
+    </li>
+    <li>To offer a different path for younger visitors, put an ordinary "I'm
+    under 18" link next to the element. The person follows the link only by
+    choice.
+    </li>
+    <li>Remember a successful check in the site's own session rather than
+    asking again.
+    </li>
+  </ul>
+</aside>

@@ -1,683 +1,657 @@
-<section id="html-integration">
-  <h2>
-    Integration with HTML
-  </h2>
+<h2 id="html-integration">
+  Integration with HTML
+</h2>
+<p>
+  The HTML Standard lists form controls by name in many places. A new form
+  control has to join each list. This section names every place that needs a
+  change. Each patch names the target section, quotes the current words, and
+  gives the new words. Added words are marked as insertions.
+</p>
+<table class="data" id="patch-table">
+  <caption>
+    Every patch and its target in HTML
+  </caption>
+  <thead>
+    <tr>
+      <th>
+        Patch
+      </th>
+      <th>
+        Target in HTML
+      </th>
+      <th>
+        Change
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <a href="#patch-categories">Form categories</a>
+      </td>
+      <td>
+        [[[HTML#categories]]]
+      </td>
+      <td>
+        Join five lists
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#patch-content-categories">Content categories</a>
+      </td>
+      <td>
+        Flow, phrasing, interactive and palpable content
+      </td>
+      <td>
+        Join four lists
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#patch-disabled">Disabled</a>
+      </td>
+      <td>
+        Enabling and disabling form controls
+      </td>
+      <td>
+        Add a name
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#patch-actually-disabled">Actually disabled</a>
+      </td>
+      <td>
+        [[[HTML#disabled-elements]]]
+      </td>
+      <td>
+        Add a list item
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#patch-pseudo-classes">Pseudo-classes</a>
+      </td>
+      <td>
+        [[[HTML#pseudo-classes]]]
+      </td>
+      <td>
+        Change `:enabled`, `:active`, `:required` and `:optional`
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#patch-entry-list">Entry list</a>
+      </td>
+      <td>
+        Constructing the entry list
+      </td>
+      <td>
+        Add a skip case and a value
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#patch-constraint-validation">Constraint validation</a>
+      </td>
+      <td>
+        [[[HTML#constraints]]]
+      </td>
+      <td>
+        Change one note
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#patch-label">Label</a>
+      </td>
+      <td>
+        [[[HTML#the-label-element]]]
+      </td>
+      <td>
+        Add a paragraph
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#patch-focus">Focus</a>
+      </td>
+      <td>
+        [[[HTML#the-tabindex-attribute]]]
+      </td>
+      <td>
+        Add a list item
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#patch-indexes">Indexes</a>
+      </td>
+      <td>
+        [[[HTML#elements-3]]], content categories, [[[HTML#attributes-3]]],
+        [[[HTML#element-interfaces]]], [[[HTML#all-interfaces]]],
+        [[[HTML#events-2]]]
+      </td>
+      <td>
+        Add and change rows
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#activate-assistive-technology">User activation</a>
+      </td>
+      <td>
+        [[[HTML#tracking-user-activation]]]
+      </td>
+      <td>
+        Add a trigger
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#forms-bfcache">Back/forward cache</a>
+      </td>
+      <td>
+        Reactivating a document
+      </td>
+      <td>
+        Add a step
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#forms-unloading">Unloading</a>
+      </td>
+      <td>
+        Unloading document cleanup steps
+      </td>
+      <td>
+        Add steps
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#patch-sandboxing">Sandboxing</a>
+      </td>
+      <td>
+        [[[HTML#sandboxing]]]
+      </td>
+      <td>
+        Add a list item
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#rendering">Rendering</a>
+      </td>
+      <td>
+        [[[HTML#form-controls]]], [[[HTML#widgets]]]
+      </td>
+      <td>
+        Several rules
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#accessibility">Companion documents</a>
+      </td>
+      <td>
+        HTML-AAM, ARIA in HTML
+      </td>
+      <td>
+        New rows
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3 id="patch-categories">
+  Form categories
+</h3>
+<p>
+  Target: [[[HTML#categories]]] in the forms section. Each list below is a list
+  of element names. The patch adds [^agecheck^] to five of them.
+</p>
+<ul>
+  <li>Form-associated elements. Current list: "button fieldset input object
+  output select textarea img form-associated custom elements". New list: add
+  <ins>[^agecheck^]</ins> after `button`.
+  </li>
+  <li>Listed elements. Current list: "button fieldset input object output
+  select textarea form-associated custom elements". New list: add
+  <ins>[^agecheck^]</ins> after `button`.
+  </li>
+  <li>Submittable elements. Current list: "button input select textarea
+  form-associated custom elements". New list: add <ins>[^agecheck^]</ins> after
+  `button`.
+  </li>
+  <li>Resettable elements. Current list: "input output select textarea
+  form-associated custom elements". New list: add <ins>[^agecheck^]</ins>
+  before `input`.
+  </li>
+  <li>Labelable elements. Current list: "button input (if the type attribute is
+  not in the Hidden state) meter output progress select textarea
+  form-associated custom elements". New list: add <ins>[^agecheck^]</ins> after
+  `button`.
+  </li>
+</ul>
+<h3 id="patch-content-categories">
+  Content categories
+</h3>
+<p>
+  Target: the kinds of content in the "Semantics, structure, and APIs of HTML
+  documents" section. Add <ins>[^agecheck^]</ins> to each of these lists, in
+  alphabetical order:
+</p>
+<ul>
+  <li>[=Flow content=].
+  </li>
+  <li>[=Phrasing content=].
+  </li>
+  <li>[=Interactive content=]. The list today starts "a (if the href attribute
+  is present) audio (if the controls attribute is present) button details". The
+  new entry goes before `audio`, with no condition.
+  </li>
+  <li>[=Palpable content=].
+  </li>
+</ul>
+<h3 id="patch-disabled">
+  Disabled
+</h3>
+<p>
+  Target: disabled, in "Enabling and disabling form controls: the disabled
+  attribute".
+</p>
+<p>
+  Current text of the first condition:
+</p>
+<blockquote>
+  the element is a button, input, select, textarea, or form-associated custom
+  element, and the disabled attribute is specified on this element (regardless
+  of its value); or
+</blockquote>
+<p>
+  New text:
+</p>
+<blockquote>
+  the element is a button, input, select, textarea, <ins>[^agecheck^],</ins> or
+  form-associated custom element, and the disabled attribute is specified on
+  this element (regardless of its value); or
+</blockquote>
+<h3 id="patch-actually-disabled">
+  Actually disabled
+</h3>
+<p>
+  Target: actually disabled, in "Disabled elements". The list today starts "a
+  button element that is disabled".
+</p>
+<p>
+  New list item, after "a textarea element that is disabled":
+</p>
+<blockquote>
+  <ins>an [^agecheck^] element that is disabled</ins>
+</blockquote>
+<h3 id="patch-pseudo-classes">
+  Pseudo-classes
+</h3>
+<p>
+  Target: [[[HTML#pseudo-classes]]].
+</p>
+<p>
+  `:enabled`. Current text:
+</p>
+<blockquote>
+  The :enabled pseudo-class must match any button, input, select, textarea,
+  optgroup, option, fieldset element, or form-associated custom element that is
+  not actually disabled.
+</blockquote>
+<p>
+  New text:
+</p>
+<blockquote>
+  The :enabled pseudo-class must match any button, input, select, textarea,
+  optgroup, option, fieldset, <ins>[^agecheck^]</ins> element, or
+  form-associated custom element that is not actually disabled.
+</blockquote>
+<p>
+  `:active`. The list that decides when an element is being activated starts
+  "If the element is a button element". Add a new entry after the entry for
+  `input` buttons, sharing the same outcome ("The element is being activated if
+  it is in a formal activation state"):
+</p>
+<blockquote>
+  <ins>If the element is an [^agecheck^] element</ins>
+</blockquote>
+<p>
+  `:required`. Current list: "input elements that are required; select elements
+  that have a required attribute; textarea elements that have a required
+  attribute". New list item:
+</p>
+<blockquote>
+  <ins>[^agecheck^] elements that have a required attribute</ins>
+</blockquote>
+<p>
+  `:optional`. Current list: "input elements to which the required attribute
+  applies that are not required; select elements that do not have a required
+  attribute; textarea elements that do not have a required attribute". New list
+  item:
+</p>
+<blockquote>
+  <ins>[^agecheck^] elements that do not have a required attribute</ins>
+</blockquote>
+<h3 id="patch-entry-list">
+  Entry list
+</h3>
+<p>
+  Target: constructing the entry list. The list of cases where the loop
+  continues to the next field gains one case, after the case for an unchecked
+  radio button. HTML also needs a definition of the element's value.
+</p>
+<p>
+  New case, after the case for an unchecked radio button:
+</p>
+<blockquote>
   <p>
-    The HTML Standard lists form controls by name in many places. A new form
-    control has to join each list. This section names every place that needs a
-    change. Each patch names the target section, quotes the current words, and
-    gives the new words. Added words are marked as insertions.
+    <ins>|field| is an [^agecheck^] element whose meets age flag is
+    false;</ins>
   </p>
-  <table class="data" id="patch-table">
-    <caption>
-      Every patch and its target in HTML
-    </caption>
-    <thead>
-      <tr>
-        <th>
-          Patch
-        </th>
-        <th>
-          Target in HTML
-        </th>
-        <th>
-          Change
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <a href="#patch-categories">Form categories</a>
-        </td>
-        <td>
-          [[[HTML#categories]]]
-        </td>
-        <td>
-          Join five lists
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#patch-content-categories">Content categories</a>
-        </td>
-        <td>
-          Flow, phrasing, interactive and palpable content
-        </td>
-        <td>
-          Join four lists
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#patch-disabled">Disabled</a>
-        </td>
-        <td>
-          Enabling and disabling form controls
-        </td>
-        <td>
-          Add a name
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#patch-actually-disabled">Actually disabled</a>
-        </td>
-        <td>
-          [[[HTML#disabled-elements]]]
-        </td>
-        <td>
-          Add a list item
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#patch-pseudo-classes">Pseudo-classes</a>
-        </td>
-        <td>
-          [[[HTML#pseudo-classes]]]
-        </td>
-        <td>
-          Change `:enabled`, `:active`, `:required` and `:optional`
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#patch-entry-list">Entry list</a>
-        </td>
-        <td>
-          Constructing the entry list
-        </td>
-        <td>
-          Add a skip case and a value
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#patch-constraint-validation">Constraint validation</a>
-        </td>
-        <td>
-          [[[HTML#constraints]]]
-        </td>
-        <td>
-          Change one note
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#patch-label">Label</a>
-        </td>
-        <td>
-          [[[HTML#the-label-element]]]
-        </td>
-        <td>
-          Add a paragraph
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#patch-focus">Focus</a>
-        </td>
-        <td>
-          [[[HTML#the-tabindex-attribute]]]
-        </td>
-        <td>
-          Add a list item
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#patch-indexes">Indexes</a>
-        </td>
-        <td>
-          [[[HTML#elements-3]]], content categories, [[[HTML#attributes-3]]],
-          [[[HTML#element-interfaces]]], [[[HTML#all-interfaces]]],
-          [[[HTML#events-2]]]
-        </td>
-        <td>
-          Add and change rows
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#activate-assistive-technology">User activation</a>
-        </td>
-        <td>
-          [[[HTML#tracking-user-activation]]]
-        </td>
-        <td>
-          Add a trigger
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#forms-bfcache">Back/forward cache</a>
-        </td>
-        <td>
-          Reactivating a document
-        </td>
-        <td>
-          Add a step
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#forms-unloading">Unloading</a>
-        </td>
-        <td>
-          Unloading document cleanup steps
-        </td>
-        <td>
-          Add steps
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#patch-sandboxing">Sandboxing</a>
-        </td>
-        <td>
-          [[[HTML#sandboxing]]]
-        </td>
-        <td>
-          Add a list item
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#rendering">Rendering</a>
-        </td>
-        <td>
-          [[[HTML#form-controls]]], [[[HTML#widgets]]]
-        </td>
-        <td>
-          Several rules
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#accessibility">Companion documents</a>
-        </td>
-        <td>
-          HTML-AAM, ARIA in HTML
-        </td>
-        <td>
-          New rows
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <section id="patch-categories">
-    <h3>
-      Form categories
-    </h3>
-    <p>
-      Target: [[[HTML#categories]]] in the forms section. Each list below is a
-      list of element names. The patch adds [^agecheck^] to five of them.
-    </p>
-    <ul>
-      <li>Form-associated elements. Current list: "button fieldset input object
-      output select textarea img form-associated custom elements". New list:
-      add <ins>[^agecheck^]</ins> after `button`.
-      </li>
-      <li>Listed elements. Current list: "button fieldset input object output
-      select textarea form-associated custom elements". New list: add
-      <ins>[^agecheck^]</ins> after `button`.
-      </li>
-      <li>Submittable elements. Current list: "button input select textarea
-      form-associated custom elements". New list: add <ins>[^agecheck^]</ins>
-      after `button`.
-      </li>
-      <li>Resettable elements. Current list: "input output select textarea
-      form-associated custom elements". New list: add <ins>[^agecheck^]</ins>
-      before `input`.
-      </li>
-      <li>Labelable elements. Current list: "button input (if the type
-      attribute is not in the Hidden state) meter output progress select
-      textarea form-associated custom elements". New list: add
-      <ins>[^agecheck^]</ins> after `button`.
-      </li>
-    </ul>
-  </section>
-  <section id="patch-content-categories">
-    <h3>
-      Content categories
-    </h3>
-    <p>
-      Target: the kinds of content in the "Semantics, structure, and APIs of
-      HTML documents" section. Add <ins>[^agecheck^]</ins> to each of these
-      lists, in alphabetical order:
-    </p>
-    <ul>
-      <li>[=Flow content=].
-      </li>
-      <li>[=Phrasing content=].
-      </li>
-      <li>[=Interactive content=]. The list today starts "a (if the href
-      attribute is present) audio (if the controls attribute is present) button
-      details". The new entry goes before `audio`, with no condition.
-      </li>
-      <li>[=Palpable content=].
-      </li>
-    </ul>
-  </section>
-  <section id="patch-disabled">
-    <h3>
-      Disabled
-    </h3>
-    <p>
-      Target: disabled, in "Enabling and disabling form controls: the disabled
-      attribute".
-    </p>
-    <p>
-      Current text of the first condition:
-    </p>
-    <blockquote>
-      the element is a button, input, select, textarea, or form-associated
-      custom element, and the disabled attribute is specified on this element
-      (regardless of its value); or
-    </blockquote>
-    <p>
-      New text:
-    </p>
-    <blockquote>
-      the element is a button, input, select, textarea,
-      <ins>[^agecheck^],</ins> or form-associated custom element, and the
-      disabled attribute is specified on this element (regardless of its
-      value); or
-    </blockquote>
-  </section>
-  <section id="patch-actually-disabled">
-    <h3>
-      Actually disabled
-    </h3>
-    <p>
-      Target: actually disabled, in "Disabled elements". The list today starts
-      "a button element that is disabled".
-    </p>
-    <p>
-      New list item, after "a textarea element that is disabled":
-    </p>
-    <blockquote>
-      <ins>an [^agecheck^] element that is disabled</ins>
-    </blockquote>
-  </section>
-  <section id="patch-pseudo-classes">
-    <h3>
-      Pseudo-classes
-    </h3>
-    <p>
-      Target: [[[HTML#pseudo-classes]]].
-    </p>
-    <p>
-      `:enabled`. Current text:
-    </p>
-    <blockquote>
-      The :enabled pseudo-class must match any button, input, select, textarea,
-      optgroup, option, fieldset element, or form-associated custom element
-      that is not actually disabled.
-    </blockquote>
-    <p>
-      New text:
-    </p>
-    <blockquote>
-      The :enabled pseudo-class must match any button, input, select, textarea,
-      optgroup, option, fieldset, <ins>[^agecheck^]</ins> element, or
-      form-associated custom element that is not actually disabled.
-    </blockquote>
-    <p>
-      `:active`. The list that decides when an element is being activated
-      starts "If the element is a button element". Add a new entry after the
-      entry for `input` buttons, sharing the same outcome ("The element is
-      being activated if it is in a formal activation state"):
-    </p>
-    <blockquote>
-      <ins>If the element is an [^agecheck^] element</ins>
-    </blockquote>
-    <p>
-      `:required`. Current list: "input elements that are required; select
-      elements that have a required attribute; textarea elements that have a
-      required attribute". New list item:
-    </p>
-    <blockquote>
-      <ins>[^agecheck^] elements that have a required attribute</ins>
-    </blockquote>
-    <p>
-      `:optional`. Current list: "input elements to which the required
-      attribute applies that are not required; select elements that do not have
-      a required attribute; textarea elements that do not have a required
-      attribute". New list item:
-    </p>
-    <blockquote>
-      <ins>[^agecheck^] elements that do not have a required attribute</ins>
-    </blockquote>
-  </section>
-  <section id="patch-entry-list">
-    <h3>
-      Entry list
-    </h3>
-    <p>
-      Target: constructing the entry list. The list of cases where the loop
-      continues to the next field gains one case, after the case for an
-      unchecked radio button. HTML also needs a definition of the element's
-      value.
-    </p>
-    <p>
-      New case, after the case for an unchecked radio button:
-    </p>
-    <blockquote>
-      <p>
-        <ins>|field| is an [^agecheck^] element whose meets age flag is
-        false;</ins>
-      </p>
-    </blockquote>
-    <p>
-      New definition, for the value of a field that is an [^agecheck^] element:
-    </p>
-    <blockquote>
-      <p>
-        <ins>The value of an [^agecheck^] element is the empty string when its
-        [=agecheck/meets age=] flag is false. Otherwise the value is its
-        [=agecheck/requested age=], written as a valid non-negative integer
-        with no leading zeros.</ins>
-      </p>
-    </blockquote>
-  </section>
-  <section id="patch-constraint-validation">
-    <h3>
-      Constraint validation
-    </h3>
-    <p>
-      Target: [[[HTML#constraints]]]. HTML needs two changes, one in the
-      validity states and one in a note.
-    </p>
-    <p>
-      First, the entry for "Suffering from being missing" in
-      [[[HTML#constraints]]] gains this case:
-    </p>
-    <blockquote>
-      <p>
-        <ins>When an [^agecheck^] element has a `required` attribute and its
-        [=agecheck/meets age=] flag is false.</ins>
-      </p>
-    </blockquote>
-    <p>
-      Second, one note in HTML lists the elements that can be suffering from
-      being missing. Current text of that note:
-    </p>
-    <blockquote>
-      When a control has no value but has a required attribute (input required,
-      textarea required); or, more complicated rules for select elements and
-      controls in radio button groups, as specified in their sections.
-    </blockquote>
-    <p>
-      New text:
-    </p>
-    <blockquote>
-      When a control has no value but has a required attribute (input required,
-      textarea required); or, more complicated rules for select elements,
-      <ins>[^agecheck^] elements,</ins> and controls in radio button groups, as
-      specified in their sections.
-    </blockquote>
-  </section>
-  <section id="patch-label">
-    <h3>
-      Label
-    </h3>
-    <p>
-      Target: [[[HTML#the-label-element]]]. HTML lets each platform choose what
-      a click on a label does. The [^agecheck^] element needs one fixed rule.
-      Current text:
-    </p>
-    <blockquote>
-      The activation behavior of a label element for events targeted at
-      interactive content descendants of a label element, and any descendants
-      of those interactive content descendants, must be to do nothing.
-    </blockquote>
-    <p>
-      New paragraph, right after that text:
-    </p>
-    <blockquote>
-      <ins>If a label element's labeled control is an [^agecheck^] element,
-      then the label element's activation behavior, given event, must be as
-      follows. If event's `isTrusted` attribute is true, then fire a synthetic
-      pointer event named `click` at the labeled control, without the not
-      trusted flag. Otherwise, do nothing.</ins>
-    </blockquote>
-  </section>
-  <section id="patch-focus">
-    <h3>
-      Focus
-    </h3>
-    <p>
-      Target: [[[HTML#the-tabindex-attribute]]]. The list that starts "Modulo
-      platform conventions, it is suggested that the following elements should
-      be considered as focusable areas and be sequentially focusable" names
-      `button` elements. New list item, after "button elements":
-    </p>
-    <blockquote>
-      <ins>[^agecheck^] elements</ins>
-    </blockquote>
-  </section>
-  <section id="patch-indexes">
-    <h3>
-      Indexes
-    </h3>
-    <p>
-      Target: the non-normative Index.
-    </p>
-    <p>
-      List of elements. New row, after `address` and before `area`:
-    </p>
-    <table class="data" id="index-elements-row">
-      <thead>
-        <tr>
-          <th>
-            Element
-          </th>
-          <th>
-            Description
-          </th>
-          <th>
-            Categories
-          </th>
-          <th>
-            Parents
-          </th>
-          <th>
-            Children
-          </th>
-          <th>
-            Attributes
-          </th>
-          <th>
-            Interface
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            [^agecheck^]
-          </td>
-          <td>
-            Age check control
-          </td>
-          <td>
-            flow; phrasing; interactive; listed; labelable; submittable;
-            resettable; form-associated; palpable
-          </td>
-          <td>
-            phrasing
-          </td>
-          <td>
-            phrasing*
-          </td>
-          <td>
-            globals; `age`; `disabled`; `form`; `name`; `required`
-          </td>
-          <td>
-            {{HTMLAgeCheckElement}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p>
-      List of element content categories. Add [^agecheck^] to the Elements cell
-      of these rows: Flow content, Phrasing content, Interactive content,
-      Form-associated elements, Listed elements, Submittable elements,
-      Resettable elements, Labelable elements, and Palpable content.
-    </p>
-    <p>
-      List of attributes. One new row and four changed rows:
-    </p>
-    <table class="data" id="index-attributes-rows">
-      <thead>
-        <tr>
-          <th>
-            Attribute
-          </th>
-          <th>
-            Current Element(s) cell
-          </th>
-          <th>
-            New Element(s) cell
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            `age`
-          </td>
-          <td>
-            (no row)
-          </td>
-          <td>
-            <ins>[^agecheck^]</ins>. Description: "Age that the check asks
-            about". Value: "Valid non-negative integer: 13, 16, or 18"
-          </td>
-        </tr>
-        <tr>
-          <td>
-            `disabled`
-          </td>
-          <td>
-            button; input; optgroup; option; select; textarea; form-associated
-            custom elements
-          </td>
-          <td>
-            button; input; optgroup; option; select; textarea;
-            <ins>[^agecheck^];</ins> form-associated custom elements
-          </td>
-        </tr>
-        <tr>
-          <td>
-            `form`
-          </td>
-          <td>
-            button; fieldset; input; object; output; select; textarea;
-            form-associated custom elements
-          </td>
-          <td>
-            button; fieldset; input; object; output; select; textarea;
-            <ins>[^agecheck^];</ins> form-associated custom elements
-          </td>
-        </tr>
-        <tr>
-          <td>
-            `name`
-          </td>
-          <td>
-            button; fieldset; input; output; select; textarea; form-associated
-            custom elements
-          </td>
-          <td>
-            button; fieldset; input; output; select; textarea;
-            <ins>[^agecheck^];</ins> form-associated custom elements
-          </td>
-        </tr>
-        <tr>
-          <td>
-            `required`
-          </td>
-          <td>
-            input; select; textarea
-          </td>
-          <td>
-            <ins>[^agecheck^];</ins> input; select; textarea.
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p>
-      List of element interfaces. New row: [^agecheck^],
-      {{HTMLAgeCheckElement}} : {{HTMLElement}}. The list of all interfaces
-      also gains {{HTMLAgeCheckElement}}.
-    </p>
-    <p>
-      List of events. Two changed rows:
-    </p>
-    <table class="data" id="index-events-rows">
-      <thead>
-        <tr>
-          <th>
-            Event
-          </th>
-          <th>
-            Current row
-          </th>
-          <th>
-            New row
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            `change`
-          </td>
-          <td>
-            Interface `Event`. Targets "Form controls". Description "Fired at
-            controls when the user commits a value change (see also the input
-            event)".
-          </td>
-          <td>
-            Description: "Fired at controls when the user commits a value
-            change (see also the input event)<ins>, and at an [^agecheck^]
-            element when a check succeeds</ins>".
-          </td>
-        </tr>
-        <tr>
-          <td>
-            `error`
-          </td>
-          <td>
-            Interface "Event or ErrorEvent". Targets "Global scope objects,
-            Worker objects, elements, networking-related objects". Description
-            "Fired when unexpected errors occur (e.g. networking errors, script
-            errors, decoding errors)".
-          </td>
-          <td>
-            Description: "Fired when unexpected errors occur (e.g. networking
-            errors, script errors, decoding errors)<ins>, and at an
-            [^agecheck^] element when a check fails</ins>".
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-  <section id="patch-sandboxing">
-    <h3>
-      Sandboxing
-    </h3>
-    <p>
-      Target: [[[HTML#sandboxing]]]. The [=sandboxed modals flag=] "prevents
-      content from using any of the following features to produce modal
-      dialogs", and the browser's age prompt is modal. New list item, after
-      "the beforeunload event":
-    </p>
-    <blockquote>
-      <ins>the [^agecheck^] element</ins>
-    </blockquote>
-  </section>
-</section>
+</blockquote>
+<p>
+  New definition, for the value of a field that is an [^agecheck^] element:
+</p>
+<blockquote>
+  <p>
+    <ins>The value of an [^agecheck^] element is the empty string when its
+    [=agecheck/meets age=] flag is false. Otherwise the value is its
+    [=agecheck/requested age=], written as a valid non-negative integer with no
+    leading zeros.</ins>
+  </p>
+</blockquote>
+<h3 id="patch-constraint-validation">
+  Constraint validation
+</h3>
+<p>
+  Target: [[[HTML#constraints]]]. HTML needs two changes, one in the validity
+  states and one in a note.
+</p>
+<p>
+  First, the entry for "Suffering from being missing" in [[[HTML#constraints]]]
+  gains this case:
+</p>
+<blockquote>
+  <p>
+    <ins>When an [^agecheck^] element has a `required` attribute and its
+    [=agecheck/meets age=] flag is false.</ins>
+  </p>
+</blockquote>
+<p>
+  Second, one note in HTML lists the elements that can be suffering from being
+  missing. Current text of that note:
+</p>
+<blockquote>
+  When a control has no value but has a required attribute (input required,
+  textarea required); or, more complicated rules for select elements and
+  controls in radio button groups, as specified in their sections.
+</blockquote>
+<p>
+  New text:
+</p>
+<blockquote>
+  When a control has no value but has a required attribute (input required,
+  textarea required); or, more complicated rules for select elements,
+  <ins>[^agecheck^] elements,</ins> and controls in radio button groups, as
+  specified in their sections.
+</blockquote>
+<h3 id="patch-label">
+  Label
+</h3>
+<p>
+  Target: [[[HTML#the-label-element]]]. HTML lets each platform choose what a
+  click on a label does. The [^agecheck^] element needs one fixed rule. Current
+  text:
+</p>
+<blockquote>
+  The activation behavior of a label element for events targeted at interactive
+  content descendants of a label element, and any descendants of those
+  interactive content descendants, must be to do nothing.
+</blockquote>
+<p>
+  New paragraph, right after that text:
+</p>
+<blockquote>
+  <ins>If a label element's labeled control is an [^agecheck^] element, then
+  the label element's activation behavior, given event, must be as follows. If
+  event's `isTrusted` attribute is true, then fire a synthetic pointer event
+  named `click` at the labeled control, without the not trusted flag.
+  Otherwise, do nothing.</ins>
+</blockquote>
+<h3 id="patch-focus">
+  Focus
+</h3>
+<p>
+  Target: [[[HTML#the-tabindex-attribute]]]. The list that starts "Modulo
+  platform conventions, it is suggested that the following elements should be
+  considered as focusable areas and be sequentially focusable" names `button`
+  elements. New list item, after "button elements":
+</p>
+<blockquote>
+  <ins>[^agecheck^] elements</ins>
+</blockquote>
+<h3 id="patch-indexes">
+  Indexes
+</h3>
+<p>
+  Target: the non-normative Index.
+</p>
+<p>
+  List of elements. New row, after `address` and before `area`:
+</p>
+<table class="data" id="index-elements-row">
+  <thead>
+    <tr>
+      <th>
+        Element
+      </th>
+      <th>
+        Description
+      </th>
+      <th>
+        Categories
+      </th>
+      <th>
+        Parents
+      </th>
+      <th>
+        Children
+      </th>
+      <th>
+        Attributes
+      </th>
+      <th>
+        Interface
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        [^agecheck^]
+      </td>
+      <td>
+        Age check control
+      </td>
+      <td>
+        flow; phrasing; interactive; listed; labelable; submittable;
+        resettable; form-associated; palpable
+      </td>
+      <td>
+        phrasing
+      </td>
+      <td>
+        phrasing*
+      </td>
+      <td>
+        globals; `age`; `disabled`; `form`; `name`; `required`
+      </td>
+      <td>
+        {{HTMLAgeCheckElement}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  List of element content categories. Add [^agecheck^] to the Elements cell of
+  these rows: Flow content, Phrasing content, Interactive content,
+  Form-associated elements, Listed elements, Submittable elements, Resettable
+  elements, Labelable elements, and Palpable content.
+</p>
+<p>
+  List of attributes. One new row and four changed rows:
+</p>
+<table class="data" id="index-attributes-rows">
+  <thead>
+    <tr>
+      <th>
+        Attribute
+      </th>
+      <th>
+        Current Element(s) cell
+      </th>
+      <th>
+        New Element(s) cell
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        `age`
+      </td>
+      <td>
+        (no row)
+      </td>
+      <td>
+        <ins>[^agecheck^]</ins>. Description: "Age that the check asks about".
+        Value: "Valid non-negative integer: 13, 16, or 18"
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `disabled`
+      </td>
+      <td>
+        button; input; optgroup; option; select; textarea; form-associated
+        custom elements
+      </td>
+      <td>
+        button; input; optgroup; option; select; textarea;
+        <ins>[^agecheck^];</ins> form-associated custom elements
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `form`
+      </td>
+      <td>
+        button; fieldset; input; object; output; select; textarea;
+        form-associated custom elements
+      </td>
+      <td>
+        button; fieldset; input; object; output; select; textarea;
+        <ins>[^agecheck^];</ins> form-associated custom elements
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `name`
+      </td>
+      <td>
+        button; fieldset; input; output; select; textarea; form-associated
+        custom elements
+      </td>
+      <td>
+        button; fieldset; input; output; select; textarea;
+        <ins>[^agecheck^];</ins> form-associated custom elements
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `required`
+      </td>
+      <td>
+        input; select; textarea
+      </td>
+      <td>
+        <ins>[^agecheck^];</ins> input; select; textarea.
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  List of element interfaces. New row: [^agecheck^], {{HTMLAgeCheckElement}} :
+  {{HTMLElement}}. The list of all interfaces also gains
+  {{HTMLAgeCheckElement}}.
+</p>
+<p>
+  List of events. Two changed rows:
+</p>
+<table class="data" id="index-events-rows">
+  <thead>
+    <tr>
+      <th>
+        Event
+      </th>
+      <th>
+        Current row
+      </th>
+      <th>
+        New row
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        `change`
+      </td>
+      <td>
+        Interface `Event`. Targets "Form controls". Description "Fired at
+        controls when the user commits a value change (see also the input
+        event)".
+      </td>
+      <td>
+        Description: "Fired at controls when the user commits a value change
+        (see also the input event)<ins>, and at an [^agecheck^] element when a
+        check succeeds</ins>".
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `error`
+      </td>
+      <td>
+        Interface "Event or ErrorEvent". Targets "Global scope objects, Worker
+        objects, elements, networking-related objects". Description "Fired when
+        unexpected errors occur (e.g. networking errors, script errors,
+        decoding errors)".
+      </td>
+      <td>
+        Description: "Fired when unexpected errors occur (e.g. networking
+        errors, script errors, decoding errors)<ins>, and at an [^agecheck^]
+        element when a check fails</ins>".
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3 id="patch-sandboxing">
+  Sandboxing
+</h3>
+<p>
+  Target: [[[HTML#sandboxing]]]. The [=sandboxed modals flag=] "prevents
+  content from using any of the following features to produce modal dialogs",
+  and the browser's age prompt is modal. New list item, after "the beforeunload
+  event":
+</p>
+<blockquote>
+  <ins>the [^agecheck^] element</ins>
+</blockquote>
