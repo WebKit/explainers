@@ -295,6 +295,12 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
         while {{HTMLAgeCheckElement/meetsAge}} is false.
       </li>
       <li>
+        Form owner changes: changing the <code>form</code> attribute, or moving
+        the element into another form, keeps {{HTMLAgeCheckElement/meetsAge}}
+        and moves the form data entry to the new form. The same holds when the
+        change happens during a check.
+      </li>
+      <li>
         The untrusted case: <code>click()</code> and script-dispatched events
         fire no event, even inside <code>test_driver.bless()</code>.
       </li>

@@ -328,15 +328,15 @@
       <a href="#dfn-check-in-progress">check in progress</a> flag on the document
       where the check started, not on the document where the element ends up.
     </p>
-    <div class="issue" id="issue-flag-on-removal">
-      <p>
-        This draft does not decide whether removal or insertion clears the
-        <a href="#dfn-meets-age">meets age</a> flag. As written, the flag
-        stays true when script removes the element and inserts the element
-        again. The flag also stays true when script moves the element into a
-        different form, so the new form submits the [=agecheck entry=].
-      </p>
-    </div>
+    <p id="forms-owner-change">
+      Changing the form owner changes neither the
+      <a href="#dfn-meets-age">meets age</a> flag nor a running check. That
+      holds for a change to the <code>form</code> attribute and for removing,
+      inserting or moving the element. After the change, the new form submits
+      the [=agecheck entry=]. HTML's
+      <a data-cite="HTML#reset-the-form-owner">reset the form owner</a> steps
+      likewise leave a checkbox's checkedness and a file input's files alone.
+    </p>
   </section>
 
   <section id="forms-age-change">
