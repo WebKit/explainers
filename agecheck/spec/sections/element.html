@@ -1,3 +1,414 @@
-<section id="element">
+<section id="the-agecheck-element">
   <h2>The <code>agecheck</code> element</h2>
+
+  <dl class="element" id="agecheck-element-definition">
+    <dt><a data-cite="HTML#concept-element-categories">Categories</a>:</dt>
+    <dd>[=Flow content=].</dd>
+    <dd>[=Phrasing content=].</dd>
+    <dd>[=Interactive content=].</dd>
+    <dd>
+      <a data-cite="HTML#category-listed">Listed</a>,
+      <a data-cite="HTML#category-label">labelable</a>,
+      <a data-cite="HTML#category-submit">submittable</a>, and
+      <a data-cite="HTML#category-reset">resettable</a>
+      <a data-cite="HTML#form-associated-element">form-associated element</a>.
+      See <a href="#patch-categories">the changes to the HTML categories</a>.
+    </dd>
+    <dd>[=Palpable content=].</dd>
+
+    <dt><a data-cite="HTML#concept-element-contexts">Contexts in which this element can be used</a>:</dt>
+    <dd>Where [=phrasing content=] is expected.</dd>
+
+    <dt><a data-cite="HTML#concept-element-content-model">Content model</a>:</dt>
+    <dd>
+      [=Phrasing content=], but there must be no [=interactive content=]
+      descendant and no descendant with the
+      <a data-cite="HTML#attr-tabindex"><code>tabindex</code></a> attribute
+      specified.
+    </dd>
+
+    <dt><a data-cite="HTML#concept-element-tag-omission">Tag omission in text/html</a>:</dt>
+    <dd>Neither tag is omissible.</dd>
+
+    <dt><a data-cite="HTML#concept-element-attributes">Content attributes</a>:</dt>
+    <dd><a data-cite="HTML#global-attributes">Global attributes</a></dd>
+    <dd><code>[^agecheck/age^]</code>: The age that a check asks about</dd>
+    <dd><code><a data-cite="HTML#attr-fe-disabled">disabled</a></code>: Whether the form control is disabled</dd>
+    <dd><code><a data-cite="HTML#attr-fae-form">form</a></code>: Associates the element with a <code>form</code> element</dd>
+    <dd><code><a data-cite="HTML#attr-fe-name">name</a></code>: Name of the element to use for form submission and in the <code>form.elements</code> API</dd>
+    <dd><code>[^agecheck/required^]</code>: Whether the control must pass a check before the form submits</dd>
+
+    <dt><a data-cite="HTML#concept-element-accessibility-considerations">Accessibility considerations</a>:</dt>
+    <dd>
+      For authors and for implementers: see
+      <a href="#accessibility">the accessibility section</a>. ARIA in HTML and
+      HTML Accessibility API Mappings have no entry for this element yet.
+    </dd>
+
+    <dt><a data-cite="HTML#concept-element-sanitization">Sanitization</a>:</dt>
+    <dd><a data-cite="HTML#sanitizer-uncategorized">Uncategorized</a>.</dd>
+
+    <dt><a data-cite="HTML#concept-element-dom">DOM interface</a>:</dt>
+    <dd>
+      <pre class="idl">
+[Exposed=Window, SecureContext]
+interface HTMLAgeCheckElement : HTMLElement {
+  [HTMLConstructor] constructor();
+
+  [CEReactions, Reflect] attribute unsigned long age;
+  readonly attribute boolean meetsAge;
+
+  [CEReactions, Reflect] attribute boolean disabled;
+  readonly attribute HTMLFormElement? form;
+  [CEReactions, Reflect] attribute DOMString name;
+  [CEReactions, Reflect] attribute boolean required;
+
+  readonly attribute boolean willValidate;
+  readonly attribute ValidityState validity;
+  readonly attribute DOMString validationMessage;
+  boolean checkValidity();
+  boolean reportValidity();
+  undefined setCustomValidity(DOMString error);
+
+  readonly attribute NodeList labels;
+};
+      </pre>
+    </dd>
+  </dl>
+
+  <p id="agecheck-represents">
+    The <dfn data-dfn-type="element" data-export id="dfn-agecheck">agecheck</dfn>
+    element represents a control labeled by its contents. A person uses the
+    control to share that they are at least the age that the
+    <code>[^agecheck/age^]</code> attribute names. The element uses the
+    <dfn data-export>HTMLAgeCheckElement</dfn> interface.
+  </p>
+
+  <aside class="note" id="agecheck-declared-not-verified">
+    <p>
+      The answer is an age that the person, a parent, or the platform declared.
+      The element does not prove anyone's age. Anyone can send the same form
+      value to a server.
+    </p>
+  </aside>
+
+  <p id="agecheck-not-a-button">
+    The <code>agecheck</code> element is not a
+    <a data-cite="HTML#concept-button">button</a> in the HTML sense. So the
+    element is never a
+    <a data-cite="HTML#concept-submit-button">submit button</a>, and activating
+    the element never submits or resets a form.
+  </p>
+
+  <p id="agecheck-resettable-reason">
+    The element is a resettable element because a form reset must clear the
+    result of an earlier check. HTML runs the
+    <a data-cite="HTML#concept-form-reset-control">reset algorithm</a> only for
+    resettable elements. The
+    <a href="#agecheck-reset-algorithm">reset algorithm for <code>agecheck</code></a>
+    says what a reset does.
+  </p>
+
+  <section id="agecheck-age-attribute">
+    <h3>The <code>age</code> attribute</h3>
+
+    <p>
+      The <dfn data-dfn-for="agecheck" data-dfn-type="element-attr" data-export id="attr-age">age</dfn>
+      content attribute gives the age that a check asks about. If the
+      attribute is present, its value must be a
+      <a data-cite="HTML#valid-non-negative-integer">valid non-negative integer</a>
+      equal to 13, 16, or 18.
+    </p>
+
+    <p>
+      The attribute's missing value default is 18, so an element with no
+      <code>age</code> attribute asks whether the person is 18 or older.
+      The attribute has no invalid value default. A value that does not parse
+      to 13, 16, or 18 makes the check fail, so a site never gets an answer for
+      an age it did not name. An empty value is an invalid value, not a missing one.
+    </p>
+
+    <p>
+      To <dfn data-dfn-for="agecheck" data-export id="dfn-parse-an-age">parse an age</dfn>
+      given a string or null <var>value</var>:
+    </p>
+    <ol class="algorithm" id="agecheck-parse-an-age-steps">
+      <li>If <var>value</var> is null, then return 18.</li>
+      <li>
+        Let <var>number</var> be the result of parsing <var>value</var> with the
+        <a data-cite="HTML#rules-for-parsing-non-negative-integers">rules for parsing non-negative integers</a>.
+      </li>
+      <li>If <var>number</var> is an error, then return failure.</li>
+      <li>If <var>number</var> is 13, 16, or 18, then return <var>number</var>.</li>
+      <li>Return failure.</li>
+    </ol>
+
+    <p>
+      The <dfn data-dfn-for="agecheck" data-export id="dfn-requested-age">requested age</dfn>
+      of an <code>agecheck</code> element is the result of running
+      [=agecheck/parse an age=] on the element's <code>[^agecheck/age^]</code>
+      attribute value. When the element has no <code>age</code> attribute,
+      [=agecheck/parse an age=] gets null instead.
+    </p>
+
+    <p>
+      When the requested age is failure, a check fires <code>error</code> and
+      reports the reason to the developer console. See
+      <a href="#run-a-check">run a check</a>.
+    </p>
+
+    <p id="agecheck-age-change-steps">
+      The [=attribute change steps=] for an <code>agecheck</code> element
+      <var>element</var>, given <var>localName</var>, <var>oldValue</var>,
+      <var>value</var>, and <var>namespace</var>, are:
+    </p>
+    <ol class="algorithm">
+      <li>
+        If <var>localName</var> is not <code>age</code> or <var>namespace</var>
+        is not null, then return.
+      </li>
+      <li>
+        Let <var>oldAge</var> be the result of [=agecheck/parse an age=] given
+        <var>oldValue</var>.
+      </li>
+      <li>
+        Let <var>newAge</var> be the result of [=agecheck/parse an age=] given
+        <var>value</var>.
+      </li>
+      <li>
+        If <var>oldAge</var> and <var>newAge</var> are both failure, or are the
+        same number, then return.
+      </li>
+      <li>
+        Set <var>element</var>'s [=agecheck/meets age=] flag to false.
+      </li>
+    </ol>
+    <p>
+      A change from <code>"18"</code> to <code>"018"</code> keeps the result,
+      because both strings parse to the same number. Adding
+      <code>age="18"</code> to an element with no <code>age</code> attribute
+      also keeps the result, because both ask about 18.
+    </p>
+  </section>
+
+  <section id="agecheck-form-attributes">
+    <h3>The <code>name</code>, <code>form</code>, <code>disabled</code>, and <code>required</code> attributes</h3>
+
+    <p>
+      Authors use the <code><a data-cite="HTML#attr-fae-form">form</a></code>
+      attribute to associate the <code>agecheck</code> element with its
+      <a data-cite="HTML#form-owner">form owner</a>. The <code><a data-cite="HTML#attr-fe-name">name</a></code>
+      attribute represents the element's name. Authors use the
+      <code><a data-cite="HTML#attr-fe-disabled">disabled</a></code> attribute
+      to make the control non-interactive and to keep its value out of form
+      submission.
+      <a href="#patch-categories">The changes to HTML</a> add
+      <code>agecheck</code> to the lists of elements that HTML's
+      <a data-cite="HTML#concept-fe-disabled">disabled</a> definition names.
+    </p>
+
+    <p>
+      The <dfn data-dfn-for="agecheck" data-dfn-type="element-attr" data-export>required</dfn>
+      attribute is a
+      <a data-cite="HTML#boolean-attribute">boolean attribute</a>. When the
+      attribute is specified, the element is required.
+    </p>
+
+    <p id="agecheck-constraint-validation">
+      <strong>Constraint validation:</strong> If the element is
+      required and the element's [=agecheck/meets age=] flag is
+      false, then the element is
+      <a data-cite="HTML#suffering-from-being-missing">suffering from being missing</a>.
+      A disabled element is already
+      <a data-cite="HTML#barred-from-constraint-validation">barred from constraint validation</a>.
+    </p>
+
+    <p>
+      So a required <code>agecheck</code> element blocks form submission until
+      a check succeeds. A form whose author set <code>novalidate</code> still
+      submits.
+    </p>
+  </section>
+
+  <section id="agecheck-meets-age">
+    <h3>The <code>meetsAge</code> attribute</h3>
+
+    <p>
+      Each <code>agecheck</code> element has a
+      <dfn data-dfn-for="agecheck" data-export id="dfn-meets-age">meets age</dfn>
+      flag, a boolean. The flag is initially false. Only a successful check sets
+      the flag to true. See <a href="#run-a-check">run a check</a>.
+    </p>
+
+    <p>
+      The <dfn data-dfn-for="HTMLAgeCheckElement">meetsAge</dfn> getter steps
+      are to return [=this=]'s [=agecheck/meets age=] flag.
+    </p>
+
+    <aside class="note">
+      <p>
+        A new element starts with the flag set to false. HTML's cloning steps
+        do not copy the flag, so a clone also starts at false. A form reset and
+        a change to <code>age</code> set the flag back to false.
+      </p>
+    </aside>
+  </section>
+
+  <section id="agecheck-activation">
+    <h3>Activation behavior</h3>
+
+    <p>
+      An <code>agecheck</code> element <var>element</var>'s
+      <dfn data-dfn-for="agecheck" data-export id="dfn-agecheck-activation-behavior">activation behavior</dfn>
+      given <var>event</var> is:
+    </p>
+    <ol class="algorithm">
+      <li>
+        If <var>element</var> is
+        <a data-cite="HTML#concept-fe-disabled">disabled</a>, then return.
+      </li>
+      <li>
+        If <var>element</var>'s <a data-cite="DOM#concept-node-document">node document</a> is not <a data-cite="HTML#fully-active">fully active</a>,
+        then return.
+      </li>
+      <li>
+        If <var>event</var>'s {{Event/isTrusted}} attribute is false, then
+        return.
+      </li>
+      <li>
+        <a href="#run-a-check">Run a check</a> given <var>element</var>.
+      </li>
+    </ol>
+    <p>
+      DOM runs an element's <a data-cite="DOM#eventtarget-activation-behavior">activation behavior</a> when a
+      <code>click</code> event is dispatched at the element.
+    </p>
+
+    <aside class="note">
+      <p>
+        Script can call <code>click()</code> or <code>dispatchEvent()</code>.
+        Both create an event whose {{Event/isTrusted}} attribute is false. So
+        script cannot start a check, even while the person is clicking on
+        something else.
+      </p>
+      <p>
+        These steps ask for a trusted event. <a href="#run-a-check">Run a check</a>
+        also needs <a data-cite="HTML#transient-activation">transient activation</a>
+        and consumes it. So one click or key press starts at most one check, and
+        a page that already spent the activation on something else, such as
+        opening a popup, gets <code>error</code>.
+      </p>
+    </aside>
+
+    <section id="agecheck-what-activates">
+      <h4>What counts as activating the element</h4>
+
+      <p>
+        The user agent must fire a <code>click</code> event at an
+        <code>agecheck</code> element, with {{Event/isTrusted}} set to true, in
+        each of these cases:
+      </p>
+      <ul>
+        <li id="activate-pointer">
+          The person clicks or taps the element.
+        </li>
+        <li id="activate-keys">
+          The element has focus and the person presses the Enter key, or
+          presses and then releases the Space key. These are the same keys
+          that activate a <code>button</code> element on the same platform.
+        </li>
+        <li id="activate-assistive-technology">
+          The person's assistive technology asks for the element's press
+          action, or the platform's equivalent default action. Before the user
+          agent fires the <code>click</code> event, it MUST give the element's
+          <a data-cite="HTML#concept-relevant-global">relevant global object</a>
+          transient activation, as it does for an
+          <a data-cite="HTML#activation-triggering-input-event">activation triggering input event</a>.
+        </li>
+      </ul>
+
+      <p id="activate-label">
+        HTML lets each platform decide what a click on a
+        <code>label</code> element does. See
+        <a data-cite="HTML#the-label-element">the <code>label</code> element</a>.
+        This specification adds one rule for an <code>agecheck</code> element
+        that is a label's
+        <a data-cite="HTML#labeled-control">labeled control</a>. The label's
+        activation behavior may fire a <code>click</code> event at the
+        element. If so, the user agent must copy {{Event/isTrusted}} from the
+        event that activated the label to the new event.
+      </p>
+
+      <p>
+        So a person's own click on the label can start a check. A label click
+        that script dispatched cannot. HTML already says that a
+        <code>label</code> does nothing for events aimed at an interactive
+        content descendant, such as the <code>agecheck</code> element itself.
+        So a click on an <code>agecheck</code> element inside its label starts
+        at most one check.
+      </p>
+    </section>
+  </section>
+
+  <section id="agecheck-idl-attributes">
+    <h3>IDL attributes and methods</h3>
+
+    <p>
+      The <dfn data-dfn-for="HTMLAgeCheckElement">age</dfn> IDL attribute
+      [=reflects=] the <code>[^agecheck/age^]</code> content attribute, with a
+      default value of 18. The IDL attribute does not check for 13, 16, or 18;
+      <a href="#run-a-check">run a check</a> does that. The
+      <dfn data-dfn-for="HTMLAgeCheckElement">disabled</dfn>,
+      <dfn data-dfn-for="HTMLAgeCheckElement">name</dfn>, and
+      <dfn data-dfn-for="HTMLAgeCheckElement">required</dfn> IDL attributes
+      [=reflect=] the content attributes of the same name.
+    </p>
+
+    <p>
+      The <dfn data-dfn-for="HTMLAgeCheckElement">willValidate</dfn>,
+      <dfn data-dfn-for="HTMLAgeCheckElement">validity</dfn>, and
+      <dfn data-dfn-for="HTMLAgeCheckElement">validationMessage</dfn> IDL
+      attributes, and the
+      <dfn data-dfn-for="HTMLAgeCheckElement">checkValidity()</dfn>,
+      <dfn data-dfn-for="HTMLAgeCheckElement">reportValidity()</dfn>, and
+      <dfn data-dfn-for="HTMLAgeCheckElement" class="lint-ignore">setCustomValidity(error)</dfn>
+      methods, are part of the
+      <a data-cite="HTML#the-constraint-validation-api">constraint validation API</a>.
+      The <dfn data-dfn-for="HTMLAgeCheckElement">labels</dfn> IDL attribute
+      provides a list of the element's <code>label</code> elements, as
+      <a data-cite="HTML#dom-lfe-labels"><code>labels</code></a> defines. The
+      <code>disabled</code>,
+      <dfn data-dfn-for="HTMLAgeCheckElement">form</dfn>, and
+      <code>name</code> IDL attributes are part of the element's forms API.
+      The <code>form</code> getter follows
+      <a data-cite="HTML#dom-fae-form">HTML's definition</a>.
+    </p>
+
+    <p>
+      The <dfn data-dfn-for="HTMLAgeCheckElement">constructor()</dfn> follows
+      HTML's <a data-cite="HTML#htmlconstructor">[HTMLConstructor]</a> rules.
+    </p>
+
+    <div class="issue" id="issue-secure-context-element">
+      <p>
+        No other HTML element interface carries <code>[SecureContext]</code>.
+        A page that is not a secure context can still parse an
+        <code>agecheck</code> tag. Which interface does that element get, and
+        should the element then behave as an unknown element?
+      </p>
+    </div>
+  </section>
+
+  <div class="example" id="example-agecheck-basic">
+    <p>
+      This form asks whether the person is 18 or older. The form submits
+      only after a check succeeds.
+    </p>
+    <pre class="html">
+&lt;form method="post" action="/enter"&gt;
+  &lt;agecheck name="age" age="18" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
+  &lt;button&gt;Enter&lt;/button&gt;
+&lt;/form&gt;
+    </pre>
+  </div>
 </section>
