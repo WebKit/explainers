@@ -97,7 +97,7 @@ Some regions replace the ages the site asked about with their own ages. An age r
 </form>
 ```
 
-- `age`: the age this check asks about. The allowed values are 13, 16, and 18.
+- `age`: the age this check asks about. The allowed values are 13, 16, and 18. The default is 18.
 - `meetsAge`: true after a successful check.
 - `name`, `required`, `disabled`, `form`: The browser treats these the same as for an input.
 - Events: The browser fires `change` on success. The browser fires `error` on any failure after the check starts. A failure includes when the person closes the prompt. A click that does not start a check fires no event. `change` bubbles and `error` does not, so a failed check never looks like a script error to the page. The page cannot tell "declined" from "didn't pass".
@@ -146,13 +146,13 @@ The first time a site uses the element, the browser shows its own prompt. If the
 
 ## Processing model
 
-The element starts from a click or tap on it or its label, a key press, or an assistive technology's press action. Which keys depends on its role, which is an open question. The browser requires a trusted event. A trusted event is one the browser creates from the person's own input, not from script. The event must aim at the element or its label. So `click()` and events that script dispatches do nothing, even inside the person's click on something else. HTML lets each platform decide what a click on a label does. This proposal sets a new rule. A click on the element's label starts a check only if that click is a trusted event.
+The element starts from a click or tap on it or its label, a key press, or an assistive technology's press action. Which keys depends on its role, which is an open question. The browser requires a trusted event. A trusted event is one the browser creates from the person's own input, not from script. The event must aim at the element or its label. The page must also have transient activation, which is HTML's name for a recent click, tap, or key press that no other feature has used yet. The check uses the activation up, so one click starts at most one check. So `click()` and events that script dispatches do nothing, even inside the person's click on something else. HTML lets each platform decide what a click on a label does. This proposal sets a new rule. A click on the element's label starts a check only if that click is a trusted event.
 
 When the person starts the element, the browser takes a snapshot of `age` and uses it for the steps below, so the person answers the question they saw:
 
 1. If the element is disabled, if `meetsAge` is already true, or if a check from this element is already running, stop without firing an event.
 2. If the element isn't in a top-level document, for example inside an iframe or an embedded object, fire `error` and stop.
-3. If `age` isn't 13, 16, or 18, fire `error` and stop. For this step and step 2, the browser also writes the reason to the developer console, which scripts can't read.
+3. If `age` is missing, use 18. If `age` isn't 13, 16, or 18, fire `error` and stop. If the page has no transient activation, fire `error` and stop. Otherwise the check uses the activation up. For this step and step 2, the browser also writes the reason to the developer console, which scripts can't read.
 4. On every check, the browser asks the platform for the person's age range. The browser lets the platform show a prompt if the platform chooses. The browser passes the ages 13, 16, and 18 to the platform.
    - Some platforms have an anniversary rule. For these platforms, the browser keeps no copy, so the platform's own rules apply every time. These rules include a parent's choice to ask the child each time.
    - A platform might lack an anniversary rule. For this platform, the browser keeps one copy of the answer for a user-agent specific time period (e.g., one year). The browser uses that copy for every site. If the platform reports a higher range, the browser keeps using the copy, so a higher answer appears only on an anniversary. If the platform reports a lower range, the browser uses the lower range and replaces the copy at once. A parent's correction then applies at once.

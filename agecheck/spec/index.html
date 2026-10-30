@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      The HTML &lt;agecheck&gt; Element
+    </title>
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove"
+    async></script>
+    <script class="remove">
+    var respecConfig = {
+    specStatus: "unofficial",
+    shortName: "agecheck",
+    editors: [
+      {
+        name: "Marcos Cáceres",
+        company: "Apple",
+        companyURL: "https://www.apple.com/",
+      },
+    ],
+    github: "WebKit/explainers",
+    xref: { profile: "web-platform" },
+    };
+    </script>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+        This specification defines the [^agecheck^] element. The element lets a
+        site ask one question: is the person at least a given age? The person
+        decides whether to answer, and the site learns only the result.
+      </p>
+    </section>
+    <section id="sotd">
+      <p>
+        This is an early draft. The <a href=
+        "https://github.com/WebKit/explainers/tree/main/agecheck">explainer</a>
+        describes the goals, the open risks, and the open questions. Nothing in
+        this draft is implemented in a shipping browser.
+      </p>
+    </section>
+    <h2>
+      Introduction
+    </h2>
+    <p>
+      Sites that check age today use a button, send people to a third-party
+      service, or ask for an ID. The [^agecheck^] element gives the site a form
+      control instead. The browser asks the person before it shares anything,
+      and the site gets a yes or an error.
+    </p>
+    <p>
+      The answer is declared, not verified. The <a href=
+      "https://github.com/WebKit/explainers/tree/main/agecheck">explainer</a>
+      explains why this is still useful and where it falls short.
+    </p>
+    <h3>
+      Goals
+    </h3>
+    <ul>
+      <li>A site learns whether a person meets each age it names. The site gets
+      no birthdate, no name, and no ID, and the answer does not say how the age
+      was set. A site that asks again and again can learn a little more; see
+      [[[#sp-change-day]]].
+      </li>
+      <li>A site can't use the answer to track people across sites, except by
+      matching the day the answer changes; see [[[#sp-change-day]]].
+      </li>
+      <li>A user finds it as easy to use as today's "I'm over 18" button.
+      </li>
+      <li>A site adds one element. The site doesn't need an age-check service.
+      </li>
+      <li>The person doesn't need a government ID.
+      </li>
+      <li>It works only on secure pages and only in the top-level page, in
+      regular and private browsing alike.
+      </li>
+      <li>Users using a screen reader or a keyboard can use the [^agecheck^]
+      element and the browser's prompt.
+      </li>
+      <li>The element works without JavaScript.
+      </li>
+    </ul>
+    <h3>
+      Non-goals
+    </h3>
+    <ul>
+      <li>Not an identity system. Sites that need a name or a birthdate should
+      use the <a href="https://www.w3.org/TR/digital-credentials/">Digital
+      Credentials API</a>.
+      </li>
+      <li>Not a way to sign in. Sites still use passkeys or passwords to
+      recognize people who come back.
+      </li>
+    </ul>
+    <section data-include="sections/examples.md" data-include-format="markdown"
+    data-include-replace="true"></section>
+    <section data-include="sections/element.html" data-include-replace="true">
+    </section>
+    <section data-include="sections/check.html" data-include-replace="true">
+    </section>
+    <section data-include="sections/forms.html" data-include-replace="true">
+    </section>
+    <section data-include="sections/age-source.html" data-include-replace=
+    "true"></section>
+    <section data-include="sections/html-integration.html"
+    data-include-replace="true"></section>
+    <section data-include="sections/rendering.md" data-include-format=
+    "markdown" data-include-replace="true"></section>
+    <section data-include="sections/accessibility.html" data-include-replace=
+    "true"></section>
+    <section data-include="sections/security-privacy.md" data-include-format=
+    "markdown" data-include-replace="true"></section>
+    <section data-include="sections/testing.html" data-include-replace="true">
+    </section>
+    <section id="conformance"></section>
+  </body>
+</html>

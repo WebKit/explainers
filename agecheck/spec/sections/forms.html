@@ -1,0 +1,63 @@
+<h2>
+  Form reset and page lifecycle
+</h2>
+<p>
+  Each [^agecheck^] element has a <dfn data-dfn-for="agecheck">check
+  dropped</dfn> flag, initially false. The steps in this section set the flag
+  to true when a running check can no longer succeed.
+</p>
+<h3>
+  Reset
+</h3>
+<p>
+  The reset algorithm for an [^agecheck^] element |element| is:
+</p>
+<ol class="algorithm">
+  <li>If |element|'s [=agecheck/check pending=] is true, set |element|'s
+  [=agecheck/check dropped=] flag to true.
+  </li>
+  <li>Set |element|'s [=agecheck/meets age=] flag to false.
+  </li>
+</ol>
+<h3 id="forms-bfcache">
+  Back/forward cache
+</h3>
+<p>
+  In [=Document/reactivate|reactivate a document=], a new step goes right after
+  the step that resets form controls whose autofill field name is "off", and
+  before the step that fires `pageshow`:
+</p>
+<blockquote>
+  <p>
+    <ins>For each [^agecheck^] element whose node document is |document|,
+    invoke the reset algorithm for that element.</ins>
+  </p>
+</blockquote>
+<p>
+  The step covers elements that are not connected, since script can still hold
+  them.
+</p>
+<h3 id="forms-unloading">
+  Navigation and unloading during a check
+</h3>
+<p>
+  HTML's [=unloading document cleanup steps=] gain these steps, given a
+  `Document` |document|:
+</p>
+<ol class="algorithm">
+  <li>Let |element| be |document|'s [=Document/pending agecheck element=].
+  </li>
+  <li>If |element| is not null:
+    <ol>
+      <li>Set |element|'s [=agecheck/check dropped=] flag to true.
+      </li>
+      <li>The user agent MUST close any prompt that the check shows, and MUST
+      NOT show a prompt for the check afterward.
+      </li>
+    </ol>
+  </li>
+</ol>
+<p>
+  Closing the prompt this way counts as the person closing the prompt without
+  agreeing.
+</p>

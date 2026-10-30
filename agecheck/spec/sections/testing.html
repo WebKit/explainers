@@ -1,0 +1,212 @@
+<section data-cite="webdriver webdriver-bidi">
+  <h2>
+    Automated testing
+  </h2>
+  <p>
+    This section defines an extension module for the [[webdriver-bidi]]
+    specification. Browsers and sites can use the module to test the
+    [^agecheck^] element without a real person or a real age. Support for the
+    module is OPTIONAL for a [=user agent=].
+  </p>
+  <h3>
+    The `ageCheck` module
+  </h3>
+  <p>
+    The `ageCheck` module contains a command that sets a <dfn class=
+    "export">virtual age source behavior</dfn>. While a virtual age source
+    behavior is set, a check talks to neither the platform nor the person. The
+    user agent answers both the age source and the prompt from the behavior
+    instead.
+  </p>
+  <h4 id="testing-types">
+    Types
+  </h4>
+  <pre class="cddl" data-cddl-module="remote-cddl">
+    ageCheck.VirtualAgeSourceAction = "meets" / "does-not-meet" / "no-age-set" / "declined" / "failed" / "wait" / "clear"
+
+    ageCheck.VirtualPromptAction = "share" / "cancel"
+
+    ageCheck.SetVirtualAgeSourceBehaviorParameters = {
+      action: ageCheck.VirtualAgeSourceAction,
+      ? prompt: ageCheck.VirtualPromptAction,
+      ? context: browsingContext.BrowsingContext,
+    }
+  </pre>
+  <p>
+    Each {^ageCheck.VirtualAgeSourceAction^} value says how [=ask the age
+    source=] answers:
+  </p>
+  <dl>
+    <dt>
+      `"meets"`
+    </dt>
+    <dd>
+      The age source reports that the person is at least the age the check asks
+      about.
+    </dd>
+    <dt>
+      `"does-not-meet"`
+    </dt>
+    <dd>
+      The age source reports that the person is younger than the age the check
+      asks about.
+    </dd>
+    <dt>
+      `"no-age-set"`
+    </dt>
+    <dd>
+      The age source reports that the person has no age set.
+    </dd>
+    <dt>
+      `"declined"`
+    </dt>
+    <dd>
+      The age source reports that the person declined in the platform's own
+      prompt.
+    </dd>
+    <dt>
+      `"failed"`
+    </dt>
+    <dd>
+      The age source reports a failure.
+    </dd>
+    <dt>
+      `"wait"`
+    </dt>
+    <dd>
+      The age source does not answer until the test sets another behavior for
+      the same context. The waiting check then continues with that behavior.
+      Until then the check stays pending, so a test can observe what happens
+      while a check runs.
+    </dd>
+    <dt>
+      `"clear"`
+    </dt>
+    <dd>
+      The command removes a [=virtual age source behavior=].
+    </dd>
+  </dl>
+  <p>
+    Each {^ageCheck.VirtualPromptAction^} value names what the virtual person
+    does when the user agent's prompt appears:
+  </p>
+  <dl>
+    <dt>
+      `"share"`
+    </dt>
+    <dd>
+      The virtual person agrees to share. Where the prompt says the age cannot
+      be shared, the virtual person closes the prompt instead.
+    </dd>
+    <dt>
+      `"cancel"`
+    </dt>
+    <dd>
+      The virtual person cancels the prompt.
+    </dd>
+  </dl>
+  <h4>
+    The `ageCheck.setVirtualAgeSourceBehavior` command
+  </h4>
+  <dl>
+    <dt>
+      Command Type
+    </dt>
+    <dd>
+      <pre class="cddl" data-cddl-module="remote-cddl">
+        ageCheck.SetVirtualAgeSourceBehavior = (
+          method: "ageCheck.setVirtualAgeSourceBehavior",
+          params: ageCheck.SetVirtualAgeSourceBehaviorParameters
+        )
+      </pre>
+    </dd>
+    <dt>
+      Return Type
+    </dt>
+    <dd>
+      <pre class="cddl" data-cddl-module="local-cddl">
+        ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
+      </pre>
+    </dd>
+  </dl>
+  <p>
+    Each WebDriver [=session=] has a map of virtual age source behaviors, keyed
+    by browsing context ID, and a default [=virtual age source behavior=]. Both
+    start empty. A behavior is a pair of an action and a prompt action.
+  </p>
+  <p>
+    The [=remote end steps=] for the `ageCheck.setVirtualAgeSourceBehavior`
+    command, given |session| and |command parameters|, are:
+  </p>
+  <ol class="algorithm">
+    <li>Let |action:VirtualAgeSourceAction| be |command
+    parameters|["`action`"].
+    </li>
+    <li>Let |prompt action:VirtualPromptAction| be |command
+    parameters|["`prompt`"] if present, and `"share"` otherwise.
+    </li>
+    <li>Let |context:BrowsingContext| be |command parameters|["`context`"] if
+    present, and `null` otherwise.
+    </li>
+    <li>If |context| is not `null`:
+      <ol>
+        <li>Let |navigable:navigable| be the result of [=trying=] to [=get a
+        navigable=] with |context|.
+        </li>
+        <li>If |navigable| is not a [=top-level traversable=], return an
+        [=error=] with [=error code=] [=invalid argument=].
+        </li>
+      </ol>
+    </li>
+    <li>If |action| is `"clear"`:
+      <ol>
+        <li>If |context| is not `null`, remove the entry for |context| from
+        |session|'s map of virtual age source behaviors.
+        </li>
+        <li>Otherwise, clear |session|'s map of virtual age source behaviors
+        and set |session|'s default [=virtual age source behavior=] to `null`.
+        </li>
+        <li>Return [=success=] with data `null`.
+        </li>
+      </ol>
+    </li>
+    <li>Let |behavior:pair| be the pair (|action|, |prompt action|).
+    </li>
+    <li>If |context| is not `null`, set |session|'s map of virtual age source
+    behaviors[|context|] to |behavior|.
+    </li>
+    <li>Otherwise, set |session|'s default [=virtual age source behavior=] to
+    |behavior|.
+    </li>
+    <li>Return [=success=] with data `null`.
+    </li>
+  </ol>
+  <h4>
+    Using the virtual behavior during a check
+  </h4>
+  <p>
+    To <dfn>get the virtual age source behavior</dfn> for a {{Document}}
+    |document|:
+  </p>
+  <ol class="algorithm">
+    <li>If the user agent's webdriver-active flag is false, return `null`.
+    </li>
+    <li>Let |context ID:string| be the ID of |document|'s [=node navigable=]'s
+    [=navigable/top-level traversable=].
+    </li>
+    <li>Let |session:session| be the current WebDriver [=session=].
+    </li>
+    <li>If |session|'s map of virtual age source behaviors contains |context
+    ID|, return that entry.
+    </li>
+    <li>Return |session|'s default [=virtual age source behavior=].
+    </li>
+  </ol>
+  <p>
+    When a [=virtual age source behavior=] applies to a check and the check
+    reaches the user agent's prompt, the user agent MUST NOT show the prompt to
+    a person. The user agent instead answers the prompt with the behavior's
+    prompt action. The rules in [=prompt requirements=] do not apply to that
+    answer.
+  </p>
+</section>

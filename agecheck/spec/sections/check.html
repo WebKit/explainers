@@ -1,0 +1,164 @@
+<h2>
+  Running a check
+</h2>
+<h3>
+  State for a check
+</h3>
+<p>
+  Each [^agecheck^] element has a <dfn data-dfn-for="agecheck">check
+  pending</dfn> boolean, initially false.
+</p>
+<p>
+  Each {{Document}} has a <dfn data-dfn-for="Document">pending agecheck
+  element</dfn>, an [^agecheck^] element or null, initially null. The pending
+  [^agecheck^] element is the element whose check runs in the document.
+</p>
+<h3>
+  The run a check algorithm
+</h3>
+<p>
+  To <dfn data-dfn-for="agecheck">run a check</dfn> given an [^agecheck^]
+  element |element|:
+</p>
+<ol class="algorithm">
+  <li>If |element| is disabled, then return.
+  </li>
+  <li>If |element|'s [=agecheck/meets age=] flag is true, then return.
+  </li>
+  <li>If |element|'s [=agecheck/check pending=] is true, then return.
+  </li>
+  <li>Let |document:Document| be |element|'s [=Node/node document=].
+  </li>
+  <li>If |document|'s [=Document/pending agecheck element=] is not null, then
+  [=queue an element task=] on the [=user interaction task source=] given
+  |element| to [=fire an event=] named `error` at |element|, and return.
+  </li>
+  <li>If |document|'s [=node navigable=] is null, or is not a [=top-level
+  traversable=], then [=queue an element task=] on the [=user interaction task
+  source=] given |element| to [=fire an event=] named `error` at |element|, and
+  return.
+  </li>
+  <li>If |element|'s [=relevant settings object=] is not a [=secure context=],
+  then [=queue an element task=] on the [=user interaction task source=] given
+  |element| to [=fire an event=] named `error` at |element|, and return.
+  </li>
+  <li>If |document|'s [=Document/active sandboxing flag set=] has the
+  [=sandboxed modals flag=], then [=queue an element task=] on the [=user
+  interaction task source=] given |element| to [=fire an event=] named `error`
+  at |element|, and return.
+  </li>
+  <li>If |document|'s [=Document/origin=] is an [=opaque origin=], then [=queue
+  an element task=] on the [=user interaction task source=] given |element| to
+  [=fire an event=] named `error` at |element|, and return.
+  </li>
+  <li>Let |age:integer or failure| be the [=agecheck/requested age=] of
+  |element|.
+  </li>
+  <li>If |age| is failure, then [=queue an element task=] on the [=user
+  interaction task source=] given |element| to [=fire an event=] named `error`
+  at |element|, and return.
+  </li>
+  <li>If |element|'s [=relevant global object=] does not have [=transient
+  activation=], then [=queue an element task=] on the [=user interaction task
+  source=] given |element| to [=fire an event=] named `error` at |element|, and
+  return.
+  </li>
+  <li>[=Consume user activation=] of |element|'s relevant global object.
+  </li>
+  <li>Set |element|'s [=agecheck/check pending=] to true.
+  </li>
+  <li>Set |element|'s [=agecheck/check dropped=] to false.
+  </li>
+  <li>Set |document|'s [=Document/pending agecheck element=] to |element|.
+  </li>
+  <li>Run these steps [=in parallel=]:
+    <ol>
+      <li>Let |result:age check result| be the result of running [=ask the age
+      source=] given |age| and |document|. The |result| is one of "meets",
+      "does not meet", "no age set", "declined", or "failed".
+      </li>
+      <li>If |result| is "declined", then [=queue an element task=] on the
+      [=user interaction task source=] given |element| to [=agecheck/finish a
+      check=] given |element|, |age|, false, and |document|, and abort these
+      steps.
+      </li>
+      <li>Let |shared:boolean| be false.
+      </li>
+      <li>If |result| is "meets" and the user agent holds [=remembered
+      consent=] for |document|'s site and |age|, then set |shared| to true.
+      </li>
+      <li>Otherwise, show a prompt that meets the [=prompt requirements=] for
+      |result| and |age|, and wait for the person to answer or close the
+      prompt. Closing the prompt without agreeing leaves |shared| false. If
+      |result| is "meets" and the person agrees to share that they are at least
+      |age|, then set |shared| to true.
+      </li>
+      <li>[=queue an element task=] on the [=user interaction task source=]
+      given |element| to [=agecheck/finish a check=] given |element|, |age|,
+      |shared|, and |document|.
+      </li>
+    </ol>
+  </li>
+</ol>
+<h3>
+  Finishing a check
+</h3>
+<p>
+  To <dfn data-dfn-for="agecheck">finish a check</dfn> given an [^agecheck^]
+  element |element|, an integer |age|, a boolean |shared|, and a {{Document}}
+  |document|, where |document| is the document in which the check started:
+</p>
+<ol class="algorithm">
+  <li>Set |element|'s [=agecheck/check pending=] to false.
+  </li>
+  <li>If |document|'s [=Document/pending agecheck element=] is |element|, then
+  set it to null.
+  </li>
+  <li>If |element| is not [=connected=], or |element|'s [=Node/node document=]
+  is not |document|, or |document| is not [=Document/fully active=], then
+  [=fire an event=] named `error` at |element|, and return.
+  </li>
+  <li>If |element|'s [=agecheck/check dropped=] is true, then [=fire an event=]
+  named `error` at |element|, and return.
+  </li>
+  <li>Let |currentAge:integer or failure| be the [=agecheck/requested age=] of
+  |element|.
+  </li>
+  <li>If |currentAge| is not |age|, then [=fire an event=] named `error` at
+  |element|, and return.
+  </li>
+  <li>If |element| is disabled, then [=fire an event=] named `error` at
+  |element|, and return.
+  </li>
+  <li>If |shared| is false, then [=fire an event=] named `error` at |element|,
+  and return.
+  </li>
+  <li>Set |element|'s [=agecheck/meets age=] flag to true.
+  </li>
+  <li>[=Fire an event=] named `change` at |element|, with the {{Event/bubbles}}
+  attribute initialized to true.
+  </li>
+</ol>
+<h3>
+  Event listeners during a check
+</h3>
+<p>
+  While an element's [=agecheck/check pending=] is true, the user agent MUST
+  run the [=agecheck/finish a check=] steps when the check ends, and MUST
+  deliver the event that they fire to every event listener registered on the
+  element, even when no script holds a reference to the element.
+</p>
+<aside class="note">
+  <p>
+    A user agent gets this by not garbage collecting the element while its
+    [=agecheck/check pending=] is true. Without that, the steps might never
+    run, the document's [=Document/pending agecheck element=] would stay set,
+    and no later check in the document could start. The element's listeners
+    could also be gone when the event fires.
+  </p>
+  <p>
+    HTML and other specifications give the same kind of guarantee for other
+    objects with pending work, such as media elements, a `MessagePort` with a
+    queued event, and an `EventSource` that is connecting.
+  </p>
+</aside>
