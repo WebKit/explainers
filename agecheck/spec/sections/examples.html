@@ -10,8 +10,8 @@
     </pre>
     <p>
       The person cannot submit the form until the check passes. When the form
-      submits, the form data has one entry named <code>age</code> with the
-      value <code>18</code>.
+      submits, the form data has one entry named `age` with the
+      value `18`.
     </p>
   </div>
 
@@ -23,7 +23,7 @@
 &lt;/form&gt;
     </pre>
     <p>
-      With no <code>age</code> attribute, the element asks about 18. This
+      With no `age` attribute, the element asks about 18. This
       form behaves the same as the one above.
     </p>
   </div>
@@ -73,15 +73,15 @@
       The person can share one answer and not the other.
     </p>
     <p>
-      Only the first element is <code>required</code>, so the person can join
+      Only the first element is `required`, so the person can join
       without the second answer. The form data holds an entry for each check
-      that passed, for example <code>over13=13</code> and
-      <code>over18=18</code>.
+      that passed, for example `over13=13` and
+      `over18=18`.
     </p>
     <p>
       Only one check runs at a time in a document. If the person starts the
       second element while the first check runs, the second element fires
-      <code>error</code>.
+      `error`.
     </p>
   </div>
 
@@ -89,16 +89,16 @@
     <p>Browsers do not enforce this advice.</p>
     <ul>
       <li>
-        Use <code>method="post"</code> on the form, so the answer stays out of
+        Use `method="post"` on the form, so the answer stays out of
         URLs.
       </li>
       <li>
-        With <code>required</code>, offer another way to share age on the same
+        With `required`, offer another way to share age on the same
         page. Use a link, because a submit button in the same form does not
         work until the check passes.
       </li>
-      <li>Treat <code>error</code> as "not now". Offer to try again or another way.</li>
-      <li>Never treat <code>error</code> as "too young".</li>
+      <li>Treat `error` as "not now". Offer to try again or another way.</li>
+      <li>Never treat `error` as "too young".</li>
       <li>
         Show the message in a live region, so screen readers announce the
         message when the text changes.
