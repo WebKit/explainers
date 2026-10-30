@@ -29,10 +29,6 @@
       whose groups end at 18 and over. A site can ask about more than one age
       by using one element for each age.
     </p>
-    <div class="issue" id="issue-age-21">
-      Should the [=supported ages=] grow, for example to include 21, once every
-      [=platform age service=] can answer for those ages?
-    </div>
   </section>
 
   <section id="age-results">
@@ -98,19 +94,6 @@
       agent gets an age at all. The user agent MUST follow those controls,
       including a parent's choice that the child is asked each time.
     </p>
-    <div class="issue" id="issue-platform-permission">
-      A platform can require an application to have permission before the
-      application calls the [=platform age service=]. A user agent without that
-      permission fails every check on that platform. Is failing every check the
-      right outcome, or should such a user agent offer a stored age, which could
-      get around a parent's setting?
-    </div>
-    <div class="issue" id="issue-managed-accounts">
-      On some managed devices and accounts, such as ones a school or employer
-      runs, the person cannot set an age at all. Because a [=platform age service=]
-      exists, the user agent does not let the person enter an age instead.
-      Should the user agent offer its stored age in this case?
-    </div>
   </section>
 
   <section id="result-for-range">
@@ -292,15 +275,6 @@
       not reuse an earlier result, so a parent's change applies on the next
       check.
     </p>
-    <div class="issue" id="issue-platform-every-check">
-      Asking the platform on every check works when the platform shows its own
-      prompt the first time and then answers quietly. The approach also needs
-      the platform to keep honoring a parent's choice to have the child asked
-      each time. Do all platforms behave this way?
-    </div>
-    <div class="issue" id="issue-verified-adult-range">
-      Does every [=platform age service=] always give a range to a verified adult?
-    </div>
   </section>
 
   <section id="remembered-consent-section">
@@ -345,11 +319,6 @@
       [=remembered consent=] of regular browsing. The age belongs to the person.
       The choice to share the age with a site belongs to one browsing session.
     </aside>
-    <div class="issue" id="issue-remember-refusal">
-      Should the user agent remember a refusal, so a page cannot open the prompt
-      again after every click? A later check would then fail at once with no
-      prompt, and the quick failure would show the site that the person refused.
-    </div>
   </section>
 
   <section id="prompt-requirements-section">
@@ -422,10 +391,5 @@
       second prompt from the user agent. The platform's own prompt already
       asked the person.
     </aside>
-    <div class="issue" id="issue-sharing-off-who">
-      When age sharing is off, can the user agent tell whether the person or a
-      parent turned sharing off? The prompt should point to settings only when
-      the person can change those settings.
-    </div>
   </section>
 </section>
