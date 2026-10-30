@@ -235,15 +235,28 @@
   </section>
 
   <section id="check-lifetime">
-    <h3>Keeping the element alive</h3>
+    <h3>Event listeners during a check</h3>
     <p>
-      While an element's [=agecheck/check pending=] is true, the user agent MUST NOT garbage
-      collect the element, even when no script holds a reference to the element.
-      The [=agecheck/finish a check=] steps then run and fire their event at the element.
-      Without this rule, the steps might never run, the document's
-      [=Document/check in progress=] flag would stay true, and no later check in the document could
-      start. The rule also keeps the element's event listeners alive until the event fires.
+      While an element's [=agecheck/check pending=] is true, the
+      [=agecheck/finish a check=] steps MUST run when the check ends. The event
+      that they fire MUST reach every event listener registered on the element,
+      even when no script holds a reference to the element.
     </p>
+    <aside class="note">
+      <p>
+        A user agent gets this by not garbage collecting the element while its
+        [=agecheck/check pending=] is true. Without that, the steps might never
+        run, the document's [=Document/check in progress=] flag would stay
+        true, and no later check in the document could start. The element's
+        listeners could also be gone when the event fires.
+      </p>
+      <p>
+        HTML and other specifications give the same kind of guarantee for
+        other objects with pending work, such as media elements, a
+        <code>MessagePort</code> with a queued event, and an
+        <code>EventSource</code> that is connecting.
+      </p>
+    </aside>
     <p>
       A task is runnable only when its document is <a data-cite="HTML#fully-active">fully active</a>.
       If the document stops being fully active during a check, the queued task waits.
