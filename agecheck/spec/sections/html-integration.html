@@ -43,31 +43,31 @@
     <p>
       Target: <a data-cite="HTML#categories">Categories</a> in the forms
       section. Each list below is a list of element names. The patch adds
-      <code>agecheck</code> to five of them.
+      [^agecheck^] to five of them.
     </p>
     <ul>
       <li>
         <a data-cite="HTML#form-associated-element">Form-associated
         elements</a>. Current list: "button fieldset input object output
         select textarea img form-associated custom elements". New list: add
-        <ins><code>agecheck</code></ins> after <code>button</code>.
+        <ins>[^agecheck^]</ins> after <code>button</code>.
       </li>
       <li>
         <a data-cite="HTML#category-listed">Listed elements</a>. Current
         list: "button fieldset input object output select textarea
         form-associated custom elements". New list: add
-        <ins><code>agecheck</code></ins> after <code>button</code>.
+        <ins>[^agecheck^]</ins> after <code>button</code>.
       </li>
       <li>
         <a data-cite="HTML#category-submit">Submittable elements</a>.
         Current list: "button input select textarea form-associated custom
-        elements". New list: add <ins><code>agecheck</code></ins> after
+        elements". New list: add <ins>[^agecheck^]</ins> after
         <code>button</code>.
       </li>
       <li>
         <a data-cite="HTML#category-reset">Resettable elements</a>. Current
         list: "input output select textarea form-associated custom
-        elements". New list: add <ins><code>agecheck</code></ins> before
+        elements". New list: add <ins>[^agecheck^]</ins> before
         <code>input</code>. The element joins because a form reset clears
         {{HTMLAgeCheckElement/meetsAge}}, through the
         <a href="#agecheck-reset-algorithm">reset algorithm</a>.
@@ -76,7 +76,7 @@
         <a data-cite="HTML#category-label">Labelable elements</a>. Current
         list: "button input (if the type attribute is not in the Hidden
         state) meter output progress select textarea form-associated custom
-        elements". New list: add <ins><code>agecheck</code></ins> after
+        elements". New list: add <ins>[^agecheck^]</ins> after
         <code>button</code>.
       </li>
     </ul>
@@ -89,7 +89,7 @@
       in the forms sense, and never a
       <a data-cite="HTML#concept-submit-button">submit button</a>. So
       <code>requestSubmit()</code> keeps throwing a {{TypeError}} when a page
-      passes an <code>agecheck</code> element as the submitter.
+      passes an [^agecheck^] element as the submitter.
     </p>
   </section>
 
@@ -98,7 +98,7 @@
     <p>
       Target: the <a data-cite="HTML#content-categories">kinds of content</a>
       in the "Semantics, structure, and APIs of HTML documents" section. Add
-      <ins><code>agecheck</code></ins> to each of these lists, in
+      <ins>[^agecheck^]</ins> to each of these lists, in
       alphabetical order:
     </p>
     <ul>
@@ -140,7 +140,7 @@
     <p>
       The second condition already covers a descendant of a disabled
       <code>fieldset</code>. That condition names no element, so an
-      <code>agecheck</code> inside a disabled <code>fieldset</code> becomes
+      [^agecheck^] inside a disabled <code>fieldset</code> becomes
       disabled with no further change. The same section then says a disabled
       element is barred from constraint validation, again for every element.
     </p>
@@ -155,7 +155,7 @@
     </p>
     <p>New list item, after "a textarea element that is disabled":</p>
     <blockquote>
-      <ins>an agecheck element that is disabled</ins>
+      <ins>an [^agecheck^] element that is disabled</ins>
     </blockquote>
     <p>
       This change matters beyond selectors. HTML's
@@ -195,7 +195,7 @@
       being activated if it is in a formal activation state"):
     </p>
     <blockquote>
-      <ins>If the element is an agecheck element</ins>
+      <ins>If the element is an [^agecheck^] element</ins>
     </blockquote>
     <p>
       <a data-cite="HTML#selector-required"><code>:required</code></a>. Current
@@ -204,7 +204,7 @@
       New list item:
     </p>
     <blockquote>
-      <ins>agecheck elements that have a required attribute</ins>
+      <ins>[^agecheck^] elements that have a required attribute</ins>
     </blockquote>
     <p>
       <a data-cite="HTML#selector-optional"><code>:optional</code></a>.
@@ -214,20 +214,20 @@
       New list item:
     </p>
     <blockquote>
-      <ins>agecheck elements that do not have a required attribute</ins>
+      <ins>[^agecheck^] elements that do not have a required attribute</ins>
     </blockquote>
     <p>
       <a data-cite="HTML#selector-default"><code>:default</code></a> needs no
       change. Its list names default submit buttons, checked
       <code>input</code> elements and selected <code>option</code> elements.
-      An <code>agecheck</code> element is none of these.
+      An [^agecheck^] element is none of these.
       <a data-cite="HTML#selector-valid"><code>:valid</code></a> and
       <a data-cite="HTML#selector-invalid"><code>:invalid</code></a> need no
       change, because they apply to every candidate for constraint
       validation.
     </p>
     <div class="issue" id="issue-checked-pseudo-class">
-      Should <code>:checked</code> match an <code>agecheck</code> element
+      Should <code>:checked</code> match an [^agecheck^] element
       whose {{HTMLAgeCheckElement/meetsAge}} is true? A match would let a
       site style the success state with no script. The answer depends on the
       checkbox or button question in <a href="#accessibility"></a>.
@@ -246,7 +246,7 @@
     <p>New case, after the case for an unchecked radio button:</p>
     <blockquote>
       <p>
-        <ins><var>field</var> is an <code>agecheck</code> element whose meets
+        <ins><var>field</var> is an [^agecheck^] element whose meets
         age flag is false;</ins>
       </p>
     </blockquote>
@@ -255,11 +255,11 @@
       <var>name</var> and "the value of the field element" then adds the
       <a href="#agecheck-entry">agecheck entry</a>, as long as HTML defines
       the <a data-cite="HTML#concept-fe-value">value</a> of an
-      <code>agecheck</code> element as follows:
+      [^agecheck^] element as follows:
     </p>
     <blockquote>
       <p>
-        <ins>The value of an <code>agecheck</code> element is the empty string
+        <ins>The value of an [^agecheck^] element is the empty string
         when its meets age flag is false. Otherwise the value is the age that
         the check confirmed, written as a
         <a data-cite="HTML#valid-non-negative-integer">valid non-negative
@@ -269,7 +269,7 @@
     <p>
       The submittable category list in
       <a data-cite="HTML#categories">Categories</a> also gains
-      <code>agecheck</code>. See <a href="#patch-categories"></a>.
+      [^agecheck^]. See <a href="#patch-categories"></a>.
     <p>
       The existing steps already skip a field that is disabled, and a field
       whose <code>name</code> is missing or empty. Those steps need no
@@ -306,7 +306,7 @@
       <li>
         HTML bars a <code>button</code> that is not a submit button. That
         rule sits in the <code>button</code> definition, so it never reaches
-        an <code>agecheck</code> element.
+        an [^agecheck^] element.
       </li>
     </ul>
     <p>
@@ -322,7 +322,7 @@
     </p>
     <blockquote>
       <p>
-        <ins>When an <code>agecheck</code> element has a
+        <ins>When an [^agecheck^] element has a
         <code>required</code> attribute and its meets age flag is
         false.</ins>
       </p>
@@ -341,7 +341,7 @@
     <blockquote>
       When a control has no value but has a required attribute (input
       required, textarea required); or, more complicated rules for select
-      elements, <ins>agecheck elements,</ins> and controls in radio button
+      elements, <ins>[^agecheck^] elements,</ins> and controls in radio button
       groups, as specified in their sections.
     </blockquote>
   </section>
@@ -352,8 +352,8 @@
       Target: <a data-cite="HTML#implicit-submission">Implicit
       submission</a>. No change. HTML defines "a field that blocks implicit
       submission" as an <code>input</code> element of certain types, so an
-      <code>agecheck</code> element never blocks implicit submission. The
-      Enter key on a focused <code>agecheck</code> element starts a check, as
+      [^agecheck^] element never blocks implicit submission. The
+      Enter key on a focused [^agecheck^] element starts a check, as
       <a href="#the-agecheck-element"></a> says. The key press does not
       submit the form.
     </p>
@@ -365,7 +365,7 @@
       Target: <a data-cite="HTML#the-label-element">The label element</a>.
       <a href="#patch-categories"></a> makes the element labelable. HTML
       lets each platform choose what a click on a label does. The
-      <code>agecheck</code> element needs one fixed rule, so script cannot
+      [^agecheck^] element needs one fixed rule, so script cannot
       start a check through a label. Current text:
     </p>
     <blockquote>
@@ -376,7 +376,7 @@
     </blockquote>
     <p>New paragraph, right after that text:</p>
     <blockquote>
-      <ins>If a label element's labeled control is an agecheck element, then
+      <ins>If a label element's labeled control is an [^agecheck^] element, then
       the label element's activation behavior, given event, must be as
       follows. If event's <code>isTrusted</code> attribute is true, then
       <a data-cite="HTML#fire-a-synthetic-pointer-event">fire a synthetic
@@ -427,7 +427,7 @@
       <code>button</code> elements. New list item, after "button elements":
     </p>
     <blockquote>
-      <ins>agecheck elements</ins>
+      <ins>[^agecheck^] elements</ins>
     </blockquote>
     <p>
       The <a data-cite="HTML#focusable-area">focusable area</a> table needs
@@ -465,7 +465,7 @@
         <tr><th>Element</th><th>Description</th><th>Categories</th><th>Parents</th><th>Children</th><th>Attributes</th><th>Interface</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>agecheck</code></td><td>Age check control</td><td>flow; phrasing; interactive; listed; labelable; submittable; resettable; form-associated; palpable</td><td>phrasing</td><td>phrasing*</td><td>globals; <code>age</code>; <code>disabled</code>; <code>form</code>; <code>name</code>; <code>required</code></td><td>{{HTMLAgeCheckElement}}</td></tr>
+        <tr><td>[^agecheck^]</td><td>Age check control</td><td>flow; phrasing; interactive; listed; labelable; submittable; resettable; form-associated; palpable</td><td>phrasing</td><td>phrasing*</td><td>globals; <code>age</code>; <code>disabled</code>; <code>form</code>; <code>name</code>; <code>required</code></td><td>{{HTMLAgeCheckElement}}</td></tr>
       </tbody>
     </table>
     <p>
@@ -474,7 +474,7 @@
     </p>
     <p>
       <a data-cite="HTML#element-content-categories">List of element content
-      categories</a>. Add <code>agecheck</code> to the Elements cell of these
+      categories</a>. Add [^agecheck^] to the Elements cell of these
       rows: Flow content, Phrasing content, Interactive content,
       Form-associated elements, Listed elements, Submittable elements,
       Resettable elements, Labelable elements, and Palpable content.
@@ -488,7 +488,7 @@
         <tr><th>Attribute</th><th>Current Element(s) cell</th><th>New Element(s) cell</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>age</code></td><td>(no row)</td><td><ins><code>agecheck</code></ins>. Description: "Age that the check asks about". Value: "Valid non-negative integer: 13, 16, or 18"</td></tr>
+        <tr><td><code>age</code></td><td>(no row)</td><td><ins>[^agecheck^]</ins>. Description: "Age that the check asks about". Value: "Valid non-negative integer: 13, 16, or 18"</td></tr>
         <tr><td><code>disabled</code></td><td>button; input; optgroup; option; select; textarea; form-associated custom elements</td><td>button; input; optgroup; option; select; textarea; <ins>agecheck;</ins> form-associated custom elements</td></tr>
         <tr><td><code>form</code></td><td>button; fieldset; input; object; output; select; textarea; form-associated custom elements</td><td>button; fieldset; input; object; output; select; textarea; <ins>agecheck;</ins> form-associated custom elements</td></tr>
         <tr><td><code>name</code></td><td>button; fieldset; input; output; select; textarea; form-associated custom elements</td><td>button; fieldset; input; output; select; textarea; <ins>agecheck;</ins> form-associated custom elements</td></tr>
@@ -497,7 +497,7 @@
     </table>
     <p>
       <a data-cite="HTML#element-interfaces">List of element interfaces</a>.
-      New row: <code>agecheck</code>, {{HTMLAgeCheckElement}} :
+      New row: [^agecheck^], {{HTMLAgeCheckElement}} :
       {{HTMLElement}}. The <a data-cite="HTML#all-interfaces">list of all
       interfaces</a> also gains {{HTMLAgeCheckElement}}.
     </p>
@@ -507,8 +507,8 @@
         <tr><th>Event</th><th>Current row</th><th>New row</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>change</code></td><td>Interface <code>Event</code>. Targets "Form controls". Description "Fired at controls when the user commits a value change (see also the input event)".</td><td>No change to the interface or targets. Description: "Fired at controls when the user commits a value change (see also the input event)<ins>, and at an agecheck element when a check succeeds</ins>".</td></tr>
-        <tr><td><code>error</code></td><td>Interface "Event or ErrorEvent". Targets "Global scope objects, Worker objects, elements, networking-related objects". Description "Fired when unexpected errors occur (e.g. networking errors, script errors, decoding errors)".</td><td>No change to the interface or targets. Description: "Fired when unexpected errors occur (e.g. networking errors, script errors, decoding errors)<ins>, and at an agecheck element when a check fails</ins>".</td></tr>
+        <tr><td><code>change</code></td><td>Interface <code>Event</code>. Targets "Form controls". Description "Fired at controls when the user commits a value change (see also the input event)".</td><td>No change to the interface or targets. Description: "Fired at controls when the user commits a value change (see also the input event)<ins>, and at an [^agecheck^] element when a check succeeds</ins>".</td></tr>
+        <tr><td><code>error</code></td><td>Interface "Event or ErrorEvent". Targets "Global scope objects, Worker objects, elements, networking-related objects". Description "Fired when unexpected errors occur (e.g. networking errors, script errors, decoding errors)".</td><td>No change to the interface or targets. Description: "Fired when unexpected errors occur (e.g. networking errors, script errors, decoding errors)<ins>, and at an [^agecheck^] element when a check fails</ins>".</td></tr>
       </tbody>
     </table>
     <p>
@@ -536,7 +536,7 @@
         following features to produce modal dialogs", and the browser's age
         prompt is modal. New list item, after "the beforeunload event":
         <blockquote>
-          <ins>the agecheck element</ins>
+          <ins>the [^agecheck^] element</ins>
         </blockquote>
         So a check in a document with this flag fires <code>error</code>. See
         <a href="#run-a-check">run a check</a>.
@@ -567,15 +567,15 @@
       <li>
         "Any other start tag" says: "Reconstruct the active formatting
         elements, if any. Insert an HTML element for the token." The tag
-        <code>agecheck</code> has no rule of its own, so the parser creates
+        [^agecheck^] has no rule of its own, so the parser creates
         an ordinary element.
       </li>
       <li>
         The element is not on the list of elements with
         <a data-cite="HTML#special">special</a> parsing rules. An
-        <code>agecheck</code> start tag therefore does not close an open
-        <code>agecheck</code>, unlike a <code>button</code> start tag.
-        Nested <code>agecheck</code> elements break the content model but
+        [^agecheck^] start tag therefore does not close an open
+        [^agecheck^], unlike a <code>button</code> start tag.
+        Nested [^agecheck^] elements break the content model but
         still parse.
       </li>
       <li>
@@ -588,7 +588,7 @@
       </li>
     </ul>
     <p>
-      The element interface for the name <code>agecheck</code> comes from
+      The element interface for the name [^agecheck^] comes from
       the rule "if this specification defines an interface appropriate for
       the element type corresponding to the local name name, then return
       that interface", in <a data-cite="HTML#elements-in-the-dom">Elements in

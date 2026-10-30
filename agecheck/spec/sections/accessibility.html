@@ -1,7 +1,7 @@
 <section id="accessibility">
   <h2>Accessibility</h2>
   <p>
-    The browser knows what an <code>agecheck</code> element is. So the browser
+    The browser knows what an [^agecheck^] element is. So the browser
     gives the element its role, its name, its keyboard handling and its focus
     return. A site does not need ARIA to make the element usable.
   </p>
@@ -9,7 +9,7 @@
   <section id="a11y-role">
     <h3>Role</h3>
     <p>
-      The user agent MUST expose an <code>agecheck</code> element to the
+      The user agent MUST expose an [^agecheck^] element to the
       platform accessibility API with one fixed role. The role is either
       <code>button</code> or <code>checkbox</code>, as
       <a href="#issue-role">the role question</a> describes. The role does not change after a
@@ -114,7 +114,7 @@
     <p>
       The prompt takes focus away from the page. When the prompt closes, the
       person needs to land where they left off. When the user agent shows
-      its prompt for an <code>agecheck</code> element <var>element</var>, the
+      its prompt for an [^agecheck^] element <var>element</var>, the
       user agent MUST run these steps:
     </p>
     <ol class="algorithm" id="a11y-focus-return-steps">
@@ -220,21 +220,21 @@
         </thead>
         <tbody>
           <tr>
-            <td>New element section <code>agecheck</code> (anchor <code>el-agecheck</code>), next to <code>el-button</code></td>
+            <td>New element section [^agecheck^] (anchor <code>el-agecheck</code>), next to <code>el-button</code></td>
             <td>WAI-ARIA: <code>button</code> role, with <code>aria-haspopup="dialog"</code>. Comments: the mapping does not change after a successful check.</td>
             <td>WAI-ARIA: <code>checkbox</code> role, with <code>aria-checked="false"</code>. After a successful check: <code>aria-checked="true"</code> and <code>aria-readonly="true"</code>.</td>
           </tr>
           <tr>
             <td>Attribute <code>disabled</code> (anchor <code>att-disabled</code>). Element(s) today: "button; input; optgroup; option; select; textarea; form-associated custom element"</td>
-            <td colspan="2">Add <code>agecheck</code> to Element(s). Mapping stays <code>aria-disabled="true"</code>.</td>
+            <td colspan="2">Add [^agecheck^] to Element(s). Mapping stays <code>aria-disabled="true"</code>.</td>
           </tr>
           <tr>
             <td>Attribute <code>required</code> (anchor <code>att-required</code>). Element(s) today: "input; select; textarea"</td>
-            <td>Add <code>agecheck</code> to Element(s), with a comment that the button role does not support <code>aria-required</code>, so each platform needs its own mapping.</td>
-            <td>Add <code>agecheck</code> to Element(s). Mapping stays <code>aria-required</code>.</td>
+            <td>Add [^agecheck^] to Element(s), with a comment that the button role does not support <code>aria-required</code>, so each platform needs its own mapping.</td>
+            <td>Add [^agecheck^] to Element(s). Mapping stays <code>aria-required</code>.</td>
           </tr>
           <tr>
-            <td>New section "<code>agecheck</code> Element Accessible Name Computation", next to the <code>button</code> one</td>
+            <td>New section "agecheck Element Accessible Name Computation", next to the <code>button</code> one</td>
             <td colspan="2">The same four steps as the <code>button</code> section. <a href="#a11y-name"></a> copies those steps.</td>
           </tr>
         </tbody>
@@ -253,20 +253,20 @@
         </thead>
         <tbody>
           <tr>
-            <td>New row <code>agecheck</code> (anchor <code>el-agecheck</code>), after <code>address</code></td>
+            <td>New row [^agecheck^] (anchor <code>el-agecheck</code>), after <code>address</code></td>
             <td><code>role=button</code> or <code>role=checkbox</code>, as <a href="#issue-role">the role question</a> decides</td>
-            <td>No <code>role</code>. Authors MUST NOT use the <code>aria-checked</code>, <code>aria-pressed</code> or <code>aria-expanded</code> attributes on <code>agecheck</code> elements. Otherwise, global <code>aria-*</code> attributes and any <code>aria-*</code> attributes applicable to the implicit role.</td>
+            <td>No <code>role</code>. Authors MUST NOT use the <code>aria-checked</code>, <code>aria-pressed</code> or <code>aria-expanded</code> attributes on [^agecheck^] elements. Otherwise, global <code>aria-*</code> attributes and any <code>aria-*</code> attributes applicable to the implicit role.</td>
           </tr>
           <tr>
             <td>Row "Any element where the <code>required</code> attribute is allowed". Today it lists "<code>input</code>, <code>textarea</code>, and <code>select</code>"</td>
-            <td colspan="2">Add <code>agecheck</code>. If the role is button, the row needs a note that <code>aria-required</code> does not apply to the button role.</td>
+            <td colspan="2">Add [^agecheck^]. If the role is button, the row needs a note that <code>aria-required</code> does not apply to the button role.</td>
           </tr>
         </tbody>
       </table>
       <p>
         The row "Any element where the <code>disabled</code> attribute is
         allowed" covers elements by where HTML allows the attribute. That rule
-        covers the <code>agecheck</code> element once HTML allows
+        covers the [^agecheck^] element once HTML allows
         <code>disabled</code> on the element, so the row needs no change.
       </p>
     </div>

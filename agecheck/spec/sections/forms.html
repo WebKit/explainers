@@ -2,7 +2,7 @@
   <h2>Form mechanics and lifecycle</h2>
 
   <p>
-    This section says how an <code>agecheck</code> element takes part in a
+    This section says how an [^agecheck^] element takes part in a
     form, and what happens to the
     <a href="#dfn-meets-age">meets age</a> flag and to a running check when
     the page or the element changes.
@@ -11,7 +11,7 @@
   <section id="forms-check-dropped">
     <h3>The check dropped flag</h3>
     <p>
-      Each <code>agecheck</code> element has a
+      Each [^agecheck^] element has a
       <dfn id="dfn-check-dropped" data-dfn-for="agecheck" data-export>check
       dropped</dfn> flag, initially false. The steps in this section set the
       flag to true when a running check must not succeed.
@@ -30,7 +30,7 @@
   <section id="forms-owner">
     <h3>Form owner</h3>
     <p>
-      The <code>agecheck</code> element is a
+      The [^agecheck^] element is a
       <a data-cite="HTML#form-associated-element">form-associated element</a>.
       The element is also <a data-cite="HTML#category-listed">listed</a>,
       <a data-cite="HTML#category-submit">submittable</a>,
@@ -40,7 +40,7 @@
     <p>
       HTML's rules for the
       <a data-cite="HTML#form-owner">form owner</a> apply without change. An
-      <code>agecheck</code> element with a
+      [^agecheck^] element with a
       <a data-cite="HTML#attr-fae-form"><code>form</code></a> attribute uses
       the <code>form</code> element that the attribute names. Otherwise the
       element uses its nearest <code>form</code> ancestor. The user agent
@@ -62,7 +62,7 @@
     <p>
       When the user agent
       <a data-cite="HTML#constructing-the-form-data-set">constructs the entry
-      list</a> for a form, an <code>agecheck</code> element adds at most one
+      list</a> for a form, an [^agecheck^] element adds at most one
       entry. The <dfn id="agecheck-entry" data-export>agecheck entry</dfn> has
       these parts:
     </p>
@@ -97,14 +97,14 @@
       the requested age.
     </aside>
     <p>
-      The <code>agecheck</code> element is never a
+      The [^agecheck^] element is never a
       <a data-cite="HTML#concept-button">button</a>, so the step that skips
       "a button but not submitter" never skips the element. The element is
       also never a
       <a data-cite="HTML#concept-submit-button">submit button</a>. So
       <a data-cite="HTML#dom-form-requestsubmit"><code>requestSubmit()</code></a>
       throws a <code>TypeError</code> when a page passes an
-      <code>agecheck</code> element as the submitter.
+      [^agecheck^] element as the submitter.
     </p>
 
     <p id="forms-entry-patch">
@@ -119,11 +119,11 @@
       The <dfn id="agecheck-reset-algorithm" data-export>agecheck reset
       algorithm</dfn> is the
       <a data-cite="HTML#concept-form-reset-control">reset algorithm</a> for
-      <code>agecheck</code> elements. HTML
+      [^agecheck^] elements. HTML
       <a data-cite="HTML#resetting-a-form">invokes</a> the algorithm for each
       resettable element whose form owner is the form being reset, after the
       <code>reset</code> event is not canceled. Given an
-      <code>agecheck</code> element <var>element</var>:
+      [^agecheck^] element <var>element</var>:
     </p>
     <ol class="algorithm">
       <li>
@@ -146,22 +146,22 @@
   <section id="forms-validation">
     <h3>Constraint validation</h3>
     <p>
-      The <code>agecheck</code> element is submittable, so the element is a
+      The [^agecheck^] element is submittable, so the element is a
       <a data-cite="HTML#candidate-for-constraint-validation">candidate for
       constraint validation</a> unless a condition
       <a data-cite="HTML#barred-from-constraint-validation">bars</a> the
       element.
     </p>
     <p>
-      A disabled <code>agecheck</code> element is barred from constraint
+      A disabled [^agecheck^] element is barred from constraint
       validation. HTML already says so for every disabled element, once the
-      <code>disabled</code> attribute applies to <code>agecheck</code> (see
-      [[[#forms-fieldset]]]). An <code>agecheck</code> element with a
+      <code>disabled</code> attribute applies to [^agecheck^] (see
+      [[[#forms-fieldset]]]). An [^agecheck^] element with a
       <code>datalist</code> ancestor is also barred, as for any submittable
       element.
     </p>
     <p>
-      An <code>agecheck</code> element is
+      An [^agecheck^] element is
       <a data-cite="HTML#suffering-from-being-missing">suffering from being
       missing</a> when the element has a <code>required</code> attribute and
       the element's <a href="#dfn-meets-age">meets age</a> flag is false.
@@ -188,7 +188,7 @@
       message</a>.</li>
     </ul>
     <p>
-      So a form with a required <code>agecheck</code> element does not submit
+      So a form with a required [^agecheck^] element does not submit
       until a check succeeds, unless the form or the submitter turns
       validation off.
     </p>
@@ -207,13 +207,13 @@
       gives the exact words.
     </p>
     <p>
-      The second case needs no change. An <code>agecheck</code> element inside
+      The second case needs no change. An [^agecheck^] element inside
       a <code>fieldset</code> with a <code>disabled</code> attribute is
       disabled, unless the element is inside that <code>fieldset</code>'s first
       <code>legend</code> child.
     </p>
     <p>
-      A disabled <code>agecheck</code> element:
+      A disabled [^agecheck^] element:
     </p>
     <ul>
       <li>starts no check, because the first step of the activation behavior
@@ -235,14 +235,14 @@
     <h3>Cloning</h3>
     <p>
       The <a data-cite="DOM#concept-node-clone-ext">cloning steps</a> for
-      <code>agecheck</code> elements, given <var>node</var>, <var>copy</var> and
+      [^agecheck^] elements, given <var>node</var>, <var>copy</var> and
       <var>subtree</var>, do nothing. The <var>copy</var> starts with its
       <a href="#dfn-meets-age">meets age</a> flag false and with no check in
       progress, whatever the state of <var>node</var>.
     </p>
     <aside class="note">
       The <code>input</code> element copies its checkedness to a clone. The
-      <code>agecheck</code> element does not copy its flag on purpose. A page
+      [^agecheck^] element does not copy its flag on purpose. A page
       cannot make a passed check by cloning an element that passed.
     </aside>
   </section>
@@ -250,7 +250,7 @@
   <section id="forms-insertion-removal">
     <h3>Insertion, removal and adoption</h3>
     <p>
-      The <code>agecheck</code> element defines no HTML element insertion
+      The [^agecheck^] element defines no HTML element insertion
       steps. HTML's insertion steps reset the form owner, as for every
       form-associated element.
     </p>
@@ -269,7 +269,7 @@
       So adopting the element into another document fails a running check,
       even when the other document is a same-origin iframe. DOM removes a node
       from its parent before the node moves to another document, but the
-      <code>agecheck</code> element needs no
+      [^agecheck^] element needs no
       <a data-cite="DOM#concept-node-adopt-ext">adopting steps</a> for this.
       The finish steps clear the
       <a href="#dfn-pending-agecheck-element">pending agecheck element</a> of the document
@@ -313,7 +313,7 @@
     </p>
     <blockquote>
       <p>
-        <ins>For each <code>agecheck</code> element whose node document is
+        <ins>For each [^agecheck^] element whose node document is
         <var>document</var>, invoke the reset algorithm for that
         element.</ins>
       </p>
@@ -368,7 +368,7 @@
   <section id="forms-implicit-submission">
     <h3>Enter and implicit submission</h3>
     <p>
-      The <code>agecheck</code> element is never a submit button, so the
+      The [^agecheck^] element is never a submit button, so the
       element is never a form's
       <a data-cite="HTML#default-button">default button</a>. The element is
       also never a
@@ -376,10 +376,10 @@
       blocks implicit submission</a>.
     </p>
     <p>
-      When an <code>agecheck</code> element has focus, a trusted Enter key
+      When an [^agecheck^] element has focus, a trusted Enter key
       press activates the element and so runs
       <a href="#run-a-check">run a check</a>. The element consumes that key
-      press. Enter on a focused <code>agecheck</code> element never submits
+      press. Enter on a focused [^agecheck^] element never submits
       the form and never clicks the form's default button, because HTML's
       <a data-cite="HTML#implicit-submission">implicit submission</a> applies
       only to fields that allow it.
@@ -387,7 +387,7 @@
     <p>
       Enter in a text field of the same form works as before. The user agent
       fires a <code>click</code> at the default button, and the form then
-      validates its controls. A required <code>agecheck</code> element without
+      validates its controls. A required [^agecheck^] element without
       a successful check stops the submission.
     </p>
   </section>
