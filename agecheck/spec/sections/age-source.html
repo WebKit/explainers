@@ -18,7 +18,7 @@
       16 and 18. A check asks about exactly one of these ages.
     </p>
     <p>
-      Every platform age service the editors know of can answer for these three
+      Every [=platform age service=] the editors know of can answer for these three
       ages. The ages also match the default age groups of some platform age
       services: under 13, 13 to 15, 16 to 17, and 18 and over. A user agent on
       such a platform therefore needs no special setup.
@@ -30,8 +30,8 @@
       by using one element for each age.
     </p>
     <div class="issue" id="issue-age-21">
-      Should the supported ages grow, for example to include 21, once every
-      platform age service can answer for those ages?
+      Should the [=supported ages=] grow, for example to include 21, once every
+      [=platform age service=] can answer for those ages?
     </div>
   </section>
 
@@ -75,7 +75,7 @@
       platform checked. How the platform sets the age is up to the platform.
     </p>
     <p>
-      A platform age service gives an <dfn id="age-range" data-export>age
+      A [=platform age service=] gives an <dfn id="age-range" data-export>age
       range</dfn>. An [=age range=] has a
       <dfn data-dfn-for="age range" data-export id="age-range-lower-bound">lower bound</dfn>,
       which is either an age or none. A lower bound of none means the range has
@@ -89,7 +89,7 @@
       cases the check fails.
     </p>
     <p>
-      The user agent MUST NOT tell the platform age service which site asked.
+      The user agent MUST NOT tell the [=platform age service=] which site asked.
       The result the user agent gives the page MUST NOT carry any identifier
       from the platform.
     </p>
@@ -100,14 +100,14 @@
     </p>
     <div class="issue" id="issue-platform-permission">
       A platform can require an application to have permission before the
-      application calls the platform age service. A user agent without that
+      application calls the [=platform age service=]. A user agent without that
       permission fails every check on that platform. Is failing every check the
       right outcome, or should such a user agent offer a stored age, which could
       get around a parent's setting?
     </div>
     <div class="issue" id="issue-managed-accounts">
       On some managed devices and accounts, such as ones a school or employer
-      runs, the person cannot set an age at all. Because a platform age service
+      runs, the person cannot set an age at all. Because a [=platform age service=]
       exists, the user agent does not let the person enter an age instead.
       Should the user agent offer its stored age in this case?
     </div>
@@ -135,7 +135,7 @@
     </p>
     <aside class="note">
       <p>
-        Some regions replace the supported ages with their own ages. The
+        Some regions replace the [=supported ages=] with their own ages. The
         platform can then give a range that starts below |age| and ends above
         |age|. For example, a site asks about 16 and the platform gives 14 to 17.
         The user agent cannot tell whether the person is at least 16, so the
@@ -151,12 +151,12 @@
       Some platform age services have an
       <dfn id="anniversary-rule" data-export>anniversary rule</dfn>: a higher
       range appears only on the anniversary of the day the age was set. When the
-      platform age service has an [=anniversary rule=], the user agent MUST NOT
+      [=platform age service=] has an [=anniversary rule=], the user agent MUST NOT
       keep a copy of the answer. The platform's own rules then apply on every
       check.
     </p>
     <p>
-      When the platform age service has no [=anniversary rule=], the user agent
+      When the [=platform age service=] has no [=anniversary rule=], the user agent
       keeps one <dfn id="kept-copy-dfn" data-export>kept copy</dfn>. A [=kept
       copy=] holds an [=age range=] and the date the user agent stored the
       range. The user agent uses the same [=kept copy=] for every site. The
@@ -268,7 +268,7 @@
             If the platform failed for any other reason, such as a network
             problem, return [=age check result/failed=].
           </li>
-          <li>Let |range| be the [=age range=] the platform gave.</li>
+          <li>Let |range: age range| be the [=age range=] the platform gave.</li>
           <li>
             If the [=platform age service=] has no [=anniversary rule=], set
             |range| to the result of [=update the kept copy=] given |range|.
@@ -299,7 +299,7 @@
       each time. Do all platforms behave this way?
     </div>
     <div class="issue" id="issue-verified-adult-range">
-      Does every platform age service always give a range to a verified adult?
+      Does every [=platform age service=] always give a range to a verified adult?
     </div>
   </section>
 

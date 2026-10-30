@@ -246,13 +246,13 @@
     <p>New case, after the case for an unchecked radio button:</p>
     <blockquote>
       <p>
-        <ins><var>field</var> is an [^agecheck^] element whose meets
+        <ins>|field| is an [^agecheck^] element whose meets
         age flag is false;</ins>
       </p>
     </blockquote>
     <p>
       No other step needs a change. The step that creates an entry with
-      <var>name</var> and "the value of the field element" then adds the
+      |name| and "the value of the field element" then adds the
       <a href="#agecheck-entry">agecheck entry</a>, as long as HTML defines
       the <a data-cite="HTML#concept-fe-value">value</a> of an
       [^agecheck^] element as follows:
@@ -260,7 +260,7 @@
     <blockquote>
       <p>
         <ins>The value of an [^agecheck^] element is the empty string
-        when its meets age flag is false. Otherwise the value is the age that
+        when its [=agecheck/meets age=] flag is false. Otherwise the value is the age that
         the check confirmed, written as a
         <a data-cite="HTML#valid-non-negative-integer">valid non-negative
         integer</a> with no leading zeros.</ins>
@@ -323,7 +323,7 @@
     <blockquote>
       <p>
         <ins>When an [^agecheck^] element has a
-        <code>required</code> attribute and its meets age flag is
+        <code>required</code> attribute and its [=agecheck/meets age=] flag is
         false.</ins>
       </p>
     </blockquote>

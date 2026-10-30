@@ -63,7 +63,7 @@ ageCheck.SetVirtualAgeSourceBehaviorParameters = {
           what happens while a check runs.
         </dd>
         <dt><code>"clear"</code></dt>
-        <dd>The command removes a virtual age source behavior.</dd>
+        <dd>The command removes a [=virtual age source behavior=].</dd>
       </dl>
       <p>
         Each {^ageCheck.VirtualPromptAction^} value names what the virtual
@@ -101,7 +101,7 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
       </dl>
       <p>
         Each WebDriver [=session=] has a map of virtual age source behaviors,
-        keyed by browsing context ID, and a default virtual age source behavior.
+        keyed by browsing context ID, and a default [=virtual age source behavior=].
         Both start empty. A behavior is a pair of an action and a prompt action.
       </p>
       <p>
@@ -110,20 +110,20 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
         |session| and |command parameters|, are:
       </p>
       <ol class="algorithm" id="set-virtual-age-source-behavior">
-        <li>Let |action| be |command parameters|["<code>action</code>"].</li>
+        <li>Let |action: VirtualAgeSourceAction| be |command parameters|["<code>action</code>"].</li>
         <li>
-          Let |prompt action| be |command parameters|["<code>prompt</code>"]
+          Let |prompt action: VirtualPromptAction| be |command parameters|["<code>prompt</code>"]
           if present, and <code>"share"</code> otherwise.
         </li>
         <li>
-          Let |context| be |command parameters|["<code>context</code>"] if
+          Let |context: BrowsingContext| be |command parameters|["<code>context</code>"] if
           present, and <code>null</code> otherwise.
         </li>
         <li>
           If |context| is not <code>null</code>:
           <ol>
             <li>
-              Let |navigable| be the result of [=trying=] to
+              Let |navigable: navigable| be the result of [=trying=] to
               [=get a navigable=] with |context|.
             </li>
             <li>
@@ -141,19 +141,19 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
             </li>
             <li>
               Otherwise, clear |session|'s map of virtual age source behaviors
-              and set |session|'s default virtual age source behavior to
+              and set |session|'s default [=virtual age source behavior=] to
               <code>null</code>.
             </li>
             <li>Return [=success=] with data <code>null</code>.</li>
           </ol>
         </li>
-        <li>Let |behavior| be the pair (|action|, |prompt action|).</li>
+        <li>Let |behavior: pair| be the pair (|action|, |prompt action|).</li>
         <li>
           If |context| is not <code>null</code>, set |session|'s map of
           virtual age source behaviors[|context|] to |behavior|.
         </li>
         <li>
-          Otherwise, set |session|'s default virtual age source behavior to
+          Otherwise, set |session|'s default [=virtual age source behavior=] to
           |behavior|.
         </li>
         <li>Return [=success=] with data <code>null</code>.</li>
@@ -177,15 +177,15 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
           flag</a> is false, return <code>null</code>.
         </li>
         <li>
-          Let |context ID| be the ID of |document|'s [=node navigable=]'s
+          Let |context ID: string| be the ID of |document|'s [=node navigable=]'s
           [=navigable/top-level traversable=].
         </li>
-        <li>Let |session| be the current WebDriver [=session=].</li>
+        <li>Let |session: session| be the current WebDriver [=session=].</li>
         <li>
           If |session|'s map of virtual age source behaviors contains
           |context ID|, return that entry.
         </li>
-        <li>Return |session|'s default virtual age source behavior.</li>
+        <li>Return |session|'s default [=virtual age source behavior=].</li>
       </ol>
       <p>
         When <a href="#ask-the-age-source">ask the age source</a> starts, the
@@ -196,7 +196,7 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
         <a href="#virtual-age-source-actions">the list of actions</a>.
       </p>
       <p>
-        When a virtual age source behavior applies to a check and the check
+        When a [=virtual age source behavior=] applies to a check and the check
         reaches the user agent's prompt, the user agent MUST NOT show the
         prompt to a person. The user agent instead answers the prompt with the
         behavior's prompt action. The rules in
@@ -204,7 +204,7 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
         that answer.
       </p>
       <p>
-        With a virtual age source behavior, the outcomes are these, using the
+        With a [=virtual age source behavior=], the outcomes are these, using the
         steps in <a href="#run-a-check">run a check</a>:
       </p>
       <ul>
@@ -239,7 +239,7 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
       <div class="issue">
         <code>"meets"</code> and <code>"does-not-meet"</code> compare against
         whatever age the check asks about. A test cannot yet set a person who
-        is 16 and then check both 13 and 18 on one page. An age range
+        is 16 and then check both 13 and 18 on one page. An [=age range=]
         parameter, in place of these two actions, would allow such a test.
       </div>
       <div class="issue">

@@ -94,7 +94,7 @@
       The <a href="#dfn-meets-age">meets age</a> flag is true only while the
       element's [=agecheck/requested age=] equals the age the check confirmed
       (see [[[#forms-age-change]]]). So the user agent can read the value from
-      the requested age.
+      the [=agecheck/requested age=].
     </aside>
     <p>
       The [^agecheck^] element is never a
@@ -123,16 +123,16 @@
       <a data-cite="HTML#resetting-a-form">invokes</a> the algorithm for each
       resettable element whose form owner is the form being reset, after the
       <code>reset</code> event is not canceled. Given an
-      [^agecheck^] element <var>element</var>:
+      [^agecheck^] element |element|:
     </p>
     <ol class="algorithm">
       <li>
-        If <var>element</var>'s
+        If |element|'s
         [=agecheck/check pending=] is true, set
-        <var>element</var>'s [=agecheck/check dropped=] flag to true.
+        |element|'s [=agecheck/check dropped=] flag to true.
       </li>
       <li>
-        Set <var>element</var>'s <a href="#dfn-meets-age">meets age</a> flag
+        Set |element|'s <a href="#dfn-meets-age">meets age</a> flag
         to false.
       </li>
     </ol>
@@ -216,7 +216,7 @@
       A disabled [^agecheck^] element:
     </p>
     <ul>
-      <li>starts no check, because the first step of the activation behavior
+      <li>starts no check, because the first step of the [=agecheck/activation behavior=]
       and of <a href="#run-a-check">run a check</a> returns for a disabled
       element;</li>
       <li>adds no entry to the entry list;</li>
@@ -235,10 +235,10 @@
     <h3>Cloning</h3>
     <p>
       The <a data-cite="DOM#concept-node-clone-ext">cloning steps</a> for
-      [^agecheck^] elements, given <var>node</var>, <var>copy</var> and
-      <var>subtree</var>, do nothing. The <var>copy</var> starts with its
+      [^agecheck^] elements, given |node|, |copy| and
+      |subtree|, do nothing. The |copy| starts with its
       <a href="#dfn-meets-age">meets age</a> flag false and with no check in
-      progress, whatever the state of <var>node</var>.
+      progress, whatever the state of |node|.
     </p>
     <aside class="note">
       The <code>input</code> element copies its checkedness to a clone. The
@@ -291,7 +291,7 @@
     <p>
       The <a href="#agecheck-age-change-steps">attribute change steps</a> for
       <code>age</code> clear the <a href="#dfn-meets-age">meets age</a> flag
-      when the requested age changes. A running check compares the requested
+      when the [=agecheck/requested age=] changes. A running check compares the requested
       age with its own snapshot when the check ends (see
       <a href="#finish-a-check">finish a check</a>).
     </p>
@@ -314,7 +314,7 @@
     <blockquote>
       <p>
         <ins>For each [^agecheck^] element whose node document is
-        <var>document</var>, invoke the reset algorithm for that
+        |document|, invoke the reset algorithm for that
         element.</ins>
       </p>
     </blockquote>
@@ -331,17 +331,17 @@
       HTML's
       <a data-cite="HTML#unloading-document-cleanup-steps">unloading document
       cleanup steps</a> gain these steps, given a <code>Document</code>
-      <var>document</var>:
+      |document|:
     </p>
     <ol class="algorithm">
       <li>
-        Let <var>element</var> be <var>document</var>'s
+        Let |element| be |document|'s
         [=Document/pending agecheck element=].
       </li>
       <li>
-        If <var>element</var> is not null:
+        If |element| is not null:
         <ol>
-          <li>Set <var>element</var>'s [=agecheck/check dropped=] flag to
+          <li>Set |element|'s [=agecheck/check dropped=] flag to
           true.</li>
           <li>The user agent MUST close any prompt that the check shows.</li>
         </ol>

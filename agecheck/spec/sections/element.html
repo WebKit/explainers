@@ -130,16 +130,16 @@ interface HTMLAgeCheckElement : HTMLElement {
 
     <p>
       To <dfn data-dfn-for="agecheck" data-export id="dfn-parse-an-age">parse an age</dfn>
-      given a string or null <var>value</var>:
+      given a string or null |value|:
     </p>
     <ol class="algorithm" id="agecheck-parse-an-age-steps">
-      <li>If <var>value</var> is null, then return 18.</li>
+      <li>If |value| is null, then return 18.</li>
       <li>
-        Let <var>number</var> be the result of parsing <var>value</var> with the
+        Let |number| be the result of parsing |value| with the
         <a data-cite="HTML#rules-for-parsing-non-negative-integers">rules for parsing non-negative integers</a>.
       </li>
-      <li>If <var>number</var> is an error, then return failure.</li>
-      <li>If <var>number</var> is 13, 16, or 18, then return <var>number</var>.</li>
+      <li>If |number| is an error, then return failure.</li>
+      <li>If |number| is 13, 16, or 18, then return |number|.</li>
       <li>Return failure.</li>
     </ol>
 
@@ -152,35 +152,35 @@ interface HTMLAgeCheckElement : HTMLElement {
     </p>
 
     <p>
-      When the requested age is failure, a check fires <code>error</code> and
+      When the [=agecheck/requested age=] is failure, a check fires <code>error</code> and
       reports the reason to the developer console. See
       <a href="#run-a-check">run a check</a>.
     </p>
 
     <p id="agecheck-age-change-steps">
       The [=attribute change steps=] for an [^agecheck^] element
-      <var>element</var>, given <var>localName</var>, <var>oldValue</var>,
-      <var>value</var>, and <var>namespace</var>, are:
+      |element|, given |localName|, |oldValue|,
+      |value|, and |namespace|, are:
     </p>
     <ol class="algorithm">
       <li>
-        If <var>localName</var> is not <code>age</code> or <var>namespace</var>
+        If |localName| is not <code>age</code> or |namespace|
         is not null, then return.
       </li>
       <li>
-        Let <var>oldAge</var> be the result of [=agecheck/parse an age=] given
-        <var>oldValue</var>.
+        Let |oldAge| be the result of [=agecheck/parse an age=] given
+        |oldValue|.
       </li>
       <li>
-        Let <var>newAge</var> be the result of [=agecheck/parse an age=] given
-        <var>value</var>.
+        Let |newAge| be the result of [=agecheck/parse an age=] given
+        |value|.
       </li>
       <li>
-        If <var>oldAge</var> and <var>newAge</var> are both failure, or are the
+        If |oldAge| and |newAge| are both failure, or are the
         same number, then return.
       </li>
       <li>
-        Set <var>element</var>'s [=agecheck/meets age=] flag to false.
+        Set |element|'s [=agecheck/meets age=] flag to false.
       </li>
     </ol>
     <p>
@@ -258,25 +258,25 @@ interface HTMLAgeCheckElement : HTMLElement {
     <h3>Activation behavior</h3>
 
     <p>
-      An [^agecheck^] element <var>element</var>'s
+      An [^agecheck^] element |element|'s
       <dfn data-dfn-for="agecheck" data-export id="dfn-agecheck-activation-behavior">activation behavior</dfn>
-      given <var>event</var> is:
+      given |event| is:
     </p>
     <ol class="algorithm">
       <li>
-        If <var>element</var> is
+        If |element| is
         <a data-cite="HTML#concept-fe-disabled">disabled</a>, then return.
       </li>
       <li>
-        If <var>element</var>'s <a data-cite="DOM#concept-node-document">node document</a> is not <a data-cite="HTML#fully-active">fully active</a>,
+        If |element|'s <a data-cite="DOM#concept-node-document">node document</a> is not <a data-cite="HTML#fully-active">fully active</a>,
         then return.
       </li>
       <li>
-        If <var>event</var>'s {{Event/isTrusted}} attribute is false, then
+        If |event|'s {{Event/isTrusted}} attribute is false, then
         return.
       </li>
       <li>
-        <a href="#run-a-check">Run a check</a> given <var>element</var>.
+        <a href="#run-a-check">Run a check</a> given |element|.
       </li>
     </ol>
     <p>
