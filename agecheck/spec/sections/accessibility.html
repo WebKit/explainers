@@ -1,212 +1,196 @@
-<section id="accessibility">
-  <h2>
-    Accessibility
-  </h2>
-  <p>
-    The browser gives an [^agecheck^] element its role, its name and its focus
-    return. A site does not need ARIA to make the element usable.
-  </p>
-  <p>
-    The user agent MUST expose an [^agecheck^] element to the platform
-    accessibility API with the button role. The role does not change after a
-    successful check.
-  </p>
-  <section id="a11y-name">
-    <h3>
-      Accessible name
-    </h3>
-    <p>
-      The user agent MUST compute the element's accessible name with the same
-      steps HTML-AAM gives for the `button` element:
-    </p>
-    <ol class="algorithm" id="a11y-name-steps">
-      <li>If the element has an `aria-label` or an `aria-labelledby` attribute,
-      use the accessible name computation from <cite>Accessible Name and
-      Description</cite>.
-      </li>
-      <li>If the name is still empty, use the text of the element's associated
-      `label` elements, joined in tree order with spaces. If a `label` contains
-      the element, leave out the element's own text from that `label`'s text.
-      </li>
-      <li>If the name is still empty, use the text of the element's contents.
-      </li>
-      <li>Otherwise, use the element's `title` attribute.
-      </li>
-    </ol>
-  </section>
-  <section id="a11y-states">
-    <h3>
-      States
-    </h3>
-    <ul>
-      <li>When the element is disabled, the user agent MUST expose the element
-      as disabled.
-      </li>
-      <li>When the element has a `required` attribute, the user agent MUST
-      expose the element as required, where the button role supports a required
-      state.
-      </li>
-    </ul>
-  </section>
-  <section id="a11y-focus-return">
-    <h3>
-      Focus return
-    </h3>
-    <p>
-      The prompt takes focus away from the page. When the prompt closes, the
-      person needs to land where they left off. When the user agent shows its
-      prompt for an [^agecheck^] element |element|, the user agent MUST run
-      these steps:
-    </p>
-    <ol class="algorithm" id="a11y-focus-return-steps">
-      <li>Let |previous| be the focused area of the document of |element|'s
-      [=Node/node document|node document=], as the prompt opens.
-      </li>
-      <li>Wait until the prompt closes, for any reason.
-      </li>
-      <li>If |element| is still a focusable area, run the [=focusing steps=]
-      for |element|, and return.
-      </li>
-      <li>If |previous| is still a focusable area, run the [=focusing steps=]
-      for |previous|.
-      </li>
-    </ol>
-    <p>
-      Focus returns before the user agent fires `change` or `error`.
-    </p>
-  </section>
-  <section id="a11y-prompt">
-    <h3>
-      The prompt
-    </h3>
-    <p>
-      The prompt belongs to the browser or the platform, not the page. Its
-      accessibility is still in scope. The prompt should meet WCAG 2.2. Where
-      the prompt is not web content, the prompt should meet WCAG 2.2 as
-      WCAG2ICT describes. The prompt exposes its content to assistive
-      technology with the right names, roles and values. The prompt does not
-      rely on one sense or one way of interacting. The prompt gives people
-      enough time.
-    </p>
-    <p>
-      The prompt ignores input for a short time after it appears, as <a href=
-      "#prompt-requirements">prompt requirements</a> says. During that time,
-      the prompt MUST tell assistive technology that the prompt is not ready
-      yet. Otherwise a person using assistive technology has to guess why their
-      input does nothing.
-    </p>
-  </section>
-  <section id="a11y-companion">
-    <h3>
-      Companion changes
-    </h3>
-    <p>
-      HTML Accessibility API Mappings (HTML-AAM) needs a new element section,
-      two changed attribute rows, and a name computation section. Each mapping
-      column (MSAA + IAccessible2, UIA, ATK, AX) reads "Use WAI-ARIA mapping",
-      as for `button`.
-    </p>
-    <table class="data">
-      <thead>
-        <tr>
-          <th>
-            HTML-AAM place
-          </th>
-          <th>
-            Row
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            New element section [^agecheck^] (anchor `el-agecheck`), next to
-            `el-button`
-          </td>
-          <td>
-            WAI-ARIA: `button` role, with `aria-haspopup="dialog"`. Comments:
-            the mapping does not change after a successful check.
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Attribute `disabled` (anchor `att-disabled`). Element(s) today:
-            "button; input; optgroup; option; select; textarea; form-associated
-            custom element"
-          </td>
-          <td>
-            Add [^agecheck^] to Element(s). Mapping stays
-            `aria-disabled="true"`.
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Attribute `required` (anchor `att-required`). Element(s) today:
-            "input; select; textarea"
-          </td>
-          <td>
-            Add [^agecheck^] to Element(s), with a comment that the button role
-            does not support `aria-required`, so each platform needs its own
-            mapping.
-          </td>
-        </tr>
-        <tr>
-          <td>
-            New section "agecheck Element Accessible Name Computation", next to
-            the `button` one
-          </td>
-          <td>
-            The same four steps as the `button` section. <a href=
-            "#a11y-name"></a> copies those steps.
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p>
-      ARIA in HTML needs a new row in its document conformance table, and one
-      changed row. A site that changes the element's role could mislead people
-      about what the element does. So the proposed row allows no role.
-    </p>
-    <table class="data">
-      <thead>
-        <tr>
-          <th>
-            ARIA in HTML row
-          </th>
-          <th>
-            Implicit ARIA semantics
-          </th>
-          <th>
-            ARIA role, state and property allowances
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            New row [^agecheck^] (anchor `el-agecheck`), after `address`
-          </td>
-          <td>
-            `role=button`
-          </td>
-          <td>
-            No `role`. Authors MUST NOT use the `aria-checked`, `aria-pressed`
-            or `aria-expanded` attributes on [^agecheck^] elements. Otherwise,
-            global `aria-*` attributes and any `aria-*` attributes applicable
-            to the implicit role.
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Row "Any element where the `required` attribute is allowed". Today
-            it lists "`input`, `textarea`, and `select`"
-          </td>
-          <td colspan="2">
-            Add [^agecheck^], with a note that `aria-required` does not apply
-            to the button role.
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-</section>
+<h2 id="accessibility">
+  Accessibility
+</h2>
+<p>
+  The browser gives an [^agecheck^] element its role, its name and its focus
+  return. A site does not need ARIA to make the element usable.
+</p>
+<p>
+  The user agent MUST expose an [^agecheck^] element to the platform
+  accessibility API with the button role. The role does not change after a
+  successful check.
+</p>
+<h3 id="a11y-name">
+  Accessible name
+</h3>
+<p>
+  The user agent MUST compute the element's accessible name with the same steps
+  HTML-AAM gives for the `button` element:
+</p>
+<ol class="algorithm" id="a11y-name-steps">
+  <li>If the element has an `aria-label` or an `aria-labelledby` attribute, use
+  the accessible name computation from <cite>Accessible Name and
+  Description</cite>.
+  </li>
+  <li>If the name is still empty, use the text of the element's associated
+  `label` elements, joined in tree order with spaces. If a `label` contains the
+  element, leave out the element's own text from that `label`'s text.
+  </li>
+  <li>If the name is still empty, use the text of the element's contents.
+  </li>
+  <li>Otherwise, use the element's `title` attribute.
+  </li>
+</ol>
+<h3 id="a11y-states">
+  States
+</h3>
+<ul>
+  <li>When the element is disabled, the user agent MUST expose the element as
+  disabled.
+  </li>
+  <li>When the element has a `required` attribute, the user agent MUST expose
+  the element as required, where the button role supports a required state.
+  </li>
+</ul>
+<h3 id="a11y-focus-return">
+  Focus return
+</h3>
+<p>
+  The prompt takes focus away from the page. When the prompt closes, the person
+  needs to land where they left off. When the user agent shows its prompt for
+  an [^agecheck^] element |element|, the user agent MUST run these steps:
+</p>
+<ol class="algorithm" id="a11y-focus-return-steps">
+  <li>Let |previous| be the focused area of the document of |element|'s
+  [=Node/node document|node document=], as the prompt opens.
+  </li>
+  <li>Wait until the prompt closes, for any reason.
+  </li>
+  <li>If |element| is still a focusable area, run the [=focusing steps=] for
+  |element|, and return.
+  </li>
+  <li>If |previous| is still a focusable area, run the [=focusing steps=] for
+  |previous|.
+  </li>
+</ol>
+<p>
+  Focus returns before the user agent fires `change` or `error`.
+</p>
+<h3 id="a11y-prompt">
+  The prompt
+</h3>
+<p>
+  The prompt belongs to the browser or the platform, not the page. Its
+  accessibility is still in scope. The prompt should meet WCAG 2.2. Where the
+  prompt is not web content, the prompt should meet WCAG 2.2 as WCAG2ICT
+  describes. The prompt exposes its content to assistive technology with the
+  right names, roles and values. The prompt does not rely on one sense or one
+  way of interacting. The prompt gives people enough time.
+</p>
+<p>
+  The prompt ignores input for a short time after it appears, as <a href=
+  "#prompt-requirements">prompt requirements</a> says. During that time, the
+  prompt MUST tell assistive technology that the prompt is not ready yet.
+  Otherwise a person using assistive technology has to guess why their input
+  does nothing.
+</p>
+<h3 id="a11y-companion">
+  Companion changes
+</h3>
+<p>
+  HTML Accessibility API Mappings (HTML-AAM) needs a new element section, two
+  changed attribute rows, and a name computation section. Each mapping column
+  (MSAA + IAccessible2, UIA, ATK, AX) reads "Use WAI-ARIA mapping", as for
+  `button`.
+</p>
+<table class="data">
+  <thead>
+    <tr>
+      <th>
+        HTML-AAM place
+      </th>
+      <th>
+        Row
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        New element section [^agecheck^] (anchor `el-agecheck`), next to
+        `el-button`
+      </td>
+      <td>
+        WAI-ARIA: `button` role, with `aria-haspopup="dialog"`. Comments: the
+        mapping does not change after a successful check.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Attribute `disabled` (anchor `att-disabled`). Element(s) today:
+        "button; input; optgroup; option; select; textarea; form-associated
+        custom element"
+      </td>
+      <td>
+        Add [^agecheck^] to Element(s). Mapping stays `aria-disabled="true"`.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Attribute `required` (anchor `att-required`). Element(s) today: "input;
+        select; textarea"
+      </td>
+      <td>
+        Add [^agecheck^] to Element(s), with a comment that the button role
+        does not support `aria-required`, so each platform needs its own
+        mapping.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        New section "agecheck Element Accessible Name Computation", next to the
+        `button` one
+      </td>
+      <td>
+        The same four steps as the `button` section. <a href="#a11y-name"></a>
+        copies those steps.
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  ARIA in HTML needs a new row in its document conformance table, and one
+  changed row. A site that changes the element's role could mislead people
+  about what the element does. So the proposed row allows no role.
+</p>
+<table class="data">
+  <thead>
+    <tr>
+      <th>
+        ARIA in HTML row
+      </th>
+      <th>
+        Implicit ARIA semantics
+      </th>
+      <th>
+        ARIA role, state and property allowances
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        New row [^agecheck^] (anchor `el-agecheck`), after `address`
+      </td>
+      <td>
+        `role=button`
+      </td>
+      <td>
+        No `role`. Authors MUST NOT use the `aria-checked`, `aria-pressed` or
+        `aria-expanded` attributes on [^agecheck^] elements. Otherwise, global
+        `aria-*` attributes and any `aria-*` attributes applicable to the
+        implicit role.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Row "Any element where the `required` attribute is allowed". Today it
+        lists "`input`, `textarea`, and `select`"
+      </td>
+      <td colspan="2">
+        Add [^agecheck^], with a note that `aria-required` does not apply to
+        the button role.
+      </td>
+    </tr>
+  </tbody>
+</table>
