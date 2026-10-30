@@ -77,11 +77,11 @@ interface HTMLAgeCheckElement : HTMLElement {
   </dl>
 
   <p id="agecheck-represents">
-    The <dfn data-dfn-type="element" data-export id="dfn-agecheck">agecheck</dfn>
+    The <dfn class="export" data-dfn-type="element" id="dfn-agecheck">agecheck</dfn>
     element represents a control labeled by its contents. A person uses the
     control to share that they are at least the age that the
     <code>[^agecheck/age^]</code> attribute names. The element uses the
-    <dfn data-export>HTMLAgeCheckElement</dfn> interface.
+    <dfn class="export">HTMLAgeCheckElement</dfn> interface.
   </p>
 
   <aside class="note" id="agecheck-declared-not-verified">
@@ -96,7 +96,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     <h3>The <code>age</code> attribute</h3>
 
     <p>
-      The <dfn data-dfn-for="agecheck" data-dfn-type="element-attr" data-export id="attr-age">age</dfn>
+      The <dfn class="export" data-dfn-for="agecheck" data-dfn-type="element-attr" id="attr-age">age</dfn>
       content attribute gives the age that a check asks about. If the
       attribute is present, its value must be a
       valid non-negative integer
@@ -104,7 +104,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     </p>
 
     <p>
-      To <dfn data-dfn-for="agecheck" data-export id="dfn-parse-an-age">parse an age</dfn>
+      To <dfn class="export" data-dfn-for="agecheck" id="dfn-parse-an-age">parse an age</dfn>
       given a string or null |value|:
     </p>
     <ol class="algorithm" id="agecheck-parse-an-age-steps">
@@ -119,7 +119,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     </ol>
 
     <p>
-      The <dfn data-dfn-for="agecheck" data-export id="dfn-requested-age">requested age</dfn>
+      The <dfn class="export" data-dfn-for="agecheck" id="dfn-requested-age">requested age</dfn>
       of an [^agecheck^] element is the result of running
       [=agecheck/parse an age=] on the element's <code>[^agecheck/age^]</code>
       attribute value. When the element has no <code>age</code> attribute,
@@ -168,7 +168,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     </p>
 
     <p>
-      The <dfn data-dfn-for="agecheck" data-dfn-type="element-attr" data-export>required</dfn>
+      The <dfn class="export" data-dfn-for="agecheck" data-dfn-type="element-attr">required</dfn>
       attribute is a
       boolean attribute. When the
       attribute is specified, the element is required.
@@ -181,7 +181,7 @@ interface HTMLAgeCheckElement : HTMLElement {
 
     <p>
       Each [^agecheck^] element has a
-      <dfn data-dfn-for="agecheck" data-export id="dfn-meets-age">meets age</dfn>
+      <dfn class="export" data-dfn-for="agecheck" id="dfn-meets-age">meets age</dfn>
       flag, a boolean. The flag is initially false.
     </p>
 
@@ -196,7 +196,7 @@ interface HTMLAgeCheckElement : HTMLElement {
 
     <p>
       An [^agecheck^] element |element|'s
-      <dfn data-dfn-for="agecheck" data-export id="dfn-agecheck-activation-behavior">activation behavior</dfn>
+      <dfn class="export" data-dfn-for="agecheck" id="dfn-agecheck-activation-behavior">activation behavior</dfn>
       given |event| is:
     </p>
     <ol class="algorithm">
