@@ -6,11 +6,6 @@
     a change. Each patch names the target section, quotes the current words,
     and gives the new words. Added words are marked as insertions.
   </p>
-  <p>
-    Some places need no change, because a rule already covers every element
-    in a category. Those patches say so and say what the editor checked.
-  </p>
-
   <table class="data" id="patch-table">
     <caption>Every patch and its target in HTML</caption>
     <thead>
@@ -23,16 +18,14 @@
       <tr><td><a href="#patch-actually-disabled">Actually disabled</a></td><td>[[[HTML#disabled-elements]]]</td><td>Add a list item</td></tr>
       <tr><td><a href="#patch-pseudo-classes">Pseudo-classes</a></td><td>[[[HTML#pseudo-classes]]]</td><td>Change <code>:enabled</code>, <code>:active</code>, <code>:required</code> and <code>:optional</code></td></tr>
       <tr><td><a href="#patch-entry-list">Entry list</a></td><td>Constructing the entry list</td><td>Add a skip case and a value</td></tr>
-      <tr><td><a href="#patch-reset">Form reset</a></td><td>[[[HTML#resetting-a-form]]]</td><td>None</td></tr>
       <tr><td><a href="#patch-constraint-validation">Constraint validation</a></td><td>[[[HTML#constraints]]]</td><td>Change one note</td></tr>
-      <tr><td><a href="#patch-implicit-submission">Implicit submission</a></td><td>[[[HTML#implicit-submission]]]</td><td>None</td></tr>
       <tr><td><a href="#patch-label">Label</a></td><td>[[[HTML#the-label-element]]]</td><td>Add a paragraph</td></tr>
-      <tr><td><a href="#patch-interactive-descendants">Interactive descendants</a></td><td>button, a and label content models</td><td>None</td></tr>
       <tr><td><a href="#patch-focus">Focus</a></td><td>[[[HTML#the-tabindex-attribute]]]</td><td>Add a list item</td></tr>
-      <tr><td><a href="#patch-sanitization">Sanitization</a></td><td>[[[HTML#sanitization-constants]]]</td><td>None</td></tr>
       <tr><td><a href="#patch-indexes">Indexes</a></td><td>[[[HTML#elements-3]]], content categories, [[[HTML#attributes-3]]], [[[HTML#element-interfaces]]], [[[HTML#all-interfaces]]], [[[HTML#events-2]]]</td><td>Add and change rows</td></tr>
+      <tr><td><a href="#activate-assistive-technology">User activation</a></td><td>[[[HTML#tracking-user-activation]]]</td><td>Add a trigger</td></tr>
+      <tr><td><a href="#forms-bfcache">Back/forward cache</a></td><td>Reactivating a document</td><td>Add a step</td></tr>
+      <tr><td><a href="#forms-unloading">Unloading</a></td><td>Unloading document cleanup steps</td><td>Add steps</td></tr>
       <tr><td><a href="#patch-sandboxing">Sandboxing</a></td><td>[[[HTML#sandboxing]]]</td><td>Add a list item</td></tr>
-      <tr><td><a href="#patch-parser">Parser</a></td><td>[[[HTML#parsing-main-inbody]]]</td><td>None</td></tr>
       <tr><td><a href="#patch-rendering">Rendering</a></td><td>[[[HTML#form-controls]]], [[[HTML#widgets]]]</td><td>See <a href="#rendering"></a></td></tr>
       <tr><td><a href="#patch-companion">Companion documents</a></td><td>HTML-AAM, ARIA in HTML</td><td>See <a href="#accessibility"></a></td></tr>
     </tbody>
@@ -67,9 +60,7 @@
         Resettable elements. Current
         list: "input output select textarea form-associated custom
         elements". New list: add <ins>[^agecheck^]</ins> before
-        <code>input</code>. The element joins because a form reset clears
-        {{HTMLAgeCheckElement/meetsAge}}, through the
-        <a href="#agecheck-reset-algorithm">reset algorithm</a>.
+        <code>input</code>.
       </li>
       <li>
         Labelable elements. Current
@@ -79,17 +70,6 @@
         <code>button</code>.
       </li>
     </ul>
-    <p>
-      The element does not join the autocapitalize-and-autocorrect inheriting
-      elements. The element takes no typed text.
-    </p>
-    <p>
-      The element is never a [=buttons|button=]
-      in the forms sense, and never a
-      [=submit buttons|submit button=]. So
-      <code>requestSubmit()</code> keeps throwing a {{TypeError}} when a page
-      passes an [^agecheck^] element as the submitter.
-    </p>
   </section>
 
   <section id="patch-content-categories">
@@ -111,10 +91,6 @@
       </li>
       <li>[=Palpable content=].</li>
     </ul>
-    <p>
-      The element's own definition, in <a href="#the-agecheck-element"></a>,
-      lists the same categories.
-    </p>
   </section>
 
   <section id="patch-disabled">
@@ -136,13 +112,6 @@
       disabled attribute is specified on this element (regardless of its
       value); or
     </blockquote>
-    <p>
-      The second condition already covers a descendant of a disabled
-      <code>fieldset</code>. That condition names no element, so an
-      [^agecheck^] inside a disabled <code>fieldset</code> becomes
-      disabled with no further change. The same section then says a disabled
-      element is barred from constraint validation, again for every element.
-    </p>
   </section>
 
   <section id="patch-actually-disabled">
@@ -155,11 +124,6 @@
     <blockquote>
       <ins>an [^agecheck^] element that is disabled</ins>
     </blockquote>
-    <p>
-      This change matters beyond selectors. HTML's
-      focusable area table excludes
-      an element that is actually disabled.
-    </p>
   </section>
 
   <section id="patch-pseudo-classes">
@@ -179,13 +143,7 @@
       The :enabled pseudo-class must match any button, input, select,
       textarea, optgroup, option, fieldset, <ins>[^agecheck^]</ins> element, or
       form-associated custom element that is not actually disabled.
-    </blockquote>
-    <p>
-      `:disabled` needs
-      no change. The rule reads "any element that is actually disabled", and
-      <a href="#patch-actually-disabled"></a> covers the element.
-    </p>
-    <p>
+    </blockquote>    <p>
       `:active`. The list
       that decides when an element is being activated starts "If the element
       is a button element". Add a new entry after the entry for
@@ -214,16 +172,6 @@
     <blockquote>
       <ins>[^agecheck^] elements that do not have a required attribute</ins>
     </blockquote>
-    <p>
-      `:default` needs no
-      change. Its list names default submit buttons, checked
-      <code>input</code> elements and selected <code>option</code> elements.
-      An [^agecheck^] element is none of these.
-      `:valid` and
-      `:invalid` need no
-      change, because they apply to every candidate for constraint
-      validation.
-    </p>
   </section>
 
   <section id="patch-entry-list">
@@ -231,8 +179,7 @@
     <p>
       Target: constructing the entry list. The list of cases where the loop continues to the
       next field gains one case, after the case for an unchecked radio
-      button. HTML also needs a definition of the element's value. The
-      <a href="#agecheck-entry">agecheck entry</a> says what the entry holds.
+      button. HTML also needs a definition of the element's value.
     </p>
     <p>New case, after the case for an unchecked radio button:</p>
     <blockquote>
@@ -242,68 +189,22 @@
       </p>
     </blockquote>
     <p>
-      No other step needs a change. The step that creates an entry with
-      |name| and "the value of the field element" then adds the
-      <a href="#agecheck-entry">agecheck entry</a>, as long as HTML defines
-      the value of an
-      [^agecheck^] element as follows:
+      New definition, for the value of a field that is an [^agecheck^] element:
     </p>
     <blockquote>
       <p>
         <ins>The value of an [^agecheck^] element is the empty string
-        when its [=agecheck/meets age=] flag is false. Otherwise the value is the age that
-        the check confirmed, written as a
+        when its [=agecheck/meets age=] flag is false. Otherwise the value is its
+        [=agecheck/requested age=], written as a
         valid non-negative integer with no leading zeros.</ins>
       </p>
     </blockquote>
-    <p>
-      The submittable category list in
-      [[[HTML#categories]]] also gains
-      [^agecheck^]. See <a href="#patch-categories"></a>.
-    <p>
-      The existing steps already skip a field that is disabled, and a field
-      whose <code>name</code> is missing or empty. Those steps need no
-      change.
-    </p>
-  </section>
-
-  <section id="patch-reset">
-    <h3>Form reset</h3>
-    <p>
-      Target: [[[HTML#resetting-a-form]]]. The
-      current text says to "invoke the reset algorithm of each resettable
-      element whose form owner is form". The text needs no change.
-      <a href="#patch-categories"></a> makes the element resettable, and
-      <a href="#agecheck-reset-algorithm">agecheck reset algorithm</a> gives its reset algorithm.
-    </p>
   </section>
 
   <section id="patch-constraint-validation">
     <h3>Constraint validation</h3>
     <p>
-      Target: [[[HTML#constraints]]]. Three rules
-      already cover the element once it joins the categories:
-    </p>
-    <ul>
-      <li>
-        "A submittable element is a candidate for constraint validation
-        except when a condition has barred the element from constraint
-        validation." The element is submittable.
-      </li>
-      <li>
-        "If an element is disabled, it is barred from constraint validation."
-      </li>
-      <li>
-        HTML bars a <code>button</code> that is not a submit button. That
-        rule sits in the <code>button</code> definition, so it never reaches
-        an [^agecheck^] element.
-      </li>
-    </ul>
-    <p>
-      Today only <code>input</code>, <code>select</code> and
-      <code>textarea</code> have a <code>required</code> attribute. The
-      element defines its own <code>required</code> attribute in
-      <a href="#the-agecheck-element"></a>. HTML needs two changes, one in
+      Target: [[[HTML#constraints]]]. HTML needs two changes, one in
       the validity states and one in a note.
     </p>
     <p>
@@ -336,26 +237,12 @@
     </blockquote>
   </section>
 
-  <section id="patch-implicit-submission">
-    <h3>Implicit submission</h3>
-    <p>
-      Target: [[[HTML#implicit-submission]]]. No change. HTML defines "a field that blocks implicit
-      submission" as an <code>input</code> element of certain types, so an
-      [^agecheck^] element never blocks implicit submission. The
-      Enter key on a focused [^agecheck^] element starts a check, as
-      <a href="#the-agecheck-element"></a> says. The key press does not
-      submit the form.
-    </p>
-  </section>
-
   <section id="patch-label">
     <h3>Label</h3>
     <p>
       Target: [[[HTML#the-label-element]]].
-      <a href="#patch-categories"></a> makes the element labelable. HTML
-      lets each platform choose what a click on a label does. The
-      [^agecheck^] element needs one fixed rule, so script cannot
-      start a check through a label. Current text:
+      HTML lets each platform choose what a click on a label does. The
+      [^agecheck^] element needs one fixed rule. Current text:
     </p>
     <blockquote>
       The activation behavior of a label element for events targeted at
@@ -371,38 +258,6 @@
       fire a synthetic pointer event named <code>click</code> at the labeled control,
       without the not trusted flag. Otherwise, do nothing.</ins>
     </blockquote>
-    <p>
-      The <code>click()</code> method fires its event with the not trusted
-      flag set. So a script that calls <code>click()</code> on the label
-      never starts a check.
-    </p>
-  </section>
-
-  <section id="patch-interactive-descendants">
-    <h3>Interactive descendants</h3>
-    <p>
-      No change. Three rules already refer to interactive content, so
-      <a href="#patch-content-categories"></a> brings the element under each
-      one:
-    </p>
-    <ul>
-      <li>
-        The <code>button</code> content model: "Phrasing content, but there
-        must be no interactive content descendant and no descendant with the
-        tabindex attribute specified."
-      </li>
-      <li>
-        The <code>a</code> content model: "Transparent, but there must be no
-        interactive content descendant, a element descendant, or descendant
-        with the tabindex attribute specified."
-      </li>
-      <li>
-        The <code>label</code> activation rule quoted in
-        <a href="#patch-label"></a>, and the <code>label</code> content
-        model: "no descendant labelable elements unless it is the element's
-        labeled control".
-      </li>
-    </ul>
   </section>
 
   <section id="patch-focus">
@@ -416,30 +271,12 @@
     <blockquote>
       <ins>[^agecheck^] elements</ins>
     </blockquote>
-    <p>
-      The focusable area table needs
-      no change. Its first row already excludes an element that is actually
-      disabled or inert.
-    </p>
-  </section>
-
-  <section id="patch-sanitization">
-    <h3>Sanitization</h3>
-    <p>
-      Target: [[[HTML#sanitization-constants]]]. No change. HTML builds the
-      [=built-in safe default configuration=] from each element's own Sanitization entry.
-      The element's definition, in <a href="#the-agecheck-element"></a>, gives
-      the category "Uncategorized", as for <code>button</code> and
-      <code>label</code>. None of the element's attributes holds a URL, so the
-      entry names no navigating URL attributes.
-    </p>
   </section>
 
   <section id="patch-indexes">
     <h3>Indexes</h3>
     <p>
       Target: the non-normative Index.
-      There is no IDL index.
     </p>
     <p>
       List of elements. New row, after
@@ -453,10 +290,6 @@
         <tr><td>[^agecheck^]</td><td>Age check control</td><td>flow; phrasing; interactive; listed; labelable; submittable; resettable; form-associated; palpable</td><td>phrasing</td><td>phrasing*</td><td>globals; <code>age</code>; <code>disabled</code>; <code>form</code>; <code>name</code>; <code>required</code></td><td>{{HTMLAgeCheckElement}}</td></tr>
       </tbody>
     </table>
-    <p>
-      The Parents and Children cells copy the <code>button</code> row. They
-      must match the content model in <a href="#the-agecheck-element"></a>.
-    </p>
     <p>
       List of element content categories. Add [^agecheck^] to the Elements cell of these
       rows: Flow content, Phrasing content, Interactive content,
@@ -476,7 +309,7 @@
         <tr><td><code>disabled</code></td><td>button; input; optgroup; option; select; textarea; form-associated custom elements</td><td>button; input; optgroup; option; select; textarea; <ins>[^agecheck^];</ins> form-associated custom elements</td></tr>
         <tr><td><code>form</code></td><td>button; fieldset; input; object; output; select; textarea; form-associated custom elements</td><td>button; fieldset; input; object; output; select; textarea; <ins>[^agecheck^];</ins> form-associated custom elements</td></tr>
         <tr><td><code>name</code></td><td>button; fieldset; input; output; select; textarea; form-associated custom elements</td><td>button; fieldset; input; output; select; textarea; <ins>[^agecheck^];</ins> form-associated custom elements</td></tr>
-        <tr><td><code>required</code></td><td>input; select; textarea</td><td><ins>[^agecheck^];</ins> input; select; textarea. The description "Whether the control is required for form submission" stays.</td></tr>
+        <tr><td><code>required</code></td><td>input; select; textarea</td><td><ins>[^agecheck^];</ins> input; select; textarea.</td></tr>
       </tbody>
     </table>
     <p>
@@ -490,88 +323,22 @@
         <tr><th>Event</th><th>Current row</th><th>New row</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>change</code></td><td>Interface <code>Event</code>. Targets "Form controls". Description "Fired at controls when the user commits a value change (see also the input event)".</td><td>No change to the interface or targets. Description: "Fired at controls when the user commits a value change (see also the input event)<ins>, and at an [^agecheck^] element when a check succeeds</ins>".</td></tr>
-        <tr><td><code>error</code></td><td>Interface "Event or ErrorEvent". Targets "Global scope objects, Worker objects, elements, networking-related objects". Description "Fired when unexpected errors occur (e.g. networking errors, script errors, decoding errors)".</td><td>No change to the interface or targets. Description: "Fired when unexpected errors occur (e.g. networking errors, script errors, decoding errors)<ins>, and at an [^agecheck^] element when a check fails</ins>".</td></tr>
+        <tr><td><code>change</code></td><td>Interface <code>Event</code>. Targets "Form controls". Description "Fired at controls when the user commits a value change (see also the input event)".</td><td>Description: "Fired at controls when the user commits a value change (see also the input event)<ins>, and at an [^agecheck^] element when a check succeeds</ins>".</td></tr>
+        <tr><td><code>error</code></td><td>Interface "Event or ErrorEvent". Targets "Global scope objects, Worker objects, elements, networking-related objects". Description "Fired when unexpected errors occur (e.g. networking errors, script errors, decoding errors)".</td><td>Description: "Fired when unexpected errors occur (e.g. networking errors, script errors, decoding errors)<ins>, and at an [^agecheck^] element when a check fails</ins>".</td></tr>
       </tbody>
     </table>
-    <p>
-      The <code>onchange</code> and <code>onerror</code> event handlers
-      already exist on every HTML element, so the event handler index needs
-      no change.
-    </p>
   </section>
 
   <section id="patch-sandboxing">
     <h3>Sandboxing</h3>
     <p>
-      Target: [[[HTML#sandboxing]]]. Three flags
-      touch the element. The editor decided each one:
+      Target: [[[HTML#sandboxing]]]. The [=sandboxed modals flag=] "prevents content from using any of the
+      following features to produce modal dialogs", and the browser's age
+      prompt is modal. New list item, after "the beforeunload event":
     </p>
-    <ul>
-      <li>
-        The [=sandboxed forms browsing context flag=] "blocks form submission". A blocked
-        form never sends the element's entry, so this flag needs no change.
-      </li>
-      <li>
-        The [=sandboxed modals flag=] applies. The flag "prevents content from using any of the
-        following features to produce modal dialogs", and the browser's age
-        prompt is modal. New list item, after "the beforeunload event":
-        <blockquote>
-          <ins>the [^agecheck^] element</ins>
-        </blockquote>
-        So a check in a document with this flag fires <code>error</code>. See
-        <a href="#run-a-check">run a check</a>.
-      </li>
-      <li>
-        The [=sandboxed origin browsing context flag=] forces an opaque origin. The prompt
-        must name the site, and an opaque origin has no name a person can
-        read. No new flag is needed. <a href="#run-a-check">Run a check</a>
-        fails when the document's origin is opaque.
-      </li>
-    </ul>
-    <p>
-      A sandboxed <code>iframe</code> never runs a check, because only a
-      top-level document can. A sandboxed document can still be top-level,
-      for example through the <code>sandbox</code> directive of Content
-      Security Policy, or through a popup that inherits its opener's flags.
-    </p>
-  </section>
-
-  <section id="patch-parser">
-    <h3>Parser</h3>
-    <p>
-      Target: [[[HTML#parsing-main-inbody]]]. No change. The editor checked three rules:
-    </p>
-    <ul>
-      <li>
-        "Any other start tag" says: "Reconstruct the active formatting
-        elements, if any. Insert an HTML element for the token." The tag
-        [^agecheck^] has no rule of its own, so the parser creates
-        an ordinary element.
-      </li>
-      <li>
-        The element is not on the list of elements with
-        special parsing rules. An
-        [^agecheck^] start tag therefore does not close an open
-        [^agecheck^], unlike a <code>button</code> start tag.
-        Nested [^agecheck^] elements break the content model but
-        still parse.
-      </li>
-      <li>
-        Create an element for the token associates "a form-associated element and not a
-        form-associated custom element" with the
-        form element pointer.
-        <a href="#patch-categories"></a> makes the element form-associated,
-        so the parser gives it a form owner the same way.
-      </li>
-    </ul>
-    <p>
-      The element interface for the name [^agecheck^] comes from
-      the rule "if this specification defines an interface appropriate for
-      the element type corresponding to the local name name, then return
-      that interface", in [[[HTML#elements-in-the-dom]]]. The element's definition supplies
-      {{HTMLAgeCheckElement}}, so that rule also needs no change.
-    </p>
+    <blockquote>
+      <ins>the [^agecheck^] element</ins>
+    </blockquote>
   </section>
 
   <section id="patch-rendering">
@@ -587,12 +354,8 @@
   <section id="patch-companion">
     <h3>Companion documents</h3>
     <p>
-      The element's definition links its accessibility considerations to two
-      W3C documents, as the <code>button</code> element does:
-      <cite>ARIA in HTML</cite> for authors and <cite>HTML Accessibility API
-      Mappings</cite> for implementers. Both documents need new rows.
-      <a href="#accessibility"></a> lists the exact rows. The rows depend on
-      the open choice between a checkbox role and a button role.
+      <cite>ARIA in HTML</cite> and <cite>HTML Accessibility API
+      Mappings</cite> need new rows. <a href="#accessibility"></a> lists the exact rows.
     </p>
   </section>
 </section>

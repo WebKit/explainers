@@ -7,7 +7,6 @@
       Each [^agecheck^] element has a
       <dfn id="dfn-check-pending" data-dfn-for="agecheck" data-export>check pending</dfn>
       boolean, initially false.
-      The boolean is true while a check from the element is running.
     </p>
     <p>
       Each {{Document}} has a
@@ -21,9 +20,6 @@
   <section id="run-a-check-algorithm">
     <h3>The run a check algorithm</h3>
     <p>
-      The <a href="#dfn-agecheck-activation-behavior">activation behavior</a> of an
-      [^agecheck^] element calls these steps only after it has checked that the event is
-      trusted.
       To <dfn id="run-a-check" data-dfn-for="agecheck" data-export>run a check</dfn>
       given an [^agecheck^] element |element|:
     </p>
