@@ -37,7 +37,7 @@
       <li>
         If |element|'s [=agecheck/check pending=] is true, then return.
       </li>
-      <li>Let |document| be |element|'s <a data-cite="DOM#concept-node-document">node document</a>.</li>
+      <li>Let |document: Document| be |element|'s <a data-cite="DOM#concept-node-document">node document</a>.</li>
       <li>
         If |document|'s [=Document/pending agecheck element=] is not null, then
         [=queue an element task=] on the [=user interaction task source=] given |element| to
@@ -70,7 +70,7 @@
         the prompt can name.", and return.
       </li>
       <li>
-        Let |age| be the [=agecheck/requested age=] of |element|.
+        Let |age: integer or failure| be the [=agecheck/requested age=] of |element|.
       </li>
       <li>
         If |age| is failure, then [=queue an element task=] on the [=user interaction task source=] given |element| to
@@ -100,7 +100,7 @@
         Run these steps [=in parallel=]:
         <ol>
           <li>
-            Let |result| be the result of running
+            Let |result: age check result| be the result of running
             <a href="#ask-the-age-source">ask the age source</a> given |age| and |document|.
             The |result| is one of "meets", "does not meet", "no age set", "declined", or
             "failed".
@@ -111,7 +111,7 @@
             |element|, |age|, false, and |document|, and abort these steps.
           </li>
           <li>
-            Let |shared| be false.
+            Let |shared: boolean| be false.
           </li>
           <li>
             If |result| is "meets" and the user agent holds
@@ -163,7 +163,7 @@
         return.
       </li>
       <li>
-        Let |currentAge| be the [=agecheck/requested age=] of |element|.
+        Let |currentAge: integer or failure| be the [=agecheck/requested age=] of |element|.
       </li>
       <li>
         If |currentAge| is not |age|, then [=agecheck/report a check failure=] given |element| and "The age
@@ -213,7 +213,7 @@
       Neither event is cancelable.
     </p>
     <p>
-      The user agent never fires these events during the activation behavior.
+      The user agent never fires these events during the [=agecheck/activation behavior=].
       The user agent always fires them in a queued task.
       Every check that gets past step 3 of [=agecheck/run a check=] ends with exactly one event at the
       element: one <code>change</code> or one <code>error</code>.
