@@ -107,43 +107,10 @@
       <code>agecheck</code> element as the submitter.
     </p>
 
-    <section id="forms-entry-patch">
-      <h4>Patch to constructing the entry list</h4>
-      <p>
-        In <a data-cite="HTML#constructing-form-data-set">Constructing the entry
-        list</a>, the step that lists the cases where the user agent continues
-        to the next field gains one case. The new case goes after the case for
-        an unchecked radio button:
-      </p>
-      <blockquote>
-        <p>
-          <ins><var>field</var> is an <code>agecheck</code> element whose
-          meets age flag is false;</ins>
-        </p>
-      </blockquote>
-      <p>
-        No other step needs a change. The step that creates an entry with
-        <var>name</var> and "the value of the field element" then adds the
-        [=agecheck entry=], as long as HTML defines the
-        <a data-cite="HTML#concept-fe-value">value</a> of an
-        <code>agecheck</code> element as follows:
-      </p>
-      <blockquote>
-        <p>
-          <ins>The value of an <code>agecheck</code> element is the empty
-          string when its meets age flag is false. Otherwise the value is the
-          age that the check confirmed, written as a
-          <a data-cite="HTML#valid-non-negative-integer">valid non-negative
-          integer</a> with no leading zeros.</ins>
-        </p>
-      </blockquote>
-      <p>
-        The submittable category list in
-        <a data-cite="HTML#categories">Categories</a> also gains
-        <code>agecheck</code>. The existing steps already skip a field that is
-        disabled or that has no <code>name</code>.
-      </p>
-    </section>
+    <p id="forms-entry-patch">
+      HTML needs two small changes for this entry, and
+      <a href="#patch-entry-list"></a> gives the exact words for both.
+    </p>
   </section>
 
   <section id="forms-reset">
@@ -226,22 +193,10 @@
       validation off.
     </p>
 
-    <section id="forms-validation-patch">
-      <h4>Patch to the definitions of validity states</h4>
-      <p>
-        HTML defines <code>required</code> only for <code>input</code>,
-        <code>select</code> and <code>textarea</code>. The entry for
-        "Suffering from being missing" in
-        <a data-cite="HTML#constraints">Constraints</a> gains this case:
-      </p>
-      <blockquote>
-        <p>
-          <ins>When an <code>agecheck</code> element has a
-          <code>required</code> attribute and its meets age flag is
-          false.</ins>
-        </p>
-      </blockquote>
-    </section>
+    <p id="forms-validation-patch">
+      HTML needs two small changes for this rule, and
+      <a href="#patch-constraint-validation"></a> gives the exact words for both.
+    </p>
   </section>
 
   <section id="forms-fieldset">

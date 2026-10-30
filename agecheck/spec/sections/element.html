@@ -330,14 +330,11 @@ interface HTMLAgeCheckElement : HTMLElement {
 
       <p id="activate-label">
         HTML lets each platform decide what a click on a
-        <code>label</code> element does. See
-        <a data-cite="HTML#the-label-element">the <code>label</code> element</a>.
-        This specification adds one rule for an <code>agecheck</code> element
+        <code>label</code> element does. For an <code>agecheck</code> element
         that is a label's
-        <a data-cite="HTML#labeled-control">labeled control</a>. The label's
-        activation behavior may fire a <code>click</code> event at the
-        element. If so, the user agent must copy {{Event/isTrusted}} from the
-        event that activated the label to the new event.
+        <a data-cite="HTML#labeled-control">labeled control</a>, the label
+        patch in <a href="#patch-label"></a> sets one fixed rule: a trusted
+        click on the label fires a trusted click at the element.
       </p>
 
       <p>
