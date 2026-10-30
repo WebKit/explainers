@@ -1,6 +1,6 @@
 ### Examples
 
-<div class="example" title="A form that asks whether the person is at least 18">
+<aside class="example" title="A form that asks whether the person is at least 18">
 
 ```html
 <form method="post" action="/enter">
@@ -11,9 +11,9 @@
 
 The person cannot submit the form until the check passes. When the form submits, the form data has one entry named `age` with the value `18`.
 
-</div>
+</aside>
 
-<div class="example" title="An element with no age attribute">
+<aside class="example" title="An element with no age attribute">
 
 ```html
 <form method="post" action="/enter">
@@ -24,9 +24,9 @@ The person cannot submit the form until the check passes. When the form submits,
 
 With no `age` attribute, the element asks about 18. This form behaves the same as the one above.
 
-</div>
+</aside>
 
-<div class="example" title="A form with a message and another way to share age">
+<aside class="example" title="A form with a message and another way to share age">
 
 ```html
 <form method="post" action="/enter">
@@ -52,9 +52,9 @@ With no `age` attribute, the element asks about 18. This form behaves the same a
 
 The message region starts empty, so screen readers already watch the region when the text changes. The page never moves focus on its own. The link sits right after the element, so the next Tab reaches the link.
 
-</div>
+</aside>
 
-<div class="example" title="A site that asks about two ages">
+<aside class="example" title="A site that asks about two ages">
 
 ```html
 <form method="post" action="/join">
@@ -71,7 +71,7 @@ Only the first element is `required`, so the person can join without the second 
 
 Only one check runs at a time in a document. If the person starts the second element while the first check runs, the second element fires `error`.
 
-</div>
+</aside>
 
 <aside class="note" title="Advice for sites">
 
