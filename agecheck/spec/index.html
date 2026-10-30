@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="utf-8">
-<title>The agecheck element</title>
+<title>The HTML &lt;agecheck&gt; Element</title>
 <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" async></script>
 <script class="remove">
   var respecConfig = {
@@ -15,7 +15,7 @@
       },
     ],
     github: "WebKit/explainers",
-    xref: ["html", "dom", "infra", "webidl"],
+    xref: { profile: "web-platform" },
   };
 </script>
 
@@ -49,9 +49,28 @@
     <a href="https://github.com/WebKit/explainers/tree/main/agecheck">explainer</a>
     explains why this is still useful and where it falls short.
   </p>
-</section>
+  <section id="goals">
+    <h3>Goals</h3>
+    <ul>
+      <li>A site learns whether a person meets each age it names. The site gets no birthdate, no name, and no ID, and the answer does not say how the age was set. A site that asks again and again can learn a little more; see <a href="#age-source">Age source and prompt requirements</a>.</li>
+      <li>A site can't use the answer to track people across sites, except by matching the day the answer changes; see <a href="#age-source">Age source and prompt requirements</a>.</li>
+      <li>A user finds it as easy to use as today's "I'm over 18" button.</li>
+      <li>A site adds one element. The site doesn't need an age-check service.</li>
+      <li>The person doesn't need a government ID.</li>
+      <li>It works only on secure pages and only in the top-level page, in regular and private browsing alike.</li>
+      <li>Users using a screen reader or a keyboard can use the <code>&lt;agecheck&gt;</code> element and the browser's prompt.</li>
+      <li>The element works without JavaScript.</li>
+    </ul>
+  </section>
 
-<section id="conformance"></section>
+  <section id="non-goals">
+    <h3>Non-goals</h3>
+    <ul>
+      <li>Not an identity system. Sites that need a name or a birthdate should use the <a href="https://www.w3.org/TR/digital-credentials/">Digital Credentials API</a>.</li>
+      <li>Not a way to sign in. Sites still use passkeys or passwords to recognize people who come back.</li>
+    </ul>
+  </section>
+</section>
 
 <section data-include="sections/element.html" data-include-replace="true"></section>
 <section data-include="sections/check.html" data-include-replace="true"></section>
@@ -63,3 +82,5 @@
 <section data-include="sections/security-privacy.html" data-include-replace="true"></section>
 <section data-include="sections/testing.html" data-include-replace="true"></section>
 <section data-include="sections/examples.html" data-include-replace="true"></section>
+
+<section id="conformance"></section>
