@@ -3,7 +3,7 @@
   <section id="supported-ages">
     <h3>Supported ages</h3>
     <p>
-      The <dfn id="supported-ages-list" data-export>supported ages</dfn> are 13,
+      The <dfn class="export" id="supported-ages-list">supported ages</dfn> are 13,
       16 and 18.
     </p>
   </section>
@@ -11,22 +11,22 @@
   <section id="age-results">
     <h3>Age check results</h3>
     <p>
-      An <dfn id="age-check-result" data-export>age check result</dfn> is one
+      An <dfn class="export" id="age-check-result">age check result</dfn> is one
       of the following:
     </p>
     <dl>
-      <dt><dfn data-dfn-for="age check result" data-export id="age-check-result-meets">meets</dfn></dt>
+      <dt><dfn class="export" data-dfn-for="age check result" id="age-check-result-meets">meets</dfn></dt>
       <dd>The age source says the person is at least the age asked about.</dd>
-      <dt><dfn data-dfn-for="age check result" data-export id="age-check-result-does-not-meet">does not meet</dfn></dt>
+      <dt><dfn class="export" data-dfn-for="age check result" id="age-check-result-does-not-meet">does not meet</dfn></dt>
       <dd>
         The age source gave an age, and that age does not show the person is at
         least the age asked about.
       </dd>
-      <dt><dfn data-dfn-for="age check result" data-export id="age-check-result-no-age-set">no age set</dfn></dt>
+      <dt><dfn class="export" data-dfn-for="age check result" id="age-check-result-no-age-set">no age set</dfn></dt>
       <dd>The age source has no age for the person.</dd>
-      <dt><dfn data-dfn-for="age check result" data-export id="age-check-result-declined">declined</dfn></dt>
+      <dt><dfn class="export" data-dfn-for="age check result" id="age-check-result-declined">declined</dfn></dt>
       <dd>The person declined inside the platform's own age prompt.</dd>
-      <dt><dfn data-dfn-for="age check result" data-export id="age-check-result-failed">failed</dfn></dt>
+      <dt><dfn class="export" data-dfn-for="age check result" id="age-check-result-failed">failed</dfn></dt>
       <dd>
         The age source refused to share, could not be reached, or failed for
         any other reason.
@@ -37,15 +37,15 @@
   <section id="platform-age-service">
     <h3>Platform age services</h3>
     <p>
-      A <dfn id="platform-age-service-dfn" data-export>platform age service</dfn>
+      A <dfn class="export" id="platform-age-service-dfn">platform age service</dfn>
       is a service of the operating system or device platform that tells
       applications an age a person declared, an age a parent set, or an age the
       platform checked. How the platform sets the age is up to the platform.
     </p>
     <p>
-      A [=platform age service=] gives an <dfn id="age-range" data-export>age
+      A [=platform age service=] gives an <dfn class="export" id="age-range">age
       range</dfn>. An [=age range=] has a
-      <dfn data-dfn-for="age range" data-export id="age-range-lower-bound">lower bound</dfn>,
+      <dfn class="export" data-dfn-for="age range" id="age-range-lower-bound">lower bound</dfn>,
       which is either an age or none. A lower bound of none means the range has
       no bottom, as for a person under 13.
     </p>
@@ -64,7 +64,7 @@
   <section id="result-for-range">
     <h3>Result for an age range</h3>
     <p>
-      To get the <dfn id="result-for-an-age-range" data-export>result for an age
+      To get the <dfn class="export" id="result-for-an-age-range">result for an age
       range</dfn> given an [=age range=] |range| and an age |age|:
     </p>
     <ol class="algorithm">
@@ -84,17 +84,17 @@
     <h3>The kept copy of a platform answer</h3>
     <p>
       Some platform age services have an
-      <dfn id="anniversary-rule" data-export>anniversary rule</dfn>: a higher
+      <dfn class="export" id="anniversary-rule">anniversary rule</dfn>: a higher
       range appears only on the anniversary of the day the age was set.
     </p>
     <p>
-      A <dfn id="kept-copy-dfn" data-export>kept copy</dfn> holds an [=age range=] and the date the user agent stored the
+      A <dfn class="export" id="kept-copy-dfn">kept copy</dfn> holds an [=age range=] and the date the user agent stored the
       range. The user agent uses the same [=kept copy=] for every site. The
       length of time before a higher range applies is user agent specific, for
       example one year.
     </p>
     <p>
-      To <dfn id="update-the-kept-copy" data-export>update the kept copy</dfn>
+      To <dfn class="export" id="update-the-kept-copy">update the kept copy</dfn>
       given an [=age range=] |range| from the platform:
     </p>
     <ol class="algorithm">
@@ -127,7 +127,7 @@
       the way the user agent stores payment details for autofill.
     </p>
     <p>
-      A <dfn id="stored-age-group-dfn" data-export>stored age group</dfn> holds
+      A <dfn class="export" id="stored-age-group-dfn">stored age group</dfn> holds
       one of four age groups and the date the person entered the group. The age
       groups are under 13, 13 to 15, 16 to 17, and 18 and over. Each group gives
       an [=age range=] whose [=age range/lower bound=] is none, 13, 16 or 18, in
@@ -154,7 +154,7 @@
   <section id="ask-age-source">
     <h3>Asking the age source</h3>
     <p>
-      To <dfn id="ask-the-age-source" data-export>ask the age source</dfn> given
+      To <dfn class="export" id="ask-the-age-source">ask the age source</dfn> given
       an age |age| from the [=supported ages=] and a {{Document}} |document|, the user agent runs these steps.
       The steps return an [=age check result=].
     </p>
@@ -218,7 +218,7 @@
   <section id="remembered-consent-section">
     <h3>Remembered consent</h3>
     <p>
-      <dfn id="remembered-consent" data-export>Remembered consent</dfn> is a
+      <dfn class="export" id="remembered-consent">Remembered consent</dfn> is a
       record that the person agreed to share that the person is at least a given
       age with a given [=site=]. The user agent keys each record by the [=site=]
       of the top-level document's [=origin=] and by the age. A record for one
@@ -252,7 +252,7 @@
   <section id="prompt-requirements-section">
     <h3>Prompt requirements</h3>
     <p>
-      The <dfn id="prompt-requirements" data-export>prompt requirements</dfn>
+      The <dfn class="export" id="prompt-requirements">prompt requirements</dfn>
       are the outcomes the user agent's prompt must achieve. This specification
       does not say how the prompt looks, what the prompt's controls say, or
       where those controls go.

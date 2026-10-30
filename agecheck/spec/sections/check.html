@@ -5,12 +5,12 @@
     <h3>State for a check</h3>
     <p>
       Each [^agecheck^] element has a
-      <dfn id="dfn-check-pending" data-dfn-for="agecheck" data-export>check pending</dfn>
+      <dfn class="export" id="dfn-check-pending" data-dfn-for="agecheck">check pending</dfn>
       boolean, initially false.
     </p>
     <p>
       Each {{Document}} has a
-      <dfn id="dfn-pending-agecheck-element" data-dfn-for="Document" data-export>pending agecheck element</dfn>,
+      <dfn class="export" id="dfn-pending-agecheck-element" data-dfn-for="Document">pending agecheck element</dfn>,
       an [^agecheck^] element or null, initially null.
       The pending [^agecheck^] element is the element whose check runs in the document.
     </p>
@@ -19,7 +19,7 @@
   <section id="run-a-check-algorithm">
     <h3>The run a check algorithm</h3>
     <p>
-      To <dfn id="run-a-check" data-dfn-for="agecheck" data-export>run a check</dfn>
+      To <dfn class="export" id="run-a-check" data-dfn-for="agecheck">run a check</dfn>
       given an [^agecheck^] element |element|:
     </p>
     <ol class="algorithm">
@@ -127,7 +127,7 @@
   <section id="finish-a-check-algorithm">
     <h3>Finishing a check</h3>
     <p>
-      To <dfn id="finish-a-check" data-dfn-for="agecheck" data-export>finish a check</dfn>
+      To <dfn class="export" id="finish-a-check" data-dfn-for="agecheck">finish a check</dfn>
       given an [^agecheck^] element |element|, an integer |age|, a boolean |shared|, and a
       {{Document}} |document|, where |document| is the document in which the check started:
     </p>
