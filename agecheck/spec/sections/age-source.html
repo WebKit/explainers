@@ -1,3 +1,426 @@
 <section id="age-source">
   <h2>Age source and prompt requirements</h2>
+  <p>
+    This section says where the user agent gets an age, how the user agent
+    turns that age into a result, what the user agent remembers, and what the
+    user agent's prompt must achieve. The algorithm to
+    <a href="#run-a-check">run a check</a> uses these definitions.
+  </p>
+  <p>
+    The age is declared, not verified. A person, a parent, or a platform sets
+    the age. Nothing in this section proves how old anyone is.
+  </p>
+
+  <section id="supported-ages">
+    <h3>Supported ages</h3>
+    <p>
+      The <dfn id="supported-ages-list" data-export>supported ages</dfn> are 13,
+      16 and 18. A check asks about exactly one of these ages.
+    </p>
+    <p>
+      Every platform age service the editors know of can answer for these three
+      ages. The ages also match the default age groups of some platform age
+      services: under 13, 13 to 15, 16 to 17, and 18 and over. A user agent on
+      such a platform therefore needs no special setup.
+    </p>
+    <p>
+      Other ages are not allowed because some platform age services cannot
+      answer for them. For example, a check for 21 would fail on a platform
+      whose groups end at 18 and over. A site can ask about more than one age
+      by using one element for each age.
+    </p>
+    <div class="issue" id="issue-age-21">
+      Should the supported ages grow, for example to include 21, once every
+      platform age service can answer for those ages?
+    </div>
+  </section>
+
+  <section id="age-results">
+    <h3>Age check results</h3>
+    <p>
+      An <dfn id="age-check-result" data-export>age check result</dfn> is one
+      of the following:
+    </p>
+    <dl>
+      <dt><dfn data-dfn-for="age check result" data-export id="age-check-result-meets">meets</dfn></dt>
+      <dd>The age source says the person is at least the age asked about.</dd>
+      <dt><dfn data-dfn-for="age check result" data-export id="age-check-result-does-not-meet">does not meet</dfn></dt>
+      <dd>
+        The age source gave an age, and that age does not show the person is at
+        least the age asked about.
+      </dd>
+      <dt><dfn data-dfn-for="age check result" data-export id="age-check-result-no-age-set">no age set</dfn></dt>
+      <dd>The age source has no age for the person.</dd>
+      <dt><dfn data-dfn-for="age check result" data-export id="age-check-result-declined">declined</dfn></dt>
+      <dd>The person declined inside the platform's own age prompt.</dd>
+      <dt><dfn data-dfn-for="age check result" data-export id="age-check-result-failed">failed</dfn></dt>
+      <dd>
+        The age source refused to share, could not be reached, or failed for
+        any other reason.
+      </dd>
+    </dl>
+    <p>
+      Only [=age check result/meets=] can lead to a passed check. The page sees
+      every other result the same way, as described in
+      <a href="#prompt-requirements-same-failure">same-failure requirement</a>.
+    </p>
+  </section>
+
+  <section id="platform-age-service">
+    <h3>Platform age services</h3>
+    <p>
+      A <dfn id="platform-age-service-dfn" data-export>platform age service</dfn>
+      is a service of the operating system or device platform that tells
+      applications an age a person declared, an age a parent set, or an age the
+      platform checked. How the platform sets the age is up to the platform.
+    </p>
+    <p>
+      A platform age service gives an <dfn id="age-range" data-export>age
+      range</dfn>. An [=age range=] has a
+      <dfn data-dfn-for="age range" data-export id="age-range-lower-bound">lower bound</dfn>,
+      which is either an age or none. A lower bound of none means the range has
+      no bottom, as for a person under 13.
+    </p>
+    <p>
+      When the platform offers a [=platform age service=], the user agent MUST
+      use only that service as the age source. A stored age could otherwise get
+      around a parent's setting. The rule holds when the user agent cannot call
+      the service, and when the service has no age for the person. In those
+      cases the check fails.
+    </p>
+    <p>
+      The user agent MUST NOT tell the platform age service which site asked.
+      The result the user agent gives the page MUST NOT carry any identifier
+      from the platform.
+    </p>
+    <p>
+      For children, the platform's parental controls decide whether the user
+      agent gets an age at all. The user agent MUST follow those controls,
+      including a parent's choice that the child is asked each time.
+    </p>
+    <div class="issue" id="issue-platform-permission">
+      A platform can require an application to have permission before the
+      application calls the platform age service. A user agent without that
+      permission fails every check on that platform. Is failing every check the
+      right outcome, or should such a user agent offer a stored age, which could
+      get around a parent's setting?
+    </div>
+    <div class="issue" id="issue-managed-accounts">
+      On some managed devices and accounts, such as ones a school or employer
+      runs, the person cannot set an age at all. Because a platform age service
+      exists, the user agent does not let the person enter an age instead.
+      Should the user agent offer its stored age in this case?
+    </div>
+  </section>
+
+  <section id="result-for-range">
+    <h3>Result for an age range</h3>
+    <p>
+      To get the <dfn id="result-for-an-age-range" data-export>result for an age
+      range</dfn> given an [=age range=] |range| and an age |age|:
+    </p>
+    <ol class="algorithm">
+      <li>
+        If |range|'s [=age range/lower bound=] is none, return
+        [=age check result/does not meet=].
+      </li>
+      <li>
+        If |range|'s [=age range/lower bound=] is greater than or equal to
+        |age|, return [=age check result/meets=].
+      </li>
+      <li>Return [=age check result/does not meet=].</li>
+    </ol>
+    <p>
+      The user agent never answers about an age other than |age|.
+    </p>
+    <aside class="note">
+      <p>
+        Some regions replace the supported ages with their own ages. The
+        platform can then give a range that starts below |age| and ends above
+        |age|. For example, a site asks about 16 and the platform gives 14 to 17.
+        The user agent cannot tell whether the person is at least 16, so the
+        result is [=age check result/does not meet=]. In those regions, some
+        people who meet the age fail the check.
+      </p>
+    </aside>
+  </section>
+
+  <section id="kept-copy">
+    <h3>The kept copy of a platform answer</h3>
+    <p>
+      Some platform age services have an
+      <dfn id="anniversary-rule" data-export>anniversary rule</dfn>: a higher
+      range appears only on the anniversary of the day the age was set. When the
+      platform age service has an [=anniversary rule=], the user agent MUST NOT
+      keep a copy of the answer. The platform's own rules then apply on every
+      check.
+    </p>
+    <p>
+      When the platform age service has no [=anniversary rule=], the user agent
+      keeps one <dfn id="kept-copy-dfn" data-export>kept copy</dfn>. A [=kept
+      copy=] holds an [=age range=] and the date the user agent stored the
+      range. The user agent uses the same [=kept copy=] for every site. The
+      length of time before a higher range applies is user agent specific, for
+      example one year.
+    </p>
+    <p>
+      To <dfn id="update-the-kept-copy" data-export>update the kept copy</dfn>
+      given an [=age range=] |range| from the platform:
+    </p>
+    <ol class="algorithm">
+      <li>
+        If there is no [=kept copy=], store |range| and today's date as the
+        [=kept copy=], then return |range|.
+      </li>
+      <li>
+        If |range| is lower than the [=kept copy=]'s range, replace the [=kept
+        copy=] with |range| and today's date, then return |range|.
+      </li>
+      <li>
+        If |range| is higher than the [=kept copy=]'s range and the user agent
+        specific time has passed since the [=kept copy=]'s date, replace the
+        [=kept copy=] with |range| and today's date, then return |range|.
+      </li>
+      <li>Return the [=kept copy=]'s range.</li>
+    </ol>
+    <p>
+      One range is lower than another when the first range's [=age range/lower
+      bound=] is smaller. A lower bound of none is smaller than every age.
+    </p>
+    <p>
+      A lower range applies at once, so a parent's correction applies at once.
+      A higher range waits for the anniversary. When the platform stops sharing,
+      the user agent MUST discard the [=kept copy=].
+    </p>
+  </section>
+
+  <section id="stored-age-group">
+    <h3>An age group the user agent stores</h3>
+    <p>
+      When the platform offers no [=platform age service=], the user agent MAY
+      offer to store an age the person enters. The user agent stores this age
+      the way the user agent stores payment details for autofill.
+    </p>
+    <p>
+      A <dfn id="stored-age-group-dfn" data-export>stored age group</dfn> holds
+      one of four age groups and the date the person entered the group. The age
+      groups are under 13, 13 to 15, 16 to 17, and 18 and over. Each group gives
+      an [=age range=] whose [=age range/lower bound=] is none, 13, 16 or 18, in
+      that order.
+    </p>
+    <ul>
+      <li>The user agent SHOULD NOT store a birth date.</li>
+      <li>
+        After a user agent specific time, for example one year, the user agent
+        SHOULD treat the [=stored age group=] as absent, so the person enters an
+        age group again. The user agent SHOULD NOT do so when the stored group
+        is 18 and over.
+      </li>
+      <li>The user agent MUST let the person change the [=stored age group=].</li>
+      <li>
+        A private browsing window MAY read a [=stored age group=] that regular
+        browsing stored. The user agent MUST discard any [=stored age group=]
+        that a private browsing window stored once that private browsing session
+        ends.
+      </li>
+    </ul>
+    <p>
+      A person can enter any age group, so a [=stored age group=] protects a
+      child no more than a button that says "I am 18". See
+      <a href="#sp-stored-ages"></a>.
+    </p>
+  </section>
+
+  <section id="ask-age-source">
+    <h3>Asking the age source</h3>
+    <p>
+      To <dfn id="ask-the-age-source" data-export>ask the age source</dfn> given
+      an age |age| from the [=supported ages=], the user agent runs these steps.
+      The steps return an [=age check result=].
+    </p>
+    <ol class="algorithm">
+      <li>
+        If the platform offers a [=platform age service=]:
+        <ol>
+          <li>
+            If the user agent cannot call the [=platform age service=], return
+            [=age check result/failed=].
+          </li>
+          <li>
+            Ask the [=platform age service=] for the person's [=age range=].
+            Pass all of the [=supported ages=], not only |age|. Let the platform
+            show its own prompt if the platform chooses. Wait for the answer.
+          </li>
+          <li>
+            If the person declined in the platform's prompt, return
+            [=age check result/declined=].
+          </li>
+          <li>
+            If the platform reports that the platform has no age for the person,
+            return [=age check result/no age set=].
+          </li>
+          <li>
+            If the platform refused to share, discard the [=kept copy=] if there
+            is one, and return [=age check result/failed=]. A platform that
+            returns no [=age range=] counts as refusing to share.
+          </li>
+          <li>
+            If the platform failed for any other reason, such as a network
+            problem, return [=age check result/failed=].
+          </li>
+          <li>Let |range| be the [=age range=] the platform gave.</li>
+          <li>
+            If the [=platform age service=] has no [=anniversary rule=], set
+            |range| to the result of [=update the kept copy=] given |range|.
+          </li>
+          <li>
+            Return the [=result for an age range=] given |range| and |age|.
+          </li>
+        </ol>
+      </li>
+      <li>
+        If there is no [=stored age group=], return
+        [=age check result/no age set=].
+      </li>
+      <li>
+        Return the [=result for an age range=] given the [=stored age group=]'s
+        range and |age|.
+      </li>
+    </ol>
+    <p>
+      The user agent asks the age source on every check. The user agent does
+      not reuse an earlier result, so a parent's change applies on the next
+      check.
+    </p>
+    <div class="issue" id="issue-platform-every-check">
+      Asking the platform on every check works when the platform shows its own
+      prompt the first time and then answers quietly. The approach also needs
+      the platform to keep honoring a parent's choice to have the child asked
+      each time. Do all platforms behave this way?
+    </div>
+    <div class="issue" id="issue-verified-adult-range">
+      Does every platform age service always give a range to a verified adult?
+    </div>
+  </section>
+
+  <section id="remembered-consent-section">
+    <h3>Remembered consent</h3>
+    <p>
+      <dfn id="remembered-consent" data-export>Remembered consent</dfn> is a
+      record that the person agreed to share that the person is at least a given
+      age with a given [=site=]. The user agent keys each record by the [=site=]
+      of the top-level document's [=origin=] and by the age. A record for one
+      age says nothing about any other age.
+    </p>
+    <ul>
+      <li>
+        The user agent creates a record when the person agrees in the user
+        agent's prompt.
+      </li>
+      <li>
+        The user agent MAY skip its prompt only when a record exists for this
+        [=site=] and this age, and [=ask the age source=] returned
+        [=age check result/meets=] for this check.
+      </li>
+      <li>
+        The user agent MUST clear the records for a [=site=] whenever the user
+        agent clears the data the user agent stores for that [=site=].
+      </li>
+      <li>
+        The user agent SHOULD offer a control that clears every record at once.
+      </li>
+      <li>
+        A private browsing window starts with no records and MUST NOT read the
+        records of regular browsing. The user agent MUST discard the records a
+        private browsing window made once that private browsing session ends.
+      </li>
+      <li>
+        The list of sites that asked about age is sensitive. The user agent
+        SHOULD NOT show the person a list of those sites. See
+        <a href="#sp-people-in-danger"></a>.
+      </li>
+    </ul>
+    <aside class="note">
+      A private browsing window may read a [=stored age group=] but never the
+      [=remembered consent=] of regular browsing. The age belongs to the person.
+      The choice to share the age with a site belongs to one browsing session.
+    </aside>
+    <div class="issue" id="issue-remember-refusal">
+      Should the user agent remember a refusal, so a page cannot open the prompt
+      again after every click? A later check would then fail at once with no
+      prompt, and the quick failure would show the site that the person refused.
+    </div>
+  </section>
+
+  <section id="prompt-requirements-section">
+    <h3>Prompt requirements</h3>
+    <p>
+      The <dfn id="prompt-requirements" data-export>prompt requirements</dfn>
+      are the outcomes the user agent's prompt must achieve. This specification
+      does not say how the prompt looks, what the prompt's controls say, or
+      where those controls go.
+    </p>
+    <ol>
+      <li id="prompt-requirements-origin">
+        The prompt MUST name the [=origin=] of the top-level document that
+        started the check. If that document's origin changes before the person
+        answers, the check fails.
+      </li>
+      <li id="prompt-requirements-modal">
+        The person MUST NOT be able to use the page until the person answers or
+        closes the prompt.
+      </li>
+      <li id="prompt-requirements-delay">
+        The prompt MUST ignore input for a short time after the prompt appears,
+        for example as long as the system's double-click time. A page then
+        cannot use a fast second click to answer a prompt the person has not
+        seen yet.
+      </li>
+      <li id="prompt-requirements-covered">
+        The prompt MUST ignore input while a window from the page or from
+        another application covers the prompt. A window that the person's
+        assistive technology draws, such as an on-screen keyboard or a
+        magnifier, does not count as covering the prompt.
+      </li>
+      <li id="prompt-requirements-held-key">
+        A key that the person was already holding down when the prompt appeared
+        MUST NOT answer the prompt.
+      </li>
+      <li id="prompt-requirements-traces">
+        The page MUST NOT be able to learn the person's choice from traces the
+        prompt leaves, such as where the pointer rests, which element has focus
+        afterward, or how long the user agent took.
+      </li>
+      <li id="prompt-requirements-no-unmet-age">
+        The prompt MUST NOT ask the person to share an age the person does not
+        meet. When the result is not [=age check result/meets=], the prompt
+        tells the person that the age cannot be shared, and the person can only
+        close the prompt.
+      </li>
+      <li id="prompt-requirements-enter-age">
+        When the user agent offers a [=stored age group=] and has none, the
+        prompt MAY let the person choose an age group. The user agent then
+        stores that group and uses the [=result for an age range=] for that
+        group's range. If the person chooses no group, the check fails.
+      </li>
+      <li id="prompt-requirements-same-failure">
+        Every failure MUST look the same to the page. The page learns of a
+        failure only through the <code>error</code> event, whether the person is
+        too young, has no age set, declined, or the age source failed. After the
+        user agent's prompt appears, the page learns of a failure only after the
+        person closes the prompt. The user agent MUST NOT add a timing
+        difference of its own between failures.
+      </li>
+    </ol>
+    <aside class="note">
+      A [=age check result/declined=] result fails the check at once, with no
+      second prompt from the user agent. The platform's own prompt already
+      asked the person.
+    </aside>
+    <div class="issue" id="issue-sharing-off-who">
+      When age sharing is off, can the user agent tell whether the person or a
+      parent turned sharing off? The prompt should point to settings only when
+      the person can change those settings.
+    </div>
+  </section>
 </section>
