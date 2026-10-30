@@ -93,7 +93,7 @@ interface HTMLAgeCheckElement : HTMLElement {
   </aside>
 
   <p id="agecheck-not-a-button">
-    The <code>agecheck</code> element is not a
+    The [^agecheck^] element is not a
     <a data-cite="HTML#concept-button">button</a> in the HTML sense. So the
     element is never a
     <a data-cite="HTML#concept-submit-button">submit button</a>, and activating
@@ -145,7 +145,7 @@ interface HTMLAgeCheckElement : HTMLElement {
 
     <p>
       The <dfn data-dfn-for="agecheck" data-export id="dfn-requested-age">requested age</dfn>
-      of an <code>agecheck</code> element is the result of running
+      of an [^agecheck^] element is the result of running
       [=agecheck/parse an age=] on the element's <code>[^agecheck/age^]</code>
       attribute value. When the element has no <code>age</code> attribute,
       [=agecheck/parse an age=] gets null instead.
@@ -158,7 +158,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     </p>
 
     <p id="agecheck-age-change-steps">
-      The [=attribute change steps=] for an <code>agecheck</code> element
+      The [=attribute change steps=] for an [^agecheck^] element
       <var>element</var>, given <var>localName</var>, <var>oldValue</var>,
       <var>value</var>, and <var>namespace</var>, are:
     </p>
@@ -196,14 +196,14 @@ interface HTMLAgeCheckElement : HTMLElement {
 
     <p>
       Authors use the <code><a data-cite="HTML#attr-fae-form">form</a></code>
-      attribute to associate the <code>agecheck</code> element with its
+      attribute to associate the [^agecheck^] element with its
       <a data-cite="HTML#form-owner">form owner</a>. The <code><a data-cite="HTML#attr-fe-name">name</a></code>
       attribute represents the element's name. Authors use the
       <code><a data-cite="HTML#attr-fe-disabled">disabled</a></code> attribute
       to make the control non-interactive and to keep its value out of form
       submission.
       <a href="#patch-categories">The changes to HTML</a> add
-      <code>agecheck</code> to the lists of elements that HTML's
+      [^agecheck^] to the lists of elements that HTML's
       <a data-cite="HTML#concept-fe-disabled">disabled</a> definition names.
     </p>
 
@@ -224,7 +224,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     </p>
 
     <p>
-      So a required <code>agecheck</code> element blocks form submission until
+      So a required [^agecheck^] element blocks form submission until
       a check succeeds. A form whose author set <code>novalidate</code> still
       submits.
     </p>
@@ -234,7 +234,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     <h3>The <code>meetsAge</code> attribute</h3>
 
     <p>
-      Each <code>agecheck</code> element has a
+      Each [^agecheck^] element has a
       <dfn data-dfn-for="agecheck" data-export id="dfn-meets-age">meets age</dfn>
       flag, a boolean. The flag is initially false. Only a successful check sets
       the flag to true. See <a href="#run-a-check">run a check</a>.
@@ -258,7 +258,7 @@ interface HTMLAgeCheckElement : HTMLElement {
     <h3>Activation behavior</h3>
 
     <p>
-      An <code>agecheck</code> element <var>element</var>'s
+      An [^agecheck^] element <var>element</var>'s
       <dfn data-dfn-for="agecheck" data-export id="dfn-agecheck-activation-behavior">activation behavior</dfn>
       given <var>event</var> is:
     </p>
@@ -305,7 +305,7 @@ interface HTMLAgeCheckElement : HTMLElement {
 
       <p>
         The user agent must fire a <code>click</code> event at an
-        <code>agecheck</code> element, with {{Event/isTrusted}} set to true, in
+        [^agecheck^] element, with {{Event/isTrusted}} set to true, in
         each of these cases:
       </p>
       <ul>
@@ -336,7 +336,7 @@ interface HTMLAgeCheckElement : HTMLElement {
 
       <p id="activate-label">
         HTML lets each platform decide what a click on a
-        <code>label</code> element does. For an <code>agecheck</code> element
+        <code>label</code> element does. For an [^agecheck^] element
         that is a label's
         <a data-cite="HTML#labeled-control">labeled control</a>, the label
         patch in <a href="#patch-label"></a> sets one fixed rule: a trusted
@@ -347,8 +347,8 @@ interface HTMLAgeCheckElement : HTMLElement {
         So a person's own click on the label can start a check. A label click
         that script dispatched cannot. HTML already says that a
         <code>label</code> does nothing for events aimed at an interactive
-        content descendant, such as the <code>agecheck</code> element itself.
-        So a click on an <code>agecheck</code> element inside its label starts
+        content descendant, such as the [^agecheck^] element itself.
+        So a click on an [^agecheck^] element inside its label starts
         at most one check.
       </p>
     </section>

@@ -4,7 +4,7 @@
   <section id="check-state">
     <h3>State for a check</h3>
     <p>
-      Each <code>agecheck</code> element has a
+      Each [^agecheck^] element has a
       <dfn id="dfn-check-pending" data-dfn-for="agecheck" data-export>check pending</dfn>
       boolean, initially false.
       The boolean is true while a check from the element is running.
@@ -12,8 +12,8 @@
     <p>
       Each {{Document}} has a
       <dfn id="dfn-pending-agecheck-element" data-dfn-for="Document" data-export>pending agecheck element</dfn>,
-      an <code>agecheck</code> element or null, initially null.
-      The pending agecheck element is the element whose check runs in the document.
+      an [^agecheck^] element or null, initially null.
+      The pending [^agecheck^] element is the element whose check runs in the document.
       It makes sure that a document runs only one check at a time.
     </p>
   </section>
@@ -22,10 +22,10 @@
     <h3>The run a check algorithm</h3>
     <p>
       The <a href="#dfn-agecheck-activation-behavior">activation behavior</a> of an
-      <code>agecheck</code> element calls these steps only after it has checked that the event is
+      [^agecheck^] element calls these steps only after it has checked that the event is
       trusted.
       To <dfn id="run-a-check" data-dfn-for="agecheck" data-export>run a check</dfn>
-      given an <code>agecheck</code> element |element|:
+      given an [^agecheck^] element |element|:
     </p>
     <ol class="algorithm">
       <li>
@@ -143,7 +143,7 @@
     <h3>Finishing a check</h3>
     <p>
       To <dfn id="finish-a-check" data-dfn-for="agecheck" data-export>finish a check</dfn>
-      given an <code>agecheck</code> element |element|, an integer |age|, a boolean |shared|, and a
+      given an [^agecheck^] element |element|, an integer |age|, a boolean |shared|, and a
       {{Document}} |document|, where |document| is the document in which the check started:
     </p>
     <ol class="algorithm">
@@ -186,7 +186,7 @@
     </ol>
     <p>
       To <dfn id="report-a-check-failure" data-dfn-for="agecheck" data-export>report a check failure</dfn>
-      given an <code>agecheck</code> element |element| and a string |message|:
+      given an [^agecheck^] element |element| and a string |message|:
     </p>
     <ol class="algorithm">
       <li>
