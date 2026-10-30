@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<title>The agecheck element</title>
+<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" async></script>
+<script class="remove">
+  var respecConfig = {
+    specStatus: "unofficial",
+    shortName: "agecheck",
+    editors: [
+      {
+        name: "Marcos Cáceres",
+        company: "Apple",
+        companyURL: "https://www.apple.com/",
+      },
+    ],
+    github: "WebKit/explainers",
+    xref: ["html", "dom", "infra", "webidl"],
+  };
+</script>
+
+<section id="abstract">
+  <p>
+    This specification defines the <code>agecheck</code> element. The element
+    lets a site ask one question: is the person at least a given age? The
+    person decides whether to answer, and the site learns only the result.
+  </p>
+</section>
+
+<section id="sotd">
+  <p>
+    This is an early draft. The
+    <a href="https://github.com/WebKit/explainers/tree/main/agecheck">explainer</a>
+    describes the goals, the open risks, and the open questions. Nothing in this
+    draft is implemented in a shipping browser.
+  </p>
+</section>
+
+<section id="introduction">
+  <h2>Introduction</h2>
+  <p>
+    Sites that check age today use a button, send people to a third-party
+    service, or ask for an ID. The <code>agecheck</code> element gives the site
+    a form control instead. The browser asks the person before it shares
+    anything, and the site gets a yes or an error.
+  </p>
+  <p>
+    The answer is declared, not verified. The
+    <a href="https://github.com/WebKit/explainers/tree/main/agecheck">explainer</a>
+    explains why this is still useful and where it falls short.
+  </p>
+</section>
+
+<section id="conformance"></section>
+
+<section data-include="sections/element.html" data-include-replace="true"></section>
+<section data-include="sections/check.html" data-include-replace="true"></section>
+<section data-include="sections/forms.html" data-include-replace="true"></section>
+<section data-include="sections/age-source.html" data-include-replace="true"></section>
+<section data-include="sections/html-integration.html" data-include-replace="true"></section>
+<section data-include="sections/rendering.html" data-include-replace="true"></section>
+<section data-include="sections/accessibility.html" data-include-replace="true"></section>
+<section data-include="sections/security-privacy.html" data-include-replace="true"></section>
+<section data-include="sections/testing.html" data-include-replace="true"></section>
+<section data-include="sections/examples.html" data-include-replace="true"></section>
