@@ -1,3 +1,274 @@
 <section id="accessibility">
   <h2>Accessibility</h2>
+  <p>
+    The browser knows what an <code>agecheck</code> element is. So the browser
+    gives the element its role, its name, its keyboard handling and its focus
+    return. A site does not need ARIA to make the element usable.
+  </p>
+
+  <section id="a11y-role">
+    <h3>Role</h3>
+    <p>
+      The user agent MUST expose an <code>agecheck</code> element to the
+      platform accessibility API with one fixed role. The role is either
+      <code>button</code> or <code>checkbox</code>, as
+      <a href="#issue-role">the role question</a> describes. The role does not change after a
+      successful check.
+    </p>
+    <div class="issue" id="issue-role">
+      <p>
+        Should assistive technology see the element as a checkbox or as a
+        button?
+      </p>
+      <p>
+        A checkbox can say that the check succeeded. The element would expose
+        <code>aria-checked="false"</code> at first, then
+        <code>aria-checked="true"</code> and <code>aria-readonly="true"</code>
+        after success. A checkbox also matches how the form submits the
+        element: an entry after success, nothing before, like an unticked
+        checkbox. ARIA 1.2 lists <code>aria-required</code> as supported on
+        the checkbox role, so the <code>required</code> attribute maps
+        cleanly. But people may not expect a checkbox to open a prompt. ARIA
+        1.2 also deprecates <code>aria-haspopup</code> on the checkbox role,
+        so a checkbox cannot warn that the element opens a prompt.
+      </p>
+      <p>
+        A button with <code>aria-haspopup="dialog"</code> sets the right
+        expectation. But no button state can say that the check succeeded.
+        <code>aria-pressed</code> turns the button into a toggle, and
+        <code>aria-expanded</code> turns the button into a disclosure. ARIA
+        1.2 does not list <code>aria-required</code> as supported on the
+        button role, so the <code>required</code> attribute has no standard
+        mapping.
+      </p>
+      <p>
+        The keys that start a check depend on this choice too. The editors
+        would like advice from accessibility experts.
+      </p>
+    </div>
+  </section>
+
+  <section id="a11y-name">
+    <h3>Accessible name</h3>
+    <p>
+      The user agent MUST compute the element's accessible name with the same
+      steps HTML-AAM gives for the <code>button</code> element:
+    </p>
+    <ol class="algorithm" id="a11y-name-steps">
+      <li>
+        If the element has an <code>aria-label</code> or an
+        <code>aria-labelledby</code> attribute, use the accessible name
+        computation from <cite>Accessible Name and Description</cite>.
+      </li>
+      <li>
+        If the name is still empty, use the text of the element's associated
+        <code>label</code> elements, joined in tree order with spaces. If a
+        <code>label</code> contains the element, leave out the element's own
+        text from that <code>label</code>'s text.
+      </li>
+      <li>If the name is still empty, use the text of the element's contents.</li>
+      <li>Otherwise, use the element's <code>title</code> attribute.</li>
+    </ol>
+    <p>
+      So the name comes from text a person can see. A person using voice
+      control can say the words on the element or on its label.
+    </p>
+  </section>
+
+  <section id="a11y-states">
+    <h3>States</h3>
+    <ul>
+      <li>
+        When the element is <a data-cite="HTML#concept-fe-disabled">disabled</a>,
+        the user agent MUST expose the element as disabled.
+      </li>
+      <li>
+        When the element has a <code>required</code> attribute, the user
+        agent MUST expose the element as required, where the chosen role
+        supports a required state. See <a href="#issue-role">the role question</a>.
+      </li>
+    </ul>
+  </section>
+
+  <section id="a11y-keyboard">
+    <h3>Keyboard and press actions</h3>
+    <p>
+      The element is a <a data-cite="HTML#focusable-area">focusable area</a>
+      and is sequentially focusable by default, as
+      <a href="#patch-focus"></a> says. A person MUST be able to start a check
+      with the keyboard alone.
+    </p>
+    <p>
+      The keys that start a check follow the platform's conventions for the
+      element's role. For the button role, those keys are Enter and Space.
+      The user agent MUST treat a press action from assistive technology,
+      such as a screen reader's default action, as a trusted activation of
+      the element. The press also gives the page transient activation, as a
+      click does. <a href="#the-agecheck-element"></a> lists every way a
+      check can start.
+    </p>
+  </section>
+
+  <section id="a11y-focus-return">
+    <h3>Focus return</h3>
+    <p>
+      The prompt takes focus away from the page. When the prompt closes, the
+      person needs to land where they left off. When the user agent shows
+      its prompt for an <code>agecheck</code> element <var>element</var>, the
+      user agent MUST run these steps:
+    </p>
+    <ol class="algorithm" id="a11y-focus-return-steps">
+      <li>
+        Let <var>previous</var> be the
+        <a data-cite="HTML#focused-area-of-the-document">focused area of the
+        document</a> of <var>element</var>'s <a data-cite="DOM#concept-node-document">node document</a>, as the
+        prompt opens.
+      </li>
+      <li>Wait until the prompt closes, for any reason.</li>
+      <li>
+        If <var>element</var> is still a
+        <a data-cite="HTML#focusable-area">focusable area</a>, run the
+        <a data-cite="HTML#focusing-steps">focusing steps</a> for
+        <var>element</var>, and return.
+      </li>
+      <li>
+        If <var>previous</var> is still a
+        <a data-cite="HTML#focusable-area">focusable area</a>, run the
+        <a data-cite="HTML#focusing-steps">focusing steps</a> for
+        <var>previous</var>.
+      </li>
+    </ol>
+    <p>
+      Focus returns before the user agent fires <code>change</code> or
+      <code>error</code>. So a site's event listener sees focus on the
+      element, and a message the site writes next to the element is the next
+      thing a keyboard user reaches.
+    </p>
+    <p>
+      When the user agent skips its prompt, focus does not move.
+    </p>
+  </section>
+
+  <section id="a11y-prompt">
+    <h3>The prompt</h3>
+    <p>
+      The prompt belongs to the browser or the platform, not the page. Its
+      accessibility is still in scope. The prompt should meet WCAG 2.2. Where
+      the prompt is not web content, the prompt should meet WCAG 2.2 as
+      WCAG2ICT describes. The prompt exposes its content to assistive
+      technology with the right names, roles and values. The prompt does not
+      rely on one sense or one way of interacting. The prompt gives people
+      enough time.
+    </p>
+    <p>
+      The prompt ignores input for a short time after it appears, as
+      <a href="#prompt-requirements">prompt requirements</a> says. During that time, the prompt
+      MUST tell assistive technology that the prompt is not ready yet. Otherwise a
+      person using assistive technology has to guess why their input does
+      nothing.
+    </p>
+  </section>
+
+  <section id="a11y-issues">
+    <h3>Open questions</h3>
+    <div class="issue" id="issue-live-region">
+      <p>
+        After a check, the element fires <code>change</code> or
+        <code>error</code>, and the user agent announces nothing on the page.
+        The explainer advises each site to write its own message into a live
+        region: a part of the page that screen readers announce when it
+        changes. The live region starts empty, so screen readers are already
+        watching it when the text arrives. The site also never moves focus
+        on its own.
+      </p>
+      <p>
+        That advice is not a requirement, so a screen reader user depends on
+        each site following it. Should this specification state the advice as
+        an authoring requirement? Should the user agent announce the outcome
+        itself, for example through a state change on the element?
+      </p>
+    </div>
+    <div class="issue" id="issue-repeat-press">
+      <p>
+        After a successful check, a press on the element does nothing and
+        fires no event, as <a href="#the-agecheck-element"></a> says. A
+        screen reader user who presses again hears nothing, and the page
+        cannot answer. A sighted user may see a message the page already
+        showed, but a screen reader user may have missed that message.
+      </p>
+      <p>
+        Should that press fire an event, so the page can answer? A checkbox
+        role would expose the success as a checked state, which helps. A
+        button role has no state that can carry the success. See
+        <a href="#issue-role">the role question</a>.
+      </p>
+    </div>
+  </section>
+
+  <section id="a11y-companion">
+    <h3>Companion changes</h3>
+    <div class="issue" id="issue-html-aam">
+      <p>
+        HTML Accessibility API Mappings (HTML-AAM) needs a new element
+        section, two changed attribute rows, and a name computation section.
+        Each mapping column (MSAA + IAccessible2, UIA, ATK, AX) reads "Use
+        WAI-ARIA mapping", as for <code>button</code>.
+      </p>
+      <table class="data" id="html-aam-rows">
+        <thead>
+          <tr><th>HTML-AAM place</th><th>Row if the role is button</th><th>Row if the role is checkbox</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>New element section <code>agecheck</code> (anchor <code>el-agecheck</code>), next to <code>el-button</code></td>
+            <td>WAI-ARIA: <code>button</code> role, with <code>aria-haspopup="dialog"</code>. Comments: the mapping does not change after a successful check.</td>
+            <td>WAI-ARIA: <code>checkbox</code> role, with <code>aria-checked="false"</code>. After a successful check: <code>aria-checked="true"</code> and <code>aria-readonly="true"</code>.</td>
+          </tr>
+          <tr>
+            <td>Attribute <code>disabled</code> (anchor <code>att-disabled</code>). Element(s) today: "button; input; optgroup; option; select; textarea; form-associated custom element"</td>
+            <td colspan="2">Add <code>agecheck</code> to Element(s). Mapping stays <code>aria-disabled="true"</code>.</td>
+          </tr>
+          <tr>
+            <td>Attribute <code>required</code> (anchor <code>att-required</code>). Element(s) today: "input; select; textarea"</td>
+            <td>Add <code>agecheck</code> to Element(s), with a comment that the button role does not support <code>aria-required</code>, so each platform needs its own mapping.</td>
+            <td>Add <code>agecheck</code> to Element(s). Mapping stays <code>aria-required</code>.</td>
+          </tr>
+          <tr>
+            <td>New section "<code>agecheck</code> Element Accessible Name Computation", next to the <code>button</code> one</td>
+            <td colspan="2">The same four steps as the <code>button</code> section. <a href="#a11y-name"></a> copies those steps.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="issue" id="issue-html-aria">
+      <p>
+        ARIA in HTML needs a new row in its document conformance table, and
+        one changed row. A site that changes the element's role could mislead
+        people about what the element does. So the proposed row allows no
+        role.
+      </p>
+      <table class="data" id="html-aria-rows">
+        <thead>
+          <tr><th>ARIA in HTML row</th><th>Implicit ARIA semantics</th><th>ARIA role, state and property allowances</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>New row <code>agecheck</code> (anchor <code>el-agecheck</code>), after <code>address</code></td>
+            <td><code>role=button</code> or <code>role=checkbox</code>, as <a href="#issue-role">the role question</a> decides</td>
+            <td>No <code>role</code>. Authors MUST NOT use the <code>aria-checked</code>, <code>aria-pressed</code> or <code>aria-expanded</code> attributes on <code>agecheck</code> elements. Otherwise, global <code>aria-*</code> attributes and any <code>aria-*</code> attributes applicable to the implicit role.</td>
+          </tr>
+          <tr>
+            <td>Row "Any element where the <code>required</code> attribute is allowed". Today it lists "<code>input</code>, <code>textarea</code>, and <code>select</code>"</td>
+            <td colspan="2">Add <code>agecheck</code>. If the role is button, the row needs a note that <code>aria-required</code> does not apply to the button role.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        The row "Any element where the <code>disabled</code> attribute is
+        allowed" covers elements by where HTML allows the attribute. That rule
+        covers the <code>agecheck</code> element once HTML allows
+        <code>disabled</code> on the element, so the row needs no change.
+      </p>
+    </div>
+  </section>
 </section>
