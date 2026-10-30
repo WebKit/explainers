@@ -186,9 +186,18 @@
     <ol class="algorithm">
       <li>Let |behavior| be the result of [=get the virtual age source
       behavior=] for |document|, or null if the user agent does not support
-      automated testing. If |behavior| is not null, return the result that
-      |behavior|'s action names in <a href="#virtual-age-source-actions">the
-      list of actions</a>.
+      automated testing. If |behavior| is not null:
+        <ol>
+          <li>While |behavior| is not null and its action is "wait", wait until
+          the test sets another behavior for |document|'s top-level
+          traversable, then set |behavior| to the result of [=get the virtual
+          age source behavior=] for |document|.
+          </li>
+          <li>If |behavior| is not null, return the result that |behavior|'s
+          action names in <a href="#virtual-age-source-actions">the list of
+          actions</a>.
+          </li>
+        </ol>
       </li>
       <li>If the platform offers a [=platform age service=]:
         <ol>
@@ -302,9 +311,9 @@
       </li>
       <li id="prompt-requirements-enter-age">When the user agent offers a
       [=stored age group=] and has none, the prompt MAY let the person choose
-      an age group. The user agent then stores that group and uses the [=result
-      for an age range=] for that group's range. If the person chooses no
-      group, the check fails.
+      an age group. The user agent then stores that group. The check then goes
+      on with the [=result for an age range=] given that group's range and the
+      age asked about. If the person chooses no group, the check fails.
       </li>
       <li id="prompt-requirements-same-failure">The user agent MUST NOT add a
       timing difference of its own between failures. So the page cannot tell a
