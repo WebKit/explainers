@@ -316,7 +316,7 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
         <code>error</code>.
       </li>
       <li>
-        Non-secure contexts: <code>HTMLAgeCheckElement</code> is missing from
+        Non-secure contexts: <code>HTMLAgeCheckElement</code> exists on
         <code>window</code>, and a trusted click on the element fires
         <code>error</code>.
       </li>
@@ -331,10 +331,5 @@ ageCheck.SetVirtualAgeSourceBehaviorResult = EmptyResult
       These failures happen before the check asks the age source, so no
       virtual behavior is needed.
     </p>
-    <div class="issue">
-      The interface is not exposed in a non-secure context. The spec still has
-      to say that the parser creates the element with its activation behavior
-      there, so that a trusted click fires <code>error</code>.
-    </div>
   </section>
 </section>

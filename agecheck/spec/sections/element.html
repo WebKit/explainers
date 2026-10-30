@@ -51,7 +51,7 @@
     <dt><a data-cite="HTML#concept-element-dom">DOM interface</a>:</dt>
     <dd>
       <pre class="idl">
-[Exposed=Window, SecureContext]
+[Exposed=Window]
 interface HTMLAgeCheckElement : HTMLElement {
   [HTMLConstructor] constructor();
 
@@ -390,14 +390,13 @@ interface HTMLAgeCheckElement : HTMLElement {
       HTML's <a data-cite="HTML#htmlconstructor">[HTMLConstructor]</a> rules.
     </p>
 
-    <div class="issue" id="issue-secure-context-element">
-      <p>
-        No other HTML element interface carries <code>[SecureContext]</code>.
-        A page that is not a secure context can still parse an
-        <code>agecheck</code> tag. Which interface does that element get, and
-        should the element then behave as an unknown element?
-      </p>
-    </div>
+    <p id="agecheck-secure-context">
+      Like every other HTML element interface, <code>HTMLAgeCheckElement</code>
+      is exposed in every context. A page that is not a secure context gets
+      the element too. A trusted click on it fires <code>error</code>, because
+      <a href="#run-a-check">run a check</a> fails when the relevant settings
+      object is not a secure context.
+    </p>
   </section>
 
   <div class="example" id="example-agecheck-basic">
