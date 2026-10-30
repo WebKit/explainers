@@ -20,40 +20,41 @@
       [^agecheck^], and no other rule changes. The new rules are:
     </p>
     <pre class="css">
-@namespace "http://www.w3.org/1999/xhtml";
+      @namespace "http://www.w3.org/1999/xhtml";
 
-input, button, agecheck, textarea {
-  letter-spacing: initial;
-  word-spacing: initial;
-  line-height: initial;
-}
+      input, button, agecheck, textarea {
+        letter-spacing: initial;
+        word-spacing: initial;
+        line-height: initial;
+      }
 
-input, select, button, agecheck, textarea {
-  text-transform: initial;
-  text-indent: initial;
-  text-shadow: initial;
-  appearance: auto;
-}
+      input, select, button, agecheck, textarea {
+        text-transform: initial;
+        text-indent: initial;
+        text-shadow: initial;
+        appearance: auto;
+      }
 
-input:is([type=reset i], [type=button i], [type=submit i]), button, agecheck {
-  text-align: center;
-}
+      input:is([type=reset i], [type=button i], [type=submit i]), button, agecheck {
+        text-align: center;
+      }
 
-input, button, agecheck {
-  display: inline-block;
-}
+      input, button, agecheck {
+        display: inline-block;
+      }
 
-input:is([type=radio i], [type=checkbox i], [type=reset i], [type=button i],
-[type=submit i], [type=color i], [type=search i]), select, button, agecheck {
-  box-sizing: border-box;
-}
+      input:is([type=radio i], [type=checkbox i], [type=reset i], [type=button i],
+      [type=submit i], [type=color i], [type=search i]), select, button, agecheck {
+        box-sizing: border-box;
+      }
 
-button,
-agecheck,
-::file-selector-button,
-input:is([type=color i], [type=reset i], [type=button i], [type=submit i]) {
-  align-content: center;
-}</pre>
+      button,
+      agecheck,
+      ::file-selector-button,
+      input:is([type=color i], [type=reset i], [type=button i], [type=submit i]) {
+        align-content: center;
+      }
+    </pre>
     <p>
       HTML leaves the button's font, colors, border, padding and pressed look
       to each user agent. The user agent is expected to give an

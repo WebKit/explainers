@@ -3,10 +3,10 @@
 
   <div class="example" title="A form that asks whether the person is at least 18">
     <pre class="html">
-&lt;form method="post" action="/enter"&gt;
-  &lt;agecheck name="age" age="18" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
-  &lt;button&gt;Enter&lt;/button&gt;
-&lt;/form&gt;
+      &lt;form method="post" action="/enter"&gt;
+        &lt;agecheck name="age" age="18" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
+        &lt;button&gt;Enter&lt;/button&gt;
+      &lt;/form&gt;
     </pre>
     <p>
       The person cannot submit the form until the check passes. When the form
@@ -17,10 +17,10 @@
 
   <div class="example" title="An element with no age attribute">
     <pre class="html">
-&lt;form method="post" action="/enter"&gt;
-  &lt;agecheck name="age" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
-  &lt;button&gt;Enter&lt;/button&gt;
-&lt;/form&gt;
+      &lt;form method="post" action="/enter"&gt;
+        &lt;agecheck name="age" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
+        &lt;button&gt;Enter&lt;/button&gt;
+      &lt;/form&gt;
     </pre>
     <p>
       With no `age` attribute, the element asks about 18. This
@@ -30,25 +30,25 @@
 
   <div class="example" title="A form with a message and another way to share age">
     <pre class="html">
-&lt;form method="post" action="/enter"&gt;
-  &lt;agecheck id="check" name="age" age="18" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
-  &lt;a href="/other-ways"&gt;Share my age some other way&lt;/a&gt;
-  &lt;span id="message" role="status"&gt;&lt;/span&gt;
-  &lt;button&gt;Enter&lt;/button&gt;
-&lt;/form&gt;
+      &lt;form method="post" action="/enter"&gt;
+        &lt;agecheck id="check" name="age" age="18" required&gt;Share that I'm 18 or older&lt;/agecheck&gt;
+        &lt;a href="/other-ways"&gt;Share my age some other way&lt;/a&gt;
+        &lt;span id="message" role="status"&gt;&lt;/span&gt;
+        &lt;button&gt;Enter&lt;/button&gt;
+      &lt;/form&gt;
 
-&lt;script&gt;
-  const check = document.getElementById("check");
-  const message = document.getElementById("message");
+      &lt;script&gt;
+        const check = document.getElementById("check");
+        const message = document.getElementById("message");
 
-  check.addEventListener("change", () =&gt; {
-    message.textContent = "Thanks. You can go in now.";
-  });
+        check.addEventListener("change", () =&gt; {
+          message.textContent = "Thanks. You can go in now.";
+        });
 
-  check.addEventListener("error", () =&gt; {
-    message.textContent = "We couldn't use your age this time. You can try again, or share your age some other way.";
-  });
-&lt;/script&gt;
+        check.addEventListener("error", () =&gt; {
+          message.textContent = "We couldn't use your age this time. You can try again, or share your age some other way.";
+        });
+      &lt;/script&gt;
     </pre>
     <p>
       The message region starts empty, so screen readers already watch the
@@ -59,12 +59,12 @@
 
   <div class="example" title="A site that asks about two ages">
     <pre class="html">
-&lt;form method="post" action="/join"&gt;
-  &lt;agecheck name="over13" age="13" required&gt;Share that I'm 13 or older&lt;/agecheck&gt;
-  &lt;agecheck name="over18" age="18"&gt;Also share that I'm 18 or older&lt;/agecheck&gt;
-  &lt;a href="/other-ways"&gt;Share my age some other way&lt;/a&gt;
-  &lt;button&gt;Join&lt;/button&gt;
-&lt;/form&gt;
+      &lt;form method="post" action="/join"&gt;
+        &lt;agecheck name="over13" age="13" required&gt;Share that I'm 13 or older&lt;/agecheck&gt;
+        &lt;agecheck name="over18" age="18"&gt;Also share that I'm 18 or older&lt;/agecheck&gt;
+        &lt;a href="/other-ways"&gt;Share my age some other way&lt;/a&gt;
+        &lt;button&gt;Join&lt;/button&gt;
+      &lt;/form&gt;
     </pre>
     <p>
       The site needs every member to be at least 13. The site also offers
