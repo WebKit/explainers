@@ -133,7 +133,7 @@
     <p>New text:</p>
     <blockquote>
       the element is a button, input, select, textarea,
-      <ins>agecheck,</ins> or form-associated custom element, and the
+      <ins>[^agecheck^],</ins> or form-associated custom element, and the
       disabled attribute is specified on this element (regardless of its
       value); or
     </blockquote>
@@ -179,7 +179,7 @@
     <p>New text:</p>
     <blockquote>
       The :enabled pseudo-class must match any button, input, select,
-      textarea, optgroup, option, fieldset, <ins>agecheck</ins> element, or
+      textarea, optgroup, option, fieldset, <ins>[^agecheck^]</ins> element, or
       form-associated custom element that is not actually disabled.
     </blockquote>
     <p>
@@ -489,10 +489,10 @@
       </thead>
       <tbody>
         <tr><td><code>age</code></td><td>(no row)</td><td><ins>[^agecheck^]</ins>. Description: "Age that the check asks about". Value: "Valid non-negative integer: 13, 16, or 18"</td></tr>
-        <tr><td><code>disabled</code></td><td>button; input; optgroup; option; select; textarea; form-associated custom elements</td><td>button; input; optgroup; option; select; textarea; <ins>agecheck;</ins> form-associated custom elements</td></tr>
-        <tr><td><code>form</code></td><td>button; fieldset; input; object; output; select; textarea; form-associated custom elements</td><td>button; fieldset; input; object; output; select; textarea; <ins>agecheck;</ins> form-associated custom elements</td></tr>
-        <tr><td><code>name</code></td><td>button; fieldset; input; output; select; textarea; form-associated custom elements</td><td>button; fieldset; input; output; select; textarea; <ins>agecheck;</ins> form-associated custom elements</td></tr>
-        <tr><td><code>required</code></td><td>input; select; textarea</td><td><ins>agecheck;</ins> input; select; textarea. The description "Whether the control is required for form submission" stays.</td></tr>
+        <tr><td><code>disabled</code></td><td>button; input; optgroup; option; select; textarea; form-associated custom elements</td><td>button; input; optgroup; option; select; textarea; <ins>[^agecheck^];</ins> form-associated custom elements</td></tr>
+        <tr><td><code>form</code></td><td>button; fieldset; input; object; output; select; textarea; form-associated custom elements</td><td>button; fieldset; input; object; output; select; textarea; <ins>[^agecheck^];</ins> form-associated custom elements</td></tr>
+        <tr><td><code>name</code></td><td>button; fieldset; input; output; select; textarea; form-associated custom elements</td><td>button; fieldset; input; output; select; textarea; <ins>[^agecheck^];</ins> form-associated custom elements</td></tr>
+        <tr><td><code>required</code></td><td>input; select; textarea</td><td><ins>[^agecheck^];</ins> input; select; textarea. The description "Whether the control is required for form submission" stays.</td></tr>
       </tbody>
     </table>
     <p>
