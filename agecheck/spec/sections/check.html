@@ -5,27 +5,25 @@
   State for a check
 </h3>
 <p>
-  Each [^agecheck^] element has a <dfn class="export" id="dfn-check-pending"
-  data-dfn-for="agecheck">check pending</dfn> boolean, initially false.
+  Each [^agecheck^] element has a <dfn class="export" data-dfn-for=
+  "agecheck">check pending</dfn> boolean, initially false.
 </p>
 <p>
-  Each {{Document}} has a <dfn class="export" id="dfn-pending-agecheck-element"
-  data-dfn-for="Document">pending agecheck element</dfn>, an [^agecheck^]
-  element or null, initially null. The pending [^agecheck^] element is the
-  element whose check runs in the document.
+  Each {{Document}} has a <dfn class="export" data-dfn-for="Document">pending
+  agecheck element</dfn>, an [^agecheck^] element or null, initially null. The
+  pending [^agecheck^] element is the element whose check runs in the document.
 </p>
 <h3 id="run-a-check-algorithm">
   The run a check algorithm
 </h3>
 <p>
-  To <dfn class="export" id="run-a-check" data-dfn-for="agecheck">run a
-  check</dfn> given an [^agecheck^] element |element|:
+  To <dfn class="export" data-dfn-for="agecheck">run a check</dfn> given an
+  [^agecheck^] element |element|:
 </p>
 <ol class="algorithm">
   <li>If |element| is disabled, then return.
   </li>
-  <li>If |element|'s <a href="#dfn-meets-age">meets age</a> flag is true, then
-  return.
+  <li>If |element|'s [=agecheck/meets age=] flag is true, then return.
   </li>
   <li>If |element|'s [=agecheck/check pending=] is true, then return.
   </li>
@@ -75,10 +73,9 @@
   </li>
   <li>Run these steps [=in parallel=]:
     <ol>
-      <li>Let |result: age check result| be the result of running <a href=
-      "#ask-the-age-source">ask the age source</a> given |age| and |document|.
-      The |result| is one of "meets", "does not meet", "no age set",
-      "declined", or "failed".
+      <li>Let |result: age check result| be the result of running [=ask the age
+      source=] given |age| and |document|. The |result| is one of "meets",
+      "does not meet", "no age set", "declined", or "failed".
       </li>
       <li>If |result| is "declined", then [=queue an element task=] on the
       [=user interaction task source=] given |element| to [=agecheck/finish a
@@ -87,16 +84,14 @@
       </li>
       <li>Let |shared: boolean| be false.
       </li>
-      <li>If |result| is "meets" and the user agent holds <a href=
-      "#remembered-consent">remembered consent</a> for |document|'s site and
-      |age|, then set |shared| to true.
+      <li>If |result| is "meets" and the user agent holds [=remembered
+      consent=] for |document|'s site and |age|, then set |shared| to true.
       </li>
-      <li>Otherwise, show a prompt that meets the <a href=
-      "#prompt-requirements">prompt requirements</a> for |result| and |age|,
-      and wait for the person to answer or close the prompt. Closing the prompt
-      without agreeing leaves |shared| false. If |result| is "meets" and the
-      person agrees to share that they are at least |age|, then set |shared| to
-      true.
+      <li>Otherwise, show a prompt that meets the [=prompt requirements=] for
+      |result| and |age|, and wait for the person to answer or close the
+      prompt. Closing the prompt without agreeing leaves |shared| false. If
+      |result| is "meets" and the person agrees to share that they are at least
+      |age|, then set |shared| to true.
       </li>
       <li>[=queue an element task=] on the [=user interaction task source=]
       given |element| to [=agecheck/finish a check=] given |element|, |age|,
@@ -109,10 +104,10 @@
   Finishing a check
 </h3>
 <p>
-  To <dfn class="export" id="finish-a-check" data-dfn-for="agecheck">finish a
-  check</dfn> given an [^agecheck^] element |element|, an integer |age|, a
-  boolean |shared|, and a {{Document}} |document|, where |document| is the
-  document in which the check started:
+  To <dfn class="export" data-dfn-for="agecheck">finish a check</dfn> given an
+  [^agecheck^] element |element|, an integer |age|, a boolean |shared|, and a
+  {{Document}} |document|, where |document| is the document in which the check
+  started:
 </p>
 <ol class="algorithm">
   <li>Set |element|'s [=agecheck/check pending=] to false.
@@ -139,7 +134,7 @@
   <li>If |shared| is false, then [=fire an event=] named `error` at |element|,
   and return.
   </li>
-  <li>Set |element|'s <a href="#dfn-meets-age">meets age</a> flag to true.
+  <li>Set |element|'s [=agecheck/meets age=] flag to true.
   </li>
   <li>[=Fire an event=] named `change` at |element|, with the {{Event/bubbles}}
   attribute initialized to true.
