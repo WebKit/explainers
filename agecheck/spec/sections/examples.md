@@ -22,7 +22,7 @@ The person cannot submit the form until the check passes. When the form submits,
 </form>
 ```
 
-With no `groups` attribute, the element asks for `18+`. This form behaves the same as the one above. A `groups` attribute with no group name the browser knows does the same.
+With no `groups` attribute, the element asks for `18+`. This form behaves the same as the one above. A `groups` attribute with no group token the browser knows does the same.
 
 </aside>
 
@@ -74,7 +74,7 @@ The message region starts empty, so screen readers already watch the region when
 
 The site needs every member to be at least 13, and offers teens and adults different things. A person aged 13 to 17 shares `13-17`. A person aged 18 or over shares `18+`. A person under 13 shares nothing, and the site gets an `error`.
 
-Every group name begins with its lowest age, so `parseInt` gives the lowest age. The form data holds one entry, for example `group=13-17`.
+Every group token begins with its lowest age, so `parseInt` gives the lowest age. The form data holds one entry, for example `group=13-17`.
 
 </aside>
 
@@ -113,7 +113,7 @@ Browsers do not enforce this advice.
 
 - Use `method="post"` on the form, so the answer stays out of URLs.
 - Name only the groups the site needs. Naming groups that do not overlap tells the site the person's exact age range.
-- A name the browser does not know is dropped, and a list with no name the browser knows asks for `18+`. Read `group` in the `change` handler, and do not assume the group is the one you listed first.
+- A token the browser does not know is dropped, and a list with no token the browser knows asks for `18+`. Read `group` in the `change` handler, and do not assume the group is the one you listed first.
 - Use `parseInt(element.group, 10)` to get the lowest age in the group. Do not compare the whole string.
 - With `required`, offer another way to share age on the same page. Use a link, because a submit button in the same form does not work until the check passes.
 - Treat `error` as "not now". Offer to try again or another way.

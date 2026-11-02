@@ -127,7 +127,7 @@
   content attribute lists the age groups that the page can use. If the
   attribute is present, its value must be an unordered set of unique
   space-separated tokens. The allowed values are the six <dfn>age group</dfn>
-  names in this table. Each age group has a <dfn data-dfn-for=
+  tokens in this table. Each age group has a <dfn data-dfn-for=
   "age group">lowest age</dfn> and a <dfn data-dfn-for="age group">top
   age</dfn>. A top age of none means the group has no upper end.
 </p>
@@ -215,8 +215,8 @@
   </tbody>
 </table>
 <aside class="note">
-  Every age group name begins with the group's lowest age. A page can read that
-  age with `parseInt(element.group, 10)`.
+  Every age group token begins with the group's lowest age. A page can read
+  that age with `parseInt(element.group, 10)`.
 </aside>
 <p>
   To <dfn data-dfn-for="agecheck">parse age groups</dfn> given a string or null
@@ -230,8 +230,8 @@
   </li>
   <li>Let |groups:ordered set| be a new empty [=ordered set=].
   </li>
-  <li>[=list/For each=] |token| of |tokens|: if |token| is the name of an [=age
-  group=], then [=set/append=] |token| to |groups|.
+  <li>[=list/For each=] |token| of |tokens|: if |token| is the token of an
+  [=age group=], then [=set/append=] |token| to |groups|.
   </li>
   <li>If |groups| is empty, then return « "18+" ».
   </li>
@@ -257,8 +257,8 @@
   <li>Let |newGroups| be the result of [=agecheck/parse age groups=] given
   |value|.
   </li>
-  <li>If |oldGroups| and |newGroups| contain the same names, in any order, then
-  return.
+  <li>If |oldGroups| and |newGroups| contain the same tokens, in any order,
+  then return.
   </li>
   <li>Set |element|'s [=agecheck/shared group=] to the empty string.
   </li>
@@ -282,7 +282,7 @@
 </h3>
 <p>
   Each [^agecheck^] element has a <dfn data-dfn-for="agecheck">shared
-  group</dfn>, a string. The string is either empty or the name of an [=age
+  group</dfn>, a string. The string is either empty or the token of an [=age
   group=]. The empty string means the person has not shared a group. The shared
   group starts as the empty string.
 </p>

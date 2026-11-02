@@ -68,7 +68,7 @@
 </p>
 <p>
   To <dfn>choose a group</dfn> given an ordered set |groups| of [=age group=]
-  names and an [=age range=] |range|, the user agent runs these steps. The
+  tokens and an [=age range=] |range|, the user agent runs these steps. The
   steps return a string.
 </p>
 <ol class="algorithm">
@@ -77,21 +77,21 @@
   </li>
   <li>Let |fitting:list| be a new empty [=list=].
   </li>
-  <li>[=list/For each=] |name| of |groups|:
+  <li>[=list/For each=] |token| of |groups|:
     <ol>
-      <li>Let |group:age group| be the [=age group=] that |name| names.
+      <li>Let |group:age group| be the [=age group=] that |token| names.
       </li>
       <li>If |group|'s [=age group/lowest age=] is less than or equal to
       |range|'s [=age range/lower bound=], and either |group|'s [=age group/top
       age=] is none or |range|'s [=age range/top age=] is a number that is less
       than or equal to |group|'s [=age group/top age=], then [=list/append=]
-      |name| to |fitting|.
+      |token| to |fitting|.
       </li>
     </ol>
   </li>
   <li>If |fitting| is empty, then return the empty string.
   </li>
-  <li>Sort |fitting| in ascending order, with a name |a| less than a name |b|
+  <li>Sort |fitting| in ascending order, with a token |a| less than a token |b|
   when the group |a| names comes first by these rules, checked in order:
     <ol>
       <li>A group with a top age of none comes before a group with a top age.
@@ -111,7 +111,7 @@
 <aside class="note">
   The first rule makes `16+` win over `13-17` for an age range of 16 to 17.
   Neither group contains the other, and `16+` tells the site less, because it
-  does not show that the person is under 18. No two names tie.
+  does not show that the person is under 18. No two tokens tie.
 </aside>
 <h3>
   The kept copy of a platform answer
