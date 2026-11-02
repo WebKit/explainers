@@ -14,13 +14,13 @@ A strawperson proposal, meant to start discussion. Nothing is implemented in a s
 
 ## Introduction
 
-Sites that check age today use either a simple link/button, or send people to third-party services or ask them to upload an ID. Uploading IDs leaks personal data and collects far more than the site needs. Sites need a way to learn "at least this age" and nothing else, without needing a third-party age service, in regular and private browsing alike.
+Sites that check age today use either a simple link/button, or send people to third-party services or ask them to upload an ID. Uploading IDs leaks personal data and collects far more than the site needs. Sites need a way to learn a person's age group and nothing else, without needing a third-party age service, in regular and private browsing alike.
 
-`<agecheck>` is a form element that lets a site ask one question: whether the person is at least 13, 16, or 18. The answer is declared, not verified. The browser takes the answer from an age the person or a parent already gave the platform. Where the platform offers no age API, the browser takes the answer from an age the person enters in the browser. The browser asks the person before sharing it, and gives the site only yes or no.
+`<agecheck>` is a form element that lets a site ask which age group a person is in. The site names the groups it can use, from six: `13+`, `16+`, `18+`, `13-15`, `13-17`, and `16-17`. The answer is declared, not verified. The browser takes the answer from an age the person or a parent already gave the platform. Where the platform offers no age API, the browser takes the answer from an age the person enters in the browser. The browser asks the person before sharing it, and gives the site one of the groups the site named, or nothing.
 
 ## Goals
 
-- A site learns whether a person meets each age it names. The site gets no birthdate, no name, and no ID, and the answer does not say how the age was set. A site that asks again and again can learn a little more; see "[Ages](#ages)".
+- A site learns which of the age groups it names a person is in. The site gets no birthdate, no name, and no ID, and the answer does not say how the age was set. A site that asks again and again can learn a little more; see "[Ages](#ages)".
 - A site gets the least it needs. The site names every group it can use, and the browser shares at most one of them, never anything finer. A site that only needs to know someone is an adult asks for `18+` and learns nothing more.
 - A site can't use the answer to track people across sites, except by matching the day the answer changes; see "[Ages](#ages)".
 - A user finds it as easy to use as today's "I'm over 18" button.
@@ -37,9 +37,9 @@ Sites that check age today use either a simple link/button, or send people to th
 
 ## The proposal
 
-A new HTML element, `<agecheck>`. When the person clicks it, the browser asks the platform for the person's age, or uses an age it stores itself. The platform may ask whether to share the age with the browser, as it does for any app, usually only the first time. Then the browser shows its own prompt, naming the site and the age. If the person can share, the browser asks whether to. If they can't, the browser says so.
+A new HTML element, `<agecheck>`. When the person clicks it, the browser asks the platform for the person's age range, or uses an age it stores itself. The platform may ask whether to share the age with the browser, as it does for any app, usually only the first time. Then the browser shows its own prompt, naming the site.
 
-If the person agrees, the page learns that the person is at least the age the site named. Otherwise the page gets the same error as for any failure, so the browser never tells it why. The element works inside a form, like an input element.
+If the person agrees and the browser has a group to share, the page learns that group, such as `13-17`. Otherwise the page gets the same error as for any failure, so the browser never tells it why. The element works inside a form, like an input element.
 
 To the server, the answer is an honor system, like today's "I'm over 18" button. Anyone can send the same form value, so it proves nothing to a regulator that requires verification.
 
