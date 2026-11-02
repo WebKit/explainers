@@ -23,7 +23,8 @@
 <ol class="algorithm">
   <li>If |element| is disabled, then return.
   </li>
-  <li>If |element|'s [=agecheck/meets age=] flag is true, then return.
+  <li>If |element|'s [=agecheck/shared group=] is not the empty string, then
+  return.
   </li>
   <li>If |element|'s [=agecheck/check pending=] is true, then return.
   </li>
@@ -51,12 +52,8 @@
   an element task=] on the [=user interaction task source=] given |element| to
   [=fire an event=] named `error` at |element|, and return.
   </li>
-  <li>Let |age:integer or failure| be the [=agecheck/requested age=] of
+  <li>Let |groups:ordered set| be the [=agecheck/requested groups=] of
   |element|.
-  </li>
-  <li>If |age| is failure, then [=queue an element task=] on the [=user
-  interaction task source=] given |element| to [=fire an event=] named `error`
-  at |element|, and return.
   </li>
   <li>If |element|'s [=relevant global object=] does not have [=transient
   activation=], then [=queue an element task=] on the [=user interaction task
@@ -73,28 +70,32 @@
   </li>
   <li>Run these steps [=in parallel=]:
     <ol>
-      <li>Let |result:age check result| be the result of running [=ask the age
-      source=] given |age| and |document|. The |result| is one of "meets",
-      "does not meet", "no age set", "declined", or "failed".
+      <li>Let |answer:age check result| be the result of running [=ask the age
+      source=] given |document|.
       </li>
-      <li>If |result| is "declined", then [=queue an element task=] on the
-      [=user interaction task source=] given |element| to [=agecheck/finish a
-      check=] given |element|, |age|, false, and |document|, and abort these
-      steps.
+      <li>If |answer| is [=age check result/declined=], then [=queue an element
+      task=] on the [=user interaction task source=] given |element| to
+      [=agecheck/finish a check=] given |element|, |groups|, the empty string,
+      and |document|, and abort these steps.
       </li>
-      <li>Let |shared:boolean| be false.
+      <li>Let |group:string| be the empty string.
       </li>
-      <li>If |result| is "meets" and the user agent holds [=remembered
-      consent=] for |document|'s site and |age|, then set |shared| to true.
+      <li>If |answer| is an [=age range=], then set |group| to the result of
+      [=choose a group=] given |groups| and |answer|.
       </li>
-      <li>Otherwise, show a prompt that meets the [=prompt requirements=] for
-      |result| and |age|, and wait for the person to answer or close the
-      prompt. Closing the prompt without agreeing leaves |shared| false. If
-      |result| is "meets" and the person agrees to share that they are at least
-      |age|, then set |shared| to true.
+      <li>Let |shared:string| be the empty string.
+      </li>
+      <li>If |group| is not the empty string, and the user agent holds
+      [=remembered consent=] for |document|'s site and |group|, then set
+      |shared| to |group|.
+      </li>
+      <li>Otherwise, show a prompt that meets the [=prompt requirements=], and
+      wait for the person to answer or close the prompt. Closing the prompt
+      without agreeing leaves |shared| as the empty string. If the person
+      agrees to share, then set |shared| to |group|.
       </li>
       <li>[=queue an element task=] on the [=user interaction task source=]
-      given |element| to [=agecheck/finish a check=] given |element|, |age|,
+      given |element| to [=agecheck/finish a check=] given |element|, |groups|,
       |shared|, and |document|.
       </li>
     </ol>
@@ -105,8 +106,10 @@
 </h3>
 <p>
   To <dfn data-dfn-for="agecheck">finish a check</dfn> given an [^agecheck^]
-  element |element|, an integer |age|, a boolean |shared|, and a {{Document}}
-  |document|, where |document| is the document in which the check started:
+  element |element|, an ordered set |groups|, a string |shared|, and a
+  {{Document}} |document|, where |document| is the document in which the check
+  started and |groups| are the [=agecheck/requested groups=] of |element| when
+  the check started:
 </p>
 <ol class="algorithm">
   <li>Set |element|'s [=agecheck/check pending=] to false.
@@ -121,19 +124,19 @@
   <li>If |element|'s [=agecheck/check dropped=] is true, then [=fire an event=]
   named `error` at |element|, and return.
   </li>
-  <li>Let |currentAge:integer or failure| be the [=agecheck/requested age=] of
+  <li>Let |currentGroups:ordered set| be the [=agecheck/requested groups=] of
   |element|.
   </li>
-  <li>If |currentAge| is not |age|, then [=fire an event=] named `error` at
-  |element|, and return.
+  <li>If |currentGroups| does not contain the same names as |groups|, in any
+  order, then [=fire an event=] named `error` at |element|, and return.
   </li>
   <li>If |element| is disabled, then [=fire an event=] named `error` at
   |element|, and return.
   </li>
-  <li>If |shared| is false, then [=fire an event=] named `error` at |element|,
-  and return.
+  <li>If |shared| is the empty string, then [=fire an event=] named `error` at
+  |element|, and return.
   </li>
-  <li>Set |element|'s [=agecheck/meets age=] flag to true.
+  <li>Set |element|'s [=agecheck/shared group=] to |shared|.
   </li>
   <li>[=Fire an event=] named `change` at |element|, with the {{Event/bubbles}}
   attribute initialized to true.

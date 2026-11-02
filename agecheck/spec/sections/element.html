@@ -47,7 +47,7 @@
     [[[HTML#global-attributes]]]
   </dd>
   <dd>
-    [^agecheck/age^]: The age that a check asks about
+    [^agecheck/groups^]: The age groups that a check can share
   </dd>
   <dd>
     `disabled`: Whether the form control is disabled
@@ -85,8 +85,8 @@
       interface HTMLAgeCheckElement : HTMLElement {
         [HTMLConstructor] constructor();
 
-        [CEReactions, Reflect] attribute unsigned long age;
-        readonly attribute boolean meetsAge;
+        [SameObject, PutForwards=value, Reflect] readonly attribute DOMTokenList groups;
+        readonly attribute DOMString group;
 
         [CEReactions, Reflect] attribute boolean disabled;
         readonly attribute HTMLFormElement? form;
@@ -107,64 +107,160 @@
 </dl>
 <p>
   The <dfn data-dfn-type="element">agecheck</dfn> element represents a control
-  labeled by its contents. A person uses the control to share that they are at
-  least the age that the [^agecheck/age^] attribute names. The element uses the
+  labeled by its contents. A person uses the control to share their age group
+  with the page. The page names the groups it can use in the
+  [^agecheck/groups^] attribute. The element uses the
   <dfn>HTMLAgeCheckElement</dfn> interface.
 </p>
 <aside class="note">
   <p>
-    The answer is an age that the person, a parent, or the platform declared.
-    The element does not prove anyone's age. Anyone can send the same form
-    value to a server.
+    The answer is an age group that the person, a parent, or the platform
+    declared. The element does not prove anyone's age. Anyone can send the same
+    form value to a server.
   </p>
 </aside>
 <h3>
-  The `age` attribute
+  The `groups` attribute
 </h3>
 <p>
-  The <dfn data-dfn-for="agecheck" data-dfn-type="element-attr">age</dfn>
-  content attribute gives the age that a check asks about. If the attribute is
-  present, its value must be a valid non-negative integer equal to 13, 16, or
-  18.
+  The <dfn data-dfn-for="agecheck" data-dfn-type="element-attr">groups</dfn>
+  content attribute lists the age groups that the page can use. If the
+  attribute is present, its value must be an unordered set of unique
+  space-separated tokens. The allowed values are the six <dfn>age group</dfn>
+  names in this table. Each age group has a <dfn data-dfn-for=
+  "age group">lowest age</dfn> and a <dfn data-dfn-for="age group">top
+  age</dfn>. A top age of none means the group has no upper end.
 </p>
+<table class="simple">
+  <thead>
+    <tr>
+      <th>
+        Age group
+      </th>
+      <th>
+        Lowest age
+      </th>
+      <th>
+        Top age
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        `13+`
+      </td>
+      <td>
+        13
+      </td>
+      <td>
+        none
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `16+`
+      </td>
+      <td>
+        16
+      </td>
+      <td>
+        none
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `18+`
+      </td>
+      <td>
+        18
+      </td>
+      <td>
+        none
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `13-15`
+      </td>
+      <td>
+        13
+      </td>
+      <td>
+        15
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `13-17`
+      </td>
+      <td>
+        13
+      </td>
+      <td>
+        17
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `16-17`
+      </td>
+      <td>
+        16
+      </td>
+      <td>
+        17
+      </td>
+    </tr>
+  </tbody>
+</table>
+<aside class="note">
+  Every age group name begins with the group's lowest age. A page can read that
+  age with `parseInt(element.group, 10)`.
+</aside>
 <p>
-  To <dfn data-dfn-for="agecheck">parse an age</dfn> given a string or null
+  To <dfn data-dfn-for="agecheck">parse age groups</dfn> given a string or null
   |value|:
 </p>
 <ol class="algorithm">
-  <li>If |value| is null, then return 18.
+  <li>If |value| is null, then return « "18+" ».
   </li>
-  <li>Let |number| be the result of parsing |value| with the rules for parsing
-  non-negative integers.
+  <li>Let |tokens| be the result of [=split a string on ASCII whitespace|
+  splitting=] |value| on ASCII whitespace.
   </li>
-  <li>If |number| is an error, then return failure.
+  <li>Let |groups:ordered set| be a new empty [=ordered set=].
   </li>
-  <li>If |number| is 13, 16, or 18, then return |number|.
+  <li>[=list/For each=] |token| of |tokens|: if |token| is the name of an [=age
+  group=], then [=set/append=] |token| to |groups|.
   </li>
-  <li>Return failure.
+  <li>If |groups| is empty, then return « "18+" ».
+  </li>
+  <li>Return |groups|.
   </li>
 </ol>
 <p>
-  The <dfn data-dfn-for="agecheck">requested age</dfn> of an [^agecheck^]
-  element is the result of running [=agecheck/parse an age=] on the element's
-  [^agecheck/age^] attribute value. When the element has no `age` attribute,
-  [=agecheck/parse an age=] gets null instead.
+  The <dfn data-dfn-for="agecheck">requested groups</dfn> of an [^agecheck^]
+  element are the result of running [=agecheck/parse age groups=] on the
+  element's [^agecheck/groups^] attribute value. When the element has no
+  `groups` attribute, [=agecheck/parse age groups=] gets null instead.
 </p>
 <p>
   The [=attribute change steps=] for an [^agecheck^] element |element|, given
   |localName|, |oldValue|, |value|, and |namespace|, are:
 </p>
 <ol class="algorithm">
-  <li>If |localName| is not `age` or |namespace| is not null, then return.
+  <li>If |localName| is not `groups` or |namespace| is not null, then return.
   </li>
-  <li>Let |oldAge| be the result of [=agecheck/parse an age=] given |oldValue|.
+  <li>Let |oldGroups| be the result of [=agecheck/parse age groups=] given
+  |oldValue|.
   </li>
-  <li>Let |newAge| be the result of [=agecheck/parse an age=] given |value|.
+  <li>Let |newGroups| be the result of [=agecheck/parse age groups=] given
+  |value|.
   </li>
-  <li>If |oldAge| and |newAge| are both failure, or are the same number, then
+  <li>If |oldGroups| and |newGroups| contain the same names, in any order, then
   return.
   </li>
-  <li>Set |element|'s [=agecheck/meets age=] flag to false.
+  <li>Set |element|'s [=agecheck/shared group=] to the empty string.
   </li>
 </ol>
 <h3>
@@ -182,15 +278,17 @@
   element is required.
 </p>
 <h3>
-  The `meetsAge` attribute
+  The `group` attribute
 </h3>
 <p>
-  Each [^agecheck^] element has a <dfn data-dfn-for="agecheck">meets age</dfn>
-  flag, a boolean. The flag is initially false.
+  Each [^agecheck^] element has a <dfn data-dfn-for="agecheck">shared
+  group</dfn>, a string. The string is either empty or the name of an [=age
+  group=]. The empty string means the person has not shared a group. The shared
+  group starts as the empty string.
 </p>
 <p>
-  The <dfn data-dfn-for="HTMLAgeCheckElement">meetsAge</dfn> getter steps are
-  to return [=this=]'s [=agecheck/meets age=] flag.
+  The <dfn data-dfn-for="HTMLAgeCheckElement">group</dfn> getter steps are to
+  return [=this=]'s [=agecheck/shared group=].
 </p>
 <h3>
   Activation behavior
@@ -243,10 +341,14 @@
   IDL attributes and methods
 </h3>
 <p>
-  The <dfn data-dfn-for="HTMLAgeCheckElement">age</dfn> IDL attribute
-  [=reflects=] the [^agecheck/age^] content attribute, with a default value of
-  18. The <dfn data-dfn-for="HTMLAgeCheckElement">disabled</dfn>,
-  <dfn data-dfn-for="HTMLAgeCheckElement">name</dfn>, and <dfn data-dfn-for=
+  The <dfn data-dfn-for="HTMLAgeCheckElement">groups</dfn> IDL attribute
+  [=reflects=] the [^agecheck/groups^] content attribute, as a
+  {{DOMTokenList}}. The list shows the attribute as written, so it does not
+  show the `18+` default. The [=Node/supported tokens=] for `groups`'s
+  {{DOMTokenList}} are the allowed values defined in the [^agecheck/groups^]
+  attribute and supported by the user agent. The <dfn data-dfn-for=
+  "HTMLAgeCheckElement">disabled</dfn>, <dfn data-dfn-for=
+  "HTMLAgeCheckElement">name</dfn>, and <dfn data-dfn-for=
   "HTMLAgeCheckElement">required</dfn> IDL attributes [=reflect=] the content
   attributes of the same name.
 </p>

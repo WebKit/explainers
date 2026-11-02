@@ -1,28 +1,30 @@
 ## Security and privacy considerations
 
-The privacy goal is that a site learns one thing per check: whether the person agreed to share that the person is at least one age. The site learns nothing else about the person from the element. Every failure looks the same, whether the person is too young, has no age set, or declined. The [=prompt requirements=] say how the user agent keeps failures alike.
+The privacy goal is that a site learns one thing per check: one of the age groups the site named, if the person agrees to share it. The site learns nothing else about the person from the element. Every failure looks the same, whether the person is too young, has no age set, declined, or is in no group the site named. The [=prompt requirements=] say how the user agent keeps failures alike.
 
 The answer is declared, not verified. The element gives a site no proof of age. The rest of this section lists what remains exposed, what this specification requires, and what this specification leaves open.
 
-### Asking several ages
+### Naming many groups
 
-A site can ask about each of the [=supported ages=] in turn. The site then learns the highest age the person agrees to share. The site can guess that the person is younger than the next age, but the site cannot be sure, because a refusal looks the same as a person who is too young.
+A site can name groups that do not overlap, such as `13-15 16-17 18+`. Each person's whole age range then fits one group, and the site learns the exact range. A site that puts one group in each of several elements learns no more than a site that names every group in one element. The browser cannot stop a site from naming more groups than the site needs. Sites should name only the groups they need. When the site names a wide group next to narrow ones, the browser shares only the widest group that holds the person's age range.
+
+A person who refuses looks the same as a person who is too young, so the site cannot be sure why an answer is missing.
 
 ### The day an answer changes
 
-A site that asks again and again can see the day the answer changes from no to yes. That day is the anniversary of when the age was set, not the birthday. The day is the same on every site, so sites that pool what they learn can use the day to match a person across sites. A site that checks every day sees the exact day, which narrows the person to one day of the year. Apart from a correction, only people under 18 have such a day.
+A site that asks again and again can see the day the answer changes, from no answer to a group, or from one group to a higher one. That day is the anniversary of when the age was set, not the birthday. The day is the same on every site, so sites that pool what they learn can use the day to match a person across sites. A site that checks every day sees the exact day, which narrows the person to one day of the year. Apart from a correction, only people under 18 have such a day.
 
-The [=kept copy=] rules hold back a higher answer until the anniversary, so the day does not point to a birthday. If the person updates the age early, the change may hint at a birthday. A lower range applies at once, so a site can see yes become no. The site cannot tell why, and a drop does not point to a birthday. The cost is that someone who has just had a birthday may fail until the anniversary, unless the person or a parent updates the age.
+The [=kept copy=] rules hold back a higher answer until the anniversary, so the day does not point to a birthday. If the person updates the age early, the change may hint at a birthday. A lower range applies at once, so a site can see a group drop to a lower one or to no answer. The site cannot tell why, and a drop does not point to a birthday. The cost is that someone who has just had a birthday may fail until the anniversary, unless the person or a parent updates the age.
 
 ### A failed try
 
 A site sees that the person started a check and did not pass. The site cannot tell why. The site can still treat a failed try as a hint that a child tried, and block or flag that person. Sites should never treat `error` as "too young". This specification cannot make sites follow that advice.
 
-Once the person has agreed for a site and an age, a later failure for the same site and age cannot mean "too young" for the same person. The failure could show that a parent lowered the age, that sharing was turned off, or that someone else is using the browser profile.
+Once the person has agreed for a site and a group, a later failure for the same site and group cannot mean "too young" for the same person. The failure could show that a parent lowered the age, that sharing was turned off, or that someone else is using the browser profile.
 
 ### Human timing
 
-The user agent adds no timing difference of its own between failures. The person's own timing can still differ. A prompt that only informs takes a different time than a prompt that asks. A platform that has the person set up an age first takes longer still. So the time the person took, or the page noticing focus leave for the system settings, may hint that no age is set. This specification leaves this exposure open.
+The user agent adds no timing difference of its own between failures, and shows the same prompt for every outcome. The person's own timing can still differ. A person who has to set up an age first, in the platform or in the prompt, takes longer. People who agree to share may also answer faster than people who decline. So the time the person took, or the page noticing focus leave for the system settings, may hint that no age is set, or that the user agent ended the check instead of the person. This specification leaves this exposure open.
 
 ### Traces of the person's choice
 
@@ -30,11 +32,11 @@ The page cannot see the prompt, but the prompt can leave traces. For example, th
 
 ### Scripts on the page
 
-Like any form field, the answer is visible to every script the site chooses to run, including analytics. A script can also add its own [^agecheck^] element and read the result of a check that a click on that element starts. The prompt names the site, not the script, so the person cannot tell who asked. After the person agrees for a site and an age, a click on that script's element or label starts a check that runs with no prompt.
+Like any form field, the answer is visible to every script the site chooses to run, including analytics. A script can also add its own [^agecheck^] element and read the result of a check that a click on that element starts. The prompt names the site, not the script, so the person cannot tell who asked. After the person agrees for a site and a group, a click on that script's element or label starts a check that runs with no prompt.
 
 ### Tricked approvals and the label that covers the page
 
-A page can push someone to approve without thinking. A page can make a label for the element cover the whole page, so a click meant for something else starts a check. The page can start a check again after every refusal. After the person agrees for a site and an age, a click on that label starts a check that runs with no prompt.
+A page can push someone to approve without thinking. A page can make a label for the element cover the whole page, so a click meant for something else starts a check. The page can start a check again after every refusal. After the person agrees for a site and a group, a click on that label starts a check that runs with no prompt.
 
 This specification does not stop a page from placing a label wherever the page likes.
 
@@ -44,7 +46,7 @@ A check runs only in a top-level document. Embedded content, such as a video pla
 
 ### Shared devices
 
-A minor can use an adult's unlocked device, or control the device remotely. Child accounts on the platform are the main defense. On a shared computer or browser profile, a [=stored age group=] and any [=remembered consent=] apply to whoever is using the profile. Anyone looking at the screen can also tell from the user agent's prompt whether the person passed. This specification leaves these risks open.
+A minor can use an adult's unlocked device, or control the device remotely. Child accounts on the platform are the main defense. On a shared computer or browser profile, a [=stored age group=] and any [=remembered consent=] apply to whoever is using the profile. This specification leaves these risks open.
 
 ### Ages the user agent stores
 

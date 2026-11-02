@@ -352,8 +352,8 @@
 </p>
 <blockquote>
   <p>
-    <ins>|field| is an [^agecheck^] element whose meets age flag is
-    false;</ins>
+    <ins>|field| is an [^agecheck^] element whose [=agecheck/shared group=] is
+    the empty string;</ins>
   </p>
 </blockquote>
 <p>
@@ -361,10 +361,8 @@
 </p>
 <blockquote>
   <p>
-    <ins>The value of an [^agecheck^] element is the empty string when its
-    [=agecheck/meets age=] flag is false. Otherwise the value is its
-    [=agecheck/requested age=], written as a valid non-negative integer with no
-    leading zeros.</ins>
+    <ins>The value of an [^agecheck^] element is its [=agecheck/shared
+    group=].</ins>
   </p>
 </blockquote>
 <h3>
@@ -381,7 +379,7 @@
 <blockquote>
   <p>
     <ins>When an [^agecheck^] element has a `required` attribute and its
-    [=agecheck/meets age=] flag is false.</ins>
+    [=agecheck/shared group=] is the empty string.</ins>
   </p>
 </blockquote>
 <p>
@@ -491,7 +489,7 @@
         phrasing*
       </td>
       <td>
-        globals; `age`; `disabled`; `form`; `name`; `required`
+        globals; `disabled`; `form`; `groups`; `name`; `required`
       </td>
       <td>
         {{HTMLAgeCheckElement}}
@@ -525,14 +523,15 @@
   <tbody>
     <tr>
       <td>
-        `age`
+        `groups`
       </td>
       <td>
         (no row)
       </td>
       <td>
-        <ins>[^agecheck^]</ins>. Description: "Age that the check asks about".
-        Value: "Valid non-negative integer: 13, 16, or 18"
+        <ins>[^agecheck^]</ins>. Description: "Age groups that the check can
+        share". Value: "Unordered set of unique space-separated tokens: 13+,
+        16+, 18+, 13-15, 13-17, 16-17"
       </td>
     </tr>
     <tr>

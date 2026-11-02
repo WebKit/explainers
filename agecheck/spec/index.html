@@ -27,8 +27,9 @@
     <section id="abstract">
       <p>
         This specification defines the [^agecheck^] element. The element lets a
-        site ask one question: is the person at least a given age? The person
-        decides whether to answer, and the site learns only the result.
+        site ask which age group a person is in, from groups the site names.
+        The person decides whether to answer, and the site learns only that
+        group.
       </p>
     </section>
     <section id="sotd">
@@ -46,7 +47,7 @@
       Sites that check age today use a button, send people to a third-party
       service, or ask for an ID. The [^agecheck^] element gives the site a form
       control instead. The browser asks the person before it shares anything,
-      and the site gets a yes or an error.
+      and the site gets an age group or an error.
     </p>
     <p>
       The answer is declared, not verified. The <a href=
@@ -57,9 +58,9 @@
       Goals
     </h3>
     <ul>
-      <li>A site learns whether a person meets each age it names. The site gets
-      no birthdate, no name, and no ID, and the answer does not say how the age
-      was set. A site that asks again and again can learn a little more; see
+      <li>A site learns which of the age groups it names a person is in. The
+      site gets no birthdate, no name, and no ID, and the answer does not say
+      how the age was set. A site that asks again and again can learn a little more; see
       [[[#the-day-an-answer-changes]]].
       </li>
       <li>A site can't use the answer to track people across sites, except by

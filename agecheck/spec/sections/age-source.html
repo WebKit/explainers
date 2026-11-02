@@ -8,22 +8,9 @@
   Age check results
 </h3>
 <p>
-  An <dfn>age check result</dfn> is one of the following:
+  An <dfn>age check result</dfn> is an [=age range=], or one of the following:
 </p>
 <dl>
-  <dt>
-    <dfn data-dfn-for="age check result">meets</dfn>
-  </dt>
-  <dd>
-    The age source says the person is at least the age asked about.
-  </dd>
-  <dt>
-    <dfn data-dfn-for="age check result">does not meet</dfn>
-  </dt>
-  <dd>
-    The age source gave an age, and that age does not show the person is at
-    least the age asked about.
-  </dd>
   <dt>
     <dfn data-dfn-for="age check result">no age set</dfn>
   </dt>
@@ -70,22 +57,60 @@
   parent's choice that the child is asked each time.
 </p>
 <h3>
-  Result for an age range
+  Choosing a group
 </h3>
 <p>
-  To get the <dfn>result for an age range</dfn> given an [=age range=] |range|
-  and an age |age|:
+  The <dfn data-dfn-for="age range">top age</dfn> of an [=age range=] is one
+  less than the smallest [=supported ages|supported age=] above the range's
+  [=age range/lower bound=]. A range whose lower bound is the highest supported
+  age has a top age of none.
+</p>
+<p>
+  To <dfn>choose a group</dfn> given an ordered set |groups| of [=age group=]
+  names and an [=age range=] |range|, the user agent runs these steps. The
+  steps return a string.
 </p>
 <ol class="algorithm">
-  <li>If |range|'s [=age range/lower bound=] is none, return [=age check
-  result/does not meet=].
+  <li>If |range|'s [=age range/lower bound=] is none, then return the empty
+  string.
   </li>
-  <li>If |range|'s [=age range/lower bound=] is greater than or equal to |age|,
-  return [=age check result/meets=].
+  <li>Let |fitting:list| be a new empty [=list=].
   </li>
-  <li>Return [=age check result/does not meet=].
+  <li>[=list/For each=] |name| of |groups|:
+    <ol>
+      <li>Let |group:age group| be the [=age group=] that |name| names.
+      </li>
+      <li>If |group|'s [=age group/lowest age=] is less than or equal to
+      |range|'s [=age range/lower bound=], and either |group|'s [=age group/top
+      age=] is none or |range|'s [=age range/top age=] is a number that is less
+      than or equal to |group|'s [=age group/top age=], then [=list/append=]
+      |name| to |fitting|.
+      </li>
+    </ol>
+  </li>
+  <li>If |fitting| is empty, then return the empty string.
+  </li>
+  <li>Sort |fitting| in ascending order, with a name |a| less than a name |b|
+  when the group |a| names comes first by these rules, checked in order:
+    <ol>
+      <li>A group with a top age of none comes before a group with a top age.
+      </li>
+      <li>A group with a lower [=age group/lowest age=] comes before a group
+      with a higher one.
+      </li>
+      <li>A group with a higher [=age group/top age=] comes before a group with
+      a lower one.
+      </li>
+    </ol>
+  </li>
+  <li>Return the first item of |fitting|.
   </li>
 </ol>
+<aside class="note">
+  The first rule makes `16+` win over `13-17` for an age range of 16 to 17.
+  Neither group contains the other, and `16+` tells the site less, because it
+  does not show that the person is under 18. No two names tie.
+</aside>
 <h3>
   The kept copy of a platform answer
 </h3>
@@ -155,9 +180,8 @@
   Asking the age source
 </h3>
 <p>
-  To <dfn>ask the age source</dfn> given an age |age| from the [=supported
-  ages=] and a {{Document}} |document|, the user agent runs these steps. The
-  steps return an [=age check result=].
+  To <dfn>ask the age source</dfn> given a {{Document}} |document|, the user
+  agent runs these steps. The steps return an [=age check result=].
 </p>
 <ol class="algorithm">
   <li>Let |behavior| be the result of [=get the virtual age source behavior=]
@@ -180,8 +204,9 @@
       [=age check result/failed=].
       </li>
       <li>Ask the [=platform age service=] for the person's [=age range=]. Pass
-      all of the [=supported ages=], not only |age|. Let the platform show its
-      own prompt if the platform chooses. Wait for the answer.
+      all of the [=supported ages=], so the request does not depend on the
+      page. Let the platform show its own prompt if the platform chooses. Wait
+      for the answer.
       </li>
       <li>If the person declined in the platform's prompt, return [=age check
       result/declined=].
@@ -201,25 +226,24 @@
       <li>If the [=platform age service=] has no [=anniversary rule=], set
       |range| to the result of [=update the kept copy=] given |range|.
       </li>
-      <li>Return the [=result for an age range=] given |range| and |age|.
+      <li>Return |range|.
       </li>
     </ol>
   </li>
   <li>If there is no [=stored age group=], return [=age check result/no age
   set=].
   </li>
-  <li>Return the [=result for an age range=] given the [=stored age group=]'s
-  range and |age|.
+  <li>Return the [=stored age group=]'s range.
   </li>
 </ol>
 <h3>
   Remembered consent
 </h3>
 <p>
-  <dfn>Remembered consent</dfn> is a record that the person agreed to share
-  that the person is at least a given age with a given [=site=]. The user agent
-  keys each record by the [=site=] of the top-level document's [=origin=] and
-  by the age. A record for one age says nothing about any other age.
+  <dfn>Remembered consent</dfn> is a record that the person agreed to share a
+  given [=age group=] with a given [=site=]. The user agent keys each record by
+  the [=site=] of the top-level document's [=origin=] and by the age group. A
+  record for one age group says nothing about any other age group.
 </p>
 <ul>
   <li>The user agent creates a record when the person agrees in the user
@@ -272,16 +296,21 @@
   traces the prompt leaves, such as where the pointer rests, which element has
   focus afterward, or how long the user agent took.
   </li>
-  <li>The user agent MUST NOT ask the person, in the prompt, to share an age
-  the person does not meet. When the result is not [=age check result/meets=],
-  the prompt tells the person that the age cannot be shared, and the person can
-  only close the prompt.
+  <li>The user agent MUST show the same prompt whatever the [=age check
+  result=] is, except when the result is [=age check result/declined=], which
+  shows no prompt. So the person and the page cannot tell from the prompt
+  whether the user agent can share a group. The prompt MUST give the same
+  choices in the same layout when the result is not an [=age range=], when the
+  person's [=age range=] has no lower bound, and when none of the requested
+  groups contains the person's [=age range=]. In those cases, agreeing to share
+  ends the check with no group, and the page gets the same `error` event as for
+  any other failure.
   </li>
   <li>When the user agent offers a [=stored age group=] and has none, the user
   agent MAY let the person choose an age group in the prompt. The user agent
-  then stores that group. The check then goes on with the [=result for an age
-  range=] given that group's range and the age asked about. If the person
-  chooses no group, the check fails.
+  then stores that group. The check then goes on as if the age source had
+  answered with that group's range. If the person chooses no group, the check
+  fails.
   </li>
   <li>The user agent MUST NOT add a timing difference of its own between
   failures. So the page cannot tell a person who is too young from a person who
