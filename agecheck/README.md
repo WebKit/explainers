@@ -85,8 +85,8 @@ A site can name groups that do not overlap, such as `13-15 16-17 18+`, and learn
 
 The browser shares the least a site asks for. These rules keep it that way:
 
-- The site names every group it can use. The browser never adds a group the site did not name.
-- The browser shares at most one group. It picks a group that contains the person's whole age bracket. If the site names groups that overlap, the browser shares the one that tells the site least. A group with no upper end tells the site less than one with an upper end. Otherwise the group that starts lowest wins.
+- The site names every group it can use. The browser never adds a group the site did not name. A site that names no group the browser knows counts as naming `18+`.
+- The browser shares at most one group. It picks a group that contains the person's whole age bracket. If the site names groups that overlap, the browser shares the one that tells the site least. A group with no upper end tells the site less than one with an upper end. Otherwise the group that starts lowest wins. If two groups start at the same age, the one that ends higher wins.
 - If no group the site named contains the person's age bracket, the person shares nothing, and the site gets the same error as for any other failure.
 - The browser never shares "under 13".
 - The browser never shares a group finer than the one the site named. If a person's age setting is more exact than the group, the site still gets only the wider group.
@@ -174,7 +174,7 @@ When the person activates the element, the browser takes a snapshot of `groups` 
    - For an age the browser stores itself, the rules in "Where the age comes from" apply.
    - If the person declines in the platform's prompt, the browser fires `error`. The browser then stops.
    - For any other result, the browser goes to the next step. A failure counts as another result.
-5. The browser picks the group to share. First it keeps the groups in `groups` that contain the person's whole age range. A person under 13 never shares a group. If more than one group is left, the browser picks the one that tells the site least: a group with no upper end wins over one with an upper end, and then the group that starts lowest wins. If no group is left, the browser has no group to share, and still goes on to the prompt.
+5. The browser picks the group to share. First it keeps the groups in `groups` that contain the person's whole age range. A person under 13 never shares a group. If more than one group is left, the browser picks the one that tells the site least: a group with no upper end wins over one with an upper end, and then the group that starts lowest wins. If two groups start at the same age, the one that ends higher wins. If no group is left, the browser has no group to share, and still goes on to the prompt.
 6. The browser shows its own prompt, naming the site (for example, the origin). The browser skips the prompt only if the person already agreed to share this group with this site.
    - If the browser stores the age itself and has no age yet, the prompt lets the person select the age group the person is in. The browser continues the steps with that declared age range.
    - The prompt gives the same choices whether or not the browser has a group to share. If the person agrees and the browser has no group to share, the check fails with the same `error`.
