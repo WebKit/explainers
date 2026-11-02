@@ -162,11 +162,11 @@ The first time a site uses the element, the browser shows its own prompt. If the
 
 The element starts from a click or tap on it or its label, a key press, or an assistive technology's press action. Which keys depends on its role, which is an open question. The browser requires a trusted event. A trusted event is one the browser creates from the person's own input, not from script. The event must aim at the element or its label. The page must also have transient activation, which is HTML's name for a recent click, tap, or key press that no other feature has used yet. The check uses the activation up, so one click starts at most one check. So `click()` and events that script dispatches do nothing, even inside the person's click on something else. HTML lets each platform decide what a click on a label does. This proposal sets a new rule. A click on the element's label starts a check only if that click is a trusted event.
 
-When the person starts the element, the browser takes a snapshot of `age` and uses it for the steps below, so the person answers the question they saw:
+When the person activates the element, the browser takes a snapshot of `groups` and uses it for the steps below, so the person answers the question they saw:
 
-1. If the element is disabled, if `meetsAge` is already true, or if a check from this element is already running, stop without firing an event.
+1. If the element is disabled, if `group` is already set, or if a check from this element is already in progress, stop without firing an event.
 2. If the element isn't in a top-level document, for example inside an iframe or an embedded object, fire `error` and stop.
-3. If `age` is missing, use 18. If `age` isn't 13, 16, or 18, fire `error` and stop. If the page has no transient activation, fire `error` and stop. Otherwise the check uses the activation up. For this step and step 2, the browser also writes the reason to the developer console, which scripts can't read.
+3. If `groups` is missing, or has no token the browser knows, default to `18+`. If the page has no transient activation, fire `error` and stop. Otherwise the check uses the activation up. For this step and step 2, the browser also writes the reason to the developer console, which scripts can't read.
 4. On every check, the browser asks the platform for the person's age range. The browser lets the platform show a prompt if the platform chooses. The browser passes the ages 13, 16, and 18 to the platform.
    - Some platforms have an anniversary rule. For these platforms, the browser keeps no copy, so the platform's own rules apply every time. These rules include a parent's choice to ask the child each time.
    - A platform might lack an anniversary rule. For this platform, the browser keeps one copy of the answer for a user-agent specific time period (e.g., one year). The browser uses that copy for every site. If the platform reports a higher range, the browser keeps using the copy, so a higher answer appears only on an anniversary. If the platform reports a lower range, the browser uses the lower range and replaces the copy at once. A parent's correction then applies at once.
@@ -174,28 +174,28 @@ When the person starts the element, the browser takes a snapshot of `age` and us
    - For an age the browser stores itself, the rules in "Where the age comes from" apply.
    - If the person declines in the platform's prompt, the browser fires `error`. The browser then stops.
    - For any other result, the browser goes to the next step. A failure counts as another result.
-5. The browser shows its own prompt, naming the site (for example, the origin). The browser skips the prompt only if the person already agreed to share this age with this site and the platform still says the person is at least that age.
+5. The browser picks the group to share. First it keeps the groups in `groups` that contain the person's whole age range. A person under 13 never shares a group. If more than one group is left, the browser picks the one that tells the site least: a group with no upper end wins over one with an upper end, and then the group that starts lowest wins. If no group is left, the browser has no group to share, and still goes on to the prompt.
+6. The browser shows its own prompt, naming the site (for example, the origin). The browser skips the prompt only if the person already agreed to share this group with this site.
    - If the browser stores the age itself and has no age yet, the prompt lets the person select the age group the person is in. The browser continues the steps with that declared age range.
-   - The prompt says the age can't be shared when any of these is true:
-      - the platform refused, failed for any reason, or has no age for the person;
-      - the person does not select an age group;
-      - the range shows the person isn't at least the age, or can't say either way.
-   - If the platform says the person turned sharing off, the prompt says where the person can change sharing. The prompt adds an example like the system settings.
-   - When the platform has no age for the person, the prompt adds that no age is set. The prompt tells the person where to set an age.
-   - If the platform fails because of a network problem, the prompt tells the person to try again later.
-   - Otherwise, the prompt asks whether to share that the person is at least the age.
-   - In every case above where the prompt says the age can't be shared, when the person closes the prompt, the browser fires `error` and stops.
-   - If the person cancels the prompt, the browser fires `error` and stops.
+   - The prompt gives the same choices whether or not the browser has a group to share. If the person agrees and the browser has no group to share, the check fails with the same `error`.
    - The prompt is modal. The person cannot use the page until the person answers the prompt.
-6. If the element is no longer in the document, if the document is no longer fully active, if `age` no longer matches the snapshot, if the element is now disabled, or if the form reset since the check started, fire `error`, write the reason to the developer console, and stop. Otherwise set `meetsAge` to true and fire `change`.
+   - If the person cancels the prompt, the browser fires `error` and stops.
+7. The browser fires `error`, writes the reason to the developer console, and stops, if any of these is true:
+   - the element is no longer in the document;
+   - the document is no longer fully active;
+   - `groups` no longer holds the same tokens as the snapshot;
+   - the element is now disabled;
+   - the form reset since the check started.
 
-Once steps 1 to 3 pass, every failure that depends on the person's choice or age reaches the page only after the person has spent time on a prompt. The browser adds no timing difference of its own, but how long the person takes can still differ (see "Human timing" under "Open risks"). The browser never asks someone to share an age they don't meet.
+   Otherwise the browser sets `group` to the group it picked and fires `change`.
 
-With `required`, the element counts as missing a value until `meetsAge` is true.
+The browser adds no timing difference of its own, but how long the person takes can still differ (see "Human timing" under "Open risks").
 
-When the form submits, if `name` is set and `meetsAge` is true, add one entry named `name`. Its value is the age it checked, such as `18`. If `meetsAge` is false, add nothing, the same as an unticked checkbox.
+With `required`, the element counts as missing a value until `group` is set.
 
-When the form resets, or when `age` changes to a different value, clear `meetsAge`. The browser never restores `meetsAge` after navigation. When a page comes back from the back/forward cache, the browser clears `meetsAge` before the `pageshow` event, so the page can update. The browser never copies `meetsAge` when the element is cloned. When the person answers the prompt after a reset, the browser drops the answer and fires `error`.
+When the form submits, if `name` is set and `group` is set, add one entry named `name`. Its value is the group, such as `13-17`. If `group` is empty, add nothing, the same as an unticked checkbox.
+
+When the form resets, or when `groups` changes to a different set of tokens, clear `group`. Order and repeats don't count as a change. The browser never restores `group` after navigation. When a page comes back from the back/forward cache, the browser clears `group` before the `pageshow` event, so the page can update. The browser never copies `group` when the element is cloned. When the person answers the prompt after a reset, the browser drops the answer and fires `error`.
 
 The steps after the browser's prompt appears run in parallel, so scripts on the page keep running while the person decides.
 
