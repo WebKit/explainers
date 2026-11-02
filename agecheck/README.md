@@ -69,7 +69,7 @@ What the browser does:
 - The browser never tells the platform which site asked.
 - The browser could have a setting to turn the feature off, and a control that clears every remembered age choice at once. The browser should not list which sites have asked; see "People in danger" under "Open risks".
 
-For children, the platform's parental controls decide whether the browser gets an age at all. On Apple platforms a parent can choose to always share, never share, or have the child asked each time. If a parent's setting or the platform blocks sharing, the browser shows its "your age can't be shared" prompt, the same for children and adults.
+For children, the platform's parental controls decide whether the browser gets an age at all. On Apple platforms a parent can choose to always share, never share, or have the child asked each time. If a parent's setting or the platform blocks sharing, the page gets the same error as for any other failure, for children and adults alike.
 
 ## Ages
 
@@ -86,7 +86,7 @@ A site can name groups that do not overlap, such as `13-15 16-17 18+`, and learn
 The browser shares the least a site asks for. These rules keep it that way:
 
 - The site names every group it can use. The browser never adds a group the site did not name.
-- The browser shares at most one group. It picks a group that contains the person's whole age bracket. If the site names groups that overlap, the browser shares the widest one, because the widest says the least.
+- The browser shares at most one group. It picks a group that contains the person's whole age bracket. If the site names groups that overlap, the browser shares the one that tells the site least. A group with no upper end tells the site less than one with an upper end. Otherwise the group that starts lowest wins.
 - If no group the site named contains the person's age bracket, the person shares nothing, and the site gets the same error as for any other failure.
 - The browser never shares "under 13".
 - The browser never shares a group finer than the one the site named. If a person's age setting is more exact than the group, the site still gets only the wider group.
@@ -95,11 +95,11 @@ A site that needs only a floor, such as 18 or over, asks for that floor and lear
 
 ## Jurisdiction
 
-The platform, not the browser, knows which rules apply to the person's location. Declared Age Range uses the person's location and account settings. The platform answers with an age range. The browser says yes only if the bottom of the range is at least the age the site asked about. Declared Age Range gives someone under 13 an age range with no bottom. An age range with no bottom counts as below every age. The browser never answers about a different age than the age the site asked about.
+The platform, not the browser, knows which rules apply to the person's location. Declared Age Range uses the person's location and account settings. The platform answers with an age range. The browser shares a group only if the group contains the whole range. Declared Age Range gives someone under 13 an age range with no bottom, and the browser never shares a group for that range. The browser never shares a group finer than the one the site named.
 
 When the platform returns no age range, the browser treats the missing age range as not sharing instead of having no age set.
 
-Some regions replace the ages the site asked about with their own ages. An age range can then start below and end above the age the site asked about. For example, a site asks about age 16. The platform gives an age range of 14 to 17. The browser cannot tell whether the person is at least 16 and fails the check. In those regions, some people who meet the age fail the check.
+Some regions replace the cut-off ages that the site's groups use with their own ages. An age range can then start below and end above a group the site named. For example, a site names `16+`. The platform gives an age range of 14 to 17. The range is not inside `16+`, so no group fits and the check fails. In those regions, some people who meet the age fail the check.
 
 ## Using the element
 
@@ -241,7 +241,7 @@ The prompts use the language of the browser's or the platform's own interface. T
 
 ## Privacy and security
 
-- The site learns the answer for one age per check.
+- The site learns at most one group per check.
 - Every failure looks the same to the site, whether the person is too young, has no age set, or declined.
 - The browser's prompt should ignore input for a short time after it appears, for example as long as the system's double-click time, and while a window from the page or from another app covers it. A window that the person's assistive technology draws, such as an on-screen keyboard or a magnifier, doesn't count as covering the prompt. A page can't use a fast second click to answer a prompt the person hasn't seen yet. A key that the person was already holding when the prompt appeared must not answer the prompt either. For example, the prompt can have no default button.
 
@@ -249,7 +249,7 @@ The prompts use the language of the browser's or the platform's own interface. T
 
 - Will sites and regulators accept a declared answer? No platform age API makes proofs today. If platforms later sign ages they have confirmed, could the element return a proof that says how the age was confirmed, and reveals nothing else?
 - If sites or laws need a proof, could the element offer a step up? A page that gives the element a `nonce` would opt in. The browser would then ask the platform for a token that the issuer can't tie to the site, bound to that nonce, and return it with the answer, along with how the age was set, such as declared by the person or checked by ID. A page with no `nonce` would get today's behavior. Privacy Pass ([RFC 9576](https://www.rfc-editor.org/rfc/rfc9576.html), [RFC 9577](https://www.rfc-editor.org/rfc/rfc9577.html), [RFC 9578](https://www.rfc-editor.org/rfc/rfc9578.html)) has a field for a site's per-request nonce, and its tokens hide the site from the issuer. None of the token types in those RFCs carries an age, and the working group draft that adds public metadata to tokens is still in progress. Would a site that demands the token shut out people whose browsers or platforms can't get one, and what would stop that?
-- Platform age APIs may limit how their answers are used. Google's Play Age Signals terms say "the information returned by the API can be used only by the requesting app", and forbid use for analytics. California's [Digital Age Assurance Act](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260AB1043) tells a developer who receives a signal not to "Share the signal with a third party for a purpose not required by this title." Can platforms allow browsers to pass a yes or no on to websites, and on what terms?
+- Platform age APIs may limit how their answers are used. Google's Play Age Signals terms say "the information returned by the API can be used only by the requesting app", and forbid use for analytics. California's [Digital Age Assurance Act](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260AB1043) tells a developer who receives a signal not to "Share the signal with a third party for a purpose not required by this title." Can platforms allow browsers to pass a group on to websites, and on what terms?
 - In some regions, Declared Age Range shares the age with apps automatically, and the person can't decline. The browser still asks before telling a website. What if a law requires websites to get it automatically too?
 - Does a platform always give a range to a verified adult? The Google pages we read don't say whether it does.
 - Should a later version let iframes use the element? If so, how does it stop one company's iframe, embedded on many sites, from becoming the kind of third party this proposal aims to avoid?
