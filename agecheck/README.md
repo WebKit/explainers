@@ -105,19 +105,20 @@ Some regions replace the ages the site asked about with their own ages. An age r
 
 ```html
 <form method="post" action="/enter">
-  <agecheck name="age" age="18" required>Share that I'm 18 or older</agecheck>
+  <agecheck name="age" groups="18+" required>Share that I'm 18 or older</agecheck>
   <button>Enter</button>
 </form>
 ```
 
-- `age`: the age this check asks about. The allowed values are 13, 16, and 18. The default is 18.
-- `meetsAge`: true after a successful check.
+- `groups`: the age groups the site can use, as space-separated tokens. The allowed tokens are `13+`, `16+`, `18+`, `13-15`, `13-17`, and `16-17`. The browser ignores any other token. With no valid token, the default is `18+`.
+- `group`: the group that a successful check shared, such as `13-17`. The value is empty until then. Every token starts with its lowest age, so `parseInt(element.group, 10)` gives the lowest age.
 - `name`, `required`, `disabled`, `form`: The browser treats these the same as for an input.
 - Events: The browser fires `change` on success. The browser fires `error` on any failure after the check starts. A failure includes when the person closes the prompt. A click that does not start a check fires no event. `change` bubbles and `error` does not, so a failed check never looks like a script error to the page. The page cannot tell "declined" from "didn't pass".
 
 **Advice for sites.** This section is advice that the browser does not enforce.
 
 - Sites should use `method="post"` on the form. This choice keeps the answer out of URLs.
+- Sites should name only the groups they need. A site that names groups that do not overlap learns the person's exact age range.
 - With `required`, a site should offer another way to show age on the same page. Use a link. A submit button in the same form would not work until the check passes.
 - Sites should treat `error` as "not now". Sites should offer to try again or offer another way.
 - Sites should show that message in a live region, a part of the page that screen readers announce when it changes, so screen reader users hear the message.
@@ -129,7 +130,7 @@ This code example shows a site following the advice. People who use a screen rea
 
 ```html
 <form method="post" action="/enter">
-  <agecheck id="check" name="age" age="18" required>Share that I'm 18 or older</agecheck>
+  <agecheck id="check" name="age" groups="18+" required>Share that I'm 18 or older</agecheck>
   <a href="/other-ways">Share my age some other way</a>
   <span id="message" role="status"></span>
   <button>Enter</button>
