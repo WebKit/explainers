@@ -21,6 +21,7 @@ Sites that check age today use either a simple link/button, or send people to th
 ## Goals
 
 - A site learns whether a person meets each age it names. The site gets no birthdate, no name, and no ID, and the answer does not say how the age was set. A site that asks again and again can learn a little more; see "[Ages](#ages)".
+- A site gets the least it needs. The site names every group it can use, and the browser shares at most one of them, never anything finer. A site that only needs to know someone is an adult asks for `18+` and learns nothing more.
 - A site can't use the answer to track people across sites, except by matching the day the answer changes; see "[Ages](#ages)".
 - A user finds it as easy to use as today's "I'm over 18" button.
 - A site adds one element. The site doesn't need an age-check service.
@@ -79,6 +80,18 @@ A site can ask about more than one age, with one check for each age, for example
 A site that asks again and again can see the day the answer changes. That day is the anniversary of when the age was set, not the birthday. Where the browser keeps a copy or stores the age itself, a higher answer appears on the anniversary of when the browser got it. If the person updates the age early, the change may hint at a birthday. The cost is that someone who has just had a birthday may fail until that anniversary, unless they or a parent update the age. A lower range from the platform applies at once, so a site can see yes become no. The site can't tell why, and a drop doesn't point to a birthday.
 
 So by asking several ages, a site learns the highest age the person agrees to share. The site can guess the person is younger than the next age, but it can't be sure, because it can't tell a refusal from a person who is too young. A native app using Declared Age Range learns the person's age range with a single request. Sites that already share data about a person can also pool what they each learned. The answer carries little that links a person across sites, except the day it changes. That day is the same on every site, so sites that pool can match it. A site that checks every day sees the exact day, which narrows the person to one day of the year. Apart from a correction, only people under 18, who still have an age to reach, have such a day.
+
+## Asking for the least
+
+The browser shares the least a site asks for. These rules keep it that way:
+
+- The site names every group it can use. The browser never adds a group the site did not name.
+- The browser shares at most one group. It picks a group that contains the person's whole age bracket. If the site names groups that overlap, the browser shares the widest one, because the widest says the least.
+- If no group the site named contains the person's age bracket, the person shares nothing, and the site gets the same error as for any other failure.
+- The browser never shares "under 13".
+- The browser never shares a group finer than the one the site named. If a person's age setting is more exact than the group, the site still gets only the wider group.
+
+A site that needs only a floor, such as 18 or over, asks for that floor and learns nothing about anyone younger.
 
 ## Jurisdiction
 
