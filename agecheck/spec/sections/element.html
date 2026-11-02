@@ -81,12 +81,14 @@
   </dt>
   <dd>
     <pre class="idl">
+      enum AgeGroup { "", "13+", "16+", "18+", "13-15", "13-17", "16-17" };
+
       [Exposed=Window]
       interface HTMLAgeCheckElement : HTMLElement {
         [HTMLConstructor] constructor();
 
         [SameObject, PutForwards=value, Reflect] readonly attribute DOMTokenList groups;
-        readonly attribute DOMString group;
+        readonly attribute AgeGroup group;
 
         [CEReactions, Reflect] attribute boolean disabled;
         readonly attribute HTMLFormElement? form;
@@ -282,9 +284,9 @@
 </h3>
 <p>
   Each [^agecheck^] element has a <dfn data-dfn-for="agecheck">shared
-  group</dfn>, a string. The string is either empty or the token of an [=age
-  group=]. The empty string means the person has not shared a group. The shared
-  group starts as the empty string.
+  group</dfn>, an {{AgeGroup}} value. The value is either the empty string or
+  the token of an [=age group=]. The empty string means the person has not
+  shared a group. The shared group starts as the empty string.
 </p>
 <p>
   The <dfn data-dfn-for="HTMLAgeCheckElement">group</dfn> getter steps are to
