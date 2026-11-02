@@ -84,7 +84,7 @@ Every group name begins with its lowest age, so `parseInt` gives the lowest age.
 <agecheck name="age" groups="13+ 16-17 18+" required>Share my age group</agecheck>
 ```
 
-The site lists a wide group next to narrow ones. The browser shares the widest group that holds the person's age range. So a person aged 16 or 17 shares `13+`, and the site does not learn that the person is under 18. A site that wants to tell the narrow groups apart lists only the narrow groups, and learns more.
+The site lists a wide group next to narrow ones. The browser picks the group that tells the site least, as [[[#choosing-a-group]]] describes. So a person aged 16 or 17 shares `13+`, and the site does not learn that the person is under 18. A site that wants to tell the narrow groups apart lists only the narrow groups, and learns more.
 
 </aside>
 

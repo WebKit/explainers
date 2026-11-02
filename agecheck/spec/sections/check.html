@@ -91,8 +91,13 @@
       </li>
       <li>Otherwise, show a prompt that meets the [=prompt requirements=], and
       wait for the person to answer or close the prompt. Closing the prompt
-      without agreeing leaves |shared| as the empty string. If the person
-      agrees to share, then set |shared| to |group|.
+      without agreeing leaves |shared| as the empty string. If |answer| is
+      [=age check result/no age set=] and the person chooses an age bracket in
+      the prompt, then set |group| to the result of [=choose a group=] given
+      |groups| and the [=age range=] that the chosen bracket gives. If the
+      person agrees to share, then set |shared| to |group|. If |shared| is not
+      the empty string, then create a [=remembered consent=] record for
+      |document|'s site and |shared|.
       </li>
       <li>[=queue an element task=] on the [=user interaction task source=]
       given |element| to [=agecheck/finish a check=] given |element|, |groups|,

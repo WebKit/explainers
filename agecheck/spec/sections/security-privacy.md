@@ -6,7 +6,7 @@ The answer is declared, not verified. The element gives a site no proof of age. 
 
 ### Naming many groups
 
-A site can name groups that do not overlap, such as `13-15 16-17 18+`. Each person's whole age range then fits one group, and the site learns the exact range. A site that puts one group in each of several elements learns no more than a site that names every group in one element. The browser cannot stop a site from naming more groups than the site needs. Sites should name only the groups they need. When the site names a wide group next to narrow ones, the browser shares only the widest group that holds the person's age range.
+A site can name groups that do not overlap, such as `13-15 16-17 18+`. Each person's whole age range then fits one group, and the site learns the exact range in one check. A site that puts the groups in several elements can learn more than a site that lists the same groups in one element, because each element gets its own answer. For example, an adult who is asked about `13+` in one element and `18+` in another shares both, while one element that lists `13+ 18+` shares only `13+`. Neither way learns more than the exact age range. The browser cannot stop a site from naming more groups than the site needs. Sites should name only the groups they need. When one element lists a wide group next to narrow ones, the browser shares only the group that tells the site least, as [[[#choosing-a-group]]] describes.
 
 A person who refuses looks the same as a person who is too young, so the site cannot be sure why an answer is missing.
 
@@ -24,7 +24,7 @@ Once the person has agreed for a site and a group, a later failure for the same 
 
 ### Human timing
 
-The user agent adds no timing difference of its own between failures, and shows the same prompt for every outcome. The person's own timing can still differ. A person who has to set up an age first, in the platform or in the prompt, takes longer. People who agree to share may also answer faster than people who decline. So the time the person took, or the page noticing focus leave for the system settings, may hint that no age is set, or that the user agent ended the check instead of the person. This specification leaves this exposure open.
+The user agent adds no timing difference of its own between failures. The prompt is the same for every outcome, except that a decline in the platform's own prompt ends the check without the user agent's prompt. The person's own timing can still differ. A person who has to set up an age first, in the platform or in the prompt, takes longer. People who agree to share may also answer faster than people who decline. So the time the person took, or the page noticing focus leave for the system settings, may hint that no age is set, or that the user agent ended the check instead of the person. This specification leaves this exposure open.
 
 ### Traces of the person's choice
 
@@ -46,7 +46,7 @@ A check runs only in a top-level document. Embedded content, such as a video pla
 
 ### Shared devices
 
-A minor can use an adult's unlocked device, or control the device remotely. Child accounts on the platform are the main defense. On a shared computer or browser profile, a [=stored age group=] and any [=remembered consent=] apply to whoever is using the profile. This specification leaves these risks open.
+A minor can use an adult's unlocked device, or control the device remotely. Child accounts on the platform are the main defense. On a shared computer or browser profile, a [=stored age bracket=] and any [=remembered consent=] apply to whoever is using the profile. This specification leaves these risks open.
 
 ### Ages the user agent stores
 

@@ -62,8 +62,9 @@
 <p>
   The <dfn data-dfn-for="age range">top age</dfn> of an [=age range=] is one
   less than the smallest [=supported ages|supported age=] above the range's
-  [=age range/lower bound=]. A range whose lower bound is the highest supported
-  age has a top age of none.
+  [=age range/lower bound=], where a lower bound of none is smaller than every
+  age. A range whose lower bound is the highest supported age has a top age of
+  none.
 </p>
 <p>
   To <dfn>choose a group</dfn> given an ordered set |groups| of [=age group=]
@@ -95,11 +96,12 @@
     <ol>
       <li>A group with a top age of none comes before a group with a top age.
       </li>
-      <li>A group with a lower [=age group/lowest age=] comes before a group
-      with a higher one.
+      <li>Between two groups that both have a top age of none, the group with
+      the lower [=age group/lowest age=] comes first.
       </li>
-      <li>A group with a higher [=age group/top age=] comes before a group with
-      a lower one.
+      <li>Between two groups that both have a top age, the group with the lower
+      [=age group/lowest age=] comes first. If the lowest ages are the same,
+      the group with the higher [=age group/top age=] comes first.
       </li>
     </ol>
   </li>
@@ -144,10 +146,11 @@
 </ol>
 <p>
   One range is lower than another when the first range's [=age range/lower
-  bound=] is smaller. A lower bound of none is smaller than every age.
+  bound=] is smaller, and higher when the first range's lower bound is larger.
+  A lower bound of none is smaller than every age.
 </p>
 <h3>
-  An age group the user agent stores
+  An age bracket the user agent stores
 </h3>
 <p>
   When the platform offers no [=platform age service=], the user agent MAY
@@ -155,25 +158,25 @@
   way the user agent stores payment details for autofill.
 </p>
 <p>
-  A <dfn>stored age group</dfn> holds one of four age groups and the date the
-  person entered the group. The age groups are under 13, 13 to 15, 16 to 17,
-  and 18 and over. Each group gives an [=age range=] whose [=age range/lower
-  bound=] is none, 13, 16 or 18, in that order.
+  A <dfn>stored age bracket</dfn> holds one of four age brackets and the date
+  the person entered the bracket. The age brackets are under 13, 13 to 15, 16
+  to 17, and 18 and over. Each bracket gives an [=age range=] whose [=age
+  range/lower bound=] is none, 13, 16 or 18, in that order.
 </p>
 <ul>
   <li>The user agent SHOULD NOT store a birth date.
   </li>
   <li>After a user agent specific time, for example one year, the user agent
-  SHOULD treat the [=stored age group=] as absent, so the person enters an age
-  group again. The user agent SHOULD NOT do so when the stored group is 18 and
-  over.
+  SHOULD treat the [=stored age bracket=] as absent, so the person enters an
+  age bracket again. The user agent SHOULD NOT do so when the stored bracket is
+  18 and over.
   </li>
-  <li>The user agent MUST let the person change the [=stored age group=].
+  <li>The user agent MUST let the person change the [=stored age bracket=].
   </li>
   <li>In a private browsing window, the user agent MAY read a [=stored age
-  group=] that regular browsing stored. The user agent MUST discard any
-  [=stored age group=] that a private browsing window stored once that private
-  browsing session ends.
+  bracket=] that regular browsing stored. The user agent MUST discard any
+  [=stored age bracket=] that a private browsing window stored once that
+  private browsing session ends.
   </li>
 </ul>
 <h3>
@@ -189,9 +192,9 @@
   If |behavior| is not null:
     <ol>
       <li>While |behavior| is not null and its action is "wait", wait until the
-      test sets another behavior for |document|'s top-level traversable, then
-      set |behavior| to the result of [=get the virtual age source behavior=]
-      for |document|.
+      test sets another behavior for |document|'s [=node navigable=]'s
+      [=navigable/top-level traversable=], then set |behavior| to the result of
+      [=get the virtual age source behavior=] for |document|.
       </li>
       <li>If |behavior| is not null, return the result that |behavior|'s action
       names in [[[#types]]].
@@ -223,6 +226,9 @@
       </li>
       <li>Let |range:age range| be the [=age range=] the platform gave.
       </li>
+      <li>If |range|'s [=age range/lower bound=] is neither none nor a
+      [=supported ages|supported age=], return [=age check result/failed=].
+      </li>
       <li>If the [=platform age service=] has no [=anniversary rule=], set
       |range| to the result of [=update the kept copy=] given |range|.
       </li>
@@ -230,10 +236,10 @@
       </li>
     </ol>
   </li>
-  <li>If there is no [=stored age group=], return [=age check result/no age
+  <li>If there is no [=stored age bracket=], return [=age check result/no age
   set=].
   </li>
-  <li>Return the [=stored age group=]'s range.
+  <li>Return the [=stored age bracket=]'s range.
   </li>
 </ol>
 <h3>
@@ -297,20 +303,21 @@
   focus afterward, or how long the user agent took.
   </li>
   <li>The user agent MUST show the same prompt whatever the [=age check
-  result=] is, except when the result is [=age check result/declined=], which
-  shows no prompt. So the person and the page cannot tell from the prompt
-  whether the user agent can share a group. The prompt MUST give the same
-  choices in the same layout when the result is not an [=age range=], when the
-  person's [=age range=] has no lower bound, and when none of the requested
-  groups contains the person's [=age range=]. In those cases, agreeing to share
-  ends the check with no group, and the page gets the same `error` event as for
-  any other failure.
+  result=] is. The only exceptions are a result of [=age check
+  result/declined=] and a check that [=remembered consent=] covers, which show
+  no prompt. So the person and the page cannot tell from the prompt whether the
+  user agent can share a group. The prompt MUST give the same choices in the
+  same layout when the result is not an [=age range=], when the person's [=age
+  range=] has no lower bound, and when none of the requested groups contains
+  the person's [=age range=]. In those cases, agreeing to share ends the check
+  with no group, and the page gets the same `error` event as for any other
+  failure.
   </li>
-  <li>When the user agent offers a [=stored age group=] and has none, the user
-  agent MAY let the person choose an age group in the prompt. The user agent
-  then stores that group. The check then goes on as if the age source had
-  answered with that group's range. If the person chooses no group, the check
-  fails.
+  <li>When the user agent offers a [=stored age bracket=] and has none, the
+  user agent MAY let the person choose an age bracket in the prompt. The user
+  agent then stores that bracket. The check then goes on as if the age source
+  had answered with that bracket's range. If the person chooses no bracket, the
+  check fails.
   </li>
   <li>The user agent MUST NOT add a timing difference of its own between
   failures. So the page cannot tell a person who is too young from a person who
