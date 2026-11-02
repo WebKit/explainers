@@ -208,12 +208,14 @@ To do: define that extension. It needs a command to set the test age, and a way 
 ## Web IDL
 
 ```webidl
+enum AgeGroup { "", "13+", "16+", "18+", "13-15", "13-17", "16-17" };
+
 [Exposed=Window, SecureContext]
 interface HTMLAgeCheckElement : HTMLElement {
   [HTMLConstructor] constructor();
 
-  [CEReactions] attribute unsigned long age;
-  readonly attribute boolean meetsAge;
+  [SameObject, PutForwards=value] readonly attribute DOMTokenList groups;
+  readonly attribute AgeGroup group;
 
   readonly attribute HTMLFormElement? form;
   [CEReactions] attribute DOMString name;
