@@ -18,6 +18,48 @@ Sites that check age today use either a simple link/button, or send people to th
 
 `<agecheck>` is a form element that lets a site ask which age group a person is in. The site names the groups it can use, from six: `13+`, `16+`, `18+`, `13-15`, `13-17`, and `16-17`. The answer is declared, not verified. The browser takes the answer from an age the person or a parent already gave the platform. Where the platform offers no age API, the browser takes the answer from an age the person enters in the browser. The browser asks the person before sharing it, and gives the site one of the groups the site named, or nothing.
 
+An online game wants to turn on features by age. Teens get filtered text chat and a monthly spending cap. Adults get open voice chat. The game names the two groups it cares about and reads the answer:
+
+```html
+<agecheck id="age" groups="13-17 18+">Set up my account</agecheck>
+<script>
+  age.addEventListener("change", () => {
+    if (age.group === "13-17") useTeenSettings();
+    else useAdultSettings();
+  });
+  age.addEventListener("error", useSafestSettings);
+</script>
+```
+
+A person under 13, a person with no age set, and a person who says no all give the page the same `error`. The game then uses its safest settings and offers other ways to share an age.
+
+A site that only blocks people under 18 names no group. With no `groups` attribute, the element asks for `18+`:
+
+```html
+<form method="post" action="/enter">
+  <agecheck name="age" required>I'm 18 or older</agecheck>
+  <button>Enter</button>
+</form>
+```
+
+A streaming site with titles rated 13, 16 and 18 can ask for all three bands and learn which band the person is in:
+
+```html
+<agecheck groups="13-15 16-17 18+">Show titles for my age</agecheck>
+```
+
+A site with one minimum age names that group and learns nothing finer:
+
+```html
+<agecheck groups="13+">I'm 13 or older</agecheck>
+```
+
+When the person clicks the element, the browser asks the platform for the person's age range, or uses an age that the browser stores itself. The platform may ask whether to share the age with the browser, as it does for any app, usually only the first time. Then the browser shows its own prompt, naming the site.
+
+If the person agrees and the browser has a group to share, the page learns that group, such as `13-17`. Otherwise the page gets the same error as for any failure, so the browser never tells the page why. The element works inside a form, like an input element.
+
+To the server, the answer is an honor system, like today's "I'm over 18" button. Anyone can send the same form value, so the answer proves nothing to a regulator that requires verification.
+
 ## Goals
 
 - A site learns which of the age groups it names a person is in. The site gets no birthdate, no name, and no ID, and the answer does not say how the age was set. A site that asks again and again can learn a little more; see "[Ages](#ages)".
@@ -34,14 +76,6 @@ Sites that check age today use either a simple link/button, or send people to th
 
 - Not an identity system. Sites that need a name or a birthdate should use the [Digital Credentials API](https://www.w3.org/TR/digital-credentials/).
 - Not a way to sign in. Sites still use passkeys or passwords to recognize people who come back.
-
-## The proposal
-
-A new HTML element, `<agecheck>`. When the person clicks it, the browser asks the platform for the person's age range, or uses an age it stores itself. The platform may ask whether to share the age with the browser, as it does for any app, usually only the first time. Then the browser shows its own prompt, naming the site.
-
-If the person agrees and the browser has a group to share, the page learns that group, such as `13-17`. Otherwise the page gets the same error as for any failure, so the browser never tells it why. The element works inside a form, like an input element.
-
-To the server, the answer is an honor system, like today's "I'm over 18" button. Anyone can send the same form value, so it proves nothing to a regulator that requires verification.
 
 ## Why an element
 
@@ -103,12 +137,7 @@ Some regions replace the cut-off ages that the site's groups use with their own 
 
 ## Using the element
 
-```html
-<form method="post" action="/enter">
-  <agecheck name="age" groups="18+" required>Share that I'm 18 or older</agecheck>
-  <button>Enter</button>
-</form>
-```
+The introduction shows the element in use. These are its attributes and events:
 
 - `groups`: the age groups the site can use, as space-separated tokens. The allowed tokens are `13+`, `16+`, `18+`, `13-15`, `13-17`, and `16-17`. The browser ignores any other token. With no valid token, the default is `18+`.
 - `group`: the group that a successful check shared, such as `13-17`. The value is empty until then. Every token starts with its lowest age, so `parseInt(element.group, 10)` gives the lowest age.
@@ -130,7 +159,7 @@ This code example shows a site following the advice. People who use a screen rea
 
 ```html
 <form method="post" action="/enter">
-  <agecheck id="check" name="age" groups="18+" required>Share that I'm 18 or older</agecheck>
+  <agecheck id="check" name="age" required>Share that I'm 18 or older</agecheck>
   <a href="/other-ways">Share my age some other way</a>
   <span id="message" role="status"></span>
   <button>Enter</button>
@@ -281,7 +310,7 @@ The `<agecheck>` element doesn't replace these. Several solve different problems
 
 **Mozilla's `Prefer: safe` header** ([whatwg/fetch#1891](https://github.com/whatwg/fetch/issues/1891)). The browser tells every site the person prefers safe content, without the site asking. The `<agecheck>` element answers only a site that asks, after the person agrees.
 
-**An Age Range API**, [proposed by Nick Doty](https://github.com/npdoty/age-range) (Center for Democracy & Technology). A page calls `navigator.ageRange()` and, once the person gives permission, gets an age range such as 13 to 17. The site must also publish a declaration at a well-known address, which the browser checks first. The `<agecheck>` element answers one age per check, only the person's own action starts it, and the element needs no declaration file.
+**An Age Range API**, [proposed by Nick Doty](https://github.com/npdoty/age-range) (Center for Democracy & Technology). A page calls `navigator.ageRange()` and, once the person gives permission, gets an age range such as 13 to 17. The site must also publish a declaration at a well-known address, which the browser checks first. The `<agecheck>` element answers with one of the age groups that the page names, such as 13 to 17. Only the person's own action starts the element, and the element needs no declaration file.
 
 **The Digital Credentials API**, with or without passkeys. It can carry a cryptographic proof, but it needs a digital ID, which many people don't have. It doesn't guarantee that only the age is revealed, and it lets a site ask for more than age. Presenting an ID is also heavy for a simple age check. The `<agecheck>` element uses the age the platform already has, or an age the person enters in the browser, and asks only about age.
 
