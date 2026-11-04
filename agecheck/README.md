@@ -14,11 +14,21 @@ A strawperson proposal, meant to start discussion. Nothing is implemented in a s
 
 ## Introduction
 
-Sites that check age today use either a simple link/button, or send people to third-party services or ask them to upload an ID. Uploading IDs leaks personal data and collects far more than the site needs. Sites need a way to learn a person's age group and nothing else, without needing a third-party age service, in regular and private browsing alike.
+Adult content sites that check age today use either a simple link or button, or send people to third-party services that ask them to upload a copy of a physical document, such as a driver's license. Uploading physical documents risks leaking personal data and collects far more than the site needs. Sites need a way to learn a person's age group and nothing else, without needing a third-party age service, in regular and private browsing alike.
 
-`<agecheck>` is a form element that lets a site ask which age group a person is in. The site names the groups it can use, from six: `13+`, `16+`, `18+`, `13-15`, `13-17`, and `16-17`. The answer is declared, not verified. The browser takes the answer from an age the person or a parent already gave the platform. Where the platform offers no age API, the browser takes the answer from an age the person enters in the browser. The browser asks the person before sharing it, and gives the site one of the groups the site named, or nothing.
+Parents can already set a child's age on the platform, in the parental controls on the child's device. A website has no way to ask for that age. So a game that limits voice chat and spending must take the child's word. So must a social media site that limits who can message a younger user. On adult content sites, the child picks an age or clicks past an "I'm over 18" button.
 
-An online game wants to turn on features by age. Teens get filtered text chat and a monthly spending cap. Adults get open voice chat. The game names the two groups it cares about and reads the answer:
+`<agecheck>` is an HTML element that lets a site ask which age group a person is in. The site lists the groups it needs from: `13+`, `16+`, `18+`, `13-15`, `13-17`, and `16-17`. The answer is declared, not cryptographically verified. The browser takes the answer from an age the person or a parent already gave the platform. Where the platform offers no age API, the browser can get the answer from an age the user self-declares. The browser prompts the user before sharing it, and gives the site one of the groups the site requests, or an error.
+
+When the person clicks the element, the browser asks the platform for the person's age range, or uses an age that the browser stores itself. The platform may ask whether to share the age with the browser, as it does for any app, usually only the first time. Then the browser shows its own prompt, naming the site.
+
+If the person agrees and the browser has a group to share, the page learns that group, such as `13-17`. Otherwise the page gets the same error as for any failure, so the browser never tells the page why. The element works inside a form, like an input element.
+
+To the server, the answer is an honor system, like today's "I'm over 18" button. Anyone can send the same form value, so the answer proves nothing to a regulator that requires verification.
+
+### Using `<agecheck>` on a gaming site
+
+An online game wants to turn on features by age. Teens get filtered text chat and a monthly spending cap. Adults get open voice chat. The game requests the two groups it cares about and reads the answer:
 
 ```html
 <agecheck id="age" groups="13-17 18+">Set up my account</agecheck>
@@ -31,9 +41,11 @@ An online game wants to turn on features by age. Teens get filtered text chat an
 </script>
 ```
 
-A person under 13, a person with no age set, and a person who says no all give the page the same `error`. The game then uses its safest settings and offers other ways to share an age.
+A person under 13, a person with no age set, and a person who declines give the page the same `error`. The game then uses its safest settings and offers other ways to share an age.
 
-A site that only blocks people under 18 names no group. With no `groups` attribute, the element asks for `18+`:
+### Using `<agecheck>` with an adult content site
+
+A site that only blocks people under 18 names no group. With no `groups` attribute, the element defaults to asking for `18+`:
 
 ```html
 <form method="post" action="/enter">
@@ -42,10 +54,14 @@ A site that only blocks people under 18 names no group. With no `groups` attribu
 </form>
 ```
 
+### Using `<agecheck>` streaming services
+
 A streaming site with titles rated 13, 16 and 18 can ask for all three bands and learn which band the person is in:
 
 ```html
-<agecheck groups="13-15 16-17 18+">Show titles for my age</agecheck>
+<agecheck groups="13-15 16-17 18+">
+  Show titles for my age
+</agecheck>
 ```
 
 A site with one minimum age names that group and learns nothing finer:
@@ -54,19 +70,14 @@ A site with one minimum age names that group and learns nothing finer:
 <agecheck groups="13+">I'm 13 or older</agecheck>
 ```
 
-When the person clicks the element, the browser asks the platform for the person's age range, or uses an age that the browser stores itself. The platform may ask whether to share the age with the browser, as it does for any app, usually only the first time. Then the browser shows its own prompt, naming the site.
-
-If the person agrees and the browser has a group to share, the page learns that group, such as `13-17`. Otherwise the page gets the same error as for any failure, so the browser never tells the page why. The element works inside a form, like an input element.
-
-To the server, the answer is an honor system, like today's "I'm over 18" button. Anyone can send the same form value, so the answer proves nothing to a regulator that requires verification.
-
 ## Goals
 
-- A site learns which of the age groups it names a person is in. The site gets no birthdate, no name, and no ID, and the answer does not say how the age was set. A site that asks again and again can learn a little more; see "[Ages](#ages)".
-- A site gets the least it needs. The site names every group it can use, and the browser shares at most one of them, never anything finer. A site that only needs to know someone is an adult asks for `18+` and learns nothing more.
+- A site learns the age group it requests, and no personally identifiable information.
+- A site gets the least it needs. The site requests every group it can use, and the browser shares at most one of them, never anything finer. 
+- A site that only needs to know someone is an adult asks for `18+` and learns nothing more.
 - A site can't use the answer to track people across sites, except by matching the day the answer changes; see "[Ages](#ages)".
-- A user finds it as easy to use as today's "I'm over 18" button.
-- A site adds one element. The site doesn't need an age-check service.
+- A user finds it as easy to use as today's "I'm over 18" button or link.
+- The site doesn't need an age-check service.
 - The person doesn't need a government ID.
 - It works only on secure pages and only in the top-level page, in regular and private browsing alike.
 - Users using a screen reader or a keyboard can use the `<agecheck>` element and the browser's prompt.
@@ -79,27 +90,25 @@ To the server, the answer is an honor system, like today's "I'm over 18" button.
 
 ## Why an element
 
-The user clicks the element, the browser shows its own prompt, and the page gets only the result or an error. It works in a plain form with no script, and the browser knows what the control is, so it can give it the right role and accessible name. Only the user's own action on it or its label opens the prompt. Script can't, even with `click()`.
+The user clicks the element, the browser shows its own prompt, and the page gets only the result or an error. It works in an HTML `<form>` with no script, and the browser knows what the control is, so it can give it the right role and accessible name. Only the user's own action on it or its label opens the prompt.
 
-By default, the element looks and lays out like a `<button>`, so a site that doesn't style it still shows a control people recognize. Authors can restyle it or hide it behind a label, as they do other form controls. A site could label the element misleadingly, as with any button. So the browser's prompt, not the element's look, protects people. For example, the prompt should ignore input for a short time (see "Privacy and security"). During this time, the prompt shows that the prompt is not ready yet, so people using assistive technology do not have to guess why their input does nothing.
+By default, the element looks and lays out like a `<button>`. Authors can restyle it or hide it behind a label, as they do other form controls. A site could label the element misleadingly, as with any button. So the browser's prompt, not the element's look, is what protects people.
 
 ## Embedded content
 
-In this first version, embedded third party content, such as a video player, can only get the answer from the top-level page, by its own means, such as `postMessage`, so it must trust that page. A third party can run the check only as a top-level page of its own, such as a popup, where the prompt names the third party.
+In this first version, embedded third-party content can only get the age range from the top-level page. Embedded content includes a third-party `<iframe>`, such as a video player. The embedded content gets the age range by its own means, such as `postMessage()`. So the embedded content must trust the top-level page. A third party can run the check only as a top-level page of its own, such as a popup. In that case, the prompt names the third party.
 
 ## Where the age comes from
 
-The browser doesn't ask the site or a third party. When the platform has an age API, the browser uses an age the person or a parent already gave the platform, such as Apple's Declared Age Range or Google's Play Age Signals. Both give apps an age that the person declared, that a parent set, or that the platform verified. How the platform sets the age is up to the platform.
+The platform here means the operating system. When the platform has an age API, the browser uses an age the person or a parent already gave the platform, such as Apple's Declared Age Range or Google's Play Age Signals. Both give apps an age that the person declared, that a parent set, or that the platform verified. How the platform sets the age is up to the platform.
 
 What the browser does:
 
 - If the platform offers an age API, the browser uses only that, so a stored age can't get around a parent's setting. The rule holds when this browser can't call the API, or when the API has no age for the person. In those cases the check fails.
-- If the platform offers no age API, the browser offers to store an age the person enters, the way the browser stores payment instruments for autofill.
+- If the platform offers no age API, a browser could offer to store the user's age, the way the browser stores payment instruments for autofill. Alternatively, it could derive the age range from the user's contacts information (with their consent), which often contains their birthdate.
 - A browser should not store a birth date. A browser should keep only the age group (under 13, 13 to 15, 16 to 17, or 18 and over) and the date the person entered it.
-- A browser should ask the person to enter an age again after, for example, one year. A browser should not ask the person again if the stored age is the 18 and over age group.
 - A browser that stores its own age lets the person change that age.
 - Private browsing works the same way as regular browsing and still uses the platform API. A private window can use an age that regular browsing stored. The browser forgets any age that a private window stored once the private browsing session ends.
-- The answer never carries a platform identifier.
 - The browser never tells the platform which site asked.
 - The browser could have a setting to turn the feature off, and a control that clears every remembered age choice at once. The browser should not list which sites have asked; see "People in danger" under "Open risks".
 
@@ -113,7 +122,7 @@ A site can ask more than once, with a different list of groups in each check. Fo
 
 A site that asks again and again can see the day the answer changes. That day is the anniversary of when the age was set, not the birthday. Where the browser keeps a copy or stores the age itself, a higher answer appears on the anniversary of when the browser got it. If the person updates the age early, the change may hint at a birthday. The cost is that someone who has just had a birthday may fail until that anniversary, unless they or a parent update the age. A lower range from the platform applies at once, so a site can see a group drop to a lower group, or to no answer. The site can't tell why, and a drop doesn't point to a birthday.
 
-A site can name groups that do not overlap, such as `13-15 16-17 18+`, and learn the person's exact age range in one check. A site that puts the groups in several elements can learn more than a site that lists the same groups in one element, because each element gets its own answer. Neither way learns more than the exact age range. The browser can't stop a site from naming more groups than the site needs; see "[Asking for the least](#asking-for-the-least)". A refusal looks the same as a person who is too young, so the site can't be sure why an answer is missing. A native app using Declared Age Range learns the person's age range with a single request. Sites that already share data about a person can also pool what they each learned. The answer carries little that links a person across sites, except the day it changes. That day is the same on every site, so sites that pool can match it. A site that checks every day sees the exact day, which narrows the person to one day of the year. Apart from a correction, only people under 18, who still have an age to reach, have such a day.
+A site can name groups that do not overlap, such as `13-15 16-17 18+`, and learn the person's exact age range in one check. A site that puts the groups in several elements can learn more than a site that lists the same groups in one element, because each element gets its own answer. Neither way learns more than the exact age range. The browser can't stop a site from requesting more groups than the site needs; see "[Asking for the least](#asking-for-the-least)". A refusal looks the same as a person who is too young, so the site can't be sure why an answer is missing. Sites that already share data about a person can also pool what they each learned. The answer carries little that links a person across sites, except the day it changes. That day is the same on every site, so sites that pool can match it. A site that checks every day sees the exact day, which narrows the person to one day of the year. Apart from a correction, only people under 18, who still have an age to reach, have such a day.
 
 ## Asking for the least
 
