@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD" rel="stylesheet">
   <meta content="Bikeshed version e0b165ae4, updated Mon Nov 2 15:16:49 2026 -0800" name="generator">
   <link href="TBD" rel="canonical">
-  <meta content="bcb591bf98ebfde833ee697620c520a5b076da98" name="revision">
+  <meta content="336c2652dc89d995fb5e2ee9756834b99c58bce8" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -1312,7 +1312,6 @@ The Back Spatial Context</span><a class="self-link" href="#spatial-context-back"
 	The <span class="property" id="ref-for-propdef-background-color①">background-color</span> is not otherwise painted,
 	however all other <a data-link-type="dfn" href="https://drafts.csswg.org/css-backgrounds-3/#background-image-layer" id="ref-for-background-image-layer">background image layers</a> are painted as usual on the <a data-link-type="dfn" href="#portal-plane" id="ref-for-portal-plane③">portal plane</a>,
 	as if drawn on the “glass” of the <span id="ref-for-portal⑧">portal</span>.</p>
-   <p class="issue" id="issue-c8b3577d"><a class="self-link" href="#issue-c8b3577d"></a> Should this respond to <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-color-adjust-1/#propdef-color-scheme" id="ref-for-propdef-color-scheme">color-scheme</a>? How exactly?</p>
    <figure>
     
 		<img height="1920" src="./images/Back0001.png" style="max-width: 100%; height: auto; background: transparent;" width="1920">
@@ -1945,7 +1944,7 @@ Z-axis Insets: the <a class="css property" data-link-type="property" href="#prop
       <td>auto
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#applies-to">Applies to:</a>
-      <td>boxes contained by a <a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container③①">spatial container</a>
+      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-position-3/#positioned-box" id="ref-for-positioned-box①">positioned boxes</a> contained by a <a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container③①">spatial container</a>
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no
@@ -3053,11 +3052,6 @@ Non-experimental implementations</span><a class="self-link" href="#w3c-testing">
      <li><span class="dfn-paneled" id="bcdf0026">srgb-linear</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[CSS-COLOR-ADJUST-1]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="c373c5f8">color-scheme</span>
-    </ul>
-   <li>
     <a data-link-type="biblio">[CSS-CONDITIONAL-3]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="5f1b7f60">@media</span>
@@ -3249,8 +3243,6 @@ Non-experimental implementations</span><a class="self-link" href="#w3c-testing">
    <dd>Elika Etemad; Miriam Suzanne; Tab Atkins Jr.. <a href="https://drafts.csswg.org/css-cascade-5/"><cite>CSS Cascading and Inheritance Level 5</cite></a>. URL: <a href="https://drafts.csswg.org/css-cascade-5/">https://drafts.csswg.org/css-cascade-5/</a>
    <dt id="biblio-css-color-4">[CSS-COLOR-4]
    <dd>Tab Atkins Jr.; Chris Lilley; Lea Verou. <a href="https://drafts.csswg.org/css-color-4/"><cite>CSS Color Module Level 4</cite></a>. URL: <a href="https://drafts.csswg.org/css-color-4/">https://drafts.csswg.org/css-color-4/</a>
-   <dt id="biblio-css-color-adjust-1">[CSS-COLOR-ADJUST-1]
-   <dd>Elika Etemad; et al. <a href="https://drafts.csswg.org/css-color-adjust-1/"><cite>CSS Color Adjustment Module Level 1</cite></a>. URL: <a href="https://drafts.csswg.org/css-color-adjust-1/">https://drafts.csswg.org/css-color-adjust-1/</a>
    <dt id="biblio-css-conditional-3">[CSS-CONDITIONAL-3]
    <dd>Chris Lilley; David Baron; Elika Etemad. <a href="https://drafts.csswg.org/css-conditional-3/"><cite>CSS Conditional Rules Module Level 3</cite></a>. URL: <a href="https://drafts.csswg.org/css-conditional-3/">https://drafts.csswg.org/css-conditional-3/</a>
    <dt id="biblio-css-display-4">[CSS-DISPLAY-4]
@@ -3376,7 +3368,7 @@ Non-experimental implementations</span><a class="self-link" href="#w3c-testing">
       <th scope="row"><a class="css" data-link-type="property" href="#propdef-inset-back" id="ref-for-propdef-inset-back①⑤">inset-back</a>
       <td>&lt;top>
       <td>auto
-      <td>boxes contained by a spatial container
+      <td>positioned boxes contained by a spatial container
       <td>no
       <td>for relative spatial positioning, relative to the distance from the containing block to the front limit plane;
 for absolute spatial positioning, relative to the z-axis size of the containing volume.
@@ -3397,7 +3389,7 @@ for absolute spatial positioning, relative to the z-axis size of the containing 
       <th scope="row"><a class="css" data-link-type="property" href="#propdef-inset-front" id="ref-for-propdef-inset-front①⑥">inset-front</a>
       <td>&lt;top>
       <td>auto
-      <td>boxes contained by a spatial container
+      <td>positioned boxes contained by a spatial container
       <td>no
       <td>for relative spatial positioning, relative to the distance from the containing block to the front limit plane;
 for absolute spatial positioning, relative to the z-axis size of the containing volume.
@@ -3582,7 +3574,6 @@ for absolute spatial positioning, relative to the z-axis size of the containing 
 	(by having the border box create an implicit spatial container).
 	Relatedly, in the former case we might want to restrict this to apply to boxes that establish formatting contexts,
 	an in the latter we’d want to allow them potentially even for inline boxes. <a class="issue-return" href="#issue-475b208d" title="Jump to section">↵</a></div>
-   <div class="issue"> Should this respond to <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-color-adjust-1/#propdef-color-scheme">color-scheme</a>? How exactly? <a class="issue-return" href="#issue-c8b3577d" title="Jump to section">↵</a></div>
    <div class="issue"> Using the <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#content-edge">content edge</a> for <a class="css" data-link-type="maybe" href="#valdef-portal-transform-auto">auto</a> means that
 	the <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#padding">padding</a> of the <a data-link-type="dfn" href="#spatial-container">spatial container</a> insets auto-fitted content.
 	If we want to allow different amounts of <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-box-4/#propdef-padding">padding</a> on portal content vs glass content,
@@ -3884,7 +3875,7 @@ let dfnPanelData = {
 "54aa64f0": {"dfnID":"54aa64f0","dfnText":"margin","external":true,"refSections":[{"refs":[{"id":"ref-for-margin"}],"title":"3.2. \nAbsolute Spatial Positioning: the spatial-absolute keyword for position"}],"url":"https://drafts.csswg.org/css-box-4/#margin"},
 "57312d76": {"dfnID":"57312d76","dfnText":"offset-path","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-offset-path"}],"title":"3.4. \nAnchor-based Positioning"}],"url":"https://drafts.csswg.org/motion-1/#propdef-offset-path"},
 "58157ca0": {"dfnID":"58157ca0","dfnText":"containing block chain","external":true,"refSections":[{"refs":[{"id":"ref-for-containing-block-chain"}],"title":"3.1. \nRelative Spatial Positioning"}],"url":"https://drafts.csswg.org/css-display-4/#containing-block-chain"},
-"5a7cf27d": {"dfnID":"5a7cf27d","dfnText":"positioned box","external":true,"refSections":[{"refs":[{"id":"ref-for-positioned-box"}],"title":"3.1. \nRelative Spatial Positioning"}],"url":"https://drafts.csswg.org/css-position-3/#positioned-box"},
+"5a7cf27d": {"dfnID":"5a7cf27d","dfnText":"positioned box","external":true,"refSections":[{"refs":[{"id":"ref-for-positioned-box"}],"title":"3.1. \nRelative Spatial Positioning"},{"refs":[{"id":"ref-for-positioned-box\u2460"}],"title":"3.3. \nZ-axis Insets: the inset-front and inset-back properties"}],"url":"https://drafts.csswg.org/css-position-3/#positioned-box"},
 "5b6cb592": {"dfnID":"5b6cb592","dfnText":"offset-position","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-offset-position"},{"id":"ref-for-propdef-offset-position\u2460"}],"title":"3.4. \nAnchor-based Positioning"}],"url":"https://drafts.csswg.org/motion-1/#propdef-offset-position"},
 "5bc8bd12": {"dfnID":"5bc8bd12","dfnText":"direction","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-direction"}],"title":"3.4.6. \nExtensions to Anchor Alignment: the anchor-origin value"}],"url":"https://drafts.csswg.org/css-writing-modes-3/#propdef-direction"},
 "5f1b7f60": {"dfnID":"5f1b7f60","dfnText":"@media","external":true,"refSections":[{"refs":[{"id":"ref-for-at-ruledef-media"}],"title":"2.4.2. \nQuerying the Front Limit: the front-limit media query"}],"url":"https://drafts.csswg.org/css-conditional-3/#at-ruledef-media"},
@@ -3943,7 +3934,6 @@ let dfnPanelData = {
 "bd3d9ccd": {"dfnID":"bd3d9ccd","dfnText":"media query","external":true,"refSections":[{"refs":[{"id":"ref-for-media-query"}],"title":"2.4. \nFront Limits: how far content can be raised on the page"},{"refs":[{"id":"ref-for-media-query\u2460"}],"title":"2.4.1. \nControlling the Front Limit: the front-limit property"}],"url":"https://drafts.csswg.org/mediaqueries-5/#media-query"},
 "c1b73c63": {"dfnID":"c1b73c63","dfnText":"padding","external":true,"refSections":[{"refs":[{"id":"ref-for-padding"}],"title":"2.3.2. \nTransforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-padding\u2460"}],"title":"3.2. \nAbsolute Spatial Positioning: the spatial-absolute keyword for position"}],"url":"https://drafts.csswg.org/css-box-4/#padding"},
 "c21450f8": {"dfnID":"c21450f8","dfnText":"sub-property","external":true,"refSections":[{"refs":[{"id":"ref-for-longhand"}],"title":"3.3. \nZ-axis Insets: the inset-front and inset-back properties"},{"refs":[{"id":"ref-for-longhand\u2460"}],"title":"3.3.2. \nInset Shorthand: the / <inset-back> <inset-front>? extension to inset"},{"refs":[{"id":"ref-for-longhand\u2461"}],"title":"3.4.5. \nExtensions to Box Alignment: the z-align-self and z-align-items properties"}],"url":"https://drafts.csswg.org/css-cascade-5/#longhand"},
-"c373c5f8": {"dfnID":"c373c5f8","dfnText":"color-scheme","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-color-scheme"}],"title":"2.2.2. \nThe Back Spatial Context"}],"url":"https://drafts.csswg.org/css-color-adjust-1/#propdef-color-scheme"},
 "c3c67a12": {"dfnID":"c3c67a12","dfnText":"y-axis","external":true,"refSections":[{"refs":[{"id":"ref-for-y-axis"}],"title":"3.1. \nRelative Spatial Positioning"},{"refs":[{"id":"ref-for-y-axis\u2460"}],"title":"6.2.3. \nRotating the Environment: the environment-rotate property"}],"url":"https://drafts.csswg.org/css-writing-modes-4/#y-axis"},
 "c82d6e13": {"dfnID":"c82d6e13","dfnText":"z-index","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-z-index"}],"title":"1. \nIntroduction"},{"refs":[{"id":"ref-for-propdef-z-index\u2460"}],"title":"3.3. \nZ-axis Insets: the inset-front and inset-back properties"}],"url":"https://drafts.csswg.org/css2/#propdef-z-index"},
 "c981bd08": {"dfnID":"c981bd08","dfnText":"canvas","external":true,"refSections":[{"refs":[{"id":"ref-for-TermCanvas"}],"title":"2.2. \nSpatial Contexts and the Spatial Layout Model"}],"url":"https://w3c.github.io/svgwg/svg2-draft/coords.html#TermCanvas"},
@@ -4460,7 +4450,6 @@ let refsData = {
 "https://drafts.csswg.org/css-color-4/#valdef-color-canvas": {"displayText":"canvas","export":true,"for_":["<color>","<system-color>"],"level":"4","normative":true,"shortname":"css-color","spec":"css-color-4","status":"current","text":"canvas","type":"value","url":"https://drafts.csswg.org/css-color-4/#valdef-color-canvas"},
 "https://drafts.csswg.org/css-color-4/#valdef-color-display-p3-linear": {"displayText":"display-p3-linear","export":true,"for_":["color()"],"level":"4","normative":true,"shortname":"css-color","spec":"css-color-4","status":"current","text":"display-p3-linear","type":"value","url":"https://drafts.csswg.org/css-color-4/#valdef-color-display-p3-linear"},
 "https://drafts.csswg.org/css-color-4/#valdef-color-srgb-linear": {"displayText":"srgb-linear","export":true,"for_":["color()"],"level":"4","normative":true,"shortname":"css-color","spec":"css-color-4","status":"current","text":"srgb-linear","type":"value","url":"https://drafts.csswg.org/css-color-4/#valdef-color-srgb-linear"},
-"https://drafts.csswg.org/css-color-adjust-1/#propdef-color-scheme": {"displayText":"color-scheme","export":true,"for_":[],"level":"1","normative":true,"shortname":"css-color-adjust","spec":"css-color-adjust-1","status":"current","text":"color-scheme","type":"property","url":"https://drafts.csswg.org/css-color-adjust-1/#propdef-color-scheme"},
 "https://drafts.csswg.org/css-conditional-3/#at-ruledef-media": {"displayText":"@media","export":true,"for_":[],"level":"3","normative":true,"shortname":"css-conditional","spec":"css-conditional-3","status":"current","text":"@media","type":"at-rule","url":"https://drafts.csswg.org/css-conditional-3/#at-ruledef-media"},
 "https://drafts.csswg.org/css-display-4/#containing-block": {"displayText":"containing block","export":true,"for_":[],"level":"4","normative":true,"shortname":"css-display","spec":"css-display-4","status":"current","text":"containing block","type":"dfn","url":"https://drafts.csswg.org/css-display-4/#containing-block"},
 "https://drafts.csswg.org/css-display-4/#containing-block-chain": {"displayText":"containing block chain","export":true,"for_":[],"level":"4","normative":true,"shortname":"css-display","spec":"css-display-4","status":"current","text":"containing block chain","type":"dfn","url":"https://drafts.csswg.org/css-display-4/#containing-block-chain"},
