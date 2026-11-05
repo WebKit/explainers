@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD" rel="stylesheet">
   <meta content="Bikeshed version e0b165ae4, updated Mon Nov 2 15:16:49 2026 -0800" name="generator">
   <link href="TBD" rel="canonical">
-  <meta content="a0d5ed3fb82ef0b98a006a467f11efa5e2eb7ce7" name="revision">
+  <meta content="fbc032e0eba2f44db87189a372c6f14912cc29e3" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -1201,7 +1201,8 @@ Establishing Spatial Contexts and Portals: the <a class="css property" data-link
      <ul>
       <li data-md>
        <p>a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context">back spatial context</a> behind the element
-consisting of a 3-dimensional “world” with its own coordinate system,
+consisting of a 3-dimensional “world”
+with its own independent coordinate system,
 which can be viewed <em>through</em> the <a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①">spatial container</a>’s <a data-link-type="dfn" href="#portal" id="ref-for-portal①">portal</a>
 (which acts as a window into this “world”).</p>
       <li data-md>
@@ -1318,20 +1319,24 @@ The Back Spatial Context</span><a class="self-link" href="#spatial-context-back"
 		
     <figcaption>An illustration of the back spatial context, the entity-transform of the portal scales the chair model down to fit the portal.</figcaption>
    </figure>
+   <p class="note" role="note"><span class="marker">Note:</span> The <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context⑨">back spatial context</a>’s coordinate system
+	and the relationship of its lengths to those in the page
+	are defined by the <a class="css property" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage">portal-stage</a> and <a class="css property" data-link-type="property" href="#propdef-portal-transform" id="ref-for-propdef-portal-transform">portal-transform</a> properties (respectively).</p>
    <h4 class="heading settled" data-level="2.2.3" id="spatial-context-full"><span class="secno">2.2.3. </span><span class="content">
 Full Portals: Connecting the Front and Back Spatial Contexts</span><a class="self-link" href="#spatial-context-full"></a></h4>
-   <p>A <a class="css" data-link-type="propdesc" href="#propdef-spatial" id="ref-for-propdef-spatial⑥">spatial: portal</a> <a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①③">spatial container</a> connects the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context④">front</a> and <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context⑨">back</a> spatial contexts
+   <p>A <a class="css" data-link-type="propdesc" href="#propdef-spatial" id="ref-for-propdef-spatial⑥">spatial: portal</a> <a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①③">spatial container</a> connects the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context④">front</a> and <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⓪">back</a> spatial contexts
 	through its <a data-link-type="dfn" href="#portal" id="ref-for-portal⑨">portal</a>,
-	as if it were a window into the <span id="ref-for-back-spatial-context①⓪">back spatial context</span>
+	as if it were a window into the <span id="ref-for-back-spatial-context①①">back spatial context</span>
 	and the contents of the <span id="ref-for-front-spatial-context⑤">front spatial context</span> were attached to its window “glass”.</p>
    <p>The <a data-link-type="dfn" href="#portal" id="ref-for-portal①⓪">portal</a> thus connects two coordinate systems:
-	the page coordinate system (which has its own idea of <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value">&lt;length></a> values)
-	and the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①①">back spatial context</a> coordinate system
-	(which has its own idea of <span class="production" id="ref-for-length-value①">&lt;length></span> values, see <a class="css property" data-link-type="property" href="#propdef-portal-transform" id="ref-for-propdef-portal-transform">portal-transform</a>).
-	Objects in the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context⑥">front spatial context</a> are always positioned
+	the page coordinate system
+	(used by the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context⑥">front spatial context</a> and all other content on the page)
+	and the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①②">back spatial context</a> coordinate system
+	(with its own, independent coordinate system for the objects it contains).
+	Objects in the <span id="ref-for-front-spatial-context⑦">front spatial context</span> are always sized and positioned
 	using the page coordinate system,
-	even when they are physically positioned inside the volume of the <span id="ref-for-back-spatial-context①②">back spatial context</span>.
-	(In other words, the <span id="ref-for-front-spatial-context⑦">front spatial context</span> and <span id="ref-for-back-spatial-context①③">back spatial context</span>
+	<em>even when they are physically positioned inside the volume of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①③">back spatial context</a></em>.
+	(In other words, the <span id="ref-for-front-spatial-context⑧">front spatial context</span> and <span id="ref-for-back-spatial-context①④">back spatial context</span>
 	 can coincide in physical rendering space while maintaining their independent coordinate systems.)</p>
    <figure>
     
@@ -1341,13 +1346,13 @@ Full Portals: Connecting the Front and Back Spatial Contexts</span><a class="sel
    </figure>
    <h3 class="heading settled" data-level="2.3" id="portal-config"><span class="secno">2.3. </span><span class="content">
 Configuring the Back Spatial Context</span><a class="self-link" href="#portal-config"></a></h3>
-   <p>The <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①④">back spatial context</a> can have an entity transform that differs from the page.
+   <p>The <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⑤">back spatial context</a> can have an entity transform that differs from the page.
 	The <a class="css property" data-link-type="property" href="#propdef-portal-transform" id="ref-for-propdef-portal-transform①">portal-transform</a> and <a class="css property" data-link-type="property" href="#propdef-portal-action" id="ref-for-propdef-portal-action">portal-action</a> properties control this this transform,
 	called the <a data-link-type="dfn" href="#portal-transform" id="ref-for-portal-transform①">portal transform</a>.</p>
-   <p>The <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume⑤">containing volume</a> of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⑤">back spatial context</a> defaults to containing its contents;
-	however it can be explicitly configured with the <a class="css property" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage">portal-stage</a> property.</p>
+   <p>The <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume⑤">containing volume</a> of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⑥">back spatial context</a> defaults to containing its contents;
+	however it can be explicitly configured with the <a class="css property" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage①">portal-stage</a> property.</p>
    <h4 class="heading settled" data-level="2.3.1" id="stage-volume"><span class="secno">2.3.1. </span><span class="content">
-Defining Stage: the <a class="css property" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage①">portal-stage</a> property</span><a class="self-link" href="#stage-volume"></a></h4>
+Defining Stage: the <a class="css property" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage②">portal-stage</a> property</span><a class="self-link" href="#stage-volume"></a></h4>
    <table class="def propdef" data-link-for-hint="portal-stage">
     <tbody>
      <tr>
@@ -1355,13 +1360,13 @@ Defining Stage: the <a class="css property" data-link-type="property" href="#pro
       <td><dfn class="css dfn-paneled" data-dfn-type="property" data-export id="propdef-portal-stage">portal-stage</dfn>
      <tr class="value">
       <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
-      <td class="prod">[ auto <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②">|</a> <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value②">&lt;length></a> ]<a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-num-range" id="ref-for-mult-num-range">{1,4}</a> [ / [ auto <span id="ref-for-comb-one③">|</span> <span class="production" id="ref-for-length-value③">&lt;length></span> ]<span id="ref-for-mult-num-range①">{1,2}</span> ]<a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-opt" id="ref-for-mult-opt">?</a>
+      <td class="prod">[ auto <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②">|</a> <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value">&lt;length></a> ]<a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-num-range" id="ref-for-mult-num-range">{1,4}</a> [ / [ auto <span id="ref-for-comb-one③">|</span> <span class="production" id="ref-for-length-value①">&lt;length></span> ]<span id="ref-for-mult-num-range①">{1,2}</span> ]<a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-opt" id="ref-for-mult-opt">?</a>
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>auto
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#applies-to">Applies to:</a>
-      <td><a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①④">spatial containers</a> establishing a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⑥">back spatial context</a>
+      <td><a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①④">spatial containers</a> establishing a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⑦">back spatial context</a>
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no
@@ -1378,16 +1383,16 @@ Defining Stage: the <a class="css property" data-link-type="property" href="#pro
       <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>by computed value
    </table>
-   <p>The <a class="css property" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage②">portal-stage</a> property defines the <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume⑥">containing volume</a> of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⑦">back spatial context</a>,
+   <p>The <a class="css property" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage③">portal-stage</a> property defines the <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume⑥">containing volume</a> of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⑧">back spatial context</a>,
 	as well as its <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="world-origin">world origin</dfn> (its 0,0,0 coordinate).
 	Values prior to the slash (<span class="css">/</span>) are assigned to each side as for <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-box-4/#propdef-margin" id="ref-for-propdef-margin">margin</a>;
 	values after the slash (<span class="css">/</span>) are assigned to the back and front, respectively.</p>
-   <p class="note" role="note"><span class="marker">Note:</span> The <a data-link-type="dfn" href="#allowed-volume" id="ref-for-allowed-volume③">allowed volume</a> of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⑧">back spatial context</a> is infinite.
+   <p class="note" role="note"><span class="marker">Note:</span> The <a data-link-type="dfn" href="#allowed-volume" id="ref-for-allowed-volume③">allowed volume</a> of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⑨">back spatial context</a> is infinite.
 	The <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume⑦">containing volume</a> is only providing the <a data-link-type="dfn" href="#world-origin" id="ref-for-world-origin">world origin</a> and
 	a reference container for <a class="css" data-link-type="propdesc" href="#propdef-portal-transform" id="ref-for-propdef-portal-transform②">portal-transform: auto</a> and <a data-link-type="dfn" href="#absolute-spatial-positioning" id="ref-for-absolute-spatial-positioning③">absolute spatial positioning</a>.</p>
    <p>Values have the following meanings:</p>
    <dl>
-    <dt><dfn class="css dfn-paneled" data-dfn-for="portal-stage" data-dfn-type="value" data-export id="valdef-portal-stage-length"><a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value④">&lt;length></a></dfn>
+    <dt><dfn class="css dfn-paneled" data-dfn-for="portal-stage" data-dfn-type="value" data-export id="valdef-portal-stage-length"><a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value②">&lt;length></a></dfn>
 		
     <dd>
 			The stage expands from the <a data-link-type="dfn" href="#world-origin" id="ref-for-world-origin①">world origin</a> by the specified length
@@ -1400,16 +1405,16 @@ Defining Stage: the <a class="css property" data-link-type="property" href="#pro
     <dd>
      
 			The stage expands from the <a data-link-type="dfn" href="#world-origin" id="ref-for-world-origin②">world origin</a> to contain
-			the contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context①⑨">back spatial context</a> on the indicated side.
+			the contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②⓪">back spatial context</a> on the indicated side.
 
 
-     <p class="note" role="note"><span class="marker">Note:</span> This means that <a class="css" data-link-type="propdesc" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage③">portal-stage: auto</a> will always include the <a data-link-type="dfn" href="#world-origin" id="ref-for-world-origin③">world origin</a>.</p>
+     <p class="note" role="note"><span class="marker">Note:</span> This means that <a class="css" data-link-type="propdesc" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage④">portal-stage: auto</a> will always include the <a data-link-type="dfn" href="#world-origin" id="ref-for-world-origin③">world origin</a>.</p>
    </dl>
    <p>Negative values
 	(including those calculated from <a class="css" data-link-type="maybe" href="#valdef-portal-stage-auto" id="ref-for-valdef-portal-stage-auto">auto</a>)
 	are clamped to ≤ max(0, <var>opposite side</var>)
 	in order to ensure a non-negative <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume⑧">containing volume</a>.</p>
-   <p><strong class="advisement"> The combination of <a class="css" data-link-type="propdesc" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage④">portal-stage: auto</a>
+   <p><strong class="advisement"> The combination of <a class="css" data-link-type="propdesc" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage⑤">portal-stage: auto</a>
 	(which sizes the stage based on its contents)
 	and percentage <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-position-3/#propdef-inset" id="ref-for-propdef-inset">inset</a> values
 	(which position the content based on the size of the stage)
@@ -1417,8 +1422,8 @@ Defining Stage: the <a class="css property" data-link-type="property" href="#pro
    <p class="note" role="note"><span class="marker">Note:</span> This property is analogous to the <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-images-5/#propdef-object-view-box" id="ref-for-propdef-object-view-box">object-view-box</a> property which applies to 2D objects.</p>
    <h5 class="heading settled" data-level="2.3.1.1" id="portal-stage-auto-volume"><span class="secno">2.3.1.1. </span><span class="content">
 Calculating an Automatic Containing Volume</span><a class="self-link" href="#portal-stage-auto-volume"></a></h5>
-   <p>For the purpose of <a class="css" data-link-type="propdesc" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage⑤">portal-stage: auto</a>,
-	the contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②⓪">back spatial context</a> are measured:</p>
+   <p>For the purpose of <a class="css" data-link-type="propdesc" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage⑥">portal-stage: auto</a>,
+	the contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②①">back spatial context</a> are measured:</p>
    <ul>
     <li data-md>
      <p>Assuming percentages relative to the <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume⑨">containing volume</a> are resolved against zero.</p>
@@ -1444,7 +1449,7 @@ the contribution is split equally between them.</p>
    <div class="example" id="example-1810d8c2">
     <a class="self-link" href="#example-1810d8c2"></a>
 		For example,
-		if a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②①">back spatial context</a> with <a class="css" data-link-type="propdesc" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage⑥">portal-stage: auto</a> contained two 10″ cubes
+		if a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②②">back spatial context</a> with <a class="css" data-link-type="propdesc" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage⑦">portal-stage: auto</a> contained two 10″ cubes
 		whose centers coincided with their <a data-link-type="dfn" href="#origin" id="ref-for-origin">object origins</a>:
 
     <ol>
@@ -1484,7 +1489,7 @@ Transforming the Stage: the <a class="css property" data-link-type="property" hr
       <td>auto
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#applies-to">Applies to:</a>
-      <td><a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①⑤">spatial containers</a> establishing a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②②">back spatial context</a>
+      <td><a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①⑤">spatial containers</a> establishing a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②③">back spatial context</a>
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no
@@ -1501,7 +1506,7 @@ Transforming the Stage: the <a class="css property" data-link-type="property" hr
       <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>Discrete if the presence of the <a class="css" data-link-type="maybe" href="#valdef-portal-transform-none" id="ref-for-valdef-portal-transform-none">none</a> or <a class="css" data-link-type="maybe" href="#valdef-portal-transform-auto" id="ref-for-valdef-portal-transform-auto">auto</a> keyword differs; otherwise interpolate each <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-transforms-1/#typedef-transform-list" id="ref-for-typedef-transform-list③">&lt;transform-list></a> independently, see <a href="https://drafts.csswg.org/css-transforms-1/#interpolation-of-transforms"><cite>CSS Transforms 1</cite> § 9 Interpolation of Transforms</a>.
    </table>
-   <p>This property transforms the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②③">back spatial context</a>,
+   <p>This property transforms the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②④">back spatial context</a>,
 	i.e. it sets the <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="portal-transform">portal transform</dfn> (sometimes called the “entity transform”).
 	Transforms are applied in order from first to last;
 	therefore transforms listed before <a class="css" data-link-type="maybe" href="#valdef-portal-transform-auto" id="ref-for-valdef-portal-transform-auto①">auto</a> affect the used value of <span class="css" id="ref-for-valdef-portal-transform-auto②">auto</span>,
@@ -1510,11 +1515,11 @@ Transforming the Stage: the <a class="css property" data-link-type="property" hr
     <dt><dfn class="css dfn-paneled" data-dfn-for="portal-transform" data-dfn-type="value" data-export id="valdef-portal-transform-none">none</dfn>
 		
     <dd>
-			The <a data-link-type="dfn" href="#world-origin" id="ref-for-world-origin⑥">world origin</a> of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②④">back spatial context</a> is
+			The <a data-link-type="dfn" href="#world-origin" id="ref-for-world-origin⑥">world origin</a> of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②⑤">back spatial context</a> is
 			the center of its <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#border-box" id="ref-for-border-box③">border box</a> on the <a data-link-type="dfn" href="#portal-plane" id="ref-for-portal-plane④">portal plane</a>,
-			and the <a data-link-type="dfn" href="#portal-transform" id="ref-for-portal-transform②">portal transform</a> ensures that <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value⑤">&lt;length></a> values correspond
-			between the page and the <span id="ref-for-back-spatial-context②⑤">back spatial context</span>
-			(i.e. <span class="css">1cm</span> in the <span id="ref-for-back-spatial-context②⑥">back spatial context</span> is <span class="css">1cm</span> on the page.)
+			and the <a data-link-type="dfn" href="#portal-transform" id="ref-for-portal-transform②">portal transform</a> ensures that <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value③">&lt;length></a> values correspond
+			between the page and the <span id="ref-for-back-spatial-context②⑥">back spatial context</span>
+			(i.e. <span class="css">1cm</span> in the <span id="ref-for-back-spatial-context②⑦">back spatial context</span> is <span class="css">1cm</span> on the page.)
 	
 		
     <dt><dfn class="css dfn-paneled" data-dfn-for="portal-transform" data-dfn-type="value" data-export id="valdef-portal-transform-auto">auto</dfn>
@@ -1522,7 +1527,7 @@ Transforming the Stage: the <a class="css property" data-link-type="property" hr
     <dd>
 			The matrix required to fit the <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume①⑧">containing volume</a>
 			(or bounding sphere of the <span id="ref-for-containing-volume①⑨">containing volume</span>, in the case of <a class="css" data-link-type="propdesc" href="#propdef-portal-action" id="ref-for-propdef-portal-action①">portal-action: orbit</a>)
-			of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②⑦">back spatial context</a>
+			of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②⑧">back spatial context</a>
 			into an axis-aligned rectangle
 			whose sides align with <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#content-edge" id="ref-for-content-edge">content edges</a> of the <a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①⑥">spatial container</a>,
 			and front aligns with the <a data-link-type="dfn" href="#portal-plane" id="ref-for-portal-plane⑤">portal plane</a>.
@@ -1533,11 +1538,11 @@ Transforming the Stage: the <a class="css property" data-link-type="property" hr
     <dt><dfn class="css dfn-paneled" data-dfn-for="portal-transform" data-dfn-type="value" data-export id="valdef-portal-transform-transform-list"><a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-transforms-1/#typedef-transform-list" id="ref-for-typedef-transform-list⑤">&lt;transform-list></a></dfn>
 		
     <dd>
-			The <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②⑧">back spatial context</a> is transformed as specified.
+			The <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②⑨">back spatial context</a> is transformed as specified.
 	
    </dl>
-   <p class="note" role="note"><span class="marker">Note:</span> This property has no effect on the contents of the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context⑧">front spatial context</a>,
-	even if they intersect with the physical space of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context②⑨">back spatial context</a>.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> This property has no effect on the contents of the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context⑨">front spatial context</a>,
+	even if they intersect with the physical space of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⓪">back spatial context</a>.</p>
    <p class="issue" id="issue-1931707f"><a class="self-link" href="#issue-1931707f"></a> Using the <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#content-edge" id="ref-for-content-edge①">content edge</a> for <a class="css" data-link-type="maybe" href="#valdef-portal-transform-auto" id="ref-for-valdef-portal-transform-auto⑤">auto</a> means that
 	the <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#padding" id="ref-for-padding">padding</a> of the <a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①⑦">spatial container</a> insets auto-fitted content.
 	If we want to allow different amounts of <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-box-4/#propdef-padding" id="ref-for-propdef-padding">padding</a> on portal content vs glass content,
@@ -1558,11 +1563,11 @@ thus transforming with the stage and its contents.</p>
      <li data-md>
       <p>Maintain its relationship to page coordinates,
 thus not transforming with <a class="css property" data-link-type="property" href="#propdef-portal-transform" id="ref-for-propdef-portal-transform⑤">portal-transform</a> alongside the physical units.
-In other words, <span class="css">1px</span> in the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context⑨">front spatial context</a> would always exactly match <span class="css">1px</span> in the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⓪">back spatial context</a> <em>after applying the portal transform</em>.</p>
+In other words, <span class="css">1px</span> in the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context①⓪">front spatial context</a> would always exactly match <span class="css">1px</span> in the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③①">back spatial context</a> <em>after applying the portal transform</em>.</p>
      <li data-md>
       <p>Maintain its size as a visual angle as measured at the portal plane,
 thus growing as it moves away from the portal.
-In other words, <span class="css">1px</span> in the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context①⓪">front spatial context</a> would exactly match <span class="css">1px</span> in the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③①">back spatial context</a> <em>at the portal plane</em>,
+In other words, <span class="css">1px</span> in the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context①①">front spatial context</a> would exactly match <span class="css">1px</span> in the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③②">back spatial context</a> <em>at the portal plane</em>,
 but as the object being styled in <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-values-4/#px" id="ref-for-px①">px</a> units is positioned further from the portal,
 the resolution of <span class="css">1px</span> grows so that it has the same visual size as <span class="css">1px</span> at the portal plane.</p>
     </ul>
@@ -1587,7 +1592,7 @@ Interacting with the Stage: the <a class="css property" data-link-type="property
       <td>none
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#applies-to">Applies to:</a>
-      <td><a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①⑧">spatial containers</a> establishing a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③②">back spatial context</a>
+      <td><a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container①⑧">spatial containers</a> establishing a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③③">back spatial context</a>
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no
@@ -1604,7 +1609,7 @@ Interacting with the Stage: the <a class="css property" data-link-type="property
       <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete
    </table>
-   <p>This property indicates what kinds of motions the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③③">back spatial context</a> can accept.
+   <p>This property indicates what kinds of motions the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③④">back spatial context</a> can accept.
 	The methods of providing the interaction are left to the user agent,
 	and may include gestures, keyboard input, context menus, etc.</p>
    <p>Values have the following meanings:</p>
@@ -1612,7 +1617,7 @@ Interacting with the Stage: the <a class="css property" data-link-type="property
     <dt><dfn class="css dfn-paneled" data-dfn-for="portal-action" data-dfn-type="value" data-export id="valdef-portal-action-none">none</dfn>
 		
     <dd>
-			The contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③④">back spatial context</a>
+			The contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⑤">back spatial context</a>
 			cannot be repositioned or rotated by the user.
 
 		
@@ -1620,7 +1625,7 @@ Interacting with the Stage: the <a class="css property" data-link-type="property
 		
     <dd>
      
-			The contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⑤">back spatial context</a>
+			The contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⑥">back spatial context</a>
 			can be rotated around the center of the <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume②①">containing volume</a>
 			by the user.
 
@@ -1630,7 +1635,7 @@ Interacting with the Stage: the <a class="css property" data-link-type="property
     <dt><dfn class="css dfn-paneled" data-dfn-for="portal-action" data-dfn-type="value" data-export id="valdef-portal-action-pan">pan</dfn>
 		
     <dd>
-			The contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⑥">back spatial context</a>
+			The contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⑦">back spatial context</a>
 			can be translated (in any direction) by the user.
 
 		
@@ -1645,7 +1650,7 @@ Interacting with the Stage: the <a class="css property" data-link-type="property
     <dt><dfn class="css dfn-paneled" data-dfn-for="portal-action" data-dfn-type="value" data-export id="valdef-portal-action-pan-z">pan-z</dfn>
 		
     <dd>
-			The contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⑦">back spatial context</a>
+			The contents of the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⑧">back spatial context</a>
 			can be translated (in the specified page-aligned axis) by the user.
 	
    </dl>
@@ -1679,7 +1684,7 @@ Controlling the Front Limit: the <a class="css property" data-link-type="propert
       <td><dfn class="css dfn-paneled" data-dfn-type="property" data-export id="propdef-front-limit">front-limit</dfn>
      <tr class="value">
       <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
-      <td class="prod"><a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value⑥">&lt;length [0,∞]></a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one⑨">|</a> max
+      <td class="prod"><a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value④">&lt;length [0,∞]></a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one⑨">|</a> max
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>TBD
@@ -1694,7 +1699,7 @@ Controlling the Front Limit: the <a class="css property" data-link-type="propert
       <td>n/a
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
-      <td>a computed <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value⑦">&lt;length></a>
+      <td>a computed <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value⑤">&lt;length></a>
      <tr>
       <th><a href="https://www.w3.org/TR/cssom/#serializing-css-values">Canonical order:</a>
       <td>per grammar
@@ -1747,7 +1752,7 @@ Querying the Front Limit: the <a class="css property" data-link-type="property" 
       <td><a class="css" data-link-type="at-rule" href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-media" id="ref-for-at-ruledef-media">@media</a>
      <tr>
       <th>Value:
-      <td class="prod"><a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value⑧">&lt;length [0,∞]></a>
+      <td class="prod"><a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value⑥">&lt;length [0,∞]></a>
      <tr>
       <th>Type:
       <td>range
@@ -1886,8 +1891,8 @@ Absolute Spatial Positioning: the <a class="css" data-link-type="maybe" href="#v
 	When contained by a <a data-link-type="dfn" href="#spatial-container" id="ref-for-spatial-container②⑨">spatial container</a>,
 	this value takes the now <a data-link-type="dfn" href="#spatial-positioning" id="ref-for-spatial-positioning⑤">spatially positioned</a> box <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-4/#out-of-flow" id="ref-for-out-of-flow">out of flow</a>
 	and positions it into the <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume②③">containing volume</a> of
-	the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⑧">back spatial context</a> (in the case of <a class="css" data-link-type="propdesc" href="#propdef-spatial" id="ref-for-propdef-spatial⑧">spatial: portal</a>),
-	or the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context①①">front spatial context</a> (in the case of <span class="css" id="ref-for-propdef-spatial⑨">spatial: page</span>)
+	the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⑨">back spatial context</a> (in the case of <a class="css" data-link-type="propdesc" href="#propdef-spatial" id="ref-for-propdef-spatial⑧">spatial: portal</a>),
+	or the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context①②">front spatial context</a> (in the case of <span class="css" id="ref-for-propdef-spatial⑨">spatial: page</span>)
 	of its <span id="ref-for-spatial-container③⓪">spatial container</span>.</p>
    <p>This style of positioning is called <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="absolute spatial positioning | absolutely spatial positioned" data-noexport id="absolute-spatial-positioning">absolute spatial positioning</dfn>,
 	and it uses the <a data-link-type="dfn" href="https://drafts.csswg.org/css-logical-1/#inset-properties" id="ref-for-inset-properties①">inset properties</a> (including the new <a class="css property" data-link-type="property" href="#propdef-inset-back" id="ref-for-propdef-inset-back④">inset-back</a> and <a class="css property" data-link-type="property" href="#propdef-inset-front" id="ref-for-propdef-inset-front④">inset-front</a> properties)
@@ -1917,7 +1922,7 @@ See <a href="https://drafts.csswg.org/css-position-3/#abspos-insets"><cite>CSS P
 	(including <a data-link-type="dfn" href="https://drafts.csswg.org/css-sizing-3/#sizing-property" id="ref-for-sizing-property">sizing properties</a>, <a data-link-type="dfn" href="https://drafts.csswg.org/css-logical-1/#inset-properties" id="ref-for-inset-properties②">inset properties</a>, <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#margin" id="ref-for-margin">margins</a>, and <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#padding" id="ref-for-padding①">padding</a>)
 	that are defined to resolve against the <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-4/#containing-block" id="ref-for-containing-block⑥">containing block</a>
 	are resolved against the <a data-link-type="dfn" href="#containing-volume" id="ref-for-containing-volume②⑦">containing volume</a>,
-	see <a class="css property" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage⑦">portal-stage</a>.</p>
+	see <a class="css property" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage⑧">portal-stage</a>.</p>
    <p>Unlike regular <a data-link-type="dfn" href="https://drafts.csswg.org/css-position-3/#absolute-position" id="ref-for-absolute-position③">absolute positioning</a>,
 	the <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-align-3/#valdef-align-self-normal" id="ref-for-valdef-align-self-normal">normal</a> value for <a data-link-type="dfn" href="https://drafts.csswg.org/css-align-3/#self-align" id="ref-for-self-align">self-alignment</a> (the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#initial-value" id="ref-for-initial-value">initial value</a>)
 	behaves as <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-align-3/#valdef-self-position-center" id="ref-for-valdef-self-position-center">center</a>,
@@ -2538,11 +2543,11 @@ Environment Map Images: the <a class="property" data-link-type="propdesc" href="
 	in accordance with the specified <a data-link-type="dfn" href="#environment-map-format" id="ref-for-environment-map-format">format</a>.</p>
    <h3 class="heading settled" data-level="6.2" id="environment-map-references"><span class="secno">6.2. </span><span class="content">
 Applying Environment Maps</span><a class="self-link" href="#environment-map-references"></a></h3>
-   <p><a data-link-type="dfn" href="#environment-map" id="ref-for-environment-map⑤">Environment maps</a> are applied to a <a data-link-type="dfn" href="#portal" id="ref-for-portal①③">portal</a>’s <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context③⑨">back spatial context</a>
+   <p><a data-link-type="dfn" href="#environment-map" id="ref-for-environment-map⑤">Environment maps</a> are applied to a <a data-link-type="dfn" href="#portal" id="ref-for-portal①③">portal</a>’s <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context④⓪">back spatial context</a>
 	using the <a class="css property" data-link-type="property" href="#propdef-environment" id="ref-for-propdef-environment①">environment</a> sub-properties,
 	which form a <a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#coordinating-list-property" id="ref-for-coordinating-list-property">coordinating list property group</a>
 	with <a class="css property" data-link-type="property" href="#propdef-environment-map" id="ref-for-propdef-environment-map">environment-map</a> as the <a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#coordinating-list-base-property" id="ref-for-coordinating-list-base-property">coordinating list base property</a>.</p>
-   <p class="issue" id="issue-e5f680af"><a class="self-link" href="#issue-e5f680af"></a> What about the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context①②">front spatial context</a>?</p>
+   <p class="issue" id="issue-e5f680af"><a class="self-link" href="#issue-e5f680af"></a> What about the <a data-link-type="dfn" href="#front-spatial-context" id="ref-for-front-spatial-context①③">front spatial context</a>?</p>
    <h4 class="heading settled" data-level="6.2.1" id="environment-map-property"><span class="secno">6.2.1. </span><span class="content">
 Referencing an Environment Map: the <a class="css property" data-link-type="property" href="#propdef-environment-map" id="ref-for-propdef-environment-map①">environment-map</a> property</span><a class="self-link" href="#environment-map-property"></a></h4>
    <table class="def propdef" data-link-for-hint="environment-map">
@@ -2558,7 +2563,7 @@ Referencing an Environment Map: the <a class="css property" data-link-type="prop
       <td>auto
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#applies-to">Applies to:</a>
-      <td>elements participating in a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context④⓪">back spatial context</a>
+      <td>elements participating in a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context④①">back spatial context</a>
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes
@@ -2575,7 +2580,7 @@ Referencing an Environment Map: the <a class="css property" data-link-type="prop
       <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete
    </table>
-   <p>This property applies an <a data-link-type="dfn" href="#environment-map" id="ref-for-environment-map⑥">environment map</a> to the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context④①">back spatial context</a> of a <a data-link-type="dfn" href="#portal" id="ref-for-portal①④">portal</a> element.</p>
+   <p>This property applies an <a data-link-type="dfn" href="#environment-map" id="ref-for-environment-map⑥">environment map</a> to the <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context④②">back spatial context</a> of a <a data-link-type="dfn" href="#portal" id="ref-for-portal①④">portal</a> element.</p>
    <p>Values have the following meanings:</p>
    <dl>
     <dt><dfn class="css dfn-paneled" data-dfn-for="environment-name" data-dfn-type="value" data-export id="valdef-environment-name-none">none</dfn>
@@ -2620,7 +2625,7 @@ Brightening and Dimming the Environment: the <a class="css property" data-link-t
       <td>1
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#applies-to">Applies to:</a>
-      <td>elements participating in a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context④②">back spatial context</a>
+      <td>elements participating in a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context④③">back spatial context</a>
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes
@@ -2654,7 +2659,7 @@ Rotating the Environment: the <a class="css property" data-link-type="property" 
       <td>0deg
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#applies-to">Applies to:</a>
-      <td>elements participating in a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context④③">back spatial context</a>
+      <td>elements participating in a <a data-link-type="dfn" href="#back-spatial-context" id="ref-for-back-spatial-context④④">back spatial context</a>
      <tr>
       <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes
@@ -3454,7 +3459,7 @@ for absolute spatial positioning, relative to the z-axis size of the containing 
       <td>per grammar
       <td>as specified
      <tr>
-      <th scope="row"><a class="css" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage⑧">portal-stage</a>
+      <th scope="row"><a class="css" data-link-type="property" href="#propdef-portal-stage" id="ref-for-propdef-portal-stage⑨">portal-stage</a>
       <td>[ auto | &lt;length> ]{1,4} [ / [ auto | &lt;length> ]{1,2} ]?
       <td>auto
       <td>spatial containers establishing a back spatial context
@@ -3924,7 +3929,7 @@ let dfnPanelData = {
 "b7e0bc03": {"dfnID":"b7e0bc03","dfnText":"border edge","external":true,"refSections":[{"refs":[{"id":"ref-for-border-edge"}],"title":"2.2.1. \nThe Front Spatial Context"}],"url":"https://drafts.csswg.org/css-box-4/#border-edge"},
 "b8a0ba74": {"dfnID":"b8a0ba74","dfnText":"position","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-position"},{"id":"ref-for-propdef-position\u2460"},{"id":"ref-for-propdef-position\u2461"},{"id":"ref-for-propdef-position\u2462"}],"title":"3.2. \nAbsolute Spatial Positioning: the spatial-absolute keyword for position"}],"url":"https://drafts.csswg.org/css-position-3/#propdef-position"},
 "b98f6e8c": {"dfnID":"b98f6e8c","dfnText":"default anchor box","external":true,"refSections":[{"refs":[{"id":"ref-for-default-anchor-box"},{"id":"ref-for-default-anchor-box\u2460"}],"title":"3.4.6. \nExtensions to Anchor Alignment: the anchor-origin value"},{"refs":[{"id":"ref-for-default-anchor-box\u2461"},{"id":"ref-for-default-anchor-box\u2462"},{"id":"ref-for-default-anchor-box\u2463"},{"id":"ref-for-default-anchor-box\u2464"},{"id":"ref-for-default-anchor-box\u2465"}],"title":"3.4.7. \nAnchor-based Coordinates: the position-context property"}],"url":"https://drafts.csswg.org/css-anchor-position-1/#default-anchor-box"},
-"back-spatial-context": {"dfnID":"back-spatial-context","dfnText":"back spatial context","external":false,"refSections":[{"refs":[{"id":"ref-for-back-spatial-context"},{"id":"ref-for-back-spatial-context\u2460"},{"id":"ref-for-back-spatial-context\u2461"},{"id":"ref-for-back-spatial-context\u2462"},{"id":"ref-for-back-spatial-context\u2463"}],"title":"2.1. Establishing Spatial Contexts and Portals: the spatial property"},{"refs":[{"id":"ref-for-back-spatial-context\u2464"}],"title":"2.2.1. The Front Spatial Context"},{"refs":[{"id":"ref-for-back-spatial-context\u2465"},{"id":"ref-for-back-spatial-context\u2466"},{"id":"ref-for-back-spatial-context\u2467"}],"title":"2.2.2. The Back Spatial Context"},{"refs":[{"id":"ref-for-back-spatial-context\u2468"},{"id":"ref-for-back-spatial-context\u2460\u24ea"},{"id":"ref-for-back-spatial-context\u2460\u2460"},{"id":"ref-for-back-spatial-context\u2460\u2461"},{"id":"ref-for-back-spatial-context\u2460\u2462"}],"title":"2.2.3. Full Portals: Connecting the Front and Back Spatial Contexts"},{"refs":[{"id":"ref-for-back-spatial-context\u2460\u2463"},{"id":"ref-for-back-spatial-context\u2460\u2464"}],"title":"2.3. Configuring the Back Spatial Context"},{"refs":[{"id":"ref-for-back-spatial-context\u2460\u2465"},{"id":"ref-for-back-spatial-context\u2460\u2466"},{"id":"ref-for-back-spatial-context\u2460\u2467"},{"id":"ref-for-back-spatial-context\u2460\u2468"}],"title":"2.3.1. Defining Stage: the portal-stage property"},{"refs":[{"id":"ref-for-back-spatial-context\u2461\u24ea"},{"id":"ref-for-back-spatial-context\u2461\u2460"}],"title":"2.3.1.1. Calculating an Automatic Containing Volume"},{"refs":[{"id":"ref-for-back-spatial-context\u2461\u2461"},{"id":"ref-for-back-spatial-context\u2461\u2462"},{"id":"ref-for-back-spatial-context\u2461\u2463"},{"id":"ref-for-back-spatial-context\u2461\u2464"},{"id":"ref-for-back-spatial-context\u2461\u2465"},{"id":"ref-for-back-spatial-context\u2461\u2466"},{"id":"ref-for-back-spatial-context\u2461\u2467"},{"id":"ref-for-back-spatial-context\u2461\u2468"},{"id":"ref-for-back-spatial-context\u2462\u24ea"},{"id":"ref-for-back-spatial-context\u2462\u2460"}],"title":"2.3.2. Transforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-back-spatial-context\u2462\u2461"},{"id":"ref-for-back-spatial-context\u2462\u2462"},{"id":"ref-for-back-spatial-context\u2462\u2463"},{"id":"ref-for-back-spatial-context\u2462\u2464"},{"id":"ref-for-back-spatial-context\u2462\u2465"},{"id":"ref-for-back-spatial-context\u2462\u2466"}],"title":"2.3.3. Interacting with the Stage: the portal-action property"},{"refs":[{"id":"ref-for-back-spatial-context\u2462\u2467"}],"title":"3.2. Absolute Spatial Positioning: the spatial-absolute keyword for position"},{"refs":[{"id":"ref-for-back-spatial-context\u2462\u2468"}],"title":"6.2. Applying Environment Maps"},{"refs":[{"id":"ref-for-back-spatial-context\u2463\u24ea"},{"id":"ref-for-back-spatial-context\u2463\u2460"}],"title":"6.2.1. Referencing an Environment Map: the environment-map property"},{"refs":[{"id":"ref-for-back-spatial-context\u2463\u2461"}],"title":"6.2.2. Brightening and Dimming the Environment: the environment-intensity property"},{"refs":[{"id":"ref-for-back-spatial-context\u2463\u2462"}],"title":"6.2.3. Rotating the Environment: the environment-rotate property"}],"url":"#back-spatial-context"},
+"back-spatial-context": {"dfnID":"back-spatial-context","dfnText":"back spatial context","external":false,"refSections":[{"refs":[{"id":"ref-for-back-spatial-context"},{"id":"ref-for-back-spatial-context\u2460"},{"id":"ref-for-back-spatial-context\u2461"},{"id":"ref-for-back-spatial-context\u2462"},{"id":"ref-for-back-spatial-context\u2463"}],"title":"2.1. Establishing Spatial Contexts and Portals: the spatial property"},{"refs":[{"id":"ref-for-back-spatial-context\u2464"}],"title":"2.2.1. The Front Spatial Context"},{"refs":[{"id":"ref-for-back-spatial-context\u2465"},{"id":"ref-for-back-spatial-context\u2466"},{"id":"ref-for-back-spatial-context\u2467"},{"id":"ref-for-back-spatial-context\u2468"}],"title":"2.2.2. The Back Spatial Context"},{"refs":[{"id":"ref-for-back-spatial-context\u2460\u24ea"},{"id":"ref-for-back-spatial-context\u2460\u2460"},{"id":"ref-for-back-spatial-context\u2460\u2461"},{"id":"ref-for-back-spatial-context\u2460\u2462"},{"id":"ref-for-back-spatial-context\u2460\u2463"}],"title":"2.2.3. Full Portals: Connecting the Front and Back Spatial Contexts"},{"refs":[{"id":"ref-for-back-spatial-context\u2460\u2464"},{"id":"ref-for-back-spatial-context\u2460\u2465"}],"title":"2.3. Configuring the Back Spatial Context"},{"refs":[{"id":"ref-for-back-spatial-context\u2460\u2466"},{"id":"ref-for-back-spatial-context\u2460\u2467"},{"id":"ref-for-back-spatial-context\u2460\u2468"},{"id":"ref-for-back-spatial-context\u2461\u24ea"}],"title":"2.3.1. Defining Stage: the portal-stage property"},{"refs":[{"id":"ref-for-back-spatial-context\u2461\u2460"},{"id":"ref-for-back-spatial-context\u2461\u2461"}],"title":"2.3.1.1. Calculating an Automatic Containing Volume"},{"refs":[{"id":"ref-for-back-spatial-context\u2461\u2462"},{"id":"ref-for-back-spatial-context\u2461\u2463"},{"id":"ref-for-back-spatial-context\u2461\u2464"},{"id":"ref-for-back-spatial-context\u2461\u2465"},{"id":"ref-for-back-spatial-context\u2461\u2466"},{"id":"ref-for-back-spatial-context\u2461\u2467"},{"id":"ref-for-back-spatial-context\u2461\u2468"},{"id":"ref-for-back-spatial-context\u2462\u24ea"},{"id":"ref-for-back-spatial-context\u2462\u2460"},{"id":"ref-for-back-spatial-context\u2462\u2461"}],"title":"2.3.2. Transforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-back-spatial-context\u2462\u2462"},{"id":"ref-for-back-spatial-context\u2462\u2463"},{"id":"ref-for-back-spatial-context\u2462\u2464"},{"id":"ref-for-back-spatial-context\u2462\u2465"},{"id":"ref-for-back-spatial-context\u2462\u2466"},{"id":"ref-for-back-spatial-context\u2462\u2467"}],"title":"2.3.3. Interacting with the Stage: the portal-action property"},{"refs":[{"id":"ref-for-back-spatial-context\u2462\u2468"}],"title":"3.2. Absolute Spatial Positioning: the spatial-absolute keyword for position"},{"refs":[{"id":"ref-for-back-spatial-context\u2463\u24ea"}],"title":"6.2. Applying Environment Maps"},{"refs":[{"id":"ref-for-back-spatial-context\u2463\u2460"},{"id":"ref-for-back-spatial-context\u2463\u2461"}],"title":"6.2.1. Referencing an Environment Map: the environment-map property"},{"refs":[{"id":"ref-for-back-spatial-context\u2463\u2462"}],"title":"6.2.2. Brightening and Dimming the Environment: the environment-intensity property"},{"refs":[{"id":"ref-for-back-spatial-context\u2463\u2463"}],"title":"6.2.3. Rotating the Environment: the environment-rotate property"}],"url":"#back-spatial-context"},
 "bcdf0026": {"dfnID":"bcdf0026","dfnText":"srgb-linear","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-color-srgb-linear"}],"title":"6.2.1. \nReferencing an Environment Map: the environment-map property"}],"url":"https://drafts.csswg.org/css-color-4/#valdef-color-srgb-linear"},
 "bd3d9ccd": {"dfnID":"bd3d9ccd","dfnText":"media query","external":true,"refSections":[{"refs":[{"id":"ref-for-media-query"}],"title":"2.4. \nFront Limits: how far content can be raised on the page"},{"refs":[{"id":"ref-for-media-query\u2460"}],"title":"2.4.1. \nControlling the Front Limit: the front-limit property"}],"url":"https://drafts.csswg.org/mediaqueries-5/#media-query"},
 "c1b73c63": {"dfnID":"c1b73c63","dfnText":"padding","external":true,"refSections":[{"refs":[{"id":"ref-for-padding"}],"title":"2.3.2. \nTransforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-padding\u2460"}],"title":"3.2. \nAbsolute Spatial Positioning: the spatial-absolute keyword for position"}],"url":"https://drafts.csswg.org/css-box-4/#padding"},
@@ -3965,12 +3970,12 @@ let dfnPanelData = {
 "f6db8b04": {"dfnID":"f6db8b04","dfnText":"perspective()","external":true,"refSections":[{"refs":[{"id":"ref-for-funcdef-perspective"}],"title":"4. \nSpatial Transforms"}],"url":"https://drafts.csswg.org/css-transforms-2/#funcdef-perspective"},
 "f73b681a": {"dfnID":"f73b681a","dfnText":"perspective","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-perspective"}],"title":"4. \nSpatial Transforms"}],"url":"https://drafts.csswg.org/css-transforms-2/#propdef-perspective"},
 "f8a84e1c": {"dfnID":"f8a84e1c","dfnText":"start","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-anchor-start"}],"title":"3.4.4. \nExtensions to anchor() and anchor-size()"}],"url":"https://drafts.csswg.org/css-anchor-position-1/#valdef-anchor-start"},
-"fb030e6c": {"dfnID":"fb030e6c","dfnText":"<length>","external":true,"refSections":[{"refs":[{"id":"ref-for-length-value"},{"id":"ref-for-length-value\u2460"}],"title":"2.2.3. \nFull Portals: Connecting the Front and Back Spatial Contexts"},{"refs":[{"id":"ref-for-length-value\u2461"},{"id":"ref-for-length-value\u2462"},{"id":"ref-for-length-value\u2463"}],"title":"2.3.1. \nDefining Stage: the portal-stage property"},{"refs":[{"id":"ref-for-length-value\u2464"}],"title":"2.3.2. \nTransforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-length-value\u2465"},{"id":"ref-for-length-value\u2466"}],"title":"2.4.1. \nControlling the Front Limit: the front-limit property"},{"refs":[{"id":"ref-for-length-value\u2467"}],"title":"2.4.2. \nQuerying the Front Limit: the front-limit media query"}],"url":"https://drafts.csswg.org/css-values-4/#length-value"},
+"fb030e6c": {"dfnID":"fb030e6c","dfnText":"<length>","external":true,"refSections":[{"refs":[{"id":"ref-for-length-value"},{"id":"ref-for-length-value\u2460"},{"id":"ref-for-length-value\u2461"}],"title":"2.3.1. \nDefining Stage: the portal-stage property"},{"refs":[{"id":"ref-for-length-value\u2462"}],"title":"2.3.2. \nTransforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-length-value\u2463"},{"id":"ref-for-length-value\u2464"}],"title":"2.4.1. \nControlling the Front Limit: the front-limit property"},{"refs":[{"id":"ref-for-length-value\u2465"}],"title":"2.4.2. \nQuerying the Front Limit: the front-limit media query"}],"url":"https://drafts.csswg.org/css-values-4/#length-value"},
 "fd97f5f3": {"dfnID":"fd97f5f3","dfnText":"anchor-center","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-justify-self-anchor-center"}],"title":"3.4.6. \nExtensions to Anchor Alignment: the anchor-origin value"}],"url":"https://drafts.csswg.org/css-anchor-position-1/#valdef-justify-self-anchor-center"},
 "ff0f7174": {"dfnID":"ff0f7174","dfnText":"content edge","external":true,"refSections":[{"refs":[{"id":"ref-for-content-edge"},{"id":"ref-for-content-edge\u2460"}],"title":"2.3.2. \nTransforming the Stage: the portal-transform property"}],"url":"https://drafts.csswg.org/css-box-4/#content-edge"},
 "front-limit": {"dfnID":"front-limit","dfnText":"front limit","external":false,"refSections":[{"refs":[{"id":"ref-for-front-limit"},{"id":"ref-for-front-limit\u2460"},{"id":"ref-for-front-limit\u2461"}],"title":"2.4. Front Limits: how far content can be raised on the page"},{"refs":[{"id":"ref-for-front-limit\u2462"}],"title":"2.4.1. Controlling the Front Limit: the front-limit property"},{"refs":[{"id":"ref-for-front-limit\u2463"}],"title":"2.4.2. Querying the Front Limit: the front-limit media query"},{"refs":[{"id":"ref-for-front-limit\u2464"}],"title":"3.1.1. Clamping Relative Spatial Positioning to the Front Limit"}],"url":"#front-limit"},
 "front-limit-plane": {"dfnID":"front-limit-plane","dfnText":"front limit plane","external":false,"refSections":[{"refs":[{"id":"ref-for-front-limit-plane"}],"title":"2.2. Spatial Contexts and the Spatial Layout Model"},{"refs":[{"id":"ref-for-front-limit-plane\u2460"},{"id":"ref-for-front-limit-plane\u2461"}],"title":"2.2.1. The Front Spatial Context"},{"refs":[{"id":"ref-for-front-limit-plane\u2462"},{"id":"ref-for-front-limit-plane\u2463"}],"title":"3.1.1. Clamping Relative Spatial Positioning to the Front Limit"},{"refs":[{"id":"ref-for-front-limit-plane\u2464"}],"title":"3.3. Z-axis Insets: the inset-front and inset-back properties"}],"url":"#front-limit-plane"},
-"front-spatial-context": {"dfnID":"front-spatial-context","dfnText":"front spatial context","external":false,"refSections":[{"refs":[{"id":"ref-for-front-spatial-context"},{"id":"ref-for-front-spatial-context\u2460"}],"title":"2.1. Establishing Spatial Contexts and Portals: the spatial property"},{"refs":[{"id":"ref-for-front-spatial-context\u2461"}],"title":"2.2. Spatial Contexts and the Spatial Layout Model"},{"refs":[{"id":"ref-for-front-spatial-context\u2462"}],"title":"2.2.1. The Front Spatial Context"},{"refs":[{"id":"ref-for-front-spatial-context\u2463"},{"id":"ref-for-front-spatial-context\u2464"},{"id":"ref-for-front-spatial-context\u2465"},{"id":"ref-for-front-spatial-context\u2466"}],"title":"2.2.3. Full Portals: Connecting the Front and Back Spatial Contexts"},{"refs":[{"id":"ref-for-front-spatial-context\u2467"},{"id":"ref-for-front-spatial-context\u2468"},{"id":"ref-for-front-spatial-context\u2460\u24ea"}],"title":"2.3.2. Transforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-front-spatial-context\u2460\u2460"}],"title":"3.2. Absolute Spatial Positioning: the spatial-absolute keyword for position"},{"refs":[{"id":"ref-for-front-spatial-context\u2460\u2461"}],"title":"6.2. Applying Environment Maps"}],"url":"#front-spatial-context"},
+"front-spatial-context": {"dfnID":"front-spatial-context","dfnText":"front spatial context","external":false,"refSections":[{"refs":[{"id":"ref-for-front-spatial-context"},{"id":"ref-for-front-spatial-context\u2460"}],"title":"2.1. Establishing Spatial Contexts and Portals: the spatial property"},{"refs":[{"id":"ref-for-front-spatial-context\u2461"}],"title":"2.2. Spatial Contexts and the Spatial Layout Model"},{"refs":[{"id":"ref-for-front-spatial-context\u2462"}],"title":"2.2.1. The Front Spatial Context"},{"refs":[{"id":"ref-for-front-spatial-context\u2463"},{"id":"ref-for-front-spatial-context\u2464"},{"id":"ref-for-front-spatial-context\u2465"},{"id":"ref-for-front-spatial-context\u2466"},{"id":"ref-for-front-spatial-context\u2467"}],"title":"2.2.3. Full Portals: Connecting the Front and Back Spatial Contexts"},{"refs":[{"id":"ref-for-front-spatial-context\u2468"},{"id":"ref-for-front-spatial-context\u2460\u24ea"},{"id":"ref-for-front-spatial-context\u2460\u2460"}],"title":"2.3.2. Transforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-front-spatial-context\u2460\u2461"}],"title":"3.2. Absolute Spatial Positioning: the spatial-absolute keyword for position"},{"refs":[{"id":"ref-for-front-spatial-context\u2460\u2462"}],"title":"6.2. Applying Environment Maps"}],"url":"#front-spatial-context"},
 "front-spatial-context-volume": {"dfnID":"front-spatial-context-volume","dfnText":"front spatial context volume","external":false,"refSections":[{"refs":[{"id":"ref-for-front-spatial-context-volume"},{"id":"ref-for-front-spatial-context-volume\u2460"}],"title":"2.2.1. The Front Spatial Context"}],"url":"#front-spatial-context-volume"},
 "inset-modified-containing-volume": {"dfnID":"inset-modified-containing-volume","dfnText":"inset-modified containing volume","external":false,"refSections":[{"refs":[{"id":"ref-for-inset-modified-containing-volume"}],"title":"3.2. Absolute Spatial Positioning: the spatial-absolute keyword for position"}],"url":"#inset-modified-containing-volume"},
 "origin": {"dfnID":"origin","dfnText":"object origin","external":false,"refSections":[{"refs":[{"id":"ref-for-origin"}],"title":"2.3.1.1. Calculating an Automatic Containing Volume"},{"refs":[{"id":"ref-for-origin\u2460"},{"id":"ref-for-origin\u2461"}],"title":"3.2. Absolute Spatial Positioning: the spatial-absolute keyword for position"},{"refs":[{"id":"ref-for-origin\u2462"}],"title":"3.4. Anchor-based Positioning"},{"refs":[{"id":"ref-for-origin\u2463"}],"title":"3.4.1. Defining the Origin"},{"refs":[{"id":"ref-for-origin\u2464"}],"title":"3.4.3. Extensions to position-area: the origin area"},{"refs":[{"id":"ref-for-origin\u2465"}],"title":"3.4.4. Extensions to anchor() and anchor-size()"},{"refs":[{"id":"ref-for-origin\u2466"},{"id":"ref-for-origin\u2467"},{"id":"ref-for-origin\u2468"}],"title":"3.4.6. Extensions to Anchor Alignment: the anchor-origin value"}],"url":"#origin"},
@@ -3992,8 +3997,8 @@ let dfnPanelData = {
 "propdef-place-items": {"dfnID":"propdef-place-items","dfnText":"place-items","external":false,"refSections":[{"refs":[{"id":"ref-for-propdef-place-items"},{"id":"ref-for-propdef-place-items\u2460"}],"title":"3.4.5. Extensions to Box Alignment: the z-align-self and z-align-items properties"}],"url":"#propdef-place-items"},
 "propdef-place-self": {"dfnID":"propdef-place-self","dfnText":"place-self","external":false,"refSections":[{"refs":[{"id":"ref-for-propdef-place-self"},{"id":"ref-for-propdef-place-self\u2460"}],"title":"3.4.5. Extensions to Box Alignment: the z-align-self and z-align-items properties"}],"url":"#propdef-place-self"},
 "propdef-portal-action": {"dfnID":"propdef-portal-action","dfnText":"portal-action","external":false,"refSections":[{"refs":[{"id":"ref-for-propdef-portal-action"}],"title":"2.3. Configuring the Back Spatial Context"},{"refs":[{"id":"ref-for-propdef-portal-action\u2460"}],"title":"2.3.2. Transforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-propdef-portal-action\u2461"}],"title":"2.3.3. Interacting with the Stage: the portal-action property"}],"url":"#propdef-portal-action"},
-"propdef-portal-stage": {"dfnID":"propdef-portal-stage","dfnText":"portal-stage","external":false,"refSections":[{"refs":[{"id":"ref-for-propdef-portal-stage"}],"title":"2.3. Configuring the Back Spatial Context"},{"refs":[{"id":"ref-for-propdef-portal-stage\u2460"},{"id":"ref-for-propdef-portal-stage\u2461"},{"id":"ref-for-propdef-portal-stage\u2462"},{"id":"ref-for-propdef-portal-stage\u2463"}],"title":"2.3.1. Defining Stage: the portal-stage property"},{"refs":[{"id":"ref-for-propdef-portal-stage\u2464"},{"id":"ref-for-propdef-portal-stage\u2465"}],"title":"2.3.1.1. Calculating an Automatic Containing Volume"},{"refs":[{"id":"ref-for-propdef-portal-stage\u2466"}],"title":"3.2. Absolute Spatial Positioning: the spatial-absolute keyword for position"}],"url":"#propdef-portal-stage"},
-"propdef-portal-transform": {"dfnID":"propdef-portal-transform","dfnText":"portal-transform","external":false,"refSections":[{"refs":[{"id":"ref-for-propdef-portal-transform"}],"title":"2.2.3. Full Portals: Connecting the Front and Back Spatial Contexts"},{"refs":[{"id":"ref-for-propdef-portal-transform\u2460"}],"title":"2.3. Configuring the Back Spatial Context"},{"refs":[{"id":"ref-for-propdef-portal-transform\u2461"}],"title":"2.3.1. Defining Stage: the portal-stage property"},{"refs":[{"id":"ref-for-propdef-portal-transform\u2462"},{"id":"ref-for-propdef-portal-transform\u2463"},{"id":"ref-for-propdef-portal-transform\u2464"}],"title":"2.3.2. Transforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-propdef-portal-transform\u2465"},{"id":"ref-for-propdef-portal-transform\u2466"}],"title":"2.3.3. Interacting with the Stage: the portal-action property"}],"url":"#propdef-portal-transform"},
+"propdef-portal-stage": {"dfnID":"propdef-portal-stage","dfnText":"portal-stage","external":false,"refSections":[{"refs":[{"id":"ref-for-propdef-portal-stage"}],"title":"2.2.2. The Back Spatial Context"},{"refs":[{"id":"ref-for-propdef-portal-stage\u2460"}],"title":"2.3. Configuring the Back Spatial Context"},{"refs":[{"id":"ref-for-propdef-portal-stage\u2461"},{"id":"ref-for-propdef-portal-stage\u2462"},{"id":"ref-for-propdef-portal-stage\u2463"},{"id":"ref-for-propdef-portal-stage\u2464"}],"title":"2.3.1. Defining Stage: the portal-stage property"},{"refs":[{"id":"ref-for-propdef-portal-stage\u2465"},{"id":"ref-for-propdef-portal-stage\u2466"}],"title":"2.3.1.1. Calculating an Automatic Containing Volume"},{"refs":[{"id":"ref-for-propdef-portal-stage\u2467"}],"title":"3.2. Absolute Spatial Positioning: the spatial-absolute keyword for position"}],"url":"#propdef-portal-stage"},
+"propdef-portal-transform": {"dfnID":"propdef-portal-transform","dfnText":"portal-transform","external":false,"refSections":[{"refs":[{"id":"ref-for-propdef-portal-transform"}],"title":"2.2.2. The Back Spatial Context"},{"refs":[{"id":"ref-for-propdef-portal-transform\u2460"}],"title":"2.3. Configuring the Back Spatial Context"},{"refs":[{"id":"ref-for-propdef-portal-transform\u2461"}],"title":"2.3.1. Defining Stage: the portal-stage property"},{"refs":[{"id":"ref-for-propdef-portal-transform\u2462"},{"id":"ref-for-propdef-portal-transform\u2463"},{"id":"ref-for-propdef-portal-transform\u2464"}],"title":"2.3.2. Transforming the Stage: the portal-transform property"},{"refs":[{"id":"ref-for-propdef-portal-transform\u2465"},{"id":"ref-for-propdef-portal-transform\u2466"}],"title":"2.3.3. Interacting with the Stage: the portal-action property"}],"url":"#propdef-portal-transform"},
 "propdef-position-context": {"dfnID":"propdef-position-context","dfnText":"position-context","external":false,"refSections":[{"refs":[{"id":"ref-for-propdef-position-context"}],"title":"3.4.7. Anchor-based Coordinates: the position-context property"}],"url":"#propdef-position-context"},
 "propdef-spatial": {"dfnID":"propdef-spatial","dfnText":"spatial","external":false,"refSections":[{"refs":[{"id":"ref-for-propdef-spatial"},{"id":"ref-for-propdef-spatial\u2460"},{"id":"ref-for-propdef-spatial\u2461"},{"id":"ref-for-propdef-spatial\u2462"},{"id":"ref-for-propdef-spatial\u2463"}],"title":"2.1. Establishing Spatial Contexts and Portals: the spatial property"},{"refs":[{"id":"ref-for-propdef-spatial\u2464"}],"title":"2.2.1. The Front Spatial Context"},{"refs":[{"id":"ref-for-propdef-spatial\u2465"}],"title":"2.2.3. Full Portals: Connecting the Front and Back Spatial Contexts"},{"refs":[{"id":"ref-for-propdef-spatial\u2466"}],"title":"3.1.1. Clamping Relative Spatial Positioning to the Front Limit"},{"refs":[{"id":"ref-for-propdef-spatial\u2467"},{"id":"ref-for-propdef-spatial\u2468"}],"title":"3.2. Absolute Spatial Positioning: the spatial-absolute keyword for position"}],"url":"#propdef-spatial"},
 "propdef-z-align-items": {"dfnID":"propdef-z-align-items","dfnText":"z-align-items","external":false,"refSections":[{"refs":[{"id":"ref-for-propdef-z-align-items"},{"id":"ref-for-propdef-z-align-items\u2460"},{"id":"ref-for-propdef-z-align-items\u2461"}],"title":"3.4.5. Extensions to Box Alignment: the z-align-self and z-align-items properties"},{"refs":[{"id":"ref-for-propdef-z-align-items\u2462"}],"title":"3.4.6. Extensions to Anchor Alignment: the anchor-origin value"}],"url":"#propdef-z-align-items"},
