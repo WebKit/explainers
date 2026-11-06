@@ -1,0 +1,375 @@
+<h2>
+  The `agecheck` element
+</h2>
+<dl class="element">
+  <dt>
+    Categories:
+  </dt>
+  <dd>
+    [=Flow content=].
+  </dd>
+  <dd>
+    [=Phrasing content=].
+  </dd>
+  <dd>
+    [=Interactive content=].
+  </dd>
+  <dd>
+    Listed, labelable, submittable, and resettable form-associated element. See
+    [[[#form-categories]]].
+  </dd>
+  <dd>
+    [=Palpable content=].
+  </dd>
+  <dt>
+    Contexts in which this element can be used:
+  </dt>
+  <dd>
+    Where [=phrasing content=] is expected.
+  </dd>
+  <dt>
+    Content model:
+  </dt>
+  <dd>
+    [=Phrasing content=], but there must be no [=interactive content=]
+    descendant and no descendant with the `tabindex` attribute specified.
+  </dd>
+  <dt>
+    Tag omission in text/html:
+  </dt>
+  <dd>
+    Neither tag is omissible.
+  </dd>
+  <dt>
+    Content attributes:
+  </dt>
+  <dd>
+    [[[HTML#global-attributes]]]
+  </dd>
+  <dd>
+    [^agecheck/groups^]: The age groups that a check can share
+  </dd>
+  <dd>
+    `disabled`: Whether the form control is disabled
+  </dd>
+  <dd>
+    `form`: Associates the element with a `form` element
+  </dd>
+  <dd>
+    `name`: Name of the element to use for form submission and in the
+    `form.elements` API
+  </dd>
+  <dd>
+    [^agecheck/required^]: Whether the control must pass a check before the
+    form submits
+  </dd>
+  <dt>
+    Accessibility considerations:
+  </dt>
+  <dd>
+    For authors and for implementers: see [[[#accessibility]]]. ARIA in HTML
+    and HTML Accessibility API Mappings have no entry for this element yet.
+  </dd>
+  <dt>
+    Sanitization:
+  </dt>
+  <dd>
+    Uncategorized.
+  </dd>
+  <dt>
+    DOM interface:
+  </dt>
+  <dd>
+    <pre class="idl">
+      enum AgeGroup { "", "13+", "16+", "18+", "13-15", "13-17", "16-17" };
+
+      [Exposed=Window]
+      interface HTMLAgeCheckElement : HTMLElement {
+        [HTMLConstructor] constructor();
+
+        [SameObject, PutForwards=value, Reflect] readonly attribute DOMTokenList groups;
+        readonly attribute AgeGroup group;
+
+        [CEReactions, Reflect] attribute boolean disabled;
+        readonly attribute HTMLFormElement? form;
+        [CEReactions, Reflect] attribute DOMString name;
+        [CEReactions, Reflect] attribute boolean required;
+
+        readonly attribute boolean willValidate;
+        readonly attribute ValidityState validity;
+        readonly attribute DOMString validationMessage;
+        boolean checkValidity();
+        boolean reportValidity();
+        undefined setCustomValidity(DOMString error);
+
+        readonly attribute NodeList labels;
+      };
+    </pre>
+  </dd>
+</dl>
+<p>
+  The <dfn data-dfn-type="element">agecheck</dfn> element represents a control
+  labeled by its contents. A person uses the control to share their age group
+  with the page. The page names the groups it can use in the
+  [^agecheck/groups^] attribute. The element uses the
+  <dfn>HTMLAgeCheckElement</dfn> interface.
+</p>
+<aside class="note">
+  <p>
+    The answer is an age group that the person, a parent, or the platform
+    declared. The element does not prove anyone's age. Anyone can send the same
+    form value to a server.
+  </p>
+</aside>
+<h3>
+  The `groups` attribute
+</h3>
+<p>
+  The <dfn data-dfn-for="agecheck" data-dfn-type="element-attr">groups</dfn>
+  content attribute lists the age groups that the page can use. If the
+  attribute is present, its value must be an unordered set of unique
+  space-separated tokens. The allowed values are the six <dfn>age group</dfn>
+  tokens in this table. Each age group has a <dfn data-dfn-for=
+  "age group">lowest age</dfn> and a <dfn data-dfn-for="age group">top
+  age</dfn>. A top age of none means the group has no upper end.
+</p>
+<table class="simple">
+  <thead>
+    <tr>
+      <th>
+        Age group
+      </th>
+      <th>
+        Lowest age
+      </th>
+      <th>
+        Top age
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        `13+`
+      </td>
+      <td>
+        13
+      </td>
+      <td>
+        none
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `16+`
+      </td>
+      <td>
+        16
+      </td>
+      <td>
+        none
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `18+`
+      </td>
+      <td>
+        18
+      </td>
+      <td>
+        none
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `13-15`
+      </td>
+      <td>
+        13
+      </td>
+      <td>
+        15
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `13-17`
+      </td>
+      <td>
+        13
+      </td>
+      <td>
+        17
+      </td>
+    </tr>
+    <tr>
+      <td>
+        `16-17`
+      </td>
+      <td>
+        16
+      </td>
+      <td>
+        17
+      </td>
+    </tr>
+  </tbody>
+</table>
+<aside class="note">
+  Every age group token begins with the group's lowest age. A page can read
+  that age with `parseInt(element.group, 10)`.
+</aside>
+<p>
+  To <dfn data-dfn-for="agecheck">parse age groups</dfn> given a string or null
+  |value|:
+</p>
+<ol class="algorithm">
+  <li>If |value| is null, then return « "18+" ».
+  </li>
+  <li>Let |tokens| be the result of [=split a string on ASCII whitespace|
+  splitting=] |value| on ASCII whitespace.
+  </li>
+  <li>Let |groups:ordered set| be a new empty [=ordered set=].
+  </li>
+  <li>[=list/For each=] |token| of |tokens|: if |token| is the token of an
+  [=age group=], then [=set/append=] |token| to |groups|.
+  </li>
+  <li>If |groups| is empty, then return « "18+" ».
+  </li>
+  <li>Return |groups|.
+  </li>
+</ol>
+<p>
+  The <dfn data-dfn-for="agecheck">requested groups</dfn> of an [^agecheck^]
+  element are the result of running [=agecheck/parse age groups=] on the
+  element's [^agecheck/groups^] attribute value. When the element has no
+  `groups` attribute, [=agecheck/parse age groups=] gets null instead.
+</p>
+<p>
+  The [=attribute change steps=] for an [^agecheck^] element |element|, given
+  |localName|, |oldValue|, |value|, and |namespace|, are:
+</p>
+<ol class="algorithm">
+  <li>If |localName| is not `groups` or |namespace| is not null, then return.
+  </li>
+  <li>Let |oldGroups| be the result of [=agecheck/parse age groups=] given
+  |oldValue|.
+  </li>
+  <li>Let |newGroups| be the result of [=agecheck/parse age groups=] given
+  |value|.
+  </li>
+  <li>If |oldGroups| and |newGroups| contain the same tokens, in any order,
+  then return.
+  </li>
+  <li>Set |element|'s [=agecheck/shared group=] to the empty string.
+  </li>
+</ol>
+<h3>
+  The `name`, `form`, `disabled`, and `required` attributes
+</h3>
+<p>
+  Authors use the `form` attribute to associate the [^agecheck^] element with
+  its [=button/form owner=]. The `name` attribute represents the element's
+  name. Authors use the `disabled` attribute to make the control
+  non-interactive and to keep its value out of form submission.
+</p>
+<p>
+  The <dfn data-dfn-for="agecheck" data-dfn-type="element-attr">required</dfn>
+  attribute is a boolean attribute. When the attribute is specified, the
+  element is required.
+</p>
+<h3>
+  The `group` attribute
+</h3>
+<p>
+  Each [^agecheck^] element has a <dfn data-dfn-for="agecheck">shared
+  group</dfn>, an {{AgeGroup}} value. The value is either the empty string or
+  the token of an [=age group=]. The empty string means the person has not
+  shared a group. The shared group starts as the empty string.
+</p>
+<p>
+  The <dfn data-dfn-for="HTMLAgeCheckElement">group</dfn> getter steps are to
+  return [=this=]'s [=agecheck/shared group=].
+</p>
+<h3>
+  Activation behavior
+</h3>
+<p>
+  An [^agecheck^] element |element|'s [=EventTarget/activation behavior=] given
+  |event| is:
+</p>
+<ol class="algorithm">
+  <li>If |element| is disabled, then return.
+  </li>
+  <li>If |element|'s [=Node/node document=] is not [=Document/fully active=],
+  then return.
+  </li>
+  <li>If |event|'s {{Event/isTrusted}} attribute is false, then return.
+  </li>
+  <li>[=agecheck/Run a check=] given |element|.
+  </li>
+</ol>
+<h4>
+  What counts as activating the element
+</h4>
+<p>
+  The user agent MUST fire a `click` event at an [^agecheck^] element, with
+  {{Event/isTrusted}} set to true, in each of these cases:
+</p>
+<ul>
+  <li>The person clicks or taps the element.
+  </li>
+  <li>The element has focus and the person presses the Enter key, or presses
+  and then releases the Space key. For the button role, these are the same keys
+  that activate a `button` element on the same platform.
+  </li>
+  <li>The person's assistive technology asks for the element's press action, or
+  the platform's equivalent default action. Before the user agent fires the
+  `click` event, the user agent MUST give the element's [=relevant global
+  object=] transient activation, as it does for an activation triggering input
+  event.
+  </li>
+  <li>The person clicks a `label` whose labeled control is the element. The
+  label patch in [[[#label]]] makes that a trusted click on the element.
+  </li>
+</ul>
+<aside class="note">
+  The rule in the third item patches HTML's user activation processing model,
+  which has no notion of an assistive technology press action. The rule sits
+  here for now. It moves into HTML with the other patches.
+</aside>
+<h3>
+  IDL attributes and methods
+</h3>
+<p>
+  The <dfn data-dfn-for="HTMLAgeCheckElement">groups</dfn> IDL attribute
+  [=reflects=] the [^agecheck/groups^] content attribute, as a
+  {{DOMTokenList}}. The list shows the attribute as written, so it does not
+  show the `18+` default. The [=Node/supported tokens=] for `groups`'s
+  {{DOMTokenList}} are the allowed values defined in the [^agecheck/groups^]
+  attribute and supported by the user agent. The <dfn data-dfn-for=
+  "HTMLAgeCheckElement">disabled</dfn>, <dfn data-dfn-for=
+  "HTMLAgeCheckElement">name</dfn>, and <dfn data-dfn-for=
+  "HTMLAgeCheckElement">required</dfn> IDL attributes [=reflect=] the content
+  attributes of the same name.
+</p>
+<p>
+  The <dfn data-dfn-for="HTMLAgeCheckElement">willValidate</dfn>,
+  <dfn data-dfn-for="HTMLAgeCheckElement">validity</dfn>, and
+  <dfn data-dfn-for="HTMLAgeCheckElement">validationMessage</dfn> IDL
+  attributes, and the <dfn data-dfn-for=
+  "HTMLAgeCheckElement">checkValidity()</dfn>, <dfn data-dfn-for=
+  "HTMLAgeCheckElement">reportValidity()</dfn>, and <dfn data-dfn-for=
+  "HTMLAgeCheckElement" class="lint-ignore">setCustomValidity(error)</dfn>
+  methods, are part of the constraint validation API. The <dfn data-dfn-for=
+  "HTMLAgeCheckElement">labels</dfn> IDL attribute provides a list of the
+  element's `label` elements, as `labels` defines. The `disabled`,
+  <dfn data-dfn-for="HTMLAgeCheckElement">form</dfn>, and `name` IDL attributes
+  are part of the element's forms API. The `form` getter follows `HTML's
+  definition`.
+</p>
+<p>
+  The <dfn data-dfn-for="HTMLAgeCheckElement">constructor()</dfn> follows
+  HTML's `[HTMLConstructor]` rules.
+</p>
