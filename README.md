@@ -18,7 +18,6 @@ This repo is a place where WebKit contributors may post [explainers](https://www
 * [Controlling Animation Frame Rate ](animation-frame-rate)
 - [Media Session Call-to-Action](CallToAction/README.md)
 * [Projected Video](projected-video/)
-* [The `<agecheck>` element](agecheck/)
 * [Phone Number Possession API](phone-number-possession/)
 * [Digital Credential Payment Method](digital-credential-payment-method/)
 
@@ -32,6 +31,7 @@ Proposals which have moved on to incubation or standardization in another venue.
 | [`<model>` element](https://github.com/immersive-web/model-element) | [Immersive Web CG](https://www.w3.org/community/immersive-web/) |
 | [IsLoggedIn](https://github.com/privacycg/is-logged-in) | [Privacy CG](https://github.com/privacycg) |
 | [Private Ad Measurement](https://github.com/patcg-individual-drafts/private-ad-measurement) | [Private Advertising Technology CG](https://patcg.github.io/) |
+| [The `<agecheck>` element](https://github.com/online-safety/agecheck) | [Online Safety CG](https://www.w3.org/community/online-safety/) |
 
 
 ## Withdrawn proposals
