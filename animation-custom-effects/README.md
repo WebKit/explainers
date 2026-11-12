@@ -97,9 +97,9 @@ target.getAnimations()[0].onprogress = event => {
 };
 ``` 
 
-## Processing order of custom effects and `progress` events.
+## Processing order of custom effects and `progress` events
 
-While it is possible to achieve similar effects by attaching a `CustomEffect` to an animation or registering a `progress` event listener, the Web Animations model will actually handle those two cases differently. The [update animations and send events](https://drafts.csswg.org/web-animations-1/#update-animations-and-send-events) procedure will run a custom effect's callback first while updating the current time of all timelines, and thus all the animations associated that timeline, and dispatch `progress` events in the last phase of that procedure.
+While it is possible to achieve similar effects by attaching a `CustomEffect` to an animation or registering a `progress` event listener, it is important for the Web Animations specification to clearly define when callbacks are triggered and events are dispatched in relation to one another. To that end, we suggest an update to the [update animations and send events](https://drafts.csswg.org/web-animations-1/#update-animations-and-send-events) procedure to compile a list of animations attached to a `CustomEffect` during the first "Update the current time of all timelines associated with doc passing now as the timestamp" step in order to trigger the custom effect callbacks in a new step immediately before "Perform a microtask checkpoint". This ensures that custom effect callbacks are triggered as a group prior to the dispatch of `progress` events.
 
 As such, in this example, `customEffectCallback` is guaranteed to run prior to `progressEventHandler` when [updating the page's rendering](https://html.spec.whatwg.org/multipage/webappapis.html#update-the-rendering):
 
