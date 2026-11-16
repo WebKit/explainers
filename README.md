@@ -20,6 +20,7 @@ This repo is a place where WebKit contributors may post [explainers](https://www
 * [Projected Video](projected-video/)
 * [Phone Number Possession API](phone-number-possession/)
 * [Digital Credential Payment Method](digital-credential-payment-method/)
+* [Per-edge viewport-fit](per-edge-viewport-fit/)
 
 ## Graduates
 
